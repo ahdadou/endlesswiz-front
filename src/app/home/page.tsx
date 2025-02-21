@@ -21,7 +21,7 @@ type Props = {};
 
 export default function Home({}: Props) {
   const [search, setSearch] = useState<string>("");
-  const [videos, setVideos] = useState<VideoSearchResponse | undefined>(undefined);
+  const [videos, setVideos] = useState<VideoSearchResponse>({ currentPage: 0, totalPages: 0, pageSize: 0, paragraphsDetail: [] });
 
   const fetchVideos = useCallback(async () => {
     const videos = await api.searchVideosByWord(search);
@@ -51,8 +51,8 @@ export default function Home({}: Props) {
         </button>
       </div>
 
-      <div className="bg-gray-200 h-[400px] w-[800px]">
-        {videos && <YouTubePlayerComponent video={videos.paragraphsDetail[0]}/>}
+      <div className="bg-gray-200 h-[800px] w-[800px]">
+        {videos?.paragraphsDetail.length > 0 && <YouTubePlayerComponent video={videos.paragraphsDetail[0]}/>}
       </div>
     </div>
   );
