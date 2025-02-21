@@ -7,7 +7,7 @@ export interface ParagraphsDetail {
     videoId: string;
     vid: string;
     paragraph: string;
-    time: number;
+    start_time: number;
 }
 
 interface VideoSearchResponse { 

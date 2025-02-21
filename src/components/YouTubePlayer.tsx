@@ -11,21 +11,22 @@ interface YouTubePlayerComponentProps {
 
 interface Transcript {
   paragraph: string;
-  time: number;
+  start_time: number;
+  end_time: number;
 }
 
 const YouTubePlayerComponent = ({ video }: YouTubePlayerComponentProps) => {
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [transcript, setTranscript] = useState<Transcript[]>([]);
 
-  const [currentTime, setCurrentTime] = useState<number | undefined>(video?.time);
+  const [currentTime, setCurrentTime] = useState<number | undefined>(
+    video?.start_time
+  );
   const [currentTranscript, setCurrentTranscript] = useState<string>("");
-
 
   const fetchTranscript = useCallback(async () => {
     const response = await api.fetchVideosTranscript(video.videoId);
     setTranscript(response);
-    console.log("### setTranscript", response);
   }, [video.videoId]);
 
   useEffect(() => {
@@ -38,10 +39,10 @@ const YouTubePlayerComponent = ({ video }: YouTubePlayerComponentProps) => {
       width: "640",
       playerVars: {
         autoplay: 1,
-        start: video?.time,
+        start: video?.start_time,
       },
     };
-  }, [video.time]);
+  }, [video.start_time]);
 
   const onReady = (event: { target: YouTubePlayer }) => {
     playerRef.current = event.target;
@@ -63,11 +64,9 @@ const YouTubePlayerComponent = ({ video }: YouTubePlayerComponentProps) => {
 
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry) => {
-      console.log("### entry.time : ", entry.time);
-      return time >= entry.time && time < entry.time + 2; // Assuming each entry is 2 seconds long
+      return time >= entry.start_time && time < entry.end_time; // Assuming each entry is 2 seconds long
     });
 
-    console.log("### transcriptEntry : ", transcriptEntry);
     if (transcriptEntry) {
       setCurrentTranscript(transcriptEntry.paragraph);
     }
