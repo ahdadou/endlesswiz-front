@@ -6,7 +6,8 @@ import YouTube, { YouTubePlayer } from "react-youtube";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import useVideosStore from "@/stores/useVideosStore";
 import VideoButtonsBar from "./VideoButtonsBar";
-import { SubTitleComponent } from "./SubTitleComponent";
+import { SubTitleComponent } from "../SubTitleComponent";
+import styles from "./YoutubePlayer.module.scss";
 
 const YouTubePlayerComponent = () => {
   const {
@@ -42,24 +43,16 @@ const YouTubePlayerComponent = () => {
     fetchTranscript();
   }, [currentVideo]);
 
-  const fetchVideos = useCallback(
-    async (page: number) => {
-      const response = await api.searchVideosByWord(highlitedWord, page);
-      setVideos(videos);
-    },
-    [highlitedWord]
-  );
-
   const opts = useMemo(() => {
     return {
-      height: "400px",
+      height: "100%",
       width: "100%",
       playerVars: {
         autoplay: 1,
         start: currentVideo?.start_time,
         controls: 1,
         fs: 0,
-        iv_load_policy:3,
+        iv_load_policy: 3,
         rel: 0, // 🔥 Prevents related videos from showing - Deprecated
       },
     };
@@ -123,14 +116,14 @@ const YouTubePlayerComponent = () => {
     }
   };
 
-  console.log("### videos : ", videos);
   if (!currentVideo) {
     return null;
   }
 
   return (
-    <div className="relative h-full bg-black bg-opacity-50">
+    <div className="relative h-[100%] w-[100%] flex flex-col justify-center">
       <YouTube
+        className=" h-[100%]"
         onPause={() => setPause(true)}
         onPlay={() => setPause(false)}
         videoId={currentVideo.vid}
@@ -145,12 +138,6 @@ const YouTubePlayerComponent = () => {
         style="p-1 bg-blue-700"
         pause={pause}
       />
-      {transcript && (
-        <SubTitleComponent
-          paragraph={currentTranscript}
-          highlighted_word={highlitedWord}
-        />
-      )}
     </div>
   );
 };

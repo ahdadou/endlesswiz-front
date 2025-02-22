@@ -42,7 +42,6 @@ const useVideosStore = create<VideosStore>((set) => ({
   setCurrentVideo: (currentVideo) => set({ currentVideo }),
   setCurrentVideoPosition: (currentVideoPosition) =>
     set((state) => {
-      console.log('### state :', state)
       return {
         ...state,
         currentVideoPosition,

@@ -1,5 +1,5 @@
-import React from "react";
-import { Button } from "./Button";
+import React, { useCallback, useEffect } from "react";
+import { Button } from "../Button";
 import { PlayIcon } from "@/Icons/PlayIcon";
 import { PauseIcon } from "@/Icons/PauseIcon";
 import { PreviousIcon } from "@/Icons/PreviousIcon";
@@ -9,6 +9,7 @@ import { SeekBackIcon } from "@/Icons/SeekBackIcon";
 
 import cx from "classnames";
 import useVideosStore from "@/stores/useVideosStore";
+import api from "@/clients/api/api";
 
 interface VideoButtonsBarProps {
   seekBackward: () => void;
@@ -25,12 +26,26 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   pause,
   style,
 }) => {
-  const { videos, currentVideoPosition, setCurrentVideoPosition } =
-    useVideosStore();
+  const {
+    videos,
+    setVideos,
+    highlitedWord,
+    currentVideoPosition,
+    setCurrentVideoPosition,
+  } = useVideosStore();
+
+  const fetchMoreVideos = async (page: number) => {
+    const response = await api.searchVideosByWord(highlitedWord, page);
+    setVideos(response);
+    setCurrentVideoPosition(0);
+  };
 
   const nextVideo = () => {
-    if (videos.pageSize > currentVideoPosition + 1)
+    if (videos.pageSize > currentVideoPosition + 1) {
       setCurrentVideoPosition(currentVideoPosition + 1);
+    } else if (videos.currentPage < videos.totalPages - 1) {
+      fetchMoreVideos(videos.currentPage + 1);
+    }
   };
 
   const previousVideo = () => {
@@ -39,10 +54,11 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   };
 
   return (
-    <div className={cx(style, "flex flex-row gap-2")}>
+    <div className={cx(style, "flex flex-row gap-2 justify-center")}>
       <Button
         style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center p-2"
         onClick={previousVideo}
+        disabled={currentVideoPosition < 1}
       >
         <PreviousIcon style="h-4 w-4" />
       </Button>
@@ -67,6 +83,10 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
       <Button
         style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center  p-2"
         onClick={nextVideo}
+        disabled={
+          currentVideoPosition >= videos.pageSize - 1 &&
+          videos.currentPage >= videos.totalPages - 1
+        }
       >
         <NextIcon style="h-4 w-4" />
       </Button>
