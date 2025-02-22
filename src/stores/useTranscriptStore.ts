@@ -1,6 +1,5 @@
 import { create } from "zustand";
 
-
 export interface Transcript {
   vid: string;
   paragraph: string;
@@ -25,7 +24,8 @@ const useTranscriptStore = create<TranscriptStore>((set) => ({
   setTranscript: (transcript) => set({ transcript }),
   setCurrentTranscript: (currentTranscript) => set({ currentTranscript }),
   setVid: (vid) => set({ vid }),
-  clearTranscript: () => set({ transcript: [], currentTranscript: "", vid: "" }),
+  clearTranscript: () =>
+    set({ transcript: [], currentTranscript: "", vid: "" }),
 }));
 
 export default useTranscriptStore;

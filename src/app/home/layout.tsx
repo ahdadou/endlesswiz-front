@@ -1,13 +1,11 @@
-'use client';
+"use client";
 
-const HomeLayout = ({children}: {children: React.ReactNode}) => {
-    return ( 
-        <main className="h-full overflow-auto">
-            <div className="mx-auto max-w-screen-2xl h-full w-full">
-            {children}
-            </div>
-        </main>
-     );
-}
- 
+const HomeLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <main className="h-full overflow-auto">
+      <div className="mx-auto max-w-screen-2xl h-full w-full">{children}</div>
+    </main>
+  );
+};
+
 export default HomeLayout;

@@ -23,7 +23,7 @@ export function SubTitleComponent({
       className={cx(
         style,
         roboto.className,
-        "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center"
+        "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center",
       )}
     >
       {highlightWord(paragraph, highlighted_word, "bg-yellow-500")}

@@ -7,20 +7,27 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-export function Button({ children, onClick, style, disabled = false }: ButtonProps) {
+export function Button({
+  children,
+  onClick,
+  style,
+  disabled = false,
+}: ButtonProps) {
   return (
-    <div
+    <button
       className={cx(
-        "flex h-10 w-20 text-white text-center items-center justify-center cursor-pointer rounded-lg transition-all duration-300",
+        "flex h-10 w-20 text-white text-center items-center justify-center rounded-lg transition-all duration-300",
         "bg-black hover:bg-gray-800 active:scale-95",
         {
-          "opacity-50 cursor-not-allowed bg-gray-600 hover:bg-gray-600": disabled, // Disabled state
+          "opacity-50 cursor-not-allowed bg-gray-600 hover:bg-gray-600":
+            disabled, // Disabled state
         },
-        style
+        style,
       )}
-      onClick={!disabled ? onClick : undefined} // Prevents click if disabled
+      onClick={!disabled ? onClick : undefined}
+      disabled={disabled} // Properly disable button
     >
       {children}
-    </div>
+    </button>
   );
 }

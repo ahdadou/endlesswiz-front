@@ -1,12 +1,6 @@
-'use client';
+"use client";
 
-type Props = {
- 
-}
+type Props = {};
 export default function LandingPage({}: Props) {
-    return ( 
-        <div>
-            Landing page
-        </div>
-    );
+  return <div>Landing page</div>;
 }

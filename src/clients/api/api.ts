@@ -7,7 +7,7 @@ const api = {
         params: {
           word: word,
           size: 10,
-          page: page ?? 0
+          page: page ?? 0,
         },
       });
       return response.data;
@@ -19,7 +19,7 @@ const api = {
   fetchVideosTranscript: async (videoId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:8099/transcript/${videoId}`
+        `http://localhost:8099/transcript/${videoId}`,
       );
       return response.data;
     } catch (error: unknown) {
