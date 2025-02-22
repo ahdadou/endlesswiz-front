@@ -1,37 +1,23 @@
 "use client";
 import api from "@/clients/api/api";
 import YouTubePlayerComponent from "@/components/YouTubePlayer";
+import useVideosStore from "@/stores/useVideosStore";
 import { useCallback, useState } from "react";
-
-export interface ParagraphsDetail {
-  videoId: string;
-  vid: string;
-  paragraph: string;
-  start_time: number;
-}
-
-interface VideoSearchResponse {
-  currentPage: number;
-  totalPages: number;
-  pageSize: number;
-  paragraphsDetail: ParagraphsDetail[];
-}
 
 type Props = {};
 
 export default function Home({}: Props) {
-  const [search, setSearch] = useState<string>("");
-  const [videos, setVideos] = useState<VideoSearchResponse>({
-    currentPage: 0,
-    totalPages: 0,
-    pageSize: 0,
-    paragraphsDetail: [],
-  });
+  const [wordSearch, setWordSearch] = useState<string>("");
+  const { videos, setVideos, setHighlitedWord, setCurrentVideoPosition, setCurrentVideo } =
+    useVideosStore();
 
   const fetchVideos = useCallback(async () => {
-    const videos = await api.searchVideosByWord(search);
-    setVideos(videos);
-  }, [search]);
+    const response = await api.searchVideosByWord(wordSearch);
+    setHighlitedWord(wordSearch);
+    setVideos(response);
+    // setCurrentVideo(response.videosDetailResponse[0]);
+    setCurrentVideoPosition(0)
+  }, [wordSearch]);
 
   return (
     <div className="h-[100%] w-full flex justify-center items-center flex-col gap-5">
@@ -41,14 +27,13 @@ export default function Home({}: Props) {
             type="text"
             placeholder="Search"
             className="border-2 border-gray-300 p-2 rounded-lg w-full text-black"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={wordSearch}
+            onChange={(e) => setWordSearch(e.target.value)}
           />
           <button
             className="bg-blue-600 text-white p-2 rounded-lg ml-2"
             onClick={() => {
               fetchVideos();
-              console.log("### videos", videos);
             }}
           >
             Search
@@ -56,11 +41,8 @@ export default function Home({}: Props) {
         </div>
 
         <div className="h-[86%] w-[100%] bg-red-400">
-          {videos?.paragraphsDetail.length > 0 && (
-            <YouTubePlayerComponent
-              video={videos.paragraphsDetail[0]}
-              search={search}
-            />
+          {videos?.videosDetailResponse.length > 0 && (
+            <YouTubePlayerComponent />
           )}
         </div>
       </div>

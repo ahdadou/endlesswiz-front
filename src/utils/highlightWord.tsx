@@ -10,5 +10,5 @@ export const highlightWord = (text: string, word: string, className: any) => {
         part
       )
     );
-  };
+};
   

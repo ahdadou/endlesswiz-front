@@ -11,7 +11,7 @@ export function Button({ children, onClick, style }: ButtonProps) {
       <div
         className={cx(
           style,
-          "flex bg-blue-500 h-10 w-20 text-white text-center items-center justify-center cursor-pointer"
+          "flex bg-black h-10 w-20 text-white text-center items-center justify-center cursor-pointe z-30"
         )}
         onClick={onClick}
       >

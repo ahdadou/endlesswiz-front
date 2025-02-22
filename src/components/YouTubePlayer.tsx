@@ -1,10 +1,7 @@
 "use client";
 
-import { ParagraphsDetail } from "@/app/home/page";
 import api from "@/clients/api/api";
-import { Roboto } from "next/font/google";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import cx from "classnames";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { highlightWord } from "@/utils/highlightWord";
 import { Button } from "./Button";
@@ -13,43 +10,54 @@ import { PreviousIcon } from "@/Icons/PreviousIcon";
 import { NextIcon } from "@/Icons/NextIcon";
 import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
 import { SeekBackIcon } from "@/Icons/SeekBackIcon";
+import { SubTitleComponent } from "./SubTitleComponent";
+import useTranscriptStore from "@/stores/useTranscriptStore";
+import useVideosStore from "@/stores/useVideosStore";
 
-interface YouTubePlayerComponentProps {
-  video: ParagraphsDetail;
-  search: string;
-}
+const YouTubePlayerComponent = () => {
+  const {
+    highlitedWord,
+    currentVideo,
+    setVideos,
+    videos,
+    setCurrentVideo,
+    setCurrentVideoPosition,
+    currentVideoPosition,
+  } = useVideosStore();
+  const {
+    transcript,
+    setTranscript,
+    setCurrentTranscript,
+    currentTranscript,
+    setVid,
+    vid,
+  } = useTranscriptStore();
 
-interface Transcript {
-  paragraph: string;
-  start_time: number;
-  end_time: number;
-}
-
-const roboto = Roboto({
-  weight: "900",
-  subsets: ["latin"],
-});
-
-const YouTubePlayerComponent = ({
-  video,
-  search,
-}: YouTubePlayerComponentProps) => {
   const playerRef = useRef<YouTubePlayer | null>(null);
-  const [transcript, setTranscript] = useState<Transcript[]>([]);
-
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [currentTime, setCurrentTime] = useState<number | undefined>(
-    video?.start_time
+    currentVideo?.start_time
   );
-  const [currentTranscript, setCurrentTranscript] = useState<string>("");
 
   const fetchTranscript = useCallback(async () => {
-    const response = await api.fetchVideosTranscript(video.videoId);
-    setTranscript(response);
-  }, [video.videoId]);
+    if (currentVideo) {
+      const response = await api.fetchVideosTranscript(currentVideo.videoId);
+      setVid(currentVideo.videoId);
+      setTranscript(response);
+    }
+  }, [currentVideo?.videoId, setTranscript, setCurrentTranscript, setVid]);
 
   useEffect(() => {
     fetchTranscript();
-  }, [fetchTranscript]);
+  }, [currentVideo]);
+
+  const fetchVideos = useCallback(
+    async (page: number) => {
+      const response = await api.searchVideosByWord(highlitedWord, page);
+      setVideos(videos);
+    },
+    [highlitedWord]
+  );
 
   const opts = useMemo(() => {
     return {
@@ -57,10 +65,10 @@ const YouTubePlayerComponent = ({
       width: "100%",
       playerVars: {
         autoplay: 1,
-        start: video?.start_time,
+        start: currentVideo?.start_time,
       },
     };
-  }, [video.start_time]);
+  }, [currentVideo?.start_time]);
 
   const onReady = (event: { target: YouTubePlayer }) => {
     playerRef.current = event.target;
@@ -68,15 +76,20 @@ const YouTubePlayerComponent = ({
 
   const onStateChange = (event: { data: number }) => {
     if (event.data === YouTube.PlayerState.PLAYING) {
-      const interval = setInterval(() => {
+      if (intervalRef.current) clearInterval(intervalRef.current); // Clear existing interval before starting a new one
+
+      intervalRef.current = setInterval(() => {
         if (playerRef.current) {
           const currentTime = playerRef.current.getCurrentTime();
           setCurrentTime(currentTime);
           updateTranscript(currentTime);
         }
       }, 1000);
-
-      return () => clearInterval(interval);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
   };
 
@@ -93,13 +106,11 @@ const YouTubePlayerComponent = ({
   const toggleVideo = () => {
     if (playerRef.current) {
       const state = playerRef.current.getPlayerState(); // Get current video state
-  
-      if (state === 1) { // 1 = Playing (YouTube API)
+
+      if (state === 1) {
         playerRef.current.pauseVideo(); // Pause instead of stopping
-        console.log("Video paused.");
       } else {
         playerRef.current.playVideo(); // Resume from where it was paused
-        console.log("Video playing.");
       }
     }
   };
@@ -118,22 +129,33 @@ const YouTubePlayerComponent = ({
     }
   };
 
-  if (!video) {
+  const nextVideo = () => {
+    if (videos.pageSize > currentVideoPosition+1)
+      setCurrentVideoPosition(currentVideoPosition + 1);
+  };
+
+  const previousVideo = () => {
+    if (currentVideoPosition > 0)
+      setCurrentVideoPosition(currentVideoPosition - 1);
+  };
+
+  console.log('### videos : ', videos)
+  if (!currentVideo) {
     return null;
   }
 
   return (
     <div className="relative h-full bg-black bg-opacity-50">
       <YouTube
-        videoId={video.vid}
+        videoId={currentVideo.vid}
         opts={opts}
         onReady={onReady}
         onStateChange={onStateChange}
       />
-      <div className="flex flex-row gap-2 mt-2 ml-2">
+      <div className="flex flex-row gap-2 mt-2 ml-2 cursor-pointe z-30">
         <Button
           style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={toggleVideo}
+          onClick={previousVideo}
         >
           <PreviousIcon style="h-4 w-4" />
         </Button>
@@ -157,20 +179,16 @@ const YouTubePlayerComponent = ({
         </Button>
         <Button
           style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={toggleVideo}
+          onClick={nextVideo}
         >
           <NextIcon style="h-4 w-4" />
         </Button>
       </div>
       {transcript && (
-        <div
-          className={cx(
-            roboto.className,
-            "absolute bottom-[100px] left-40 right-40 z-20 text-white text-xl bg-black bg-opacity-50 p-5 text-center"
-          )}
-        >
-          {highlightWord(currentTranscript, search, "bg-yellow-500")}
-        </div>
+        <SubTitleComponent
+          paragraph={currentTranscript}
+          highlighted_word={highlitedWord}
+        />
       )}
     </div>
   );
