@@ -1,10 +1,10 @@
 import cx from "classnames";
 
-interface StopIconProps {
+interface PlayIconProps {
   style?: string;
 }
 
-export function StopIcon({ style }: StopIconProps) {
+export function PlayIcon({ style }: PlayIconProps) {
   return (
     <svg
       className={cx(style, "h-6 w-6")}

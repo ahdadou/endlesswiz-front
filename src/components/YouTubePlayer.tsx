@@ -3,16 +3,10 @@
 import api from "@/clients/api/api";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
-import { highlightWord } from "@/utils/highlightWord";
-import { Button } from "./Button";
-import { StopIcon } from "@/Icons/StopIcon";
-import { PreviousIcon } from "@/Icons/PreviousIcon";
-import { NextIcon } from "@/Icons/NextIcon";
-import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
-import { SeekBackIcon } from "@/Icons/SeekBackIcon";
-import { SubTitleComponent } from "./SubTitleComponent";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import useVideosStore from "@/stores/useVideosStore";
+import VideoButtonsBar from "./VideoButtonsBar";
+import { SubTitleComponent } from "./SubTitleComponent";
 
 const YouTubePlayerComponent = () => {
   const {
@@ -20,7 +14,6 @@ const YouTubePlayerComponent = () => {
     currentVideo,
     setVideos,
     videos,
-    setCurrentVideo,
     setCurrentVideoPosition,
     currentVideoPosition,
   } = useVideosStore();
@@ -35,9 +28,7 @@ const YouTubePlayerComponent = () => {
 
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [currentTime, setCurrentTime] = useState<number | undefined>(
-    currentVideo?.start_time
-  );
+  const [pause, setPause] = useState(false);
 
   const fetchTranscript = useCallback(async () => {
     if (currentVideo) {
@@ -66,6 +57,10 @@ const YouTubePlayerComponent = () => {
       playerVars: {
         autoplay: 1,
         start: currentVideo?.start_time,
+        controls: 1,
+        fs: 0,
+        iv_load_policy:3,
+        rel: 0, // 🔥 Prevents related videos from showing - Deprecated
       },
     };
   }, [currentVideo?.start_time]);
@@ -81,7 +76,6 @@ const YouTubePlayerComponent = () => {
       intervalRef.current = setInterval(() => {
         if (playerRef.current) {
           const currentTime = playerRef.current.getCurrentTime();
-          setCurrentTime(currentTime);
           updateTranscript(currentTime);
         }
       }, 1000);
@@ -129,17 +123,7 @@ const YouTubePlayerComponent = () => {
     }
   };
 
-  const nextVideo = () => {
-    if (videos.pageSize > currentVideoPosition+1)
-      setCurrentVideoPosition(currentVideoPosition + 1);
-  };
-
-  const previousVideo = () => {
-    if (currentVideoPosition > 0)
-      setCurrentVideoPosition(currentVideoPosition - 1);
-  };
-
-  console.log('### videos : ', videos)
+  console.log("### videos : ", videos);
   if (!currentVideo) {
     return null;
   }
@@ -147,43 +131,20 @@ const YouTubePlayerComponent = () => {
   return (
     <div className="relative h-full bg-black bg-opacity-50">
       <YouTube
+        onPause={() => setPause(true)}
+        onPlay={() => setPause(false)}
         videoId={currentVideo.vid}
         opts={opts}
         onReady={onReady}
         onStateChange={onStateChange}
       />
-      <div className="flex flex-row gap-2 mt-2 ml-2 cursor-pointe z-30">
-        <Button
-          style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={previousVideo}
-        >
-          <PreviousIcon style="h-4 w-4" />
-        </Button>
-        <Button
-          style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={seekBackward}
-        >
-          <SeekBackIcon style="h-4 w-4" />
-        </Button>
-        <Button
-          style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={toggleVideo}
-        >
-          <StopIcon />
-        </Button>
-        <Button
-          style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={seekForward}
-        >
-          <SeekForwardIcon style="h-4 w-4" />
-        </Button>
-        <Button
-          style="rounded-lg bg-black rounded-[100%] h-8 w-8"
-          onClick={nextVideo}
-        >
-          <NextIcon style="h-4 w-4" />
-        </Button>
-      </div>
+      <VideoButtonsBar
+        toggleVideo={toggleVideo}
+        seekBackward={seekBackward}
+        seekForward={seekBackward}
+        style="p-1 bg-blue-700"
+        pause={pause}
+      />
       {transcript && (
         <SubTitleComponent
           paragraph={currentTranscript}

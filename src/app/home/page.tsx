@@ -1,5 +1,6 @@
 "use client";
 import api from "@/clients/api/api";
+import { Button } from "@/components/Button";
 import YouTubePlayerComponent from "@/components/YouTubePlayer";
 import useVideosStore from "@/stores/useVideosStore";
 import { useCallback, useState } from "react";
@@ -15,14 +16,13 @@ export default function Home({}: Props) {
     const response = await api.searchVideosByWord(wordSearch);
     setHighlitedWord(wordSearch);
     setVideos(response);
-    // setCurrentVideo(response.videosDetailResponse[0]);
     setCurrentVideoPosition(0)
   }, [wordSearch]);
 
   return (
     <div className="h-[100%] w-full flex justify-center items-center flex-col gap-5">
-      <div className="h-[71%] w-[60%] bg-yellow-200">
-        <div className="flex h-[15%] w-[100%]">
+      <div className="h-[70%] w-[100%] p-5 md:px-24 bg-yellow-200">
+        <div className="flex h-[10%] w-full mb-0">
           <input
             type="text"
             placeholder="Search"
@@ -30,17 +30,17 @@ export default function Home({}: Props) {
             value={wordSearch}
             onChange={(e) => setWordSearch(e.target.value)}
           />
-          <button
-            className="bg-blue-600 text-white p-2 rounded-lg ml-2"
+          <Button
+            style="text-white h-full cursor-pointer"
             onClick={() => {
               fetchVideos();
             }}
           >
             Search
-          </button>
+          </Button>
         </div>
 
-        <div className="h-[86%] w-[100%] bg-red-400">
+        <div className="h-[86%] w-[100%] bg-red-700">
           {videos?.videosDetailResponse.length > 0 && (
             <YouTubePlayerComponent />
           )}
