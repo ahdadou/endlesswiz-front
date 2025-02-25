@@ -5,17 +5,13 @@ import { Navbar } from "@/components/navbar/Navbar";
 import useModalStore, { ModalType } from "@/stores/useModalStore";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
-
-  const {isOpen, type} = useModalStore();
-
+  const { isOpen, type } = useModalStore();
 
   return (
     <main className="h-full overflow-auto">
       <Navbar />
-      <div className="mx-auto max-w-screen-2xl h-full w-full">
-        {children}
-      </div>
-      {isOpen && type==ModalType.DECTIONARY && <DecitionaryModal />}
+      <div className="mx-auto max-w-screen-2xl h-full w-full">{children}</div>
+      {isOpen && type == ModalType.DECTIONARY && <DecitionaryModal />}
     </main>
   );
 };

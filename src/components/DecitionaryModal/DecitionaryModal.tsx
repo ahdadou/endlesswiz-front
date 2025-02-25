@@ -1,7 +1,10 @@
 import useModalStore from "@/stores/useModalStore";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { IoMdVolumeHigh, IoMdClose } from "react-icons/io"; // Icons
+import { Button } from "../Button";
+import api from "@/clients/api/api";
+import useTranscriptStore from "@/stores/useTranscriptStore";
 
 const DecitionaryModal = () => {
   const { data, setIsOpen } = useModalStore();
@@ -20,6 +23,11 @@ const DecitionaryModal = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const addIntofavoite = useCallback(() => {
+    console.log("### data :", data);
+    api.addWordIntoFavorite(word, data.currentTranscript);
+  }, [word]);
+
   useEffect(() => {
     if (!word) return;
 
@@ -28,7 +36,9 @@ const DecitionaryModal = () => {
       setError(null);
 
       try {
-        const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        const response = await axios.get(
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
+        );
         const data = response.data;
 
         if (data.length > 0) {
@@ -74,15 +84,14 @@ const DecitionaryModal = () => {
   }, [word]);
 
   return (
-    <div 
+    <div
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-md animate-fade-in"
       onClick={() => setIsOpen(false)} // Close modal when clicking outside
     >
-      <div 
+      <div
         className="bg-white p-6 rounded-lg shadow-xl w-[90%] md:w-[65%] h-auto max-h-[80%] overflow-auto animate-slide-up relative"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
       >
-        
         {/* Close Button (Top Right) */}
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -93,12 +102,21 @@ const DecitionaryModal = () => {
 
         {/* Header */}
         <div className="flex items-center space-x-2">
-          <h2 className="text-2xl font-bold text-blue-600 capitalize">{word}</h2>
+          <h2 className="text-2xl font-bold text-blue-600 capitalize">
+            {word}
+          </h2>
           {audio && (
-            <button onClick={() => new Audio(audio).play()} className="text-blue-500 hover:text-blue-700">
+            <button
+              onClick={() => new Audio(audio).play()}
+              className="text-blue-500 hover:text-blue-700"
+            >
               <IoMdVolumeHigh size={24} />
             </button>
           )}
+
+          <Button style="py-6 px-10" onClick={addIntofavoite}>
+            <span className="p-4 text-sm">Add to favorite</span>
+          </Button>
         </div>
 
         {/* Loading & Error Handling */}
@@ -109,7 +127,9 @@ const DecitionaryModal = () => {
         ) : (
           <>
             {/* Word Type */}
-            {partOfSpeech && <p className="text-gray-500 text-sm mt-1">{partOfSpeech}</p>}
+            {partOfSpeech && (
+              <p className="text-gray-500 text-sm mt-1">{partOfSpeech}</p>
+            )}
 
             {/* Definitions List */}
             <div className="mt-3">
@@ -128,7 +148,9 @@ const DecitionaryModal = () => {
               <div className="mt-3">
                 <strong className="text-blue-700">Examples:</strong>
                 <ul className="list-disc list-inside text-gray-700 mt-1 italic">
-                  {examples.map((ex, index) => <li key={index}>"{ex}"</li>)}
+                  {examples.map((ex, index) => (
+                    <li key={index}>"{ex}"</li>
+                  ))}
                 </ul>
               </div>
             )}

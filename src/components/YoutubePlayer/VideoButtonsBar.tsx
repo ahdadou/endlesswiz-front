@@ -15,14 +15,18 @@ interface VideoButtonsBarProps {
   seekBackward: () => void;
   toggleVideo: () => void;
   seekForward: () => void;
+  changeSpeed: (speed: number) => void;
   pause: boolean;
   style: string;
 }
+
+const speedOptions: number[] = [0.5, 1, 1.5, 2]; // Define playback speed options
 
 const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   seekBackward,
   toggleVideo,
   seekForward,
+  changeSpeed,
   pause,
   style,
 }) => {
@@ -90,6 +94,19 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
       >
         <NextIcon style="h-4 w-4" />
       </Button>
+
+      {/* Speed Change Buttons */}
+      <div className="flex gap-2">
+        {speedOptions.map((speed) => (
+          <Button
+            key={speed}
+            style="rounded-lg bg-gray-700 h-8 px-3 flex items-center justify-center"
+            onClick={() => changeSpeed(speed)}
+          >
+            {`${speed}x`}
+          </Button>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import React, { useEffect, useRef } from "react";
-import cx from 'classnames'
+import cx from "classnames";
 import {
   Renderer,
   Program,
@@ -143,7 +143,7 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
   cursorBallSize = 3,
   cursorBallColor = "#ffffff",
   enableTransparency = false,
-  style
+  style,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -232,7 +232,7 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
       program.uniforms.iResolution.value.set(
         gl.canvas.width,
         gl.canvas.height,
-        0
+        0,
       );
     }
     window.addEventListener("resize", resize);
@@ -318,7 +318,9 @@ const MetaBalls: React.FC<MetaBallsProps> = ({
     enableTransparency,
   ]);
 
-  return <div ref={containerRef} className={cx(style, "w-full h-full bg-black")} />;
+  return (
+    <div ref={containerRef} className={cx(style, "w-full h-full bg-black")} />
+  );
 };
 
 export default MetaBalls;

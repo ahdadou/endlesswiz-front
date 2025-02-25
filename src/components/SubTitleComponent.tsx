@@ -1,4 +1,5 @@
 import useModalStore, { ModalType } from "@/stores/useModalStore";
+import useTranscriptStore from "@/stores/useTranscriptStore";
 import { highlightWord } from "@/utils/highlightWord";
 import cx from "classnames";
 import { Roboto } from "next/font/google";
@@ -20,10 +21,12 @@ export function SubTitleComponent({
   highlighted_word,
 }: SubTitleComponentProps) {
   const { setIsOpen, setData, setType } = useModalStore();
+  const { currentTranscript } = useTranscriptStore();
 
   const handleWordClick = (word: string) => {
     setData({
       word: word,
+      transcript: currentTranscript,
     });
     setType(ModalType.DECTIONARY);
     setIsOpen(true);
@@ -34,7 +37,7 @@ export function SubTitleComponent({
       className={cx(
         style,
         roboto.className,
-        "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center"
+        "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center",
       )}
     >
       {paragraph.split(" ").map((word, index) => (
@@ -42,7 +45,9 @@ export function SubTitleComponent({
           key={index}
           className={cx(
             "cursor-pointer px-1 inline-block transition-all",
-            word === highlighted_word ? "bg-yellow-500" : "hover:underline"
+            highlighted_word.includes(word)
+              ? "text-yellow-500"
+              : "hover:underline",
           )}
           onClick={() => handleWordClick(word)}
         >

@@ -6,26 +6,11 @@ import YouTube, { YouTubePlayer } from "react-youtube";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import useVideosStore from "@/stores/useVideosStore";
 import VideoButtonsBar from "./VideoButtonsBar";
-import { SubTitleComponent } from "../SubTitleComponent";
-import styles from "./YoutubePlayer.module.scss";
 
 const YouTubePlayerComponent = () => {
-  const {
-    highlitedWord,
-    currentVideo,
-    setVideos,
-    videos,
-    setCurrentVideoPosition,
-    currentVideoPosition,
-  } = useVideosStore();
-  const {
-    transcript,
-    setTranscript,
-    setCurrentTranscript,
-    currentTranscript,
-    setVid,
-    vid,
-  } = useTranscriptStore();
+  const { currentVideo } = useVideosStore();
+  const { transcript, setTranscript, setCurrentTranscript, setVid } =
+    useTranscriptStore();
 
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -116,6 +101,12 @@ const YouTubePlayerComponent = () => {
     }
   };
 
+  const changeSpeed = (speed: number) => {
+    if (playerRef.current) {
+      playerRef.current.setPlaybackRate(speed);
+    }
+  };
+
   if (!currentVideo) {
     return null;
   }
@@ -134,7 +125,8 @@ const YouTubePlayerComponent = () => {
       <VideoButtonsBar
         toggleVideo={toggleVideo}
         seekBackward={seekBackward}
-        seekForward={seekBackward}
+        seekForward={seekForward}
+        changeSpeed={changeSpeed}
         style="p-1 bg-blue-700"
         pause={pause}
       />
