@@ -62,7 +62,7 @@ export default function Home({}: Props) {
         </div>
         <SubTitleComponent
           style="h-[100px] bg-black/50 text-white p-4 rounded-none shadow-md"
-          paragraph={currentTranscript}
+          transcript={currentTranscript}
           highlighted_word={highlitedWord}
         />
       </div>

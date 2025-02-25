@@ -25,11 +25,6 @@ export const Navbar = ({}: NavbarProps) => {
 
   return (
     <div className="h-16 w-full bg-white flex flex-row justify-between items-center py-4 px-8">
-      <div>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded">
-          test
-        </button>
-      </div>
       <div className="relative w-[300px]">
         <TrueFocus
           sentence="endless Wiz"
@@ -40,11 +35,7 @@ export const Navbar = ({}: NavbarProps) => {
           pauseBetweenAnimations={1}
         />
       </div>
-      <div>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded">
-          test
-        </button>
-      </div>
+
       <div>
         {isLoggedIn ? (
           <button

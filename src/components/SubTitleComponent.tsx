@@ -1,11 +1,11 @@
 import useModalStore, { ModalType } from "@/stores/useModalStore";
-import useTranscriptStore from "@/stores/useTranscriptStore";
+import useTranscriptStore, { Transcript } from "@/stores/useTranscriptStore";
 import { highlightWord } from "@/utils/highlightWord";
 import cx from "classnames";
 import { Roboto } from "next/font/google";
 
 interface SubTitleComponentProps {
-  paragraph: string;
+  transcript: Transcript;
   highlighted_word: string;
   style?: string;
 }
@@ -16,7 +16,7 @@ const roboto = Roboto({
 });
 
 export function SubTitleComponent({
-  paragraph,
+  transcript,
   style,
   highlighted_word,
 }: SubTitleComponentProps) {
@@ -40,7 +40,7 @@ export function SubTitleComponent({
         "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center",
       )}
     >
-      {paragraph.split(" ").map((word, index) => (
+      {transcript?.paragraph?.split(" ").map((word, index) => (
         <span
           key={index}
           className={cx(

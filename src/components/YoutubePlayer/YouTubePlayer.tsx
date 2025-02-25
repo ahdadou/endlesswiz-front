@@ -69,9 +69,9 @@ const YouTubePlayerComponent = () => {
     const transcriptEntry = transcript.find((entry) => {
       return time >= entry.start_time && time < entry.end_time; // Assuming each entry is 2 seconds long
     });
-
+    
     if (transcriptEntry) {
-      setCurrentTranscript(transcriptEntry.paragraph);
+      setCurrentTranscript(transcriptEntry);
     }
   };
 

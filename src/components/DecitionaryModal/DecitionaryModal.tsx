@@ -4,11 +4,11 @@ import axios from "axios";
 import { IoMdVolumeHigh, IoMdClose } from "react-icons/io"; // Icons
 import { Button } from "../Button";
 import api from "@/clients/api/api";
-import useTranscriptStore from "@/stores/useTranscriptStore";
+
 
 const DecitionaryModal = () => {
   const { data, setIsOpen } = useModalStore();
-  const rawWord = data?.word || ""; // Ensure safe extraction
+  const rawWord = data?.word || "";
 
   // Remove punctuation (, . ! ? etc.) from the end of the word
   const word = rawWord.replace(/[.,!?;:]$/, "");
@@ -25,7 +25,7 @@ const DecitionaryModal = () => {
 
   const addIntofavoite = useCallback(() => {
     console.log("### data :", data);
-    api.addWordIntoFavorite(word, data.currentTranscript);
+      api.addWordIntoFavorite(word, data.transcript.transcript_id);
   }, [word]);
 
   useEffect(() => {
