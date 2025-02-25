@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import api from "@/clients/api/api";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -20,12 +20,10 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/auth/register",
-        formData,
-      );
-      Cookies.set("token", response.data.access_token);
-      Cookies.set("refreshToken", response.data.refresh_token);
+      const response = await api.register(formData);
+
+      Cookies.set("token", response.access_token);
+      Cookies.set("refreshToken", response.refresh_token);
       router.push("/login");
     } catch (error) {
       console.error("Registration failed:", error);

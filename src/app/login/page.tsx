@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import api from "@/clients/api/api";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -24,14 +24,11 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/auth/authenticate",
-        formData,
-      );
-      Cookies.set("token", response.data.access_token, {
+      const response = await api.login(formData);
+      Cookies.set("token", response.access_token, {
         expires: formData.rememberMe ? 7 : undefined,
       });
-      Cookies.set("refreshToken", response.data.refresh_token, {
+      Cookies.set("refreshToken", response.refresh_token, {
         expires: formData.rememberMe ? 7 : undefined,
       });
       router.push("/home");

@@ -41,6 +41,28 @@ const api = {
       console.error("### Error", error);
     }
   },
+  login: async (data: any) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8099/api/v1/auth/authenticate",
+        data,
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+    }
+  },
+  register: async (data: any) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8099/api/v1/auth/register",
+        data,
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+    }
+  },
 };
 
 export default api;
