@@ -33,21 +33,21 @@ export function SubTitleComponent({
   };
 
   return (
-    <div
-      className={cx(
-        style,
-        roboto.className,
-        "text-white text-sm md:text-2xl bg-blue-200 p-5 text-center",
-      )}
-    >
+    <div className={cx(
+      style,
+      "text-white text-center text-lg leading-relaxed p-4 transition-all",
+      "font-medium"
+    )}>
       {transcript?.paragraph?.split(" ").map((word, index) => (
         <span
           key={index}
           className={cx(
-            "cursor-pointer px-1 inline-block transition-all",
+            "cursor-pointer px-1 py-1 inline-block transition-all",
+            "hover:bg-white/10 rounded-lg",
+            "hover:scale-105 active:scale-95",
             highlighted_word.includes(word)
-              ? "text-yellow-500"
-              : "hover:underline",
+              ? "text-blue-400 font-bold drop-shadow-glow"
+              : "text-white/90"
           )}
           onClick={() => handleWordClick(word)}
         >

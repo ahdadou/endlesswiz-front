@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "../Button";
 import { PlayIcon } from "@/Icons/PlayIcon";
 import { PauseIcon } from "@/Icons/PauseIcon";
@@ -57,55 +57,88 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
       setCurrentVideoPosition(currentVideoPosition - 1);
   };
 
-  return (
-    <div className={cx(style, "flex flex-row gap-2 justify-center")}>
-      <Button
-        style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center p-2"
-        onClick={previousVideo}
-        disabled={currentVideoPosition < 1}
-      >
-        <PreviousIcon style="h-4 w-4" />
-      </Button>
-      <Button
-        style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center  p-2"
-        onClick={seekBackward}
-      >
-        <SeekBackIcon style="h-4 w-4" />
-      </Button>
-      <Button
-        style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center"
-        onClick={toggleVideo}
-      >
-        {pause ? <PlayIcon style="h-8 w-8" /> : <PauseIcon style="h-3 w-3" />}
-      </Button>
-      <Button
-        style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center  p-2"
-        onClick={seekForward}
-      >
-        <SeekForwardIcon style="h-4 w-4" />
-      </Button>
-      <Button
-        style="rounded-lg bg-black rounded-[100%] h-8 w-8 flex items-center justify-center  p-2"
-        onClick={nextVideo}
-        disabled={
-          currentVideoPosition >= videos.pageSize - 1 &&
-          videos.currentPage >= videos.totalPages - 1
-        }
-      >
-        <NextIcon style="h-4 w-4" />
-      </Button>
+  const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
+  const [currentSpeed, SetCurrentSpeed] = useState(1);
 
-      {/* Speed Change Buttons */}
-      <div className="flex gap-2">
-        {speedOptions.map((speed) => (
-          <Button
-            key={speed}
-            style="rounded-lg bg-gray-700 h-8 px-3 flex items-center justify-center"
-            onClick={() => changeSpeed(speed)}
+  return (
+    <div className={cx(style, "flex items-center justify-between w-full px-4 py-2")}>
+      {/* Previous/Next Video Buttons */}
+      <div className="flex items-center gap-3">
+        <Button
+          style="rounded-full p-2 hover:bg-white/10 transition-colors"
+          onClick={previousVideo}
+          disabled={currentVideoPosition < 1}
+        >
+          <PreviousIcon style="h-5 w-5 text-white" />
+        </Button>
+        <Button
+          style="rounded-full p-2 hover:bg-white/10 transition-colors"
+          onClick={nextVideo}
+          disabled={currentVideoPosition >= videos.pageSize - 1 && videos.currentPage >= videos.totalPages - 1}
+        >
+          <NextIcon style="h-5 w-5 text-white" />
+        </Button>
+      </div>
+
+      {/* Playback Controls */}
+      <div className="flex items-center gap-3">
+        <Button
+          style="rounded-full p-2 hover:bg-white/10 transition-colors"
+          onClick={seekBackward}
+        >
+          <SeekBackIcon style="h-5 w-5 text-white" />
+        </Button>
+
+        <Button
+          style="rounded-full p-3 bg-white/10 hover:bg-white/20 transition-colors"
+          onClick={toggleVideo}
+        >
+          {pause ? (
+            <PlayIcon style="h-6 w-6 text-white" />
+          ) : (
+            <PauseIcon style="h-6 w-6 text-white" />
+          )}
+        </Button>
+
+        <Button
+          style="rounded-full p-2 hover:bg-white/10 transition-colors"
+          onClick={seekForward}
+        >
+          <SeekForwardIcon style="h-5 w-5 text-white" />
+        </Button>
+      </div>
+
+      {/* Speed Dropdown */}
+      <div className="relative group">
+        <Button
+          style="flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+          onClick={() => setShowSpeedDropdown(!showSpeedDropdown)}
+        >
+          <span className="text-sm text-white">{currentSpeed}x</span>
+          {/* <ChevronDownIcon className="h-4 w-4 text-white transition-transform group-hover:rotate-180" /> */}
+        </Button>
+        
+        {showSpeedDropdown && (
+          <div 
+            className="absolute bottom-full right-0 mb-2 w-20 bg-black/80 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden"
+            onMouseLeave={() => setShowSpeedDropdown(false)}
           >
-            {`${speed}x`}
-          </Button>
-        ))}
+            {speedOptions.map((speed) => (
+              <button
+                key={speed}
+                onClick={() => {
+                  changeSpeed(speed);
+                  SetCurrentSpeed(speed)
+                  setShowSpeedDropdown(false);
+                }}
+                className={`w-full px-3 py-2 text-sm text-white hover:bg-white/10 transition-colors
+                  ${currentSpeed === speed ? 'bg-blue-500/80' : ''}`}
+              >
+                {speed}x
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

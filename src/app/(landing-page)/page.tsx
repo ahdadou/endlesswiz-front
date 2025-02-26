@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function LandingPage() {
-  
+
   const scrollToSearch = () => {
     document.getElementById("search-section")?.scrollIntoView({
       behavior: "smooth",
@@ -121,7 +121,9 @@ export default function LandingPage() {
 
           {/* Video Grid Placeholder */}
           <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Video cards would go here */}
+
+
+
           </div>
         </motion.div>
       </section>
