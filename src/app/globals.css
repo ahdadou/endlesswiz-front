@@ -12,6 +12,15 @@ body,
 
 @layer base {
   :root {
+    --font-josefin-sans: 'Josefin Sans', sans-serif;
+    --font-rubik: 'Rubik', sans-serif;
+
+    --primary-color: #222831;
+    --secondary-color: #393E46;
+    --third-color: #00ADB5;
+    --forth-color: #EEEEEE;
+
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 

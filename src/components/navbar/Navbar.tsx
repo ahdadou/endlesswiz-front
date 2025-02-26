@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import TrueFocus from "../animations/TrueFocus/TrueFocus";
 import { useRouter } from "next/navigation";
+import { Button } from "../Button";
 
 type NavbarProps = {};
 
@@ -10,7 +11,6 @@ export const Navbar = ({}: NavbarProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the user is logged in by checking for the presence of a token in cookies
     const token = Cookies.get("token");
     setIsLoggedIn(!!token);
   }, []);
@@ -24,33 +24,50 @@ export const Navbar = ({}: NavbarProps) => {
   };
 
   return (
-    <div className="h-16 w-full bg-white flex flex-row justify-between items-center py-4 px-8">
-      <div className="relative w-[300px]">
-        <TrueFocus
-          sentence="endless Wiz"
-          manualMode={false}
-          blurAmount={5}
-          borderColor="red"
-          animationDuration={2}
-          pauseBetweenAnimations={1}
-        />
+    <div className="h-16 w-full flex flex-row justify-between items-center text-center container mx-auto px-4">
+      {/* Left side - Logo and Menu Items (unchanged logo container) */}
+      <div className="flex items-center gap-6 py-2 text-white">
+        <div className="relative w-[300px] text-xl cursor-pointer mr-20">
+          <TrueFocus
+            sentence="endless Wiz"
+            manualMode={false}
+            blurAmount={5}
+            borderColor="white"
+            animationDuration={2}
+            pauseBetweenAnimations={1}
+          />
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-rubik)",
+          }}
+          className="font-bold text-sm cursor-pointer mt-4"
+        >
+          Why endlesswiz
+        </div>
+        <div
+          style={{
+            fontFamily: "var(--font-rubik)",
+          }}
+          className="font-bold  text-sm cursor-pointer mt-4"
+        >
+          {" "}
+          Contact Us
+        </div>
       </div>
 
       <div>
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-          >
+          <Button onClick={handleLogout} style="px-4 py-2  text-white rounded">
             Logout
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
             onClick={() => router.push("/login")}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            style="px-4 py-2 text-white rounded"
           >
             Login
-          </button>
+          </Button>
         )}
       </div>
     </div>
