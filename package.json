@@ -16,6 +16,7 @@
     "framer-motion": "^12.4.7",
     "gl-matrix": "^3.4.3",
     "js-cookie": "^3.0.5",
+    "lucide-react": "^0.476.0",
     "meshline": "^3.3.1",
     "next": "15.1.7",
     "ogl": "^1.0.11",
