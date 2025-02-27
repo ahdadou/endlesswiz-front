@@ -12,6 +12,7 @@
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.4",
     "@react-three/rapier": "^1.5.0",
+    "@use-gesture/react": "^10.3.1",
     "axios": "^1.7.9",
     "framer-motion": "^12.4.7",
     "gl-matrix": "^3.4.3",
@@ -27,6 +28,7 @@
     "react-youtube": "^10.1.0",
     "sass": "^1.85.0",
     "three": "^0.173.0",
+    "use-gesture": "^1.0.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
