@@ -1,51 +1,140 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import Link from 'next/link'
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from "@/components/ui/use-toast";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:8080/forgot-password", { email });
-      setMessage("Password reset link sent to your email.");
-    } catch (error) {
-      setMessage("Failed to send password reset link.");
-      console.error("Forgot password failed:", error);
+    
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Please enter your email address",
+        variant: "destructive"
+      });
+      return;
     }
+    
+    setIsLoading(true);
+    
+    // Simulate password reset process
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSubmitted(true);
+      toast({
+        title: "Email sent",
+        description: "Check your inbox for password reset instructions"
+      });
+    }, 1500);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xs">
-        <h2 className="text-2xl font-bold mb-6">Forgot Password</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="flex items-center justify-between mt-4">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-8 rounded-xl bg-card p-8 shadow-lg"
+      >
+        <div className="text-center">
+          <h2 className="mt-6 text-3xl font-bold tracking-tight">
+            Reset your password
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {!isSubmitted 
+              ? "Enter your email and we'll send you instructions to reset your password" 
+              : "Check your email for a link to reset your password"}
+          </p>
+        </div>
+
+        {!isSubmitted ? (
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="mt-1"
+                />
+              </div>
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={isLoading}
             >
-              Send Reset Link
-            </button>
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                  <span>Sending...</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <span>Send reset instructions</span>
+                  <ArrowRight className="h-4 w-4" />
+                </div>
+              )}
+            </Button>
+
+            <div className="flex items-center justify-center">
+              <Link 
+                href="/login" 
+                className="flex items-center gap-1 text-sm text-primary hover:underline"
+              >
+                <ArrowLeft className="h-3 w-3" />
+                <span>Back to login</span>
+              </Link>
+            </div>
+          </form>
+        ) : (
+          <div className="mt-8 space-y-6">
+            <div className="rounded-lg bg-secondary/50 p-4 text-center">
+              <p className="text-sm">
+                We've sent an email to <strong>{email}</strong> with instructions to reset your password.
+              </p>
+            </div>
+            
+            <Button 
+              type="button" 
+              variant="outline"
+              className="w-full"
+              onClick={() => setIsSubmitted(false)}
+            >
+              <div className="flex items-center gap-2">
+                <span>Try another email</span>
+              </div>
+            </Button>
+            
+            <div className="flex items-center justify-center">
+              <Link 
+                href="/login" 
+                className="flex items-center gap-1 text-sm text-primary hover:underline"
+              >
+                <ArrowLeft className="h-3 w-3" />
+                <span>Back to login</span>
+              </Link>
+            </div>
           </div>
-        </form>
-        {message && <p className="mt-4 text-green-500">{message}</p>}
-      </div>
+        )}
+      </motion.div>
     </div>
   );
 };

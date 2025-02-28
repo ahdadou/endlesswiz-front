@@ -1,103 +1,163 @@
 "use client";
 
 import { useState } from "react";
+import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import api from "@/clients/api/api";
 
-const SignIn = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+const LoginPage = () => {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, rememberMe: e.target.checked });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      const response = await api.login(formData);
+      setIsLoading(true);
+      const response = await api.login({
+        email: email,
+        password: password,
+        rememberMe: true,
+      });
       Cookies.set("token", response.access_token, {
-        expires: formData.rememberMe ? 7 : undefined,
+        expires: 7,
       });
       Cookies.set("refreshToken", response.refresh_token, {
-        expires: formData.rememberMe ? 7 : undefined,
+        expires: 7,
+      });
+      toast({
+        title: "Success",
+        description: "You have been logged in successfully",
       });
       router.push("/home");
     } catch (error) {
       console.error("Login failed:", error);
+      toast({
+        title: "Error",
+        description: "Email or Password wrong",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-xs">
-        <h2 className="text-2xl font-bold mb-6">Sign In</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <label className="inline-flex items-center">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleCheckboxChange}
-                className="form-checkbox h-5 w-5 text-blue-600"
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md space-y-8 rounded-xl bg-card p-8 shadow-lg"
+      >
+        <div className="text-center">
+          <h2 className="mt-6 text-3xl font-bold tracking-tight">
+            Welcome back
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Sign in to continue your English learning journey
+          </p>
+        </div>
+
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="email">Email address</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="mt-1"
               />
-              <span className="ml-2 text-gray-700">Remember Me</span>
-            </label>
-            <a
-              href="/forgot-password"
-              className="text-blue-500 text-xs hover:text-blue-700"
-            >
-              Forgot Password?
-            </a>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-primary hover:underline"
+                >
+                  Forgot your password?
+                </Link>
+              </div>
+              <div className="relative mt-1">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-between mt-4">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Sign In
-            </button>
+
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                <span>Signing in...</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <span>Sign in</span>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            )}
+          </Button>
+
+          <div className="flex items-center justify-center">
+            <div className="text-center text-sm">
+              Don't have an account?{" "}
+              <Link
+                href="/signup"
+                className="font-medium text-primary hover:underline"
+              >
+                Sign up
+              </Link>
+            </div>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-export default SignIn;
+export default LoginPage;

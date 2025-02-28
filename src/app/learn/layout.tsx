@@ -1,14 +1,11 @@
 "use client";
 
-import { Toaster } from "@/components/ui/toaster";
-
-const LoginLayout = ({ children }: { children: React.ReactNode }) => {
+const LearnLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="h-full overflow-auto">
       <div className="mx-auto max-w-screen-2xl h-full w-full">{children}</div>
-      <Toaster />
     </main>
   );
 };
 
-export default LoginLayout;
+export default LearnLayout;
