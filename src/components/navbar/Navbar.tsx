@@ -22,54 +22,51 @@ export const Navbar = ({}: NavbarProps) => {
     setIsLoggedIn(false);
     router.push("/");
   };
-
   return (
-    <div className="h-16 w-full flex flex-row justify-between items-center text-center container mx-auto px-4">
-      {/* Left side - Logo and Menu Items (unchanged logo container) */}
-      <div className="flex items-center gap-6 py-2 text-white">
-        <div className="relative w-[300px] text-xl cursor-pointer mr-20">
-          <TrueFocus
-            sentence="endless Wiz"
-            manualMode={false}
-            blurAmount={5}
-            borderColor="white"
-            animationDuration={2}
-            pauseBetweenAnimations={1}
-          />
+    <nav className="fixed w-full backdrop-blur-md z-50 shadow-sm text-white">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="relative w-[300px] text-xl cursor-pointer mr-20">
+            <TrueFocus
+              sentence="endless Wiz"
+              manualMode={false}
+              blurAmount={5}
+              borderColor="text-gray-900"
+              animationDuration={2}
+              pauseBetweenAnimations={1}
+            />
+          </div>
         </div>
-        <div
-          style={{
-            fontFamily: "var(--font-rubik)",
-          }}
-          className="font-bold text-sm cursor-pointer mt-4"
-        >
-          Why endlesswiz
-        </div>
-        <div
-          style={{
-            fontFamily: "var(--font-rubik)",
-          }}
-          className="font-bold  text-sm cursor-pointer mt-4"
-        >
-          {" "}
-          Contact Us
-        </div>
-      </div>
 
-      <div>
-        {isLoggedIn ? (
-          <Button onClick={handleLogout} style="px-4 py-2  text-white rounded">
-            Logout
-          </Button>
-        ) : (
-          <Button
-            onClick={() => router.push("/login")}
-            style="px-4 py-2 text-white rounded"
-          >
-            Login
-          </Button>
-        )}
+        <div className="hidden md:flex gap-8">
+          {["Features", "Video", "HowItWorks", "Testimonials"].map((item) => (
+            <button
+              key={item}
+              onClick={() => scrollToSection(item)}
+              className="text-white hover:text-gray-600 transition-colors font-medium"
+            >
+              {item.replace(/([A-Z])/g, " $1").trim()}
+            </button>
+          ))}
+        </div>
+        <div>
+          {isLoggedIn ? (
+            <Button
+              onClick={handleLogout}
+              style="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={() => router.push("/login")}
+              style="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700"
+            >
+              Login
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
+    </nav>
   );
 };
