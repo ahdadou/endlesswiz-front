@@ -2,7 +2,7 @@
 import api from "@/clients/api/api";
 import ShinyText from "@/components/animations/ShinyText/ShinyText";
 import { Button } from "@/components/Button";
-import { SubTitleComponent } from "@/components/SubTitleComponent";
+import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 import YouTubePlayerComponent from "@/components/YoutubePlayer/YouTubePlayer";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import useVideosStore from "@/stores/useVideosStore";

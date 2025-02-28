@@ -112,31 +112,27 @@ const YouTubePlayerComponent = () => {
   }
 
   return (
-    <div className="relative h-full w-full flex flex-col gap-4">
+    <div className="relative h-full w-full flex flex-row md:flex-col gap-4 bg-white">
       {/* YouTube Player Container */}
-      <div className="relative flex-1 rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black">
-        <YouTube
-          className="h-full w-full"
-          onPause={() => setPause(true)}
-          onPlay={() => setPause(false)}
-          videoId={currentVideo.vid}
-          opts={opts}
-          onReady={onReady}
-          onStateChange={onStateChange}
-        />
-      </div>
+      <YouTube
+        className="h-full w-full"
+        onPause={() => setPause(true)}
+        onPlay={() => setPause(false)}
+        videoId={currentVideo.vid}
+        opts={opts}
+        onReady={onReady}
+        onStateChange={onStateChange}
+      />
 
       {/* Control Bar Container */}
-      <div className="w-full backdrop-blur-lg bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-4 rounded-xl border border-white/10 shadow-xl">
-        <VideoButtonsBar
-          toggleVideo={toggleVideo}
-          seekBackward={seekBackward}
-          seekForward={seekForward}
-          changeSpeed={changeSpeed}
-          pause={pause}
-          style="w-full"
-        />
-      </div>
+      <VideoButtonsBar
+        toggleVideo={toggleVideo}
+        seekBackward={seekBackward}
+        seekForward={seekForward}
+        changeSpeed={changeSpeed}
+        pause={pause}
+        style="w-full"
+      />
     </div>
   );
 };

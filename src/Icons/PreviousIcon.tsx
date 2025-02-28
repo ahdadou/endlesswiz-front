@@ -8,7 +8,6 @@ export function PreviousIcon({ style }: PreviousIconProps) {
   return (
     <svg
       className={cx(style, "h-6 w-6")}
-      fill="#E9EDDE"
       width="800px"
       height="800px"
       viewBox="0 0 24 24"
