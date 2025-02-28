@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link'
 import { Book, Search, PlayCircle, Menu, X } from 'lucide-react';
+import TrueFocus from './animations/TrueFocus/TrueFocus';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -31,7 +32,7 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm' : 'bg-white'
       }`}
     >
       <div className="container mx-auto px-6 py-4">
@@ -41,8 +42,14 @@ const Navbar = () => {
             className="text-xl font-semibold tracking-tight flex items-center gap-2"
             onClick={closeMenu}
           >
-            <Book className="w-5 h-5" />
-            <span>EndlessWiz</span>
+            <TrueFocus
+              sentence="endless Wiz"
+              manualMode={false}
+              blurAmount={5}
+              borderColor="text-gray-900"
+              animationDuration={2}
+              pauseBetweenAnimations={1}
+            />
           </Link>
 
           {/* Desktop Navigation */}

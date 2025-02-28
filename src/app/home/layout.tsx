@@ -1,7 +1,7 @@
 "use client";
 
 import DecitionaryModal from "@/components/DecitionaryModal/DecitionaryModal";
-import { Navbar } from "@/components/navbar/Navbar";
+import Navbar from "@/components/Navbar";
 import useModalStore, { ModalType } from "@/stores/useModalStore";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
