@@ -5,7 +5,7 @@ export interface Transcript {
   paragraph: string;
   start_time: number;
   end_time: number;
-  transcript_id: string
+  transcript_id: string;
 }
 
 export interface TranscriptStore {

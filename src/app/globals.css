@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -67,51 +66,51 @@
   .glass {
     @apply backdrop-blur-lg bg-white/50 border border-white/10 shadow-sm;
   }
-  
+
   .section-padding {
     @apply py-16 md:py-24;
   }
-  
+
   .hero-text {
     @apply text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight;
   }
-  
+
   .title-text {
     @apply text-3xl md:text-4xl font-semibold tracking-tight;
   }
-  
+
   .subtitle-text {
     @apply text-lg md:text-xl font-medium text-muted-foreground;
   }
-  
+
   .body-text {
     @apply text-base md:text-lg leading-relaxed text-muted-foreground;
   }
-  
+
   .micro-text {
     @apply text-xs uppercase tracking-wider font-medium;
   }
-  
+
   .nav-link {
     @apply relative text-sm font-medium transition-colors hover:text-foreground/80 text-foreground/60 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:w-0 after:bg-foreground/80 after:transition-all hover:after:w-full;
   }
-  
+
   .nav-link.active {
     @apply text-foreground after:w-full;
   }
-  
+
   .button-primary {
     @apply bg-foreground text-background hover:bg-foreground/90 inline-flex h-11 items-center justify-center rounded-md px-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
-  
+
   .button-secondary {
     @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex h-11 items-center justify-center rounded-md px-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
-  
+
   .button-outline {
     @apply border border-input bg-transparent hover:bg-secondary hover:text-secondary-foreground inline-flex h-11 items-center justify-center rounded-md px-6 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
   }
-  
+
   .card-hover {
     @apply transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md;
   }
@@ -129,7 +128,9 @@
 .page-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }
 
 .page-transition-exit {
@@ -140,10 +141,10 @@
 .page-transition-exit-active {
   opacity: 0;
   transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }
-
-
 
 @layer base {
   * {

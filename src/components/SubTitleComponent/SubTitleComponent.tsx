@@ -1,20 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { Captions } from "lucide-react";
+import { Captions, Heart, HeartOff } from "lucide-react";
 import cx from "classnames";
+import { motion } from "framer-motion";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import type { Transcript } from "@/stores/useTranscriptStore";
 
-interface SubtitleSectionProps {
+interface SubTitleComponentProps {
   transcript: Transcript;
   highlightedWord: string;
+  onAddToFavorite?: (word: string) => void;
+  isAuthenticated?: boolean;
+  favorites?: Set<string>;
 }
 
-export function SubtitleSection({
+export function SubTitleComponent({
   transcript,
   highlightedWord,
-}: SubtitleSectionProps) {
+  onAddToFavorite,
+  isAuthenticated = false,
+  favorites = new Set(),
+}: SubTitleComponentProps) {
   const [selectedWord, setSelectedWord] = useState<{
     word: string;
     pronunciation: string;
@@ -27,6 +34,14 @@ export function SubtitleSection({
       pronunciation: "/ˌser.ənˈdɪp.ə.ti/",
       definition: "The occurrence of events by chance in a happy way",
     });
+  };
+
+  const handleFavoriteClick = (word: string) => {
+    if (!isAuthenticated) {
+      alert("Please login to save favorites!");
+      return;
+    }
+    onAddToFavorite?.(word);
   };
 
   // Mock subtitle data for empty state
@@ -61,7 +76,7 @@ export function SubtitleSection({
                     highlightedWord.includes(cleanWord) &&
                       "bg-blue-100 text-blue-600",
                     selectedWord?.word === cleanWord && "ring-2 ring-blue-300",
-                    isExampleWord && "text-blue-500 font-medium"
+                    isExampleWord && "text-blue-500 font-medium",
                   )}
                 >
                   {word}{" "}
@@ -72,7 +87,49 @@ export function SubtitleSection({
         </div>
 
         {selectedWord ? (
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2">
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2 relative">
+            {/* Favorite Button */}
+            {onAddToFavorite && (
+              <motion.button
+                onClick={() => handleFavoriteClick(selectedWord.word)}
+                className="absolute top-2 right-2 p-1.5 hover:bg-gray-200 rounded-full transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                {favorites.has(selectedWord.word) ? (
+                  <HeartOff className="w-5 h-5 text-red-500 fill-red-100" />
+                ) : (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <Heart className="w-5 h-5 text-gray-400 hover:text-red-400" />
+                  </motion.div>
+                )}
+              </motion.button>
+            )}
+
+            {/* Shine Animation */}
+            <motion.div
+              initial={{ backgroundPosition: "-100%" }}
+              animate={{ backgroundPosition: "200%" }}
+              transition={{
+                repeat: Infinity,
+                duration: 2,
+                ease: "linear",
+              }}
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `linear-gradient(
+                  110deg,
+                  transparent 25%,
+                  rgba(255, 255, 255, 0.4) 50%,
+                  transparent 75%
+                )`,
+              }}
+            />
+
             <div className="flex items-baseline gap-2">
               <span className="text-lg font-semibold text-gray-900">
                 {selectedWord.word}

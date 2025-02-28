@@ -12,7 +12,7 @@ import YouTube from "react-youtube";
 import api from "@/clients/api/api";
 import ShinyText from "@/components/animations/ShinyText/ShinyText";
 import { Button } from "@/components/Button";
-import { SubtitleSection } from "@/components/SubTitleComponent/SubTitleComponent";
+import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 import YouTubePlayerComponent from "@/components/YoutubePlayer/YouTubePlayer";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import useVideosStore from "@/stores/useVideosStore";
@@ -40,7 +40,7 @@ const TranscriptSection = () => {
   return (
     <section
       id="search-section"
-      className="min-h-screen py-12 px-4 bg-white pt-20 relative"
+      className="min-h-screen py-12 px-4 bg-white pt-32 relative"
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -80,24 +80,27 @@ const TranscriptSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 h-[50vh]">
           {/* Video Section */}
           <div className="bg-gray-50 rounded-2xl shadow-lg p-6 h-full">
-              {videos?.videosDetailResponse.length > 0 ? (
-                <YouTubePlayerComponent />
-              ) : (
-                <YouTube
-                  videoId="dQw4w9WgXcQ"
-                  opts={{
-                    height: "100%",
-                    width: "100%",
-                    playerVars: { modestbranding: 1, rel: 0 },
-                  }}
-                  className="w-full h-full"
-                />
-              )}
+            {videos?.videosDetailResponse.length > 0 ? (
+              <YouTubePlayerComponent />
+            ) : (
+              <YouTube
+                videoId="dQw4w9WgXcQ"
+                opts={{
+                  height: "100%",
+                  width: "100%",
+                  playerVars: { modestbranding: 1, rel: 0 },
+                }}
+                className="w-full h-full"
+              />
+            )}
           </div>
-          {/* Subtitles Section */}
-          <SubtitleSection
+          {/* Subtitles Section with favorite button */}
+          <SubTitleComponent
             transcript={currentTranscript}
             highlightedWord={wordSearch}
+            onAddToFavorite={(word) => console.log("Add to favorite:", word)}
+            isAuthenticated={true} // Replace with actual auth state
+            favorites={new Set(["example"])} // Replace with actual favorites
           />
         </div>
       </motion.div>

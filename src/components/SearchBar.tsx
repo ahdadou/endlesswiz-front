@@ -1,6 +1,5 @@
-
-import { useState } from 'react';
-import { Search } from 'lucide-react';
+import { useState } from "react";
+import { Search } from "lucide-react";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -8,12 +7,12 @@ interface SearchBarProps {
   className?: string;
 }
 
-const SearchBar = ({ 
-  placeholder = "Search for lessons, words, or phrases...", 
+const SearchBar = ({
+  placeholder = "Search for lessons, words, or phrases...",
   onSearch,
-  className = ""
+  className = "",
 }: SearchBarProps) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +22,8 @@ const SearchBar = ({
   };
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
+    <form
+      onSubmit={handleSubmit}
       className={`relative w-full max-w-2xl mx-auto ${className}`}
     >
       <div className="relative">

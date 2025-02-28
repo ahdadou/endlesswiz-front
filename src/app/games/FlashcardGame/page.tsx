@@ -1,11 +1,17 @@
 // components/FlashcardGame.tsx
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const FlashcardGame = ({ words }: { words: { word: string; meaning: string }[] }) => {
-  const [cards, setCards] = useState<{ id: number; content: string; isMeaning: boolean }[]>([]);
+const FlashcardGame = ({
+  words,
+}: {
+  words: { word: string; meaning: string }[];
+}) => {
+  const [cards, setCards] = useState<
+    { id: number; content: string; isMeaning: boolean }[]
+  >([]);
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
   const [score, setScore] = useState(0);
@@ -13,36 +19,44 @@ const FlashcardGame = ({ words }: { words: { word: string; meaning: string }[] }
 
   useEffect(() => {
     const shuffled = [...words]
-      .flatMap(word => [
+      .flatMap((word) => [
         { id: Math.random(), content: word.word, isMeaning: false },
-        { id: Math.random(), content: word.meaning, isMeaning: true }
+        { id: Math.random(), content: word.meaning, isMeaning: true },
       ])
       .sort(() => Math.random() - 0.5);
     setCards(shuffled);
   }, [words]);
 
   const handleFlip = (index: number) => {
-    if (flipped.length === 2 || flipped.includes(index) || matched.includes(index)) return;
+    if (
+      flipped.length === 2 ||
+      flipped.includes(index) ||
+      matched.includes(index)
+    )
+      return;
 
     setFlipped([...flipped, index]);
-    setMoves(m => m + 1);
+    setMoves((m) => m + 1);
 
     if (flipped.length === 1) {
       const [firstIndex] = flipped;
       const firstCard = cards[firstIndex];
       const secondCard = cards[index];
-      
+
       if (
-        (firstCard.isMeaning !== secondCard.isMeaning) &&
-        words.some(word => 
-          (word.word === firstCard.content && word.meaning === secondCard.content) ||
-          (word.meaning === firstCard.content && word.word === secondCard.content)
+        firstCard.isMeaning !== secondCard.isMeaning &&
+        words.some(
+          (word) =>
+            (word.word === firstCard.content &&
+              word.meaning === secondCard.content) ||
+            (word.meaning === firstCard.content &&
+              word.word === secondCard.content),
         )
       ) {
         setMatched([...matched, firstIndex, index]);
-        setScore(s => s + 100);
+        setScore((s) => s + 100);
       }
-      
+
       setTimeout(() => setFlipped([]), 1000);
     }
   };
@@ -53,7 +67,7 @@ const FlashcardGame = ({ words }: { words: { word: string; meaning: string }[] }
         <div>Score: {score}</div>
         <div>Moves: {moves}</div>
       </div>
-      
+
       <div className="grid grid-cols-4 gap-4">
         {cards.map((card, index) => {
           const isFlipped = flipped.includes(index) || matched.includes(index);
@@ -63,13 +77,13 @@ const FlashcardGame = ({ words }: { words: { word: string; meaning: string }[] }
             <motion.div
               key={card.id}
               className={`aspect-square cursor-pointer rounded-lg p-4 flex items-center justify-center text-center 
-                ${isMatched ? 'bg-green-200' : 'bg-indigo-100'} 
-                ${isFlipped ? 'bg-indigo-200' : 'bg-indigo-100'}`}
+                ${isMatched ? "bg-green-200" : "bg-indigo-100"} 
+                ${isFlipped ? "bg-indigo-200" : "bg-indigo-100"}`}
               onClick={() => handleFlip(index)}
               animate={{ rotateY: isFlipped ? 180 : 0 }}
               transition={{ duration: 0.6 }}
             >
-              <AnimatePresence mode='wait'>
+              <AnimatePresence mode="wait">
                 {isFlipped ? (
                   <motion.div
                     key="back"

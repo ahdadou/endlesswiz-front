@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
@@ -32,19 +32,19 @@ const api = {
   },
   addWordIntoFavorite: async (word: string, transcript_id: string) => {
     try {
-      const token = Cookies.get('token');
+      const token = Cookies.get("token");
       const response = await axios.post(
-        'http://localhost:8099/api/v1/user_func/favorite_word',
+        "http://localhost:8099/api/v1/user_func/favorite_word",
         { word, transcript_id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       return response.data;
     } catch (error: unknown) {
-      console.error('### Error', error);
+      console.error("### Error", error);
       throw error; // Re-throw the error after logging it
     }
   },
@@ -54,7 +54,7 @@ const api = {
         "http://localhost:8099/api/v1/auth/authenticate",
         data,
       );
-      
+
       return response.data;
     } catch (error: unknown) {
       console.error("### Error", error);

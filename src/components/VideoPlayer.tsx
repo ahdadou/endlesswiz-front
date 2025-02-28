@@ -1,6 +1,5 @@
-
-import { useState, useEffect } from 'react';
-import { Play } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Play } from "lucide-react";
 
 interface VideoPlayerProps {
   videoId: string;
@@ -8,10 +7,10 @@ interface VideoPlayerProps {
   description?: string;
 }
 
-const VideoPlayer = ({ 
-  videoId, 
-  title = "English Pronunciation Guide", 
-  description = "Learn the proper pronunciation of common English words and phrases."
+const VideoPlayer = ({
+  videoId,
+  title = "English Pronunciation Guide",
+  description = "Learn the proper pronunciation of common English words and phrases.",
 }: VideoPlayerProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(true);
@@ -32,7 +31,7 @@ const VideoPlayer = ({
     <div className="rounded-xl overflow-hidden bg-card shadow-sm border border-border">
       <div className="relative w-full aspect-video">
         {showPreview ? (
-          <div 
+          <div
             className="absolute inset-0 bg-secondary flex flex-col items-center justify-center cursor-pointer"
             onClick={handlePlayClick}
           >
@@ -45,7 +44,9 @@ const VideoPlayer = ({
                 <div className="w-20 h-20 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background hover:scale-105 transition-all duration-300 flex items-center justify-center">
                   <Play className="w-10 h-10 text-foreground ml-1" />
                 </div>
-                <p className="mt-4 text-foreground/80 text-sm">Click to play video</p>
+                <p className="mt-4 text-foreground/80 text-sm">
+                  Click to play video
+                </p>
               </>
             )}
           </div>

@@ -1,48 +1,48 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ArrowRight, ArrowLeft } from 'lucide-react';
-import Link from 'next/link'
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       toast({
         title: "Error",
         description: "Please enter your email address",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     // Simulate password reset process
     setTimeout(() => {
       setIsLoading(false);
       setIsSubmitted(true);
       toast({
         title: "Email sent",
-        description: "Check your inbox for password reset instructions"
+        description: "Check your inbox for password reset instructions",
       });
     }, 1500);
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -53,8 +53,8 @@ const ForgotPassword = () => {
             Reset your password
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            {!isSubmitted 
-              ? "Enter your email and we'll send you instructions to reset your password" 
+            {!isSubmitted
+              ? "Enter your email and we'll send you instructions to reset your password"
               : "Check your email for a link to reset your password"}
           </p>
         </div>
@@ -76,11 +76,7 @@ const ForgotPassword = () => {
               </div>
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
@@ -95,8 +91,8 @@ const ForgotPassword = () => {
             </Button>
 
             <div className="flex items-center justify-center">
-              <Link 
-                href="/login" 
+              <Link
+                href="/login"
                 className="flex items-center gap-1 text-sm text-primary hover:underline"
               >
                 <ArrowLeft className="h-3 w-3" />
@@ -108,12 +104,13 @@ const ForgotPassword = () => {
           <div className="mt-8 space-y-6">
             <div className="rounded-lg bg-secondary/50 p-4 text-center">
               <p className="text-sm">
-                We've sent an email to <strong>{email}</strong> with instructions to reset your password.
+                We've sent an email to <strong>{email}</strong> with
+                instructions to reset your password.
               </p>
             </div>
-            
-            <Button 
-              type="button" 
+
+            <Button
+              type="button"
               variant="outline"
               className="w-full"
               onClick={() => setIsSubmitted(false)}
@@ -122,10 +119,10 @@ const ForgotPassword = () => {
                 <span>Try another email</span>
               </div>
             </Button>
-            
+
             <div className="flex items-center justify-center">
-              <Link 
-                href="/login" 
+              <Link
+                href="/login"
                 className="flex items-center gap-1 text-sm text-primary hover:underline"
               >
                 <ArrowLeft className="h-3 w-3" />

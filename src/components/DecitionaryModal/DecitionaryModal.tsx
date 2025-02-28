@@ -5,7 +5,6 @@ import { IoMdVolumeHigh, IoMdClose } from "react-icons/io"; // Icons
 import { Button } from "../Button";
 import api from "@/clients/api/api";
 
-
 const DecitionaryModal = () => {
   const { data, setIsOpen } = useModalStore();
   const rawWord = data?.word || "";
@@ -25,7 +24,7 @@ const DecitionaryModal = () => {
 
   const addIntofavoite = useCallback(() => {
     console.log("### data :", data);
-      api.addWordIntoFavorite(word, data.transcript.transcript_id);
+    api.addWordIntoFavorite(word, data.transcript.transcript_id);
   }, [word]);
 
   useEffect(() => {

@@ -1,25 +1,51 @@
 // components/WordPuzzleGame.tsx
-'use client';
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const data = [
-  { word: 'Resilience', meaning: 'The capacity to recover quickly from difficulties; toughness.' },
-  { word: 'Ephemeral', meaning: 'Lasting for a very short time.' },
-  { word: 'Serendipity', meaning: 'The occurrence of events by chance in a happy or beneficial way.' },
-  { word: 'Euphoria', meaning: 'A feeling or state of intense excitement and happiness.' },
-  { word: 'Ubiquitous', meaning: 'Present, appearing, or found everywhere.' },
-  { word: 'Pernicious', meaning: 'Having a harmful effect, especially in a gradual or subtle way.' },
-  { word: 'Ineffable', meaning: 'Too great or extreme to be expressed or described in words.' },
-  { word: 'Quintessential', meaning: 'Representing the most perfect or typical example of a quality or class.' }
+  {
+    word: "Resilience",
+    meaning: "The capacity to recover quickly from difficulties; toughness.",
+  },
+  { word: "Ephemeral", meaning: "Lasting for a very short time." },
+  {
+    word: "Serendipity",
+    meaning: "The occurrence of events by chance in a happy or beneficial way.",
+  },
+  {
+    word: "Euphoria",
+    meaning: "A feeling or state of intense excitement and happiness.",
+  },
+  { word: "Ubiquitous", meaning: "Present, appearing, or found everywhere." },
+  {
+    word: "Pernicious",
+    meaning: "Having a harmful effect, especially in a gradual or subtle way.",
+  },
+  {
+    word: "Ineffable",
+    meaning: "Too great or extreme to be expressed or described in words.",
+  },
+  {
+    word: "Quintessential",
+    meaning:
+      "Representing the most perfect or typical example of a quality or class.",
+  },
 ];
 
-const WordPuzzleGame = ({ words = data  }: { words: { word: string; meaning: string }[] }) => {
-  const [currentWord, setCurrentWord] = useState<{ word: string; shuffled: string } | null>(null);
-  const [userInput, setUserInput] = useState('');
+const WordPuzzleGame = ({
+  words = data,
+}: {
+  words: { word: string; meaning: string }[];
+}) => {
+  const [currentWord, setCurrentWord] = useState<{
+    word: string;
+    shuffled: string;
+  } | null>(null);
+  const [userInput, setUserInput] = useState("");
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     newWord();
@@ -30,25 +56,25 @@ const WordPuzzleGame = ({ words = data  }: { words: { word: string; meaning: str
     setCurrentWord({
       word: randomWord.word,
       shuffled: randomWord.word
-        .split('')
+        .split("")
         .sort(() => Math.random() - 0.5)
-        .join('')
+        .join(""),
     });
-    setUserInput('');
+    setUserInput("");
   };
 
   const checkAnswer = () => {
     if (userInput.toLowerCase() === currentWord?.word.toLowerCase()) {
-      setScore(s => s + 100);
-      setFeedback('Correct! +100 points');
+      setScore((s) => s + 100);
+      setFeedback("Correct! +100 points");
       setTimeout(() => {
-        setFeedback('');
+        setFeedback("");
         newWord();
       }, 1000);
     } else {
-      setLives(l => l - 1);
-      setFeedback('Try again!');
-      setTimeout(() => setFeedback(''), 1000);
+      setLives((l) => l - 1);
+      setFeedback("Try again!");
+      setTimeout(() => setFeedback(""), 1000);
     }
   };
 
@@ -90,7 +116,7 @@ const WordPuzzleGame = ({ words = data  }: { words: { word: string; meaning: str
           <motion.div
             animate={{ opacity: feedback ? 1 : 0 }}
             className={`text-lg font-semibold ${
-              feedback.includes('Correct') ? 'text-green-600' : 'text-red-600'
+              feedback.includes("Correct") ? "text-green-600" : "text-red-600"
             }`}
           >
             {feedback}

@@ -1,8 +1,7 @@
-
-import { useState, useEffect } from 'react';
-import Link from 'next/link'
-import { Book, Search, PlayCircle, Menu, X } from 'lucide-react';
-import TrueFocus from './animations/TrueFocus/TrueFocus';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Book, Search, PlayCircle, Menu, X } from "lucide-react";
+import TrueFocus from "./animations/TrueFocus/TrueFocus";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -13,8 +12,8 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const toggleMenu = () => {
@@ -30,15 +29,15 @@ const Navbar = () => {
   };
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm' : 'bg-white'
+        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-white"
       }`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="text-xl font-semibold tracking-tight flex items-center gap-2"
             onClick={closeMenu}
           >
@@ -54,23 +53,32 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
+            <Link
+              href="/"
+              className={`nav-link ${isActive("/") ? "active" : ""}`}
+            >
               Home
             </Link>
-            <Link href="/learn" className={`nav-link ${isActive('/learn') ? 'active' : ''}`}>
+            <Link
+              href="/learn"
+              className={`nav-link ${isActive("/learn") ? "active" : ""}`}
+            >
               <span className="flex items-center gap-1.5">
                 <PlayCircle className="w-4 h-4" />
                 Learn
               </span>
             </Link>
-            <Link href="/practice" className={`nav-link ${isActive('/practice') ? 'active' : ''}`}>
+            <Link
+              href="/practice"
+              className={`nav-link ${isActive("/practice") ? "active" : ""}`}
+            >
               <span className="flex items-center gap-1.5">
                 <Search className="w-4 h-4" />
                 Practice
               </span>
             </Link>
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="button-primary flex items-center gap-1.5 animate-fade-in"
             >
               Get Started
@@ -78,7 +86,7 @@ const Navbar = () => {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden rounded-md p-2 focus:outline-none transition-colors hover:bg-secondary"
             onClick={toggleMenu}
             aria-label="Toggle menu"
@@ -92,16 +100,16 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg animate-slide-down shadow-md">
           <nav className="container mx-auto px-6 py-6 flex flex-col space-y-4">
-            <Link 
-              href="/" 
-              className={`nav-link text-lg py-2 ${isActive('/') ? 'active' : ''}`}
+            <Link
+              href="/"
+              className={`nav-link text-lg py-2 ${isActive("/") ? "active" : ""}`}
               onClick={closeMenu}
             >
               Home
             </Link>
-            <Link 
-              href="/learn" 
-              className={`nav-link text-lg py-2 ${isActive('/learn') ? 'active' : ''}`}
+            <Link
+              href="/learn"
+              className={`nav-link text-lg py-2 ${isActive("/learn") ? "active" : ""}`}
               onClick={closeMenu}
             >
               <span className="flex items-center gap-2">
@@ -109,9 +117,9 @@ const Navbar = () => {
                 Learn
               </span>
             </Link>
-            <Link 
-              href="/practice" 
-              className={`nav-link text-lg py-2 ${isActive('/practice') ? 'active' : ''}`}
+            <Link
+              href="/practice"
+              className={`nav-link text-lg py-2 ${isActive("/practice") ? "active" : ""}`}
               onClick={closeMenu}
             >
               <span className="flex items-center gap-2">
@@ -119,8 +127,8 @@ const Navbar = () => {
                 Practice
               </span>
             </Link>
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
               className="button-primary w-full justify-center mt-2"
               onClick={closeMenu}
             >

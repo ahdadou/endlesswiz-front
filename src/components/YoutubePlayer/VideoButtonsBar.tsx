@@ -54,7 +54,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
     <div
       className={cx(
         style,
-        "w-full bg-white p-4 rounded-lg shadow-sm border border-gray-100"
+        "w-full bg-white p-4 rounded-lg shadow-sm border border-gray-100",
       )}
     >
       <div className="flex items-center justify-between">
@@ -71,7 +71,10 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
             </Button>
             <Button
               onClick={nextVideo}
-              disabled={currentVideoPosition >= videos.pageSize - 1 && videos.currentPage >= videos.totalPages - 1}
+              disabled={
+                currentVideoPosition >= videos.pageSize - 1 &&
+                videos.currentPage >= videos.totalPages - 1
+              }
               className="hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 bg-white cursor-pointer w-11"
             >
               <NextIcon style="h-6 w-6 fill-current text-[#4C585B]" />
