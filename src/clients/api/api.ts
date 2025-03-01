@@ -48,18 +48,6 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-  login: async (data: any) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/auth/authenticate",
-        data,
-      );
-
-      return response.data;
-    } catch (error: unknown) {
-      console.error("### Error", error);
-    }
-  },
   register: async (data: any) => {
     try {
       const response = await axios.post(
@@ -69,6 +57,23 @@ const api = {
       return response.data;
     } catch (error: unknown) {
       console.error("### Error", error);
+    }
+  },
+  validateToken: async (token: string | undefined) => {
+    if (!token) return false;
+    try {
+      const response = await axios.get(
+        `http://localhost:8099/api/v1/users/validate_token`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true, // Ensures cookies are sent if needed
+        },
+      );
+
+      return response.status === 200;
+    } catch (error) {
+      console.error("Token validation failed:", error);
+      return false;
     }
   },
 };

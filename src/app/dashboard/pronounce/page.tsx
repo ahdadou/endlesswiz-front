@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Mic, Search } from "lucide-react";
 import YouTube from "react-youtube";
+import SearchBar from "@/components/SearchBar";
 
 export default function PronounceWordPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,8 +36,8 @@ export default function PronounceWordPage() {
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSearch = (query: string) => {
+    console.log("Searching for:", query);
     if (searchQuery.trim()) {
       fetchPronunciationVideos(searchQuery.trim());
     }
@@ -56,8 +57,14 @@ export default function PronounceWordPage() {
           </p>
         </div>
 
+        <SearchBar
+          placeholder="Enter a word to pronounce..."
+          onSearch={handleSearch}
+          className="mb-6"
+        />
+
         {/* Search Form */}
-        <form onSubmit={handleSearch} className="mb-8">
+        {/* <form onSubmit={handleSearch} className="mb-8">
           <div className="relative max-w-2xl mx-auto">
             <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
             <input
@@ -75,7 +82,7 @@ export default function PronounceWordPage() {
               {isLoading ? "Searching..." : "Search"}
             </Button>
           </div>
-        </form>
+        </form> */}
 
         {/* Results Section */}
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}

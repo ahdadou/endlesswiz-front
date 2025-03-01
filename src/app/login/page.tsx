@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import api from "@/clients/api/api";
+import GmailIcon from "@/Icons/GmailIcon";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -22,6 +23,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      toast({
+        title: "Error",
+        description: "Invalid email format",
+        variant: "destructive",
+      });
+      return;
+    }
 
     if (!email || !password) {
       toast({
@@ -33,28 +44,30 @@ const LoginPage = () => {
     }
 
     try {
-      setIsLoading(true);
-      const response = await api.login({
-        email: email,
-        password: password,
-        rememberMe: true,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       });
-      Cookies.set("token", response.access_token, {
-        expires: 7,
-      });
-      Cookies.set("refreshToken", response.refresh_token, {
-        expires: 7,
-      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error);
+      }
       toast({
         title: "Success",
         description: "You have been logged in successfully",
       });
-      router.push("/home");
-    } catch (error) {
-      console.error("Login failed:", error);
+      router.push("/dashboard");
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Email or Password wrong",
+        description: "Invalid credentials",
         variant: "destructive",
       });
     } finally {
@@ -155,6 +168,31 @@ const LoginPage = () => {
             </div>
           </div>
         </form>
+
+        {/* Add divider */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-8 space-y-6">
+          {/* Add Google Button */}
+          <Button
+            variant="outline"
+            className="w-full gap-2"
+            // onClick={handleGoogleLogin}
+            disabled={isLoading}
+          >
+            <GmailIcon />
+            <span>Continue with Google</span>
+          </Button>
+        </div>
       </motion.div>
     </div>
   );
