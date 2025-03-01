@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import api from "@/clients/api/api";
 import GmailIcon from "@/Icons/GmailIcon";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -63,7 +64,7 @@ const LoginPage = () => {
         title: "Success",
         description: "You have been logged in successfully",
       });
-      router.push("/dashboard");
+      router.push(DEFAULT_LOGIN_REDIRECT);
     } catch (error: any) {
       toast({
         title: "Error",
