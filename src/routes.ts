@@ -3,10 +3,11 @@
  */
 export const publicRoutes = [
   "/",
-  "/verify-email",
-  "/login",
-  "/register",
-  "/forgot_password",
+  "/auth/verify-email",
+  "/auth/login",
+  "/auth/register",
+  "/auth/forgot_password",
+  "/auth/confirm-email",
 ];
 
 /**

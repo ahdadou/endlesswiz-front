@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   if (isPublic) {
     if (token && (await api.validateToken(token.value))) {
       const response = NextResponse.redirect(
-        new URL("/dashboard", request.url)
+        new URL("/dashboard", request.url),
       );
       response.headers.set("x-jwt", token.value);
       return response;
@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!token || !(await api.validateToken(token.value))) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
   return NextResponse.next({
@@ -41,8 +41,9 @@ export const config = {
   matcher: [
     "/",
     "/dashboard/:path*",
-    "/login",
-    "/register",
-    "/forgot_password",
+    "/auth/login",
+    "/auth/register",
+    "/auth/forgot_password",
+    "/auth/confirm-email",
   ],
 };

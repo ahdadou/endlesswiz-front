@@ -78,7 +78,7 @@ const Navbar = () => {
               </span>
             </Link>
             <Link
-              href="/login"
+              href="/auth/login"
               className="button-primary flex items-center gap-1.5 animate-fade-in"
             >
               Get Started
@@ -128,7 +128,7 @@ const Navbar = () => {
               </span>
             </Link>
             <Link
-              href="/signup"
+              href="/auth/signup"
               className="button-primary w-full justify-center mt-2"
               onClick={closeMenu}
             >

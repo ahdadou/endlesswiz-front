@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import api from "@/clients/api/api";
 
 const SignUpPage = () => {
@@ -46,19 +45,21 @@ const SignUpPage = () => {
         email: email,
         password: password,
       });
-      Cookies.set("token", response.access_token);
-      Cookies.set("refreshToken", response.refresh_token);
-      router.push("/login");
-      toast({
-        title: "Success",
-        description: "You have been registred in successfully",
-      });
-      router.push("/login");
+      if (response) {
+        toast({
+          title: "Success",
+          description: "A confirmation token has been sent to your mail",
+        });
+        // Pass the email as a query parameter
+        router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
+      } else {
+        throw new Error("Something is wrong, try again");
+      }
     } catch (error) {
-      console.error("registred failed:", error);
+      console.error("Registration failed:", error);
       toast({
         title: "Error",
-        description: "Something wrong happed. check your data",
+        description: "Something went wrong. Please check your data.",
         variant: "destructive",
       });
     } finally {
@@ -159,7 +160,7 @@ const SignUpPage = () => {
             <div className="text-center text-sm">
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/auth/login"
                 className="font-medium text-primary hover:underline"
               >
                 Sign in

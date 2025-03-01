@@ -15,11 +15,12 @@ import {
   Menu,
   Mic,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const SideBar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const navItems = [
     { icon: <Trophy />, label: "Dashboard", href: "/dashboard" },
@@ -36,8 +37,13 @@ const SideBar = () => {
   ];
 
   const handleLogout = async () => {
-    // Replace with your actual logout logic
-    // await signOut(); // Example using NextAuth
+    try {
+      await fetch("/api/auth/logout", { method: "GET" });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      router.push("/");
+    }
   };
 
   return (

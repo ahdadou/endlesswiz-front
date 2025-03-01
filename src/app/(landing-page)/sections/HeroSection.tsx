@@ -56,7 +56,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="button-primary flex items-center gap-2"
               >
                 Start Learning

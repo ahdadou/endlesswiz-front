@@ -1,15 +1,15 @@
-// src/app/confirm-email/page.tsx
 "use client";
 
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import Link from "next/link";
+import api from "@/clients/api/api";
 
 export default function ConfirmEmailPage() {
+  const router = useRouter();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
@@ -22,27 +22,17 @@ export default function ConfirmEmailPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/confirm-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          confirmationCode: code
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Verification failed");
+      const response = await api.registrationConfirmation(code);
+      if (response) {
+        setIsVerified(true);
+        toast({
+          title: "Email Verified!",
+          description: "Your email has been successfully verified.",
+        });
+        router.push("/auth/login");
+      } else {
+        throw new Error("Something is wrong, try again");
       }
-
-      setIsVerified(true);
-      toast({
-        title: "Email Verified!",
-        description: "Your email has been successfully verified.",
-      });
     } catch (error: any) {
       toast({
         title: "Verification Error",
@@ -54,23 +44,26 @@ export default function ConfirmEmailPage() {
     }
   };
 
-  if (isVerified) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-md text-center space-y-8">
-          <div className="space-y-4">
-            <h1 className="text-3xl font-bold">Email Verified!</h1>
-            <p className="text-muted-foreground">
-              Your email has been successfully verified. You can now access your account.
-            </p>
-            <Button asChild>
-              <Link href="/login">Continue to Login</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const resendCode = async () => {
+    try {
+      if (!email) return;
+      const response = await api.resentTokenByEmail(email);
+      if (response) {
+        toast({
+          title: "Send Verified Code!",
+          description: "Your code has been successfully sent.",
+        });
+      } else {
+        throw new Error("Something is wrong, try again");
+      }
+    } catch (error: any) {
+      toast({
+        title: "Send Verified Code Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -105,10 +98,11 @@ export default function ConfirmEmailPage() {
 
           <div className="text-center text-sm">
             Didn't receive the code?{" "}
-            <Button 
-              variant="link" 
+            <Button
+              variant="link"
               className="p-0 text-sm"
               type="button"
+              onClick={resendCode}
               disabled={loading}
             >
               Resend Code

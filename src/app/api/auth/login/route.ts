@@ -6,14 +6,12 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    // Forward credentials to your external backend
     const response = await axios.post(
       "http://localhost:8099/api/v1/auth/authenticate",
       { email, password }, // Send as a JavaScript object (no need to stringify)
     );
 
     if (response.status !== 200) {
-      console.log("### invalid teriri");
       return NextResponse.json(
         { error: "Invalid credentials" },
         { status: 401 },

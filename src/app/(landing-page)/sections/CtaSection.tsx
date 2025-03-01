@@ -98,7 +98,7 @@ const CtaSection = () => {
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="bg-primary-foreground text-primary button-primary hover:bg-primary-foreground/90 group"
               >
                 <span>Get Started for Free</span>

@@ -112,7 +112,7 @@ const LoginPage = () => {
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                  href="/forgot-password"
+                  href="/auth/forgot-password"
                   className="text-xs text-primary hover:underline"
                 >
                   Forgot your password?
@@ -161,7 +161,7 @@ const LoginPage = () => {
             <div className="text-center text-sm">
               Don't have an account?{" "}
               <Link
-                href="/signup"
+                href="/auth/signup"
                 className="font-medium text-primary hover:underline"
               >
                 Sign up

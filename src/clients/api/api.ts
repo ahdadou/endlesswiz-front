@@ -1,5 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
+import { headers } from "next/headers";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
@@ -73,6 +75,44 @@ const api = {
       return response.status === 200;
     } catch (error) {
       console.error("Token validation failed:", error);
+      return false;
+    }
+  },
+  registrationConfirmation: async (token: string | undefined) => {
+    if (!token) return false;
+    try {
+      const response = await axios.get(
+        `http://localhost:8099/api/v1/auth/registrationConfirmation`,
+        {
+          params: {
+            token,
+          },
+          withCredentials: true, // Ensures cookies are sent if needed
+        },
+      );
+
+      return response.status === 200;
+    } catch (error) {
+      console.error("registration confirmation failed:", error);
+      return false;
+    }
+  },
+  resentTokenByEmail: async (email: string | undefined) => {
+    if (!email) return false;
+    try {
+      const response = await axios.get(
+        `http://localhost:8099/api/v1/auth/resentTokenByEmail`,
+        {
+          params: {
+            email,
+          },
+          withCredentials: true,
+        },
+      );
+
+      return response.status === 200;
+    } catch (error) {
+      console.error("resent Token By Email:", error);
       return false;
     }
   },
