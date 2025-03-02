@@ -53,7 +53,6 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   const isLastPage = currentPage >= totalPages - 1;
   const isFirstItem = currentPosition == 0;
   const isFirstPage = currentPage ==0;
-
   const hasPrevious = currentPosition > 0;
 
   const toggleFavorite = useCallback(async () => {
