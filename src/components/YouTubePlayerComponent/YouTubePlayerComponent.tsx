@@ -7,8 +7,13 @@ import VideoButtonsBar from "./VideoButtonsBar";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 const YouTubePlayerComponent = () => {
-  const { currentVideo, transcript, setTranscript, setCurrentTranscript, setVid } =
-    useZustandState();
+  const {
+    currentVideo,
+    transcript,
+    setTranscript,
+    setCurrentTranscript,
+    setVid,
+  } = useZustandState();
 
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -17,7 +22,7 @@ const YouTubePlayerComponent = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId,
+        currentVideo.video?.videoId
       );
       setVid(currentVideo.video?.vid);
       setTranscript(response);
@@ -120,6 +125,14 @@ const YouTubePlayerComponent = () => {
     }
   };
 
+  const handleReset = () => {
+    if (playerRef.current && currentVideo.video?.transcriptResponse?.start_time) {
+      playerRef.current.seekTo(currentVideo.video.transcriptResponse.start_time, true);
+      setCurrentTranscript(currentVideo.video.transcriptResponse)
+    }
+  };
+  
+
   if (!currentVideo) {
     return null;
   }
@@ -142,6 +155,7 @@ const YouTubePlayerComponent = () => {
         seekBackward={seekBackward}
         seekForward={seekForward}
         changeSpeed={changeSpeed}
+        handleReset={handleReset}
         pause={pause}
         style="w-full"
       />

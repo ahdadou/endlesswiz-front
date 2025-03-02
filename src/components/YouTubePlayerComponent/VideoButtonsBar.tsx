@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import cx from "classnames";
-import { Clock, Heart } from "lucide-react";
+import { Clock, Heart, ListRestart, ListRestartIcon, TimerResetIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import api from "@/clients/api/api";
 import { highlightWord } from "@/utils/highlightWord";
@@ -9,11 +9,13 @@ import { NextIcon } from "@/Icons/NextIcon";
 import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
 import { SeekBackIcon } from "@/Icons/SeekBackIcon";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
+import { ResetIcon } from "@/Icons/ResetIcon";
 
 interface VideoButtonsBarProps {
   seekBackward: () => void;
   toggleVideo: () => void;
   seekForward: () => void;
+  handleReset: () => void;
   changeSpeed: (speed: number) => void;
   pause: boolean;
   style: string;
@@ -30,6 +32,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   toggleVideo,
   seekForward,
   changeSpeed,
+  handleReset,
   pause,
   style,
 }) => {
@@ -116,6 +119,13 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               aria-label="Previous video"
             >
               <PreviousIcon style="h-6 w-6 fill-current text-[#4C585B]" />
+            </Button>
+            <Button
+              onClick={handleReset}
+              className={NAV_BUTTON_CLASSES}
+              aria-label="Previous video"
+            >
+              <ResetIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </Button>
             <Button
               onClick={() => navigateVideo("next")}

@@ -26,7 +26,7 @@ const TranscriptSection = () => {
     setHighlitedWord,
     setCurrentVideoPosition,
     highlitedWord,
-    currentTranscript
+    currentTranscript,
   } = useZustandState();
 
   const fetchVideos = useCallback(async () => {

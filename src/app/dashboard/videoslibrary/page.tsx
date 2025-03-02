@@ -109,8 +109,6 @@ const VideoLibraryPage = () => {
             <div className="lg:w-[40%] flex flex-col gap-4 h-full">
               <div className="bg-white rounded-xl shadow-sm p-4 flex-1 overflow-auto">
                 <SubTitleComponent
-                  transcript={currentTranscript}
-                  highlightedWord=""
                   onAddToFavorite={(word) => console.log(word)}
                   isAuthenticated={true}
                   favorites={new Set()}

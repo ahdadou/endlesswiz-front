@@ -13,7 +13,9 @@ export const createTranscriptSlice = (set: any) => ({
   currentTranscript: {} as Transcript,
   transcript: [],
   setTranscript: (transcript: Transcript) => set({ transcript }),
-  setCurrentTranscript: (currentTranscript: Transcript) => set({ currentTranscript }),
+  setCurrentTranscript: (currentTranscript: Transcript) =>
+    set({ currentTranscript }),
   setVid: (vid: string) => set({ vid }),
-  clearTranscript: () => set({ transcript: [], currentTranscript: {} as Transcript, vid: "" }),
+  clearTranscript: () =>
+    set({ transcript: [], currentTranscript: {} as Transcript, vid: "" }),
 });

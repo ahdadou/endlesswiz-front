@@ -56,7 +56,8 @@ export const createVideoSlice = (set: any) => ({
 
       // Find the existing video reference in the state to prevent unnecessary re-renders
       const videoIndex = state.videos.videosDetailResponse.findIndex(
-        (v: VideosDetailResponse) => v.videoId === state.currentVideo.video!.videoId
+        (v: VideosDetailResponse) =>
+          v.videoId === state.currentVideo.video!.videoId,
       );
 
       if (videoIndex === -1) return state; // Video not found, return state as is
