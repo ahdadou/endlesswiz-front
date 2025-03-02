@@ -2,25 +2,23 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Mic, Search } from "lucide-react";
 import YouTube from "react-youtube";
 import SearchBar from "@/components/SearchBar";
 import useTranscriptStore from "@/stores/useTranscriptStore";
 import api from "@/clients/api/api";
 import useVideosStore from "@/stores/useVideosStore";
-import YouTubePlayerComponent from "@/components/YoutubePlayer/YouTubePlayer";
+import YouTubePlayerComponent from "@/components/YouTubePlayerComponent/YouTubePlayerComponent";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 
 export default function PronounceWordPage() {
-  const { currentTranscript } = useTranscriptStore();
+  const { currentTranscript, setCurrentTranscript } = useTranscriptStore();
+  const { currentVideo, setVideos, setHighlitedWord } = useVideosStore();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const [wordSearch, setWordSearch] = useState<string>("");
-  const { videos, setVideos, setHighlitedWord, setCurrentVideoPosition } =
-    useVideosStore();
+
+  const [error, setError] = useState("");
 
   const fetchVideos = useCallback(
     async (wordSearch: string) => {
@@ -29,15 +27,16 @@ export default function PronounceWordPage() {
         const response = await api.searchVideosByWordAndUser(wordSearch);
         setHighlitedWord(wordSearch);
         setVideos(response);
-        setCurrentVideoPosition(0);
-        console.log(videos);
+        setCurrentTranscript(
+          response.videosDetailResponse[0].transcriptResponse
+        );
       } catch (err) {
         setError("Failed to connect to the server");
       } finally {
         setIsLoading(false);
       }
     },
-    [wordSearch],
+    [wordSearch]
   );
 
   const handleSearch = (query: string) => {
@@ -64,9 +63,8 @@ export default function PronounceWordPage() {
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 h-[60vh]">
-          {/* Video Section */}
           <div className="bg-gray-50 rounded-2xl shadow-lg p-6 h-full">
-            {videos?.videosDetailResponse.length > 0 ? (
+            {currentVideo.video?.vid ? (
               <YouTubePlayerComponent />
             ) : (
               <YouTube
@@ -80,10 +78,7 @@ export default function PronounceWordPage() {
               />
             )}
           </div>
-          {/* Subtitles Section with favorite button */}
           <SubTitleComponent
-            transcript={currentTranscript}
-            highlightedWord={wordSearch}
             onAddToFavorite={(word) => console.log("Add to favorite:", word)}
             isAuthenticated={true} // Replace with actual auth state
             favorites={new Set(["example"])} // Replace with actual favorites

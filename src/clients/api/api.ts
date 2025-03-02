@@ -137,7 +137,7 @@ const api = {
   getFavoriteVideos: async (videoId: string) => {
     try {
       const response = await axios.get(
-        "http://localhost:8099/api/v1/user_func/favorite_video",
+        "http://localhost:8099/api/v1/favorite_video",
         {
           withCredentials: true,
         },
@@ -151,7 +151,7 @@ const api = {
   addVideoIntoFavorite: async (videoId: string) => {
     try {
       const response = await axios.post(
-        "http://localhost:8099/api/v1/user_func/favorite_video",
+        "http://localhost:8099/api/v1/favorite_video",
         { video_id: videoId },
         {
           withCredentials: true,
@@ -166,7 +166,7 @@ const api = {
   deleteVideoIntoFavorite: async (videoId: string) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8099/api/v1/user_func/favorite_video/${videoId}`,
+        `http://localhost:8099/api/v1/favorite_video/${videoId}`,
         {
           withCredentials: true,
         },

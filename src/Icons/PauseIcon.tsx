@@ -13,7 +13,7 @@ export function PauseIcon({ style }: PauseIconProps) {
       fill="#E9EDDE"
       className={cx(style, "h-6 w-6")}
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
         stroke-linecap="round"
@@ -25,9 +25,8 @@ export function PauseIcon({ style }: PauseIconProps) {
         <g
           id="Page-1"
           stroke="none"
-          stroke-width="1"
+          strokeWidth="1"
           fill="none"
-          fill-rule="evenodd"
         >
           {" "}
           <g

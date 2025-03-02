@@ -5,23 +5,21 @@ import { Captions, Heart, HeartOff } from "lucide-react";
 import cx from "classnames";
 import { motion } from "framer-motion";
 import useTranscriptStore from "@/stores/useTranscriptStore";
-import type { Transcript } from "@/stores/useTranscriptStore";
+import useVideosStore from "@/stores/useVideosStore";
 
 interface SubTitleComponentProps {
-  transcript: Transcript;
-  highlightedWord: string;
   onAddToFavorite?: (word: string) => void;
   isAuthenticated?: boolean;
   favorites?: Set<string>;
 }
 
 export function SubTitleComponent({
-  transcript,
-  highlightedWord,
   onAddToFavorite,
   isAuthenticated = false,
   favorites = new Set(),
 }: SubTitleComponentProps) {
+  const { currentTranscript } = useTranscriptStore();
+  const { highlitedWord } = useVideosStore();
   const [selectedWord, setSelectedWord] = useState<{
     word: string;
     pronunciation: string;
@@ -51,7 +49,9 @@ export function SubTitleComponent({
     start_time: 0,
   };
 
-  const displayTranscript = transcript?.paragraph ? transcript : mockSubtitle;
+  const displayTranscript = currentTranscript?.paragraph
+    ? currentTranscript
+    : mockSubtitle;
 
   return (
     <div className="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-6 sticky top-4 h-full">
@@ -73,7 +73,7 @@ export function SubTitleComponent({
                   onClick={() => handleWordClick(cleanWord)}
                   className={cx(
                     "cursor-pointer hover:bg-gray-200 rounded px-1 py-0.5 transition-colors",
-                    highlightedWord.includes(cleanWord) &&
+                    highlitedWord.includes(cleanWord) &&
                       "bg-blue-100 text-blue-600",
                     selectedWord?.word === cleanWord && "ring-2 ring-blue-300",
                     isExampleWord && "text-blue-500 font-medium",
@@ -143,16 +143,16 @@ export function SubTitleComponent({
         ) : (
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
             <p className="text-gray-500 text-sm text-center">
-              {!transcript?.paragraph && (
+              {!currentTranscript?.paragraph && (
                 <span className="block mb-2">
                   ✨ Welcome to pronunciation helper!
                 </span>
               )}
               Click any word in the subtitle above to see:
-              <ul className="list-disc pl-4 mt-2 text-left">
-                <li>Detailed definition</li>
-                <li>Usage examples</li>
-              </ul>
+              <span className="list-disc pl-4 mt-2 text-left">
+                <span>Detailed definition</span>
+                <span>Usage examples</span>
+              </span>
             </p>
           </div>
         )}

@@ -17,16 +17,23 @@ const YouTubePlayerComponent = () => {
   const [pause, setPause] = useState(false);
 
   const fetchTranscript = useCallback(async () => {
-    if (currentVideo) {
-      const response = await api.fetchVideosTranscript(currentVideo.videoId);
-      setVid(currentVideo.videoId);
+    if (currentVideo.video) {
+      const response = await api.fetchVideosTranscript(
+        currentVideo.video?.videoId
+      );
+      setVid(currentVideo.video?.vid);
       setTranscript(response);
     }
-  }, [currentVideo?.videoId, setTranscript, setCurrentTranscript, setVid]);
+  }, [
+    currentVideo?.video?.videoId,
+    setTranscript,
+    setCurrentTranscript,
+    setVid,
+  ]);
 
   useEffect(() => {
     fetchTranscript();
-  }, [currentVideo]);
+  }, [currentVideo?.video?.videoId]);
 
   const opts = useMemo(() => {
     return {
@@ -34,14 +41,14 @@ const YouTubePlayerComponent = () => {
       width: "100%",
       playerVars: {
         autoplay: 1,
-        start: currentVideo?.start_time,
+        start: currentVideo.video?.transcriptResponse.start_time,
         controls: 1,
         fs: 0,
         iv_load_policy: 3,
         rel: 0, // 🔥 Prevents related videos from showing - Deprecated
       },
     };
-  }, [currentVideo?.start_time]);
+  }, [currentVideo.video?.transcriptResponse]);
 
   const onReady = (event: { target: YouTubePlayer }) => {
     playerRef.current = event.target;
@@ -111,20 +118,20 @@ const YouTubePlayerComponent = () => {
     return null;
   }
 
+  console.log("### currentVideo.video?.vid :", currentVideo.video?.vid);
   return (
     <div className="relative h-full w-full flex flex-row md:flex-col gap-4 bg-white">
-      {/* YouTube Player Container */}
       <YouTube
+        key={currentVideo.video?.vid} // 👈 Forces re-render when vid changes
         className="h-full w-full"
         onPause={() => setPause(true)}
         onPlay={() => setPause(false)}
-        videoId={currentVideo.vid}
+        videoId={currentVideo.video?.vid}
         opts={opts}
         onReady={onReady}
         onStateChange={onStateChange}
       />
 
-      {/* Control Bar Container */}
       <VideoButtonsBar
         toggleVideo={toggleVideo}
         seekBackward={seekBackward}
