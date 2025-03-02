@@ -3,14 +3,12 @@
 import api from "@/clients/api/api";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
-import useTranscriptStore from "@/stores/useTranscriptStore";
-import useVideosStore from "@/stores/useVideosStore";
 import VideoButtonsBar from "./VideoButtonsBar";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 const YouTubePlayerComponent = () => {
-  const { currentVideo } = useVideosStore();
-  const { transcript, setTranscript, setCurrentTranscript, setVid } =
-    useTranscriptStore();
+  const { currentVideo, transcript, setTranscript, setCurrentTranscript, setVid } =
+    useZustandState();
 
   const playerRef = useRef<YouTubePlayer | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);

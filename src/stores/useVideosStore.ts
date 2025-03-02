@@ -16,19 +16,6 @@ export interface Videos {
   videosDetailResponse: VideosDetailResponse[];
 }
 
-interface VideosStore {
-  highlitedWord: string;
-  videos: Videos;
-  currentVideo: {
-    video: VideosDetailResponse;
-    position: number;
-  };
-  setVideos: (videos: Videos) => void;
-  setCurrentVideo: (position: number, video?: VideosDetailResponse) => void;
-  setHighlitedWord: (highlitedWord: string) => void;
-  setCurrentVideoIsFavorite: (isFavorite: boolean) => void;
-}
-
 const defaultVideosState: Videos = {
   currentPage: 0,
   totalPages: 0,
@@ -36,7 +23,7 @@ const defaultVideosState: Videos = {
   videosDetailResponse: [],
 };
 
-const useVideosStore = create<VideosStore>((set) => ({
+export const createVideoSlice = (set: any) => ({
   highlitedWord: "",
   videos: defaultVideosState,
   currentVideo: {
@@ -44,7 +31,7 @@ const useVideosStore = create<VideosStore>((set) => ({
     position: 0,
   },
 
-  setVideos: (videos) =>
+  setVideos: (videos: Videos) =>
     set({
       videos,
       currentVideo: {
@@ -53,23 +40,23 @@ const useVideosStore = create<VideosStore>((set) => ({
       },
     }),
 
-  setHighlitedWord: (highlitedWord) => set({ highlitedWord }),
+  setHighlitedWord: (highlitedWord: string) => set({ highlitedWord }),
 
-  setCurrentVideo: (position, video) =>
-    set((state) => ({
+  setCurrentVideo: (position: number, video?: VideosDetailResponse) =>
+    set((state: any) => ({
       currentVideo: {
         video: video || state.videos.videosDetailResponse[position],
         position,
       },
     })),
 
-  setCurrentVideoIsFavorite: (isFavorite) =>
-    set((state) => {
+  setCurrentVideoIsFavorite: (isFavorite: boolean) =>
+    set((state: any) => {
       if (!state.currentVideo.video) return state;
 
       // Find the existing video reference in the state to prevent unnecessary re-renders
       const videoIndex = state.videos.videosDetailResponse.findIndex(
-        (v) => v.videoId === state.currentVideo.video!.videoId,
+        (v: VideosDetailResponse) => v.videoId === state.currentVideo.video!.videoId
       );
 
       if (videoIndex === -1) return state; // Video not found, return state as is
@@ -89,6 +76,4 @@ const useVideosStore = create<VideosStore>((set) => ({
         currentVideo: state.currentVideo, // Ensures reference remains unchanged
       };
     }),
-}));
-
-export default useVideosStore;
+});

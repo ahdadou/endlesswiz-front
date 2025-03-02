@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Captions, Heart, HeartOff } from "lucide-react";
 import cx from "classnames";
 import { motion } from "framer-motion";
-import useTranscriptStore from "@/stores/useTranscriptStore";
-import useVideosStore from "@/stores/useVideosStore";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 interface SubTitleComponentProps {
   onAddToFavorite?: (word: string) => void;
@@ -18,8 +17,7 @@ export function SubTitleComponent({
   isAuthenticated = false,
   favorites = new Set(),
 }: SubTitleComponentProps) {
-  const { currentTranscript } = useTranscriptStore();
-  const { highlitedWord } = useVideosStore();
+  const { highlitedWord, currentTranscript } = useZustandState();
   const [selectedWord, setSelectedWord] = useState<{
     word: string;
     pronunciation: string;

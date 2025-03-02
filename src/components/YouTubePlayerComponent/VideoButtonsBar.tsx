@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import cx from "classnames";
 import { Clock, Heart } from "lucide-react";
-import useVideosStore from "@/stores/useVideosStore";
 import { Button } from "../ui/button";
 import api from "@/clients/api/api";
 import { highlightWord } from "@/utils/highlightWord";
@@ -9,7 +8,7 @@ import { PreviousIcon } from "@/Icons/PreviousIcon";
 import { NextIcon } from "@/Icons/NextIcon";
 import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
 import { SeekBackIcon } from "@/Icons/SeekBackIcon";
-import useTranscriptStore from "@/stores/useTranscriptStore";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 interface VideoButtonsBarProps {
   seekBackward: () => void;
@@ -41,9 +40,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
     highlitedWord,
     setCurrentVideoIsFavorite,
     setVideos,
-  } = useVideosStore();
-
-  const { setCurrentTranscript } = useTranscriptStore();
+  } = useZustandState();
 
   const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
   const [currentSpeed, setCurrentSpeed] = useState(1);

@@ -14,10 +14,9 @@ import ShinyText from "@/components/animations/ShinyText/ShinyText";
 import { Button } from "@/components/Button";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 import YouTubePlayerComponent from "@/components/YouTubePlayerComponent/YouTubePlayerComponent";
-import useTranscriptStore from "@/stores/useTranscriptStore";
-import useVideosStore from "@/stores/useVideosStore";
 import { useCallback, useState } from "react";
 import VideoButtonsBar from "@/components/YouTubePlayerComponent/VideoButtonsBar";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 const TranscriptSection = () => {
   const [wordSearch, setWordSearch] = useState<string>("");
@@ -27,8 +26,8 @@ const TranscriptSection = () => {
     setHighlitedWord,
     setCurrentVideoPosition,
     highlitedWord,
-  } = useVideosStore();
-  const { currentTranscript } = useTranscriptStore();
+    currentTranscript
+  } = useZustandState();
 
   const fetchVideos = useCallback(async () => {
     const response = await api.searchVideosByWord(wordSearch);

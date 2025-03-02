@@ -5,12 +5,13 @@ import { useCallback, useState } from "react";
 import YouTube from "react-youtube";
 import SearchBar from "@/components/SearchBar";
 import api from "@/clients/api/api";
-import useVideosStore from "@/stores/useVideosStore";
 import YouTubePlayerComponent from "@/components/YouTubePlayerComponent/YouTubePlayerComponent";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
+import { createVideoSlice } from "@/stores/useVideosStore";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 export default function PronounceWordPage() {
-  const { currentVideo, setVideos, setHighlitedWord } = useVideosStore();
+  const { currentVideo, setVideos, setHighlitedWord } = useZustandState();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
