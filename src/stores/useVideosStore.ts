@@ -7,6 +7,7 @@ export interface VideosDetailResponse {
   paragraph: string;
   start_time: number;
   duration: number;
+  isFavorite: boolean;
 }
 
 export interface Videos {
@@ -25,6 +26,7 @@ interface VideosStore {
   setCurrentVideo: (currentVideo: VideosDetailResponse | null) => void;
   setHighlitedWord: (highlitedWord: string) => void;
   setCurrentVideoPosition: (currentVideoPosition: number) => void;
+  serCurrentVideoIsFavorite: (isFavorite: boolean) => void;
 }
 
 const useVideosStore = create<VideosStore>((set) => ({
@@ -40,6 +42,27 @@ const useVideosStore = create<VideosStore>((set) => ({
   setVideos: (videos) => set({ videos }),
   setHighlitedWord: (highlitedWord) => set({ highlitedWord }),
   setCurrentVideo: (currentVideo) => set({ currentVideo }),
+  serCurrentVideoIsFavorite: (isFavorite) =>
+    set((state) => {
+      if (state.currentVideo) {
+        return {
+          ...state,
+          videos: {
+            ...state.videos,
+            videosDetailResponse: state.videos.videosDetailResponse.map(
+              (item) => {
+                if (item.videoId === state.currentVideo?.videoId) {
+                  item.isFavorite = isFavorite;
+                }
+                return item;
+              },
+            ),
+          },
+          currentVideo: { ...state.currentVideo, isfavotite: isFavorite },
+        };
+      }
+      return state;
+    }),
   setCurrentVideoPosition: (currentVideoPosition) =>
     set((state) => {
       return {

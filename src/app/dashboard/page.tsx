@@ -3,16 +3,7 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  BookOpen,
-  Gamepad,
-  Video,
-  Trophy,
-  Clock,
-  Star,
-  User,
-} from "lucide-react";
-import SideBar from "@/components/Sidebar/SideBar";
+import { BookOpen, Gamepad, Video, Trophy, Clock, Star } from "lucide-react";
 
 export default function Home() {
   // Mock data
@@ -25,7 +16,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 flex">
+    <div className="bg-white text-gray-900 flex">
       <main className="flex-1 p-8 bg-gray-50">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

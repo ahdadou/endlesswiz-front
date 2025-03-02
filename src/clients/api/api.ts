@@ -1,3 +1,4 @@
+import { TOKEN } from "@/middleware";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
@@ -21,7 +22,6 @@ const api = {
       console.error("### Error", error);
     }
   },
-
   fetchVideosTranscript: async (videoId: string) => {
     try {
       const response = await axios.get(
@@ -34,7 +34,7 @@ const api = {
   },
   addWordIntoFavorite: async (word: string, transcript_id: string) => {
     try {
-      const token = Cookies.get("token");
+      const token = Cookies.get(TOKEN);
       const response = await axios.post(
         "http://localhost:8099/api/v1/user_func/favorite_word",
         { word, transcript_id },
@@ -114,6 +114,67 @@ const api = {
     } catch (error) {
       console.error("resent Token By Email:", error);
       return false;
+    }
+  },
+  searchVideosByWordAndUser: async (word: string, page?: number) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8099/api/v1/user_func/search",
+        {
+          params: {
+            word: word,
+            size: 10,
+            page: page ?? 0,
+          },
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+    }
+  },
+  getFavoriteVideos: async (videoId: string) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8099/api/v1/user_func/favorite_video",
+        {
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  addVideoIntoFavorite: async (videoId: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8099/api/v1/user_func/favorite_video",
+        { video_id: videoId },
+        {
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  deleteVideoIntoFavorite: async (videoId: string) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8099/api/v1/user_func/favorite_video/${videoId}`,
+        {
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
     }
   },
 };

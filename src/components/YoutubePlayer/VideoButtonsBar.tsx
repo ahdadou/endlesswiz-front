@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import cx from "classnames";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  Captions,
-  Settings,
-} from "lucide-react";
+import { Clock, Heart } from "lucide-react";
 import useVideosStore from "@/stores/useVideosStore";
 import { PreviousIcon } from "@/Icons/PreviousIcon";
 import { NextIcon } from "@/Icons/NextIcon";
 import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
 import { SeekBackIcon } from "@/Icons/SeekBackIcon";
 import { Button } from "../ui/button";
+import api from "@/clients/api/api";
 
 interface VideoButtonsBarProps {
   seekBackward: () => void;
@@ -33,10 +28,34 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   pause,
   style,
 }) => {
-  const { currentVideoPosition, setCurrentVideoPosition, videos } =
-    useVideosStore();
+  const {
+    currentVideoPosition,
+    setCurrentVideoPosition,
+    videos,
+    currentVideo,
+    serCurrentVideoIsFavorite,
+  } = useVideosStore();
   const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
   const [currentSpeed, setCurrentSpeed] = useState(1);
+
+  console.log("");
+  const handleFavorite = useCallback(async () => {
+    try {
+      if (currentVideo) {
+        await api.addVideoIntoFavorite(currentVideo.videoId);
+        serCurrentVideoIsFavorite(true);
+      }
+    } catch (err) {}
+  }, [currentVideo]);
+
+  const deleteFavorite = useCallback(async () => {
+    try {
+      if (currentVideo) {
+        await api.deleteVideoIntoFavorite(currentVideo.videoId);
+        serCurrentVideoIsFavorite(false);
+      }
+    } catch (err) {}
+  }, [currentVideo]);
 
   const nextVideo = () => {
     if (currentVideoPosition < videos.pageSize - 1) {
@@ -141,11 +160,22 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
 
         {/* Right Section */}
         <div className="flex gap-2">
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <Captions className="w-5 h-5 text-gray-700" />
-          </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-            <Settings className="w-5 h-5 text-gray-700" />
+          <button
+            onClick={currentVideo?.isFavorite ? deleteFavorite : handleFavorite}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
+            aria-label={
+              currentVideo?.isFavorite
+                ? "Remove from favorites"
+                : "Add to favorites"
+            }
+          >
+            <Heart
+              className={`w-5 h-5 transition-all duration-300 ${
+                currentVideo?.isFavorite
+                  ? "text-red-500 fill-red-500 scale-110"
+                  : "text-gray-700 fill-transparent"
+              }`}
+            />
           </button>
         </div>
       </div>
