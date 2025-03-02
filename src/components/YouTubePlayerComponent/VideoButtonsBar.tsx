@@ -21,8 +21,10 @@ interface VideoButtonsBarProps {
 }
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2];
-const COMMON_BUTTON_CLASSES = "p-2 hover:bg-gray-100 rounded-lg transition-colors";
-const NAV_BUTTON_CLASSES = "hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 bg-white cursor-pointer w-11";
+const COMMON_BUTTON_CLASSES =
+  "p-2 hover:bg-gray-100 rounded-lg transition-colors";
+const NAV_BUTTON_CLASSES =
+  "hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 bg-white cursor-pointer w-11";
 
 const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   seekBackward,
@@ -38,10 +40,10 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
     setCurrentVideo,
     highlitedWord,
     setCurrentVideoIsFavorite,
-    setVideos
+    setVideos,
   } = useVideosStore();
 
-  const {setCurrentTranscript} = useTranscriptStore();
+  const { setCurrentTranscript } = useTranscriptStore();
 
   const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
   const [currentSpeed, setCurrentSpeed] = useState(1);
@@ -49,55 +51,69 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   const currentPosition = currentVideo.position;
   const currentVideoData = currentVideo.video;
 
-  const isLastItem = currentPosition >= pageSize-1;
+  const isLastItem = currentPosition >= pageSize - 1;
   const isLastPage = currentPage >= totalPages - 1;
   const isFirstItem = currentPosition == 0;
-  const isFirstPage = currentPage ==0;
+  const isFirstPage = currentPage == 0;
   const hasPrevious = currentPosition > 0;
 
   const toggleFavorite = useCallback(async () => {
     if (!currentVideoData) return;
-    
-    const action = currentVideoData.isFavorite 
-      ? api.deleteVideoIntoFavorite 
+
+    const action = currentVideoData.isFavorite
+      ? api.deleteVideoIntoFavorite
       : api.addVideoIntoFavorite;
-    
+
     await action(currentVideoData.videoId);
     setCurrentVideoIsFavorite(!currentVideoData.isFavorite);
   }, [currentVideoData, setCurrentVideoIsFavorite]);
 
-  const navigateVideo = useCallback(async (direction: 'next' | 'previous') => {
-    if (direction === 'next') {
-      if (!isLastItem) {
-        const newPosition = currentPosition+1;
-        setCurrentVideo(newPosition);
-      } else if (!isLastPage) {
-        const nextPage = currentPage + 1;
-        const response = await api.searchVideosByWordAndUser(highlitedWord, nextPage);
-        setVideos(response);
+  const navigateVideo = useCallback(
+    async (direction: "next" | "previous") => {
+      if (direction === "next") {
+        if (!isLastItem) {
+          const newPosition = currentPosition + 1;
+          setCurrentVideo(newPosition);
+        } else if (!isLastPage) {
+          const nextPage = currentPage + 1;
+          const response = await api.searchVideosByWordAndUser(
+            highlitedWord,
+            nextPage,
+          );
+          setVideos(response);
+        }
+      } else {
+        if (currentPosition > 0) {
+          setCurrentVideo(currentPosition - 1);
+        }
       }
-    } else {
-      if (currentPosition > 0) {
-        setCurrentVideo(currentPosition - 1);
-      } 
-    }
-  }, [currentPosition, videosDetailResponse, currentPage, isLastPage]);
+    },
+    [currentPosition, videosDetailResponse, currentPage, isLastPage],
+  );
 
-  const handleSpeedChange = useCallback((speed: number) => {
-    setCurrentSpeed(speed);
-    changeSpeed(speed);
-    setShowSpeedDropdown(false);
-  }, [changeSpeed]);
+  const handleSpeedChange = useCallback(
+    (speed: number) => {
+      setCurrentSpeed(speed);
+      changeSpeed(speed);
+      setShowSpeedDropdown(false);
+    },
+    [changeSpeed],
+  );
 
   return (
-    <div className={cx(style, "w-full bg-white p-4 rounded-lg shadow-sm border border-gray-100")}>
+    <div
+      className={cx(
+        style,
+        "w-full bg-white p-4 rounded-lg shadow-sm border border-gray-100",
+      )}
+    >
       <div className="flex items-center justify-between">
         {/* Controls Left Section */}
         <div className="flex items-center gap-4">
           {/* Navigation Controls */}
           <div className="flex gap-2">
             <Button
-              onClick={() => navigateVideo('previous')}
+              onClick={() => navigateVideo("previous")}
               disabled={!hasPrevious}
               className={NAV_BUTTON_CLASSES}
               aria-label="Previous video"
@@ -105,7 +121,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               <PreviousIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </Button>
             <Button
-              onClick={() => navigateVideo('next')}
+              onClick={() => navigateVideo("next")}
               disabled={isLastItem && isLastPage}
               className={NAV_BUTTON_CLASSES}
               aria-label="Next video"
@@ -116,13 +132,30 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
 
           {/* Playback Controls */}
           <div className="flex gap-2">
-            <button onClick={seekBackward} className={COMMON_BUTTON_CLASSES} aria-label="Seek backward">
+            <button
+              onClick={seekBackward}
+              className={COMMON_BUTTON_CLASSES}
+              aria-label="Seek backward"
+            >
               <SeekBackIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </button>
-            <button onClick={toggleVideo} className={COMMON_BUTTON_CLASSES} aria-label={pause ? "Play" : "Pause"}>
-              <div className={cx("w-6 h-6 rounded-full", pause ? "bg-gray-700" : "border-2 border-gray-700")} />
+            <button
+              onClick={toggleVideo}
+              className={COMMON_BUTTON_CLASSES}
+              aria-label={pause ? "Play" : "Pause"}
+            >
+              <div
+                className={cx(
+                  "w-6 h-6 rounded-full",
+                  pause ? "bg-gray-700" : "border-2 border-gray-700",
+                )}
+              />
             </button>
-            <button onClick={seekForward} className={COMMON_BUTTON_CLASSES} aria-label="Seek forward">
+            <button
+              onClick={seekForward}
+              className={COMMON_BUTTON_CLASSES}
+              aria-label="Seek forward"
+            >
               <SeekForwardIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </button>
           </div>
@@ -146,7 +179,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
                     onClick={() => handleSpeedChange(speed)}
                     className={cx(
                       "w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
-                      currentSpeed === speed && "bg-blue-50 text-blue-600"
+                      currentSpeed === speed && "bg-blue-50 text-blue-600",
                     )}
                   >
                     {speed}x
@@ -161,14 +194,18 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
         <button
           onClick={toggleFavorite}
           className={COMMON_BUTTON_CLASSES}
-          aria-label={currentVideoData?.isFavorite ? "Remove from favorites" : "Add to favorites"}
+          aria-label={
+            currentVideoData?.isFavorite
+              ? "Remove from favorites"
+              : "Add to favorites"
+          }
         >
           <Heart
             className={cx(
               "w-5 h-5 transition-all duration-300",
               currentVideoData?.isFavorite
                 ? "text-red-500 fill-red-500 scale-110"
-                : "text-gray-700 fill-transparent"
+                : "text-gray-700 fill-transparent",
             )}
           />
         </button>

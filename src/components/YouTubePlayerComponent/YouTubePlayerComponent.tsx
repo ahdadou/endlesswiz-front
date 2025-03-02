@@ -19,7 +19,7 @@ const YouTubePlayerComponent = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId
+        currentVideo.video?.videoId,
       );
       setVid(currentVideo.video?.vid);
       setTranscript(response);
@@ -72,6 +72,14 @@ const YouTubePlayerComponent = () => {
     }
   };
 
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setCurrentTranscript(currentVideo.video.transcriptResponse);
+  }, [currentVideo.position]);
+
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry) => {
       return time >= entry.start_time && time < entry.end_time; // Assuming each entry is 2 seconds long
@@ -118,7 +126,6 @@ const YouTubePlayerComponent = () => {
     return null;
   }
 
-  console.log("### currentVideo.video?.vid :", currentVideo.video?.vid);
   return (
     <div className="relative h-full w-full flex flex-row md:flex-col gap-4 bg-white">
       <YouTube

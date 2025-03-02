@@ -22,12 +22,7 @@ export function PauseIcon({ style }: PauseIconProps) {
       <g id="SVGRepo_iconCarrier">
         {" "}
         <title>pause</title> <desc>Created with Sketch.</desc> <defs> </defs>{" "}
-        <g
-          id="Page-1"
-          stroke="none"
-          strokeWidth="1"
-          fill="none"
-        >
+        <g id="Page-1" stroke="none" strokeWidth="1" fill="none">
           {" "}
           <g
             id="Dribbble-Light-Preview"

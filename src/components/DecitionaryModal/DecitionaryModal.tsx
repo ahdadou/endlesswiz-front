@@ -23,7 +23,6 @@ const DecitionaryModal = () => {
   const [error, setError] = useState<string | null>(null);
 
   const addIntofavoite = useCallback(() => {
-    console.log("### data :", data);
     api.addWordIntoFavorite(word, data.transcript.transcript_id);
   }, [word]);
 

@@ -4,14 +4,12 @@
 import { useCallback, useState } from "react";
 import YouTube from "react-youtube";
 import SearchBar from "@/components/SearchBar";
-import useTranscriptStore from "@/stores/useTranscriptStore";
 import api from "@/clients/api/api";
 import useVideosStore from "@/stores/useVideosStore";
 import YouTubePlayerComponent from "@/components/YouTubePlayerComponent/YouTubePlayerComponent";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 
 export default function PronounceWordPage() {
-  const { currentTranscript, setCurrentTranscript } = useTranscriptStore();
   const { currentVideo, setVideos, setHighlitedWord } = useVideosStore();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,16 +25,13 @@ export default function PronounceWordPage() {
         const response = await api.searchVideosByWordAndUser(wordSearch);
         setHighlitedWord(wordSearch);
         setVideos(response);
-        setCurrentTranscript(
-          response.videosDetailResponse[0].transcriptResponse
-        );
       } catch (err) {
         setError("Failed to connect to the server");
       } finally {
         setIsLoading(false);
       }
     },
-    [wordSearch]
+    [wordSearch],
   );
 
   const handleSearch = (query: string) => {
