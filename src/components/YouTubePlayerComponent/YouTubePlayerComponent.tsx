@@ -22,7 +22,7 @@ const YouTubePlayerComponent = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId
+        currentVideo.video?.videoId,
       );
       setVid(currentVideo.video?.vid);
       setTranscript(response);
@@ -126,12 +126,17 @@ const YouTubePlayerComponent = () => {
   };
 
   const handleReset = () => {
-    if (playerRef.current && currentVideo.video?.transcriptResponse?.start_time) {
-      playerRef.current.seekTo(currentVideo.video.transcriptResponse.start_time, true);
-      setCurrentTranscript(currentVideo.video.transcriptResponse)
+    if (
+      playerRef.current &&
+      currentVideo.video?.transcriptResponse?.start_time
+    ) {
+      playerRef.current.seekTo(
+        currentVideo.video.transcriptResponse.start_time,
+        true,
+      );
+      setCurrentTranscript(currentVideo.video.transcriptResponse);
     }
   };
-  
 
   if (!currentVideo) {
     return null;

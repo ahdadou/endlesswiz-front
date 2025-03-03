@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from "react";
 import cx from "classnames";
-import { Clock, Heart, ListRestart, ListRestartIcon, TimerResetIcon } from "lucide-react";
+import { ChevronDown, Clock, Heart, Pause, PlayIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import api from "@/clients/api/api";
-import { highlightWord } from "@/utils/highlightWord";
 import { PreviousIcon } from "@/Icons/PreviousIcon";
 import { NextIcon } from "@/Icons/NextIcon";
 import { SeekForwardIcon } from "@/Icons/SeekForwardIcon";
@@ -53,8 +52,6 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
 
   const isLastItem = currentPosition >= pageSize - 1;
   const isLastPage = currentPage >= totalPages - 1;
-  const isFirstItem = currentPosition == 0;
-  const isFirstPage = currentPage == 0;
   const hasPrevious = currentPosition > 0;
 
   const toggleFavorite = useCallback(async () => {
@@ -108,11 +105,12 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
       )}
     >
       <div className="flex items-center justify-between">
-        {/* Controls Left Section */}
-        <div className="flex items-center gap-4">
+        {/* Left Controls Section */}
+        <div className="flex items-center gap-6">
           {/* Navigation Controls */}
-          <div className="flex gap-2">
+          <div className="flex items-center gap-3">
             <Button
+              variant="ghost"
               onClick={() => navigateVideo("previous")}
               disabled={!hasPrevious}
               className={NAV_BUTTON_CLASSES}
@@ -120,14 +118,18 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
             >
               <PreviousIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </Button>
+
             <Button
+              variant="ghost"
               onClick={handleReset}
               className={NAV_BUTTON_CLASSES}
-              aria-label="Previous video"
+              aria-label="Reset"
             >
-              <ResetIcon style="h-6 w-6 fill-current text-[#4C585B]" />
+              <ResetIcon style="h-5 w-5 text-gray-700" />
             </Button>
+
             <Button
+              variant="ghost"
               onClick={() => navigateVideo("next")}
               disabled={isLastItem && isLastPage}
               className={NAV_BUTTON_CLASSES}
@@ -138,54 +140,56 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
           </div>
 
           {/* Playback Controls */}
-          <div className="flex gap-2">
-            <button
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
               onClick={seekBackward}
-              className={COMMON_BUTTON_CLASSES}
-              aria-label="Seek backward"
+              className={NAV_BUTTON_CLASSES}
             >
-              <SeekBackIcon style="h-6 w-6 fill-current text-[#4C585B]" />
-            </button>
-            <button
+              <SeekBackIcon style="h-5 w-5 text-gray-700" />
+            </Button>
+
+            <Button
+              variant="ghost"
               onClick={toggleVideo}
-              className={COMMON_BUTTON_CLASSES}
-              aria-label={pause ? "Play" : "Pause"}
+              className="h-10 w-10 p-2 bg-gray-100 hover:bg-gray-200 rounded-full"
             >
-              <div
-                className={cx(
-                  "w-6 h-6 rounded-full",
-                  pause ? "bg-gray-700" : "border-2 border-gray-700",
-                )}
-              />
-            </button>
-            <button
+              {pause ? (
+                <PlayIcon className="h-6 w-6 text-gray-700 ml-0.5 fill-current" />
+              ) : (
+                <Pause className="h-6 w-6 text-gray-700 fill-current" />
+              )}
+            </Button>
+
+            <Button
+              variant="ghost"
               onClick={seekForward}
-              className={COMMON_BUTTON_CLASSES}
-              aria-label="Seek forward"
+              className={NAV_BUTTON_CLASSES}
             >
-              <SeekForwardIcon style="h-6 w-6 fill-current text-[#4C585B]" />
-            </button>
+              <SeekForwardIcon style="h-5 w-5 text-gray-700" />
+            </Button>
           </div>
 
           {/* Speed Control */}
           <div className="relative">
-            <button
+            <Button
+              variant="ghost"
               onClick={() => setShowSpeedDropdown(!showSpeedDropdown)}
-              className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors"
-              aria-label="Change playback speed"
+              className="h-10 gap-2 px-3 hover:bg-gray-100"
             >
-              <Clock className="w-5 h-5 text-gray-700" />
-              <span className="text-gray-700">Speed: {currentSpeed}x</span>
-            </button>
+              <Clock className="h-5 w-5 text-gray-700" />
+              <span className="text-gray-700">{currentSpeed}x</span>
+              <ChevronDown className="h-4 w-4 text-gray-500" />
+            </Button>
 
             {showSpeedDropdown && (
-              <div className="absolute bottom-full left-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute bottom-full left-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-32">
                 {SPEED_OPTIONS.map((speed) => (
                   <button
                     key={speed}
                     onClick={() => handleSpeedChange(speed)}
                     className={cx(
-                      "w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50",
+                      "w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2",
                       currentSpeed === speed && "bg-blue-50 text-blue-600",
                     )}
                   >
@@ -198,24 +202,20 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
         </div>
 
         {/* Favorite Button */}
-        <button
+        <Button
+          variant="ghost"
           onClick={toggleFavorite}
-          className={COMMON_BUTTON_CLASSES}
-          aria-label={
-            currentVideoData?.isFavorite
-              ? "Remove from favorites"
-              : "Add to favorites"
-          }
+          className="h-10 w-10 p-2 hover:bg-red-50"
         >
           <Heart
             className={cx(
-              "w-5 h-5 transition-all duration-300",
+              "h-5 w-5 transition-all duration-300",
               currentVideoData?.isFavorite
-                ? "text-red-500 fill-red-500 scale-110"
-                : "text-gray-700 fill-transparent",
+                ? "text-red-500 fill-red-500"
+                : "text-gray-700 fill-transparent hover:fill-red-200",
             )}
           />
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,21 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Captions, Heart, HeartOff } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Captions, Heart, Bookmark, CheckCircle } from "lucide-react";
 import cx from "classnames";
 import { motion } from "framer-motion";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
+import api from "@/clients/api/api";
 
 interface SubTitleComponentProps {
-  onAddToFavorite?: (word: string) => void;
   isAuthenticated?: boolean;
-  favorites?: Set<string>;
 }
 
 export function SubTitleComponent({
-  onAddToFavorite,
   isAuthenticated = false,
-  favorites = new Set(),
 }: SubTitleComponentProps) {
   const { highlitedWord, currentTranscript } = useZustandState();
   const [selectedWord, setSelectedWord] = useState<{
@@ -23,6 +20,14 @@ export function SubTitleComponent({
     pronunciation: string;
     definition: string;
   } | null>(null);
+  const [saveStatus, setSaveStatus] = useState<
+    "idle" | "saving" | "saved" | "done"
+  >("idle");
+
+  // Reset save status when selecting new word
+  useEffect(() => {
+    setSaveStatus("idle");
+  }, [selectedWord?.word]);
 
   const handleWordClick = (word: string) => {
     setSelectedWord({
@@ -32,15 +37,21 @@ export function SubTitleComponent({
     });
   };
 
-  const handleFavoriteClick = (word: string) => {
-    if (!isAuthenticated) {
-      alert("Please login to save favorites!");
-      return;
-    }
-    onAddToFavorite?.(word);
-  };
+  const handleSaveWord = useCallback(async () => {
+    if (!selectedWord || !isAuthenticated) return;
 
-  // Mock subtitle data for empty state
+    try {
+      await api.addWordIntoFavorite(
+        selectedWord.word,
+        currentTranscript.transcript_id
+      );
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus("done"), 2000);
+    } catch (error) {
+      setSaveStatus("idle");
+    }
+  }, [selectedWord, isAuthenticated]);
+
   const mockSubtitle = {
     paragraph:
       "Click any word in this example sentence to see its definition. Try serendipity for a demonstration.",
@@ -53,14 +64,14 @@ export function SubTitleComponent({
 
   return (
     <div className="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-6 sticky top-4 h-full">
-      <div className="flex gap-3 items-center mb-4">
+      <div className="flex gap-3 items-center mb-6">
         <Captions className="w-6 h-6 text-gray-900" />
         <h3 className="text-xl font-semibold text-gray-900">Live Subtitles</h3>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-          <p className="text-gray-700">
+          <p className="text-gray-700 leading-relaxed">
             {displayTranscript.paragraph.split(" ").map((word, index) => {
               const cleanWord = word.replace(/[.,]/g, "");
               const isExampleWord = cleanWord.toLowerCase() === "serendipity";
@@ -74,7 +85,7 @@ export function SubTitleComponent({
                     highlitedWord.includes(cleanWord) &&
                       "bg-blue-100 text-blue-600",
                     selectedWord?.word === cleanWord && "ring-2 ring-blue-300",
-                    isExampleWord && "text-blue-500 font-medium",
+                    isExampleWord && "text-blue-500 font-medium"
                   )}
                 >
                   {word}{" "}
@@ -85,73 +96,52 @@ export function SubTitleComponent({
         </div>
 
         {selectedWord ? (
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2 relative">
-            {/* Favorite Button */}
-            {onAddToFavorite && (
+          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-3 relative">
+            {isAuthenticated && (
               <motion.button
-                onClick={() => handleFavoriteClick(selectedWord.word)}
-                className="absolute top-2 right-2 p-1.5 hover:bg-gray-200 rounded-full transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                onClick={handleSaveWord}
+                className="absolute top-3 right-3 p-1.5 hover:bg-gray-200 rounded-full transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={saveStatus === "saving" || saveStatus === "saved"}
               >
-                {favorites.has(selectedWord.word) ? (
-                  <HeartOff className="w-5 h-5 text-red-500 fill-red-100" />
-                ) : (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <Heart className="w-5 h-5 text-gray-400 hover:text-red-400" />
-                  </motion.div>
-                )}
+                {saveStatus === "saved" ? (
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                ) : saveStatus === "idle" ? (
+                  <Bookmark className="w-5 h-5 text-gray-400 hover:text-blue-400" />
+                ) : null}
               </motion.button>
             )}
 
-            {/* Shine Animation */}
-            <motion.div
-              initial={{ backgroundPosition: "-100%" }}
-              animate={{ backgroundPosition: "200%" }}
-              transition={{
-                repeat: Infinity,
-                duration: 2,
-                ease: "linear",
-              }}
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `linear-gradient(
-                  110deg,
-                  transparent 25%,
-                  rgba(255, 255, 255, 0.4) 50%,
-                  transparent 75%
-                )`,
-              }}
-            />
-
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg font-semibold text-gray-900">
-                {selectedWord.word}
-              </span>
-              <span className="text-sm text-gray-500">
-                {selectedWord.pronunciation}
-              </span>
+            <div className="pr-8">
+              <div className="flex items-baseline gap-2 mb-1">
+                <span className="text-lg font-semibold text-gray-900">
+                  {selectedWord.word}
+                </span>
+                <span className="text-sm text-gray-500">
+                  {selectedWord.pronunciation}
+                </span>
+              </div>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                {selectedWord.definition}
+              </p>
             </div>
-            <p className="text-gray-700 text-sm">{selectedWord.definition}</p>
           </div>
         ) : (
           <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-            <p className="text-gray-500 text-sm text-center">
+            <div className="text-gray-500 text-sm text-center space-y-2">
               {!currentTranscript?.paragraph && (
-                <span className="block mb-2">
-                  ✨ Welcome to pronunciation helper!
-                </span>
+                <p className="text-blue-500 font-medium mb-2">
+                  ✨ Welcome to Pronunciation Helper
+                </p>
               )}
-              Click any word in the subtitle above to see:
-              <span className="list-disc pl-4 mt-2 text-left">
-                <span>Detailed definition</span>
-                <span>Usage examples</span>
-              </span>
-            </p>
+              <p>Click any word to see:</p>
+              <ul className="list-disc pl-4 mt-2 text-left space-y-1">
+                <li>Detailed definition</li>
+                <li>Pronunciation guide</li>
+                <li>Usage examples</li>
+              </ul>
+            </div>
           </div>
         )}
       </div>

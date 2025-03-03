@@ -32,24 +32,6 @@ const api = {
       console.error("### Error", error);
     }
   },
-  addWordIntoFavorite: async (word: string, transcript_id: string) => {
-    try {
-      const token = Cookies.get(TOKEN);
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/user_func/favorite_word",
-        { word, transcript_id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      return response.data;
-    } catch (error: unknown) {
-      console.error("### Error", error);
-      throw error; // Re-throw the error after logging it
-    }
-  },
   register: async (data: any) => {
     try {
       const response = await axios.post(
@@ -167,6 +149,35 @@ const api = {
     try {
       const response = await axios.delete(
         `http://localhost:8099/api/v1/favorite_video/${videoId}`,
+        {
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  addWordIntoFavorite: async (word: string, transcript_id: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8099/api/v1/favorite_word",
+        { word, transcript_id},
+        {
+          withCredentials: true,
+        },
+      );
+      return response.data;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  deleteWordIntoFavorite: async (word_id: string) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8099/api/v1/favorite_word/${word_id}`,
         {
           withCredentials: true,
         },
