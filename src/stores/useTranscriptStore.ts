@@ -1,21 +1,17 @@
-import { create } from "zustand";
-
-export interface Transcript {
-  vid: string;
-  paragraph: string;
-  start_time: number;
-  end_time: number;
-  transcript_id: string;
-}
+import { TranscriptResponse } from "@/clients/types/apiTypes";
 
 export const createTranscriptSlice = (set: any) => ({
   vid: "",
-  currentTranscript: {} as Transcript,
+  currentTranscript: {} as TranscriptResponse,
   transcript: [],
-  setTranscript: (transcript: Transcript) => set({ transcript }),
-  setCurrentTranscript: (currentTranscript: Transcript) =>
+  setTranscript: (transcript: TranscriptResponse[]) => set({ transcript }),
+  setCurrentTranscript: (currentTranscript: TranscriptResponse) =>
     set({ currentTranscript }),
   setVid: (vid: string) => set({ vid }),
   clearTranscript: () =>
-    set({ transcript: [], currentTranscript: {} as Transcript, vid: "" }),
+    set({
+      transcript: [],
+      currentTranscript: {} as TranscriptResponse,
+      vid: "",
+    }),
 });

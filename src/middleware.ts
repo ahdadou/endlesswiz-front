@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   console.log("isPublic   :", isPublic);
 
   if (isPublic) {
-    if (token && (await api.validateToken(token.value))) {
+    if (token && (await api.loginState(token.value))) {
       const response = NextResponse.redirect(
         new URL("/dashboard", request.url),
       );
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!token || !(await api.validateToken(token.value))) {
+  if (!token || !(await api.loginState(token.value))) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
@@ -39,7 +39,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
+    // "/dashboard/:path*",
+    "/dashboard",
+    "/dashboard/settings",
     "/auth/login",
     "/auth/register",
     "/auth/forgot_password",

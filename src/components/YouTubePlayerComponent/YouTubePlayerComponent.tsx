@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import VideoButtonsBar from "./VideoButtonsBar";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
+import { TranscriptResponse } from "@/clients/types/apiTypes";
 
 const YouTubePlayerComponent = () => {
   const {
@@ -25,7 +26,7 @@ const YouTubePlayerComponent = () => {
         currentVideo.video?.videoId,
       );
       setVid(currentVideo.video?.vid);
-      setTranscript(response);
+      response && setTranscript(response);
     }
   }, [
     currentVideo?.video?.videoId,
@@ -44,7 +45,7 @@ const YouTubePlayerComponent = () => {
       width: "100%",
       playerVars: {
         autoplay: 1,
-        start: currentVideo.video?.transcriptResponse.start_time,
+        start: currentVideo.video?.transcriptResponse.startTime,
         controls: 1,
         fs: 0,
         iv_load_policy: 3,
@@ -84,8 +85,8 @@ const YouTubePlayerComponent = () => {
   }, [currentVideo.position]);
 
   const updateTranscript = (time: number) => {
-    const transcriptEntry = transcript.find((entry) => {
-      return time >= entry.start_time && time < entry.end_time; // Assuming each entry is 2 seconds long
+    const transcriptEntry = transcript.find((entry: TranscriptResponse) => {
+      return time >= entry.startTime && time < entry.endTime; // Assuming each entry is 2 seconds long
     });
 
     if (transcriptEntry) {
@@ -128,10 +129,10 @@ const YouTubePlayerComponent = () => {
   const handleReset = () => {
     if (
       playerRef.current &&
-      currentVideo.video?.transcriptResponse?.start_time
+      currentVideo.video?.transcriptResponse?.startTime
     ) {
       playerRef.current.seekTo(
-        currentVideo.video.transcriptResponse.start_time,
+        currentVideo.video.transcriptResponse.startTime,
         true,
       );
       setCurrentTranscript(currentVideo.video.transcriptResponse);

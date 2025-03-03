@@ -1,22 +1,26 @@
 import { TOKEN } from "@/middleware";
+import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 import { headers } from "next/headers";
+import axiosClient from "./axiosClient";
+import {
+  RegisterRequest,
+  SearchWordResponse,
+  TranscriptResponse,
+} from "../types/apiTypes";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8099/api/v1/video/search",
-        {
-          params: {
-            word: word,
-            size: 10,
-            page: page ?? 0,
-          },
+      const response = await axios.get(`${getBaseUrl()}/video/search`, {
+        params: {
+          word: word,
+          size: 10,
+          page: page ?? 0,
         },
-      );
+      });
       return response.data;
     } catch (error: unknown) {
       console.error("### Error", error);
@@ -24,37 +28,33 @@ const api = {
   },
   fetchVideosTranscript: async (videoId: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8099/api/v1/transcript/${videoId}`,
+      const response = await axiosClient.get<TranscriptResponse[]>(
+        `${getBaseUrl()}/transcript/${videoId}`
       );
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
     }
   },
-  register: async (data: any) => {
+  register: async (req: RegisterRequest) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/auth/register",
-        data,
-      );
-      return response.data;
+      const response = await axios.post(`${getBaseUrl()}/auth/register`, req);
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
     }
   },
-  validateToken: async (token: string | undefined) => {
-    if (!token) return false;
+  loginState: async (token?: string | undefined) => {
     try {
       const response = await axios.get(
-        `http://localhost:8099/api/v1/users/validate_token`,
+        `http://localhost:8099/api/v1/users/login-state`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
           withCredentials: true, // Ensures cookies are sent if needed
-        },
+        }
       );
 
-      return response.status === 200;
+      return response.data;
     } catch (error) {
       console.error("Token validation failed:", error);
       return false;
@@ -70,7 +70,7 @@ const api = {
             token,
           },
           withCredentials: true, // Ensures cookies are sent if needed
-        },
+        }
       );
 
       return response.status === 200;
@@ -89,7 +89,7 @@ const api = {
             email,
           },
           withCredentials: true,
-        },
+        }
       );
 
       return response.status === 200;
@@ -100,18 +100,17 @@ const api = {
   },
   searchVideosByWordAndUser: async (word: string, page?: number) => {
     try {
-      const response = await axios.get(
-        "http://localhost:8099/api/v1/user_func/search",
+      const response = await axiosClient.get<SearchWordResponse>(
+        `${getBaseUrl()}/user_func/search`,
         {
           params: {
             word: word,
             size: 10,
             page: page ?? 0,
           },
-          withCredentials: true,
-        },
+        }
       );
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
     }
@@ -122,7 +121,7 @@ const api = {
         "http://localhost:8099/api/v1/favorite_video",
         {
           withCredentials: true,
-        },
+        }
       );
       return response.data;
     } catch (error: unknown) {
@@ -137,7 +136,7 @@ const api = {
         { video_id: videoId },
         {
           withCredentials: true,
-        },
+        }
       );
       return response.data;
     } catch (error: unknown) {
@@ -151,7 +150,7 @@ const api = {
         `http://localhost:8099/api/v1/favorite_video/${videoId}`,
         {
           withCredentials: true,
-        },
+        }
       );
       return response.data;
     } catch (error: unknown) {
@@ -163,10 +162,10 @@ const api = {
     try {
       const response = await axios.post(
         "http://localhost:8099/api/v1/favorite_word",
-        { word, transcript_id},
+        { word, transcript_id },
         {
           withCredentials: true,
-        },
+        }
       );
       return response.data;
     } catch (error: unknown) {
@@ -180,7 +179,7 @@ const api = {
         `http://localhost:8099/api/v1/favorite_word/${word_id}`,
         {
           withCredentials: true,
-        },
+        }
       );
       return response.data;
     } catch (error: unknown) {

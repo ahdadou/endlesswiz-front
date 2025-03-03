@@ -43,7 +43,7 @@ export function SubTitleComponent({
     try {
       await api.addWordIntoFavorite(
         selectedWord.word,
-        currentTranscript.transcript_id
+        currentTranscript.transcriptId
       );
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("done"), 2000);
@@ -55,7 +55,7 @@ export function SubTitleComponent({
   const mockSubtitle = {
     paragraph:
       "Click any word in this example sentence to see its definition. Try serendipity for a demonstration.",
-    start_time: 0,
+    startTime: 0,
   };
 
   const displayTranscript = currentTranscript?.paragraph

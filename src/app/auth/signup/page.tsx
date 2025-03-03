@@ -13,7 +13,8 @@ import api from "@/clients/api/api";
 
 const SignUpPage = () => {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) {
+    if (!firstName || !lastName || !email || !password) {
       toast({
         title: "Error",
         description: "Please fill in all fields",
@@ -41,7 +42,8 @@ const SignUpPage = () => {
     setIsLoading(true);
     try {
       const response = await api.register({
-        username: name,
+        firstname: firstName,
+        lastname: lastName,
         email: email,
         password: password,
       });
@@ -50,7 +52,6 @@ const SignUpPage = () => {
           title: "Success",
           description: "A confirmation token has been sent to your mail",
         });
-        // Pass the email as a query parameter
         router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
       } else {
         throw new Error("Something is wrong, try again");
@@ -87,18 +88,29 @@ const SignUpPage = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="firstName">First Name</Label>
               <Input
-                id="name"
+                id="firstName"
                 type="text"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="John"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
                 className="mt-1"
               />
             </div>
-
+            <div>
+              <Label htmlFor="lastName">Last Name</Label>
+              <Input
+                id="lastName"
+                type="text"
+                placeholder="Doe"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                className="mt-1"
+              />
+            </div>
             <div>
               <Label htmlFor="email">Email address</Label>
               <Input
@@ -111,7 +123,6 @@ const SignUpPage = () => {
                 className="mt-1"
               />
             </div>
-
             <div>
               <Label htmlFor="password">Password</Label>
               <div className="relative mt-1">

@@ -1,22 +1,9 @@
-import { create } from "zustand";
-import { Transcript } from "./useTranscriptStore";
+import {
+  SearchWordResponse,
+  VideosDetailResponse,
+} from "@/clients/types/apiTypes";
 
-export interface VideosDetailResponse {
-  videoId: string;
-  vid: string;
-  transcriptResponse: Transcript;
-  duration: number;
-  isFavorite: boolean;
-}
-
-export interface Videos {
-  currentPage: number;
-  totalPages: number;
-  pageSize: number;
-  videosDetailResponse: VideosDetailResponse[];
-}
-
-const defaultVideosState: Videos = {
+const defaultVideosState: SearchWordResponse = {
   currentPage: 0,
   totalPages: 0,
   pageSize: 0,
@@ -31,7 +18,7 @@ export const createVideoSlice = (set: any) => ({
     position: 0,
   },
 
-  setVideos: (videos: Videos) =>
+  setVideos: (videos: SearchWordResponse) =>
     set({
       videos,
       currentVideo: {
@@ -57,7 +44,7 @@ export const createVideoSlice = (set: any) => ({
       // Find the existing video reference in the state to prevent unnecessary re-renders
       const videoIndex = state.videos.videosDetailResponse.findIndex(
         (v: VideosDetailResponse) =>
-          v.videoId === state.currentVideo.video!.videoId,
+          v.videoId === state.currentVideo.video!.videoId
       );
 
       if (videoIndex === -1) return state; // Video not found, return state as is
