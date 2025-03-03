@@ -121,13 +121,15 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
 
             <Button
               variant="ghost"
-              onClick={handleReset}
-              className={NAV_BUTTON_CLASSES}
-              aria-label="Reset"
+              onClick={toggleVideo}
+              className="h-10 w-10 p-2 bg-gray-100 hover:bg-gray-200 rounded-full"
             >
-              <ResetIcon style="h-5 w-5 text-gray-700" />
+              {pause ? (
+                <PlayIcon className="h-6 w-6 text-gray-700 ml-0.5 fill-current" />
+              ) : (
+                <Pause className="h-6 w-6 text-gray-700 fill-current" />
+              )}
             </Button>
-
             <Button
               variant="ghost"
               onClick={() => navigateVideo("next")}
@@ -138,7 +140,6 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               <NextIcon style="h-6 w-6 fill-current text-[#4C585B]" />
             </Button>
           </div>
-
           {/* Playback Controls */}
           <div className="flex items-center gap-3">
             <Button
@@ -151,14 +152,11 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
 
             <Button
               variant="ghost"
-              onClick={toggleVideo}
-              className="h-10 w-10 p-2 bg-gray-100 hover:bg-gray-200 rounded-full"
+              onClick={handleReset}
+              className={`${NAV_BUTTON_CLASSES} hidden md:block`}
+              aria-label="Reset"
             >
-              {pause ? (
-                <PlayIcon className="h-6 w-6 text-gray-700 ml-0.5 fill-current" />
-              ) : (
-                <Pause className="h-6 w-6 text-gray-700 fill-current" />
-              )}
+              <ResetIcon style="h-5 w-5 text-gray-700" />
             </Button>
 
             <Button
@@ -171,7 +169,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
           </div>
 
           {/* Speed Control */}
-          <div className="relative">
+          <div className="relative hidden md:block">
             <Button
               variant="ghost"
               onClick={() => setShowSpeedDropdown(!showSpeedDropdown)}

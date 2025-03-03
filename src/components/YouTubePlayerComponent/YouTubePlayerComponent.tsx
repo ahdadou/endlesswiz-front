@@ -144,7 +144,7 @@ const YouTubePlayerComponent = () => {
   }
 
   return (
-    <div className="relative h-full w-full flex flex-row md:flex-col gap-4 bg-white">
+    <div className="relative h-full w-full flex flex-col gap-4 bg-white">
       <YouTube
         key={currentVideo.video?.vid} // 👈 Forces re-render when vid changes
         className="h-full w-full"
