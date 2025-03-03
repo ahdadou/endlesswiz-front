@@ -7,6 +7,7 @@ export interface LoginState {
   firstName?: string;
   lastName?: string;
   state: ELoginState;
+  sessionId?: string;
 }
 
 export enum ELoginState {
@@ -42,4 +43,18 @@ export interface RegisterRequest {
   lastname: string;
   email: string;
   password: string;
+}
+
+export interface FavoriteVideoResponse {
+  favoriteVideoId: string;
+  vid: string;
+}
+
+export interface GetFavoriteVideoResponse {
+  favoriteVideo: FavoriteVideoResponse[];
+}
+
+export interface FavoriteWordResponse {
+  favoriteWordId: string;
+  word: string;
 }

@@ -6,11 +6,16 @@ import {
   useRef,
 } from "react";
 import { useStore } from "zustand";
-import { createUserDataZustandStore, type UserDataStoreState } from "../stores/zustandStore";
+import {
+  createUserDataZustandStore,
+  type UserDataStoreState,
+} from "../stores/zustandStore";
 
 export type ZustandStoreApi = ReturnType<typeof createUserDataZustandStore>;
 
-export const ZustandStoreContext = createContext<ZustandStoreApi | undefined>(undefined);
+export const ZustandStoreContext = createContext<ZustandStoreApi | undefined>(
+  undefined,
+);
 
 export const ZustandUserDataProvider = ({ children }: PropsWithChildren) => {
   const storeRef = useRef(createUserDataZustandStore());
@@ -26,7 +31,9 @@ export const ZustandUserDataProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export const useZustandStore = <T,>(selector: (store: UserDataStoreState) => T): T => {
+export const useZustandStore = <T,>(
+  selector: (store: UserDataStoreState) => T,
+): T => {
   const zustandStoreContext = useContext(ZustandStoreContext);
 
   if (!zustandStoreContext) {

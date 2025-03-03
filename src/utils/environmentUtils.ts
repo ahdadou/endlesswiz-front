@@ -1,4 +1,3 @@
-
 // export const isProduction = (appContext: TAppContext) => appContext.environment === 'production'
 
 // export function isServerSideInvocation() {

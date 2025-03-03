@@ -41,27 +41,20 @@ export const createVideoSlice = (set: any) => ({
     set((state: any) => {
       if (!state.currentVideo.video) return state;
 
-      // Find the existing video reference in the state to prevent unnecessary re-renders
-      const videoIndex = state.videos.videosDetailResponse.findIndex(
+      const videoId = state.currentVideo.video.videoId;
+
+      // Update all videos that share the same videoId
+      const updatedVideos = state.videos.videosDetailResponse.map(
         (v: VideosDetailResponse) =>
-          v.videoId === state.currentVideo.video!.videoId
+          v.videoId === videoId ? { ...v, isFavorite } : v,
       );
 
-      if (videoIndex === -1) return state; // Video not found, return state as is
-
-      // Avoid creating new object references when possible
-      const updatedVideos = [...state.videos.videosDetailResponse];
-      updatedVideos[videoIndex] = {
-        ...updatedVideos[videoIndex],
-        isFavorite,
-      };
-
-      // Mutate only the isFavorite property, keeping reference intact where possible
+      // Ensure the current video is also updated
       state.currentVideo.video.isFavorite = isFavorite;
 
       return {
         videos: { ...state.videos, videosDetailResponse: updatedVideos },
-        currentVideo: state.currentVideo, // Ensures reference remains unchanged
+        currentVideo: state.currentVideo,
       };
     }),
 });

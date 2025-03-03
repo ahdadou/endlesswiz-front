@@ -43,7 +43,7 @@ export function SubTitleComponent({
     try {
       await api.addWordIntoFavorite(
         selectedWord.word,
-        currentTranscript.transcriptId
+        currentTranscript.transcriptId,
       );
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("done"), 2000);
@@ -85,7 +85,7 @@ export function SubTitleComponent({
                     highlitedWord.includes(cleanWord) &&
                       "bg-blue-100 text-blue-600",
                     selectedWord?.word === cleanWord && "ring-2 ring-blue-300",
-                    isExampleWord && "text-blue-500 font-medium"
+                    isExampleWord && "text-blue-500 font-medium",
                   )}
                 >
                   {word}{" "}

@@ -1,12 +1,14 @@
 export const getBaseUrl = (): string => {
-  let baseUrl: string
-  if (typeof window === 'undefined') {
-    baseUrl = 'http://localhost:8099/api/v1'
+  let baseUrl: string;
+  if (typeof window === "undefined") {
+    baseUrl = "http://localhost:8099/api/v1";
   } else {
-    const isLocalhost = window.location.origin.includes('localhost')
-    baseUrl = isLocalhost ? 'http://localhost:8099/api/v1' : window.location.origin
+    const isLocalhost = window.location.origin.includes("localhost");
+    baseUrl = isLocalhost
+      ? "http://localhost:8099/api/v1"
+      : window.location.origin;
   }
-  return baseUrl
-}
+  return baseUrl;
+};
 
-export default getBaseUrl
+export default getBaseUrl;

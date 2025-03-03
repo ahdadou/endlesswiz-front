@@ -1,11 +1,10 @@
-import { TOKEN } from "@/middleware";
 import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
-import Cookies from "js-cookie";
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
-import { headers } from "next/headers";
 import axiosClient from "./axiosClient";
 import {
+  FavoriteVideoResponse,
+  FavoriteWordResponse,
+  GetFavoriteVideoResponse,
   RegisterRequest,
   SearchWordResponse,
   TranscriptResponse,
@@ -14,14 +13,17 @@ import {
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
     try {
-      const response = await axios.get(`${getBaseUrl()}/video/search`, {
-        params: {
-          word: word,
-          size: 10,
-          page: page ?? 0,
+      const response = await axiosClient.get<SearchWordResponse>(
+        `${getBaseUrl()}/video/search`,
+        {
+          params: {
+            word: word,
+            size: 10,
+            page: page ?? 0,
+          },
         },
-      });
-      return response.data;
+      );
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
     }
@@ -29,7 +31,7 @@ const api = {
   fetchVideosTranscript: async (videoId: string) => {
     try {
       const response = await axiosClient.get<TranscriptResponse[]>(
-        `${getBaseUrl()}/transcript/${videoId}`
+        `${getBaseUrl()}/transcript/${videoId}`,
       );
       return response;
     } catch (error: unknown) {
@@ -46,15 +48,13 @@ const api = {
   },
   loginState: async (token?: string | undefined) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8099/api/v1/users/login-state`,
+      const response = await axiosClient.get<SearchWordResponse>(
+        `${getBaseUrl()}/users/login-state`,
         {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-          withCredentials: true, // Ensures cookies are sent if needed
-        }
+        },
       );
-
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Token validation failed:", error);
       return false;
@@ -63,17 +63,15 @@ const api = {
   registrationConfirmation: async (token: string | undefined) => {
     if (!token) return false;
     try {
-      const response = await axios.get(
-        `http://localhost:8099/api/v1/auth/registrationConfirmation`,
+      const response = await axiosClient.get<string>(
+        `${getBaseUrl()}/auth/registrationConfirmation`,
         {
           params: {
             token,
           },
-          withCredentials: true, // Ensures cookies are sent if needed
-        }
+        },
       );
-
-      return response.status === 200;
+      return response;
     } catch (error) {
       console.error("registration confirmation failed:", error);
       return false;
@@ -82,17 +80,15 @@ const api = {
   resentTokenByEmail: async (email: string | undefined) => {
     if (!email) return false;
     try {
-      const response = await axios.get(
-        `http://localhost:8099/api/v1/auth/resentTokenByEmail`,
+      const response = await axiosClient.get<string>(
+        `${getBaseUrl()}/auth/resentTokenByEmail`,
         {
           params: {
             email,
           },
-          withCredentials: true,
-        }
+        },
       );
-
-      return response.status === 200;
+      return response;
     } catch (error) {
       console.error("resent Token By Email:", error);
       return false;
@@ -108,22 +104,19 @@ const api = {
             size: 10,
             page: page ?? 0,
           },
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
       console.error("### Error", error);
     }
   },
-  getFavoriteVideos: async (videoId: string) => {
+  getFavoriteVideos: async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8099/api/v1/favorite_video",
-        {
-          withCredentials: true,
-        }
+      const response = await axiosClient.get<GetFavoriteVideoResponse>(
+        `${getBaseUrl()}/favorite_video`,
       );
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
@@ -131,14 +124,11 @@ const api = {
   },
   addVideoIntoFavorite: async (videoId: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/favorite_video",
+      const response = await axiosClient.post<FavoriteVideoResponse>(
+        `${getBaseUrl()}/favorite_video`,
         { video_id: videoId },
-        {
-          withCredentials: true,
-        }
       );
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
@@ -146,13 +136,11 @@ const api = {
   },
   deleteVideoIntoFavorite: async (videoId: string) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8099/api/v1/favorite_video/${videoId}`,
-        {
-          withCredentials: true,
-        }
+      const response = await axiosClient.delete<boolean>(
+        `${getBaseUrl()}/favorite_video/${videoId}`,
       );
-      return response.data;
+
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
@@ -160,14 +148,11 @@ const api = {
   },
   addWordIntoFavorite: async (word: string, transcript_id: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8099/api/v1/favorite_word",
+      const response = await axiosClient.post<FavoriteWordResponse>(
+        `${getBaseUrl()}/favorite_word`,
         { word, transcript_id },
-        {
-          withCredentials: true,
-        }
       );
-      return response.data;
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
@@ -175,13 +160,11 @@ const api = {
   },
   deleteWordIntoFavorite: async (word_id: string) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8099/api/v1/favorite_word/${word_id}`,
-        {
-          withCredentials: true,
-        }
+      const response = await axiosClient.delete<boolean>(
+        `${getBaseUrl()}/favorite_word/${word_id}`,
       );
-      return response.data;
+
+      return response;
     } catch (error: unknown) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it

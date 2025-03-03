@@ -8,7 +8,10 @@ import {
 } from "react";
 import { useStore } from "zustand";
 
-import { createVideoPlayerZustandStore, type VideoPlayerStoreState } from "../stores/zustandStore";
+import {
+  createVideoPlayerZustandStore,
+  type VideoPlayerStoreState,
+} from "../stores/zustandStore";
 
 export type ZustandStoreApi = ReturnType<typeof createVideoPlayerZustandStore>;
 
@@ -25,7 +28,9 @@ export const ZustandStoreProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export const useZustandStore = <T,>(selector: (store: VideoPlayerStoreState) => T): T => {
+export const useZustandStore = <T,>(
+  selector: (store: VideoPlayerStoreState) => T,
+): T => {
   const zustandStoreContext = useContext(ZustandStoreContext);
 
   if (!zustandStoreContext) {

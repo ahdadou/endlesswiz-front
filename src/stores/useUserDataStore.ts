@@ -20,8 +20,10 @@ export interface UserDataStoreState {
 }
 
 const generateSessionId = () => {
-  return Math.random().toString(36).substring(2, 15) + 
-         Math.random().toString(36).substring(2, 15);
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
 };
 
 export const createUserDataSlice = (set: any): UserDataStoreState => ({
@@ -29,11 +31,11 @@ export const createUserDataSlice = (set: any): UserDataStoreState => ({
   fetchUserData: async () => {
     try {
       const response = await api.loginState(); // Call API to get user data
-      set({ 
-        userData: { 
-          ...response, 
-          sessionId: generateSessionId() // Generate and set sessionId
-        } 
+      set({
+        userData: {
+          ...response,
+          sessionId: generateSessionId(), // Generate and set sessionId
+        },
       });
     } catch (error) {
       console.error("Failed to fetch user data", error);
