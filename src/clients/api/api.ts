@@ -6,6 +6,7 @@ import {
   FavoriteVideoResponse,
   FavoriteWordResponse,
   GetFavoriteVideoResponse,
+  GetFavoriteWordsResponse,
   RegisterRequest,
   SearchWordResponse,
   TranscriptResponse,
@@ -147,11 +148,11 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-  addWordIntoFavorite: async (word: string, transcript_id: string) => {
+  addWordIntoFavorite: async (word: string, source: 'VIDEO'|'MANUAL'|string, transcript_id?: string ) => {
     try {
       const response = await axiosClient.post<FavoriteWordResponse>(
         `${getBaseUrl()}/favorite_word`,
-        { word, transcript_id }
+        { word, transcript_id, source }
       );
       return response;
     } catch (error: unknown) {
@@ -163,6 +164,18 @@ const api = {
     try {
       const response = await axiosClient.delete<boolean>(
         `${getBaseUrl()}/favorite_word/${word_id}`
+      );
+
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  fetchFavoriteWord: async () => {
+    try {
+      const response = await axiosClient.get<GetFavoriteWordsResponse>(
+        `${getBaseUrl()}/favorite_word`
       );
 
       return response;

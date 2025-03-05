@@ -67,7 +67,8 @@ export function SubTitleComponent({
       currentTranscript?.paragraph &&
         (await api.addWordIntoFavorite(
           selectedWord.word,
-          currentTranscript.transcriptId
+          'VIDEO',
+          currentTranscript.transcriptId,
         ));
       setSaveStatus("saved");
     } catch (error) {
@@ -139,14 +140,7 @@ export function SubTitleComponent({
             className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="space-y-4 px-6 relative overflow-y-auto">
-              {/* <button
-                onClick={handleCloseModal}
-                className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full z-10"
-              >
-                <X className="w-5 h-5 text-gray-500" />
-              </button> */}
-
+            <div className="space-y-4 px-6 pb-6 relative overflow-y-auto">
               {isLoading ? (
                 <div className="text-center p-4 flex items-center justify-center h-32">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
@@ -181,7 +175,7 @@ export function SubTitleComponent({
                         onClick={handleSaveWord}
                         className="p-2 hover:bg-gray-100 rounded-lg shrink-0"
                         whileHover={{ scale: 1.05 }}
-                        disabled={saveStatus === "saving"}
+                        disabled={saveStatus === "saved"}
                       >
                         {saveStatus === "saved" ? (
                           <CheckCircle className="w-6 h-6 text-green-500" />

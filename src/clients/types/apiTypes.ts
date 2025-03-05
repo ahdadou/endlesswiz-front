@@ -57,6 +57,7 @@ export interface GetFavoriteVideoResponse {
 export interface FavoriteWordResponse {
   favoriteWordId: string;
   word: string;
+  source : 'VIDEO' | 'MANUAL'
 }
 
 
@@ -73,4 +74,8 @@ export interface Entry {
 export interface Definition {
   definition: string;
   examples: string[];
+}
+
+export interface GetFavoriteWordsResponse {
+  favorite_words : FavoriteWordResponse[]
 }
