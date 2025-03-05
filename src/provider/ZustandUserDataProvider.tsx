@@ -43,4 +43,5 @@ export const useUserDataZustandStore = <T,>(
   return useStore(zustandStoreContext, selector);
 };
 
-export const useUserDataZustandState = () => useUserDataZustandStore((state) => state);
+export const useUserDataZustandState = () =>
+  useUserDataZustandStore((state) => state);

@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 
 const TextToSpeech = ({ text }: { text: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+    null,
+  );
   const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
 
   useEffect(() => {
@@ -12,7 +14,7 @@ const TextToSpeech = ({ text }: { text: string }) => {
       setSynth(synth);
       const u = new SpeechSynthesisUtterance(text);
       setUtterance(u);
-      
+
       return () => {
         synth.cancel();
       };
@@ -52,7 +54,7 @@ const TextToSpeech = ({ text }: { text: string }) => {
   }, [utterance]);
 
   return (
-    <button 
+    <button
       onClick={handlePlayPause}
       className="p-2 hover:bg-gray-100 rounded-full"
       aria-label={isPlaying ? "Pause pronunciation" : "Pronounce word"}

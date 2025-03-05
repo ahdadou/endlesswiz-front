@@ -9,7 +9,7 @@ export interface UserData {
   email?: string;
   emailHash?: string;
   firstName?: string;
-  level?: string
+  level?: string;
   lastName?: string;
   sessionId?: string;
   state: ELoginState;

@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 
-
 interface AddWordModalProps {
   setShowAddModal: (show: boolean) => void;
   onWordAdded: (newWord: FavoriteWordResponse) => void;
@@ -35,10 +34,10 @@ const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
     e.preventDefault();
     try {
       const response = await api.addWordIntoFavorite({
-        word, 
+        word,
         source: "MANUAL",
         definition,
-        example
+        example,
       });
       if (response) {
         onWordAdded(response);

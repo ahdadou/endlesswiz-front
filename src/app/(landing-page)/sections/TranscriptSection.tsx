@@ -87,7 +87,7 @@ const TranscriptSection = () => {
             )}
           </div>
           {/* Subtitles Section with favorite button */}
-          <SubTitleComponent  isAuthenticated={true} />
+          <SubTitleComponent isAuthenticated={true} />
         </div>
       </motion.div>
     </section>

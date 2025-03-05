@@ -21,7 +21,7 @@ import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
 const SideBar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const { userData } = useUserDataZustandState()
+  const { userData } = useUserDataZustandState();
   const router = useRouter();
 
   const navItems = [
@@ -78,8 +78,12 @@ const SideBar = () => {
             <User className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className="font-semibold">{userData?.firstName} {userData?.lastName}</h2>
-            <p className="text-sm text-gray-500">{userData?.level ?? 'Beginner'}</p>
+            <h2 className="font-semibold">
+              {userData?.firstName} {userData?.lastName}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {userData?.level ?? "Beginner"}
+            </p>
           </div>
         </div>
 

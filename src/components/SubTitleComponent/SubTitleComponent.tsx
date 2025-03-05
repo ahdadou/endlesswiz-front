@@ -37,7 +37,7 @@ export function SubTitleComponent({
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle"
+    "idle",
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -65,11 +65,11 @@ export function SubTitleComponent({
     setSaveStatus("saving");
     try {
       currentTranscript?.paragraph &&
-        (await api.addWordIntoFavorite(
-          selectedWord.word,
-          'VIDEO',
-          currentTranscript.transcriptId,
-        ));
+        (await api.addWordIntoFavorite({
+          word: selectedWord.word,
+          source: "VIDEO",
+          transcript_id: currentTranscript.transcriptId,
+        }));
       setSaveStatus("saved");
     } catch (error) {
       setSaveStatus("idle");
@@ -119,7 +119,7 @@ export function SubTitleComponent({
                   "cursor-pointer hover:bg-gray-200 rounded px-1 py-0.5 transition-colors",
                   highlitedWord.includes(cleanWord) &&
                     "bg-blue-100 text-blue-600",
-                  isExampleWord && "text-blue-500 font-medium"
+                  isExampleWord && "text-blue-500 font-medium",
                 )}
               >
                 {word}{" "}
@@ -223,7 +223,7 @@ export function SubTitleComponent({
                                               "{example}"
                                             </p>
                                           </div>
-                                        )
+                                        ),
                                       )}
                                     </div>
                                   )}

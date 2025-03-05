@@ -68,7 +68,8 @@ const WordCard = ({
             <div className="text-sm text-gray-600">
               {word.definition && (
                 <p className="mb-2">
-                  <span className="font-medium">Definition:</span> {word.definition}
+                  <span className="font-medium">Definition:</span>{" "}
+                  {word.definition}
                 </p>
               )}
               {word.example && (
@@ -111,10 +112,14 @@ const WordCard = ({
 export default function WordsPage() {
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(null);
+  const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
+    null,
+  );
   const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>([]);
+  const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -136,29 +141,34 @@ export default function WordsPage() {
   const handleDeleteWord = async (wordId: string) => {
     try {
       await api.deleteWordIntoFavorite(wordId);
-      setFavoriteWords(prev => prev.filter(word => word.id !== wordId));
+      setFavoriteWords((prev) => prev.filter((word) => word.id !== wordId));
     } catch (error) {
       setError("Failed to delete word");
     }
   };
 
   const handleAddWord = (newWord: FavoriteWordResponse) => {
-    setFavoriteWords(prev => [...prev, newWord]);
+    setFavoriteWords((prev) => [...prev, newWord]);
   };
 
   const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
-    setFavoriteWords(prev => prev.map(word => 
-      word.id === updatedWord.id ? updatedWord : word
-    ));
+    setFavoriteWords((prev) =>
+      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
+    );
   };
 
-  const filteredWords = useMemo(() => 
-    favoriteWords.filter((word) => {
-      const matchesSearch = word.word.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesFilter = filter === "all" || word.source === filter.toUpperCase();
-      return matchesSearch && matchesFilter;
-    }),
-  [favoriteWords, searchQuery, filter]);
+  const filteredWords = useMemo(
+    () =>
+      favoriteWords.filter((word) => {
+        const matchesSearch = word.word
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+        const matchesFilter =
+          filter === "all" || word.source === filter.toUpperCase();
+        return matchesSearch && matchesFilter;
+      }),
+    [favoriteWords, searchQuery, filter],
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -166,7 +176,9 @@ export default function WordsPage() {
         <div className="flex flex-col gap-6 mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Vocabulary Manager</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Vocabulary Manager
+              </h1>
               <p className="text-gray-500 mt-2">
                 {filteredWords.length} words displayed of {favoriteWords.length}
               </p>
@@ -195,7 +207,11 @@ export default function WordsPage() {
             <div className="flex gap-2 items-center">
               <Button
                 variant="outline"
-                onClick={() => setViewMode(prev => prev === "compact" ? "detailed" : "compact")}
+                onClick={() =>
+                  setViewMode((prev) =>
+                    prev === "compact" ? "detailed" : "compact",
+                  )
+                }
                 className="flex items-center gap-2"
               >
                 {viewMode === "compact" ? (
@@ -212,7 +228,9 @@ export default function WordsPage() {
               </Button>
               <select
                 value={filter}
-                onChange={(e) => setFilter(e.target.value as "all" | "video" | "manual")}
+                onChange={(e) =>
+                  setFilter(e.target.value as "all" | "video" | "manual")
+                }
                 className="rounded-lg border border-gray-200 px-4 py-2 bg-white focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All Sources</option>
@@ -223,8 +241,10 @@ export default function WordsPage() {
           </div>
         </div>
 
-        <div className={`grid gap-4 ${viewMode === "detailed" ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"}`}>
-          {filteredWords.map(word => (
+        <div
+          className={`grid gap-4 ${viewMode === "detailed" ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"}`}
+        >
+          {filteredWords.map((word) => (
             <WordCard
               key={word.id}
               word={word}

@@ -57,21 +57,20 @@ export interface GetFavoriteVideoResponse {
 export interface FavoriteWordResponse {
   id: string;
   word: string;
-  source : 'VIDEO' | 'MANUAL'
-  example:string,
-  definition: string,
+  source: "VIDEO" | "MANUAL";
+  example: string;
+  definition: string;
   createdAt: Date;
-  mastered: boolean
+  mastered: boolean;
 }
-
 
 export interface DictionaryResponse {
   entries: Entry[];
 }
 
 export interface Entry {
-  partOfSpeech: 'noun' | 'verb' | 'adjective' | 'adverb' | string; // Add other possible values
-  language: 'English' | 'Spanish' | 'Frensh' | string;
+  partOfSpeech: "noun" | "verb" | "adjective" | "adverb" | string; // Add other possible values
+  language: "English" | "Spanish" | "Frensh" | string;
   definitions: Definition[];
 }
 
@@ -81,14 +80,14 @@ export interface Definition {
 }
 
 export interface GetFavoriteWordsResponse {
-  favoriteWords : FavoriteWordResponse[]
+  favoriteWords: FavoriteWordResponse[];
 }
 
 export interface FavoriteWordRequest {
-  id?: string
-  word: string, 
-  source: 'VIDEO'|'MANUAL'|string, 
-  transcript_id?: string,
-  definition: string,
-  example: string
+  id?: string;
+  word: string;
+  source: "VIDEO" | "MANUAL" | string;
+  transcript_id?: string;
+  definition?: string;
+  example?: string;
 }
