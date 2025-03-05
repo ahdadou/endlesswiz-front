@@ -55,9 +55,13 @@ export interface GetFavoriteVideoResponse {
 }
 
 export interface FavoriteWordResponse {
-  favoriteWordId: string;
+  id: string;
   word: string;
   source : 'VIDEO' | 'MANUAL'
+  example:string,
+  definition: string,
+  createdAt: Date;
+  mastered: boolean
 }
 
 
@@ -77,5 +81,14 @@ export interface Definition {
 }
 
 export interface GetFavoriteWordsResponse {
-  favorite_words : FavoriteWordResponse[]
+  favoriteWords : FavoriteWordResponse[]
+}
+
+export interface FavoriteWordRequest {
+  id?: string
+  word: string, 
+  source: 'VIDEO'|'MANUAL'|string, 
+  transcript_id?: string,
+  definition: string,
+  example: string
 }

@@ -4,6 +4,7 @@ import axiosClient from "./axiosClient";
 import {
   DictionaryResponse,
   FavoriteVideoResponse,
+  FavoriteWordRequest,
   FavoriteWordResponse,
   GetFavoriteVideoResponse,
   GetFavoriteWordsResponse,
@@ -148,11 +149,32 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-  addWordIntoFavorite: async (word: string, source: 'VIDEO'|'MANUAL'|string, transcript_id?: string ) => {
+  addWordIntoFavorite: async (req: FavoriteWordRequest) => {
     try {
       const response = await axiosClient.post<FavoriteWordResponse>(
         `${getBaseUrl()}/favorite_word`,
-        { word, transcript_id, source }
+        { 
+          word: req.word, 
+          transcript_id: req.transcript_id,
+          source : req.source
+        }
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updateWordIntoFavorite: async (req: FavoriteWordRequest) => {
+    try {
+      const response = await axiosClient.put<FavoriteWordResponse>(
+        `${getBaseUrl()}/favorite_word`,
+        { 
+          id: req.id,
+          word: req.word, 
+          example: req.example,
+          source : req.source
+        }
       );
       return response;
     } catch (error: unknown) {

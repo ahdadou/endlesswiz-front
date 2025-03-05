@@ -55,6 +55,21 @@ const axiosClient = {
     return resp.data;
   },
 
+  put: async <T, D = unknown>(
+    url: string,
+    data: D,
+    config: CustomAxiosConfig = {},
+  ): Promise<T> => {
+    const headers = await resolveHeaders(config);
+    const requestConfig = { ...config, headers };
+    const resp: AxiosResponse<T> = await axiosInstance.put(
+      url,
+      data,
+      requestConfig,
+    );
+    return resp.data;
+  },
+
   delete: async <T>(
     url: string,
     config: CustomAxiosConfig = {},
