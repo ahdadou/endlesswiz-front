@@ -66,10 +66,10 @@ const WordCard = ({
               </span>
             </h3>
             <div className="text-sm text-gray-600">
-              {word.definition && (
+              {word.description && (
                 <p className="mb-2">
-                  <span className="font-medium">Definition:</span>{" "}
-                  {word.definition}
+                  <span className="font-medium">Description:</span>{" "}
+                  {word.description}
                 </p>
               )}
               {word.example && (

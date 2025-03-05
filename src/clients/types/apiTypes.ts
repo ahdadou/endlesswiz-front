@@ -59,7 +59,7 @@ export interface FavoriteWordResponse {
   word: string;
   source: "VIDEO" | "MANUAL";
   example: string;
-  definition: string;
+  description: string;
   createdAt: Date;
   mastered: boolean;
 }
@@ -88,6 +88,6 @@ export interface FavoriteWordRequest {
   word: string;
   source: "VIDEO" | "MANUAL" | string;
   transcript_id?: string;
-  definition?: string;
+  description?: string;
   example?: string;
 }

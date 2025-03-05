@@ -25,7 +25,7 @@ const EditWordModal = ({
 }: EditWordModalProps) => {
   const [formData, setFormData] = useState({
     word: word.word,
-    definition: word.definition || "",
+    description: word.description || "",
     example: word.example || "",
   });
 
@@ -93,14 +93,14 @@ const EditWordModal = ({
               </div>
               <div>
                 <Label className="block text-sm font-medium mb-1">
-                  Definition
+                  description
                 </Label>
                 <Textarea
-                  value={formData.definition}
+                  value={formData.description}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
-                      definition: e.target.value,
+                      description: e.target.value,
                     }))
                   }
                   rows={3}

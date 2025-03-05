@@ -157,6 +157,8 @@ const api = {
           word: req.word,
           transcript_id: req.transcript_id,
           source: req.source,
+          example: req.example,
+          description: req.description,
         },
       );
       return response;
@@ -173,6 +175,7 @@ const api = {
           id: req.id,
           word: req.word,
           example: req.example,
+          description: req.description,
           source: req.source,
         },
       );

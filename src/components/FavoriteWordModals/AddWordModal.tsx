@@ -27,7 +27,7 @@ interface AddWordModalProps {
 
 const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
   const [word, setWord] = useState("");
-  const [definition, setDefinition] = useState("");
+  const [description, setDescription] = useState("");
   const [example, setExample] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,8 +36,8 @@ const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
       const response = await api.addWordIntoFavorite({
         word,
         source: "MANUAL",
-        definition,
-        example,
+        description: description,
+        example: example,
       });
       if (response) {
         onWordAdded(response);
@@ -100,11 +100,11 @@ const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
                 <BookType className="w-5 h-5 text-blue-500" />
                 <div className="flex-1">
                   <Label className="block text-sm font-medium mb-1">
-                    Definition
+                    Description
                   </Label>
                   <Textarea
-                    value={definition}
-                    onChange={(e) => setDefinition(e.target.value)}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-gray-200"
                     rows={3}
                   />
@@ -118,6 +118,8 @@ const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
                     Example Sentence
                   </Label>
                   <Textarea
+                    value={example}
+                    onChange={(e) => setExample(e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-gray-200"
                     rows={2}
                   />
