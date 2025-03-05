@@ -33,7 +33,7 @@ const WordCard = ({
 }) => {
   const CardContainer = ({ children }: { children: React.ReactNode }) => (
     <motion.div
-      className="bg-white rounded-lg border border-gray-200 hover:border-blue-200 transition-colors"
+      className="bg-white rounded-lg border border-gray-200 hover:border-blue-100 transition-all shadow-sm hover:shadow-md"
       initial={{ opacity: 0, y: viewMode === "detailed" ? 20 : 0 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -44,11 +44,16 @@ const WordCard = ({
   if (viewMode === "compact") {
     return (
       <CardContainer>
-        <div className="p-3">
-          <div className="flex items-center justify-between">
+        <div className="p-3 flex items-center justify-between">
+          <div>
             <h3 className="font-medium text-gray-800">{word.word}</h3>
-            {word.mastered && <Star className="w-4 h-4 text-yellow-500" />}
+            <p className="text-sm text-gray-500 mt-1">
+              {word.source === "VIDEO" ? "Video" : "Manual"}
+            </p>
           </div>
+          {word.mastered && (
+            <Star className="w-4 h-4 text-yellow-400 fill-yellow-100" />
+          )}
         </div>
       </CardContainer>
     );
@@ -58,50 +63,51 @@ const WordCard = ({
     <CardContainer>
       <div className="p-4">
         <div className="flex justify-between items-start mb-3">
-          <div className="space-y-1">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              {word.word}
-              <span className="text-sm font-medium text-blue-600 px-2 py-1 bg-blue-50 rounded-full">
-                {word.source === "VIDEO" ? "🎥 Video" : "✍️ Manual"}
-              </span>
-            </h3>
-            <div className="text-sm text-gray-600">
-              {word.description && (
-                <p className="mb-2">
-                  <span className="font-medium">Description:</span>{" "}
-                  {word.description}
-                </p>
-              )}
-              {word.example && (
-                <p>
-                  <span className="font-medium">Example:</span> {word.example}
-                </p>
-              )}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                {word.word}
+                <span className="text-sm font-medium text-blue-600 px-2 py-1 bg-blue-50 rounded-full">
+                  {word.source === "VIDEO" ? "🎥 Video" : "✍️ Manual"}
+                </span>
+              </h3>
             </div>
+
+            {word.description && (
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {word.description}
+              </p>
+            )}
           </div>
           {word.mastered && (
-            <Star className="w-5 h-5 text-yellow-500 fill-yellow-100 shrink-0" />
+            <Star className="w-5 h-5 text-yellow-400 fill-yellow-100 shrink-0" />
           )}
         </div>
 
-        <div className="flex justify-end gap-2">
+        {word.example && (
+          <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600 italic">"{word.example}"</p>
+          </div>
+        )}
+
+        <div className="flex justify-end gap-2 mt-4">
           <Button
             variant="ghost"
             size="sm"
-            className="text-gray-500 hover:bg-gray-50"
+            className="text-gray-600 hover:bg-gray-50"
             onClick={() => onEdit(word)}
           >
-            <Edit className="w-4 h-4 mr-1" />
+            <Edit className="w-4 h-4 mr-2" />
             Edit
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="text-red-500 hover:bg-red-50"
+            className="text-red-600 hover:bg-red-50"
             onClick={() => onDelete(word.id)}
           >
-            <Trash className="w-4 h-4 mr-1" />
-            Remove
+            <Trash className="w-4 h-4 mr-2" />
+            Delete
           </Button>
         </div>
       </div>
@@ -113,12 +119,12 @@ export default function WordsPage() {
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
-    null,
+    null
   );
   const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
-    [],
+    []
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -153,7 +159,7 @@ export default function WordsPage() {
 
   const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
     setFavoriteWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
+      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word))
     );
   };
 
@@ -167,7 +173,7 @@ export default function WordsPage() {
           filter === "all" || word.source === filter.toUpperCase();
         return matchesSearch && matchesFilter;
       }),
-    [favoriteWords, searchQuery, filter],
+    [favoriteWords, searchQuery, filter]
   );
 
   return (
@@ -209,7 +215,7 @@ export default function WordsPage() {
                 variant="outline"
                 onClick={() =>
                   setViewMode((prev) =>
-                    prev === "compact" ? "detailed" : "compact",
+                    prev === "compact" ? "detailed" : "compact"
                   )
                 }
                 className="flex items-center gap-2"
@@ -242,7 +248,11 @@ export default function WordsPage() {
         </div>
 
         <div
-          className={`grid gap-4 ${viewMode === "detailed" ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"}`}
+          className={`grid gap-4 ${
+            viewMode === "detailed"
+              ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+              : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"
+          }`}
         >
           {filteredWords.map((word) => (
             <WordCard
