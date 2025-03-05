@@ -31,7 +31,7 @@ export const ZustandUserDataProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export const useZustandStore = <T,>(
+export const useUserDataZustandStore = <T,>(
   selector: (store: UserDataStoreState) => T,
 ): T => {
   const zustandStoreContext = useContext(ZustandStoreContext);
@@ -43,4 +43,4 @@ export const useZustandStore = <T,>(
   return useStore(zustandStoreContext, selector);
 };
 
-export const useZustandState = () => useZustandStore((state) => state);
+export const useUserDataZustandState = () => useUserDataZustandStore((state) => state);

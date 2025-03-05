@@ -6,9 +6,25 @@ import cx from "classnames";
 import { motion } from "framer-motion";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
+import TextToSpeech from "../TextToSpeech/TextToSpeech";
 
 interface SubTitleComponentProps {
   isAuthenticated?: boolean;
+}
+
+interface DictionaryResponse {
+  entries: Entry[];
+}
+
+interface Entry {
+  partOfSpeech: string;
+  language: string;
+  definitions: Definition[];
+}
+
+interface Definition {
+  definition: string;
+  examples: string[];
 }
 
 export function SubTitleComponent({
@@ -17,29 +33,30 @@ export function SubTitleComponent({
   const { highlitedWord, currentTranscript } = useZustandState();
   const [selectedWord, setSelectedWord] = useState<{
     word: string;
-    pronunciation: string;
-    definition: string;
-    synonyms?: string[];
+    data: DictionaryResponse;
   } | null>(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle",
+    "idle"
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
-  // Reset save status when selecting new word
   useEffect(() => {
     setSaveStatus("idle");
   }, [selectedWord?.word]);
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord({
-      word,
-      pronunciation: "/ˌser.ənˈdɪp.ə.ti/",
-      definition: "The occurrence of events by chance in a happy way",
-      synonyms: ["chance", "fortuity", "accident"],
-    });
+  const handleWordClick = async (word: string) => {
     setShowWordModal(true);
+    setIsLoading(true);
+    try {
+      const data = await api.fetchWordDictionary(word);
+      setSelectedWord({ word, data });
+    } catch (error) {
+      console.error("Failed to fetch word details:", error);
+      setSelectedWord(null);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSaveWord = useCallback(async () => {
@@ -47,17 +64,17 @@ export function SubTitleComponent({
 
     setSaveStatus("saving");
     try {
-      await api.addWordIntoFavorite(
-        selectedWord.word,
-        currentTranscript.transcriptId,
-      );
+      currentTranscript?.paragraph &&
+        (await api.addWordIntoFavorite(
+          selectedWord.word,
+          currentTranscript.transcriptId
+        ));
       setSaveStatus("saved");
     } catch (error) {
       setSaveStatus("idle");
     }
-  }, [selectedWord, isAuthenticated]);
+  }, [selectedWord, isAuthenticated, currentTranscript]);
 
-  // Close modal when clicking backdrop
   const handleCloseModal = useCallback(() => {
     setShowWordModal(false);
     setSelectedWord(null);
@@ -67,6 +84,13 @@ export function SubTitleComponent({
     paragraph:
       "Click any word in this example sentence to see its definition. Try serendipity for a demonstration.",
     startTime: 0,
+  };
+
+  const handleScrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   const displayTranscript = currentTranscript?.paragraph
@@ -94,7 +118,7 @@ export function SubTitleComponent({
                   "cursor-pointer hover:bg-gray-200 rounded px-1 py-0.5 transition-colors",
                   highlitedWord.includes(cleanWord) &&
                     "bg-blue-100 text-blue-600",
-                  isExampleWord && "text-blue-500 font-medium",
+                  isExampleWord && "text-blue-500 font-medium"
                 )}
               >
                 {word}{" "}
@@ -104,82 +128,128 @@ export function SubTitleComponent({
         </p>
       </div>
 
-      {/* Word Detail Modal */}
-      {showWordModal && selectedWord && (
+      {showWordModal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-          onClick={handleCloseModal} // Close modal on backdrop click
+          onClick={handleCloseModal}
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-xl max-w-md w-full"
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 space-y-4 relative">
-              <button
+            <div className="space-y-4 px-6 relative overflow-y-auto">
+              {/* <button
                 onClick={handleCloseModal}
-                className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full"
+                className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full z-10"
               >
                 <X className="w-5 h-5 text-gray-500" />
-              </button>
+              </button> */}
 
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    {selectedWord.word}
-                  </h3>
-                  <p className="text-gray-500 text-sm mt-1">
-                    {selectedWord.pronunciation}
-                  </p>
+              {isLoading ? (
+                <div className="text-center p-4 flex items-center justify-center h-32">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                 </div>
-                {isAuthenticated && saveStatus !== "saved" && (
-                  <motion.button
-                    onClick={handleSaveWord}
-                    className="p-1.5 hover:bg-gray-100 rounded-full"
-                    whileHover={{ scale: 1.05 }}
-                    disabled={saveStatus === "saving"}
-                  >
-                    {saveStatus === "saving" ? (
-                      <span className="text-gray-400">Saving...</span>
-                    ) : (
-                      <Bookmark className="w-6 h-6 text-gray-400" />
-                    )}
-                  </motion.button>
-                )}
-                {saveStatus === "saved" && (
-                  <CheckCircle className="w-6 h-6 text-green-500" />
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">
-                    Definition
-                  </h4>
-                  <p className="text-gray-700 text-sm">
-                    {selectedWord.definition}
-                  </p>
-                </div>
-
-                {selectedWord.synonyms && (
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">
-                      Synonyms
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedWord.synonyms.map((synonym) => (
-                        <span
-                          key={synonym}
-                          className="px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"
-                        >
-                          {synonym}
-                        </span>
-                      ))}
+              ) : selectedWord ? (
+                <>
+                  <div className="flex items-start p-4 justify-between sticky top-0 pb-4 z-20 bg-white">
+                    <div className="pr-4 ">
+                      <div className="flex items-center gap-2 ">
+                        <h3 className="text-3xl font-bold text-gray-900">
+                          {selectedWord.word}
+                        </h3>
+                        <TextToSpeech text={selectedWord.word} />
+                      </div>
+                      <div className="mt-1 flex gap-2 flex-wrap">
+                        {selectedWord.data.entries.map((entry, index) => (
+                          <button
+                            key={index}
+                            onClick={() =>
+                              handleScrollToSection(`pos-${index}`)
+                            }
+                            className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 
+                              hover:bg-blue-200 transition-colors cursor-pointer"
+                          >
+                            {entry.partOfSpeech}
+                          </button>
+                        ))}
+                      </div>
                     </div>
+                    {isAuthenticated && (
+                      <motion.button
+                        onClick={handleSaveWord}
+                        className="p-2 hover:bg-gray-100 rounded-lg shrink-0"
+                        whileHover={{ scale: 1.05 }}
+                        disabled={saveStatus === "saving"}
+                      >
+                        {saveStatus === "saved" ? (
+                          <CheckCircle className="w-6 h-6 text-green-500" />
+                        ) : (
+                          <Bookmark className="w-6 h-6 text-gray-400 hover:text-blue-500" />
+                        )}
+                      </motion.button>
+                    )}
                   </div>
-                )}
-              </div>
+
+                  <div className="space-y-6">
+                    {selectedWord.data.entries.map((entry, index) => (
+                      <div
+                        key={index}
+                        id={`pos-${index}`}
+                        className="border-l-4 border-blue-200 pl-4 pt-2 scroll-mt-16"
+                      >
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-sm font-semibold uppercase text-blue-600">
+                            {entry.partOfSpeech}
+                          </span>
+                        </div>
+
+                        <div className="space-y-4">
+                          {entry.definitions.map((definition, defIndex) => (
+                            <div key={defIndex} className="group">
+                              <div className="flex items-start gap-2">
+                                <div className="mt-1 w-2 h-2 rounded-full bg-blue-200 shrink-0"></div>
+                                <div className="flex-1">
+                                  <p className="text-gray-800 font-medium">
+                                    {definition.definition}
+                                  </p>
+                                  {definition.examples.length > 0 && (
+                                    <div className="mt-2 ml-4 space-y-1">
+                                      {definition.examples.map(
+                                        (example, exIndex) => (
+                                          <div
+                                            key={exIndex}
+                                            className="flex items-start gap-2 text-gray-600"
+                                          >
+                                            <span className="text-xs mt-1">
+                                              •
+                                            </span>
+                                            <p className="text-sm italic">
+                                              "{example}"
+                                            </p>
+                                          </div>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              {defIndex < entry.definitions.length - 1 && (
+                                <hr className="my-4 border-gray-100" />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="p-4 bg-red-50 rounded-lg text-red-600">
+                  Failed to load word details
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

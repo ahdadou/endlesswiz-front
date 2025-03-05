@@ -2,6 +2,7 @@ import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import axiosClient from "./axiosClient";
 import {
+  DictionaryResponse,
   FavoriteVideoResponse,
   FavoriteWordResponse,
   GetFavoriteVideoResponse,
@@ -21,7 +22,7 @@ const api = {
             size: 10,
             page: page ?? 0,
           },
-        },
+        }
       );
       return response;
     } catch (error: unknown) {
@@ -31,7 +32,7 @@ const api = {
   fetchVideosTranscript: async (videoId: string) => {
     try {
       const response = await axiosClient.get<TranscriptResponse[]>(
-        `${getBaseUrl()}/transcript/${videoId}`,
+        `${getBaseUrl()}/transcript/${videoId}`
       );
       return response;
     } catch (error: unknown) {
@@ -52,7 +53,7 @@ const api = {
         `${getBaseUrl()}/users/login-state`,
         {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        },
+        }
       );
       return response;
     } catch (error) {
@@ -69,7 +70,7 @@ const api = {
           params: {
             token,
           },
-        },
+        }
       );
       return response;
     } catch (error) {
@@ -86,7 +87,7 @@ const api = {
           params: {
             email,
           },
-        },
+        }
       );
       return response;
     } catch (error) {
@@ -104,7 +105,7 @@ const api = {
             size: 10,
             page: page ?? 0,
           },
-        },
+        }
       );
       return response;
     } catch (error: unknown) {
@@ -114,7 +115,7 @@ const api = {
   getFavoriteVideos: async () => {
     try {
       const response = await axiosClient.get<GetFavoriteVideoResponse>(
-        `${getBaseUrl()}/favorite_video`,
+        `${getBaseUrl()}/favorite_video`
       );
       return response;
     } catch (error: unknown) {
@@ -126,7 +127,7 @@ const api = {
     try {
       const response = await axiosClient.post<FavoriteVideoResponse>(
         `${getBaseUrl()}/favorite_video`,
-        { video_id: videoId },
+        { video_id: videoId }
       );
       return response;
     } catch (error: unknown) {
@@ -137,7 +138,7 @@ const api = {
   deleteVideoIntoFavorite: async (videoId: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/favorite_video/${videoId}`,
+        `${getBaseUrl()}/favorite_video/${videoId}`
       );
 
       return response;
@@ -150,7 +151,7 @@ const api = {
     try {
       const response = await axiosClient.post<FavoriteWordResponse>(
         `${getBaseUrl()}/favorite_word`,
-        { word, transcript_id },
+        { word, transcript_id }
       );
       return response;
     } catch (error: unknown) {
@@ -161,9 +162,20 @@ const api = {
   deleteWordIntoFavorite: async (word_id: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/favorite_word/${word_id}`,
+        `${getBaseUrl()}/favorite_word/${word_id}`
       );
 
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  fetchWordDictionary: async (word: string) => {
+    try {
+      const response = await axiosClient.get<DictionaryResponse>(
+        `${getBaseUrl()}/transcript/dictionary/${word}`,
+      );
       return response;
     } catch (error: unknown) {
       console.error("### Error", error);

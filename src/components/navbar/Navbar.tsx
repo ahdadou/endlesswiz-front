@@ -1,32 +1,46 @@
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Book, Search, PlayCircle, Menu, X } from "lucide-react";
 import TrueFocus from "../animations/TrueFocus/TrueFocus";
-import { useRouter } from "next/navigation";
-import { Button } from "../Button";
 
-type NavbarProps = {};
-
-export const Navbar = ({}: NavbarProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    setIsLoggedIn(!!token);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogout = () => {
-    // Remove the token from cookies
-    Cookies.remove("token");
-    Cookies.remove("refreshToken");
-    setIsLoggedIn(false);
-    router.push("/");
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
-    <nav className="fixed w-full backdrop-blur-md z-50 shadow-sm text-white">
-      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="relative w-[300px] text-xl cursor-pointer mr-20">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-white"
+      }`}
+    >
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="text-xl font-semibold tracking-tight flex items-center gap-2"
+            onClick={closeMenu}
+          >
             <TrueFocus
               sentence="endless Wiz"
               manualMode={false}
@@ -35,38 +49,96 @@ export const Navbar = ({}: NavbarProps) => {
               animationDuration={2}
               pauseBetweenAnimations={1}
             />
-          </div>
-        </div>
+          </Link>
 
-        <div className="hidden md:flex gap-8">
-          {["Features", "Video", "HowItWorks", "Testimonials"].map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollToSection(item)}
-              className="text-white hover:text-gray-600 transition-colors font-medium"
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link
+              href="/"
+              className={`nav-link ${isActive("/") ? "active" : ""}`}
             >
-              {item.replace(/([A-Z])/g, " $1").trim()}
-            </button>
-          ))}
-        </div>
-        <div>
-          {isLoggedIn ? (
-            <Button
-              onClick={handleLogout}
-              style="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700"
+              Home
+            </Link>
+            <Link
+              href="/learn"
+              className={`nav-link ${isActive("/learn") ? "active" : ""}`}
             >
-              Logout
-            </Button>
-          ) : (
-            <Button
-              onClick={() => router.push("/auth/login")}
-              style="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700"
+              <span className="flex items-center gap-1.5">
+                <PlayCircle className="w-4 h-4" />
+                Learn
+              </span>
+            </Link>
+            <Link
+              href="/practice"
+              className={`nav-link ${isActive("/practice") ? "active" : ""}`}
             >
-              Login
-            </Button>
-          )}
+              <span className="flex items-center gap-1.5">
+                <Search className="w-4 h-4" />
+                Practice
+              </span>
+            </Link>
+            <Link
+              href="/auth/login"
+              className="button-primary flex items-center gap-1.5 animate-fade-in"
+            >
+              Get Started
+            </Link>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden rounded-md p-2 focus:outline-none transition-colors hover:bg-secondary"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
-    </nav>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-background/95 backdrop-blur-lg animate-slide-down shadow-md">
+          <nav className="container mx-auto px-6 py-6 flex flex-col space-y-4">
+            <Link
+              href="/"
+              className={`nav-link text-lg py-2 ${isActive("/") ? "active" : ""}`}
+              onClick={closeMenu}
+            >
+              Home
+            </Link>
+            <Link
+              href="/learn"
+              className={`nav-link text-lg py-2 ${isActive("/learn") ? "active" : ""}`}
+              onClick={closeMenu}
+            >
+              <span className="flex items-center gap-2">
+                <PlayCircle className="w-5 h-5" />
+                Learn
+              </span>
+            </Link>
+            <Link
+              href="/practice"
+              className={`nav-link text-lg py-2 ${isActive("/practice") ? "active" : ""}`}
+              onClick={closeMenu}
+            >
+              <span className="flex items-center gap-2">
+                <Search className="w-5 h-5" />
+                Practice
+              </span>
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="button-primary w-full justify-center mt-2"
+              onClick={closeMenu}
+            >
+              Get Started
+            </Link>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 };
+
+export default Navbar;

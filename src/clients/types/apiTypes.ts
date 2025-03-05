@@ -58,3 +58,19 @@ export interface FavoriteWordResponse {
   favoriteWordId: string;
   word: string;
 }
+
+
+export interface DictionaryResponse {
+  entries: Entry[];
+}
+
+export interface Entry {
+  partOfSpeech: 'noun' | 'verb' | 'adjective' | 'adverb' | string; // Add other possible values
+  language: 'English' | 'Spanish' | 'Frensh' | string;
+  definitions: Definition[];
+}
+
+export interface Definition {
+  definition: string;
+  examples: string[];
+}

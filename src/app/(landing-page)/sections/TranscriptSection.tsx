@@ -20,20 +20,13 @@ import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 const TranscriptSection = () => {
   const [wordSearch, setWordSearch] = useState<string>("");
-  const {
-    videos,
-    setVideos,
-    setHighlitedWord,
-    setCurrentVideoPosition,
-    highlitedWord,
-    currentTranscript,
-  } = useZustandState();
+  const { videos, setVideos, setHighlitedWord, currentTranscript } =
+    useZustandState();
 
   const fetchVideos = useCallback(async () => {
     const response = await api.searchVideosByWord(wordSearch);
     setHighlitedWord(wordSearch);
-    setVideos(response);
-    setCurrentVideoPosition(0);
+    response && setVideos(response);
   }, [wordSearch]);
 
   return (
@@ -94,13 +87,7 @@ const TranscriptSection = () => {
             )}
           </div>
           {/* Subtitles Section with favorite button */}
-          <SubTitleComponent
-            transcript={currentTranscript}
-            highlightedWord={wordSearch}
-            onAddToFavorite={(word) => console.log("Add to favorite:", word)}
-            isAuthenticated={true} // Replace with actual auth state
-            favorites={new Set(["example"])} // Replace with actual favorites
-          />
+          <SubTitleComponent  isAuthenticated={true} />
         </div>
       </motion.div>
     </section>
