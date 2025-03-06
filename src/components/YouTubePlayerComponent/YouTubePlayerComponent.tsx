@@ -45,7 +45,7 @@ const YouTubePlayerComponent = () => {
       width: "100%",
       playerVars: {
         autoplay: 1,
-        start: currentVideo.video?.transcriptResponse.startTime,
+        start: currentVideo.video?.transcriptResponse?.startTime,
         controls: 1,
         fs: 0,
         iv_load_policy: 3,
