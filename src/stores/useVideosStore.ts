@@ -1,9 +1,9 @@
 import {
-  SearchWordResponse,
+  GetWordResponse,
   VideosDetailResponse,
 } from "@/clients/types/apiTypes";
 
-const defaultVideosState: SearchWordResponse = {
+const defaultVideosState: GetWordResponse = {
   currentPage: 0,
   totalPages: 0,
   pageSize: 0,
@@ -18,7 +18,7 @@ export const createVideoSlice = (set: any) => ({
     position: 0,
   },
 
-  setVideos: (videos: SearchWordResponse) =>
+  setVideos: (videos: GetWordResponse) =>
     set({
       videos,
       currentVideo: {

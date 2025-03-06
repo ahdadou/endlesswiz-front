@@ -1,42 +1,61 @@
 // app/dashboard/videoslibrary/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Video, Clock, Star, Heart, List } from "lucide-react";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
+import api from "@/clients/api/api";
+import { GetWordResponse } from "@/clients/types/apiTypes";
+
+export const categories = [
+  { id: "Favorite", label: "Favorite" },
+  { id: "Technology", label: "Technology" },
+  { id: "Science", label: "Science" },
+  { id: "Others", label: "Others" },
+];
 
 const VideoLibraryPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("Favorite");
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [currentVideoId, setCurrentVideoId] = useState("dQw4w9WgXcQ");
+  const [videos, setVideos] = useState<GetWordResponse>()
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Mock data
-  const categories = [
-    { id: "all", label: "All" },
-    { id: "favorite", label: "Favorite" },
-    { id: "technology", label: "Technology" },
-    { id: "science", label: "Science" },
-    { id: "others", label: "Others" },
-  ];
+  // const videos = [
+  //   {
+  //     id: "dQw4w9WgXcQ",
+  //     title: "Advanced Pronunciation",
+  //     category: "favorite",
+  //     duration: "12:45",
+  //     channel: "English Mastery",
+  //   },
+  //   // Add more videos...
+  // ];
 
-  const videos = [
-    {
-      id: "dQw4w9WgXcQ",
-      title: "Advanced Pronunciation",
-      category: "favorite",
-      duration: "12:45",
-      channel: "English Mastery",
-    },
-    // Add more videos...
-  ];
 
-  const currentTranscript = {
-    paragraph: "This is a sample transcript for the current video.",
-    words: ["sample", "transcript", "video"],
-  };
+  const fetchVideosByCategory = useCallback(async () => {
+    setIsLoading(true);
+    setError("");
+    try {
+      const response = selectedCategory == 'Favorite'
+      ? await api.getVideosByUser(undefined, undefined, undefined, true)
+      : await api.getVideosByUser(undefined, undefined, selectedCategory);
+      response && setVideos(response);
+    } catch {
+      setError("Failed to connect to the server");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [selectedCategory]);
+
+  useEffect(() =>{
+    fetchVideosByCategory();
+  },[selectedCategory])
+
 
   return (
     <div className="flex min-h-screen">
@@ -67,21 +86,21 @@ const VideoLibraryPage = () => {
           <div className="mb-4 flex-0">
             <h3 className="text-sm font-medium mb-2">Select a Video</h3>
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {videos.map((video) => (
+              {videos?.videosDetailResponse.map((video) => (
                 <motion.div
-                  key={video.id}
+                  key={video.videoId}
                   className="w-48 flex-shrink-0 cursor-pointer"
                   whileHover={{ scale: 1.02 }}
-                  onClick={() => setCurrentVideoId(video.id)}
+                  onClick={() => setCurrentVideoId(video.videoId)}
                 >
                   <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                     <YouTube
-                      videoId={video.id}
+                      videoId={video.vid}
                       opts={{ height: "100%", width: "100%" }}
                     />
                   </div>
                   <p className="text-xs font-medium mt-1 truncate">
-                    {video.title}
+                    {'video.title'}
                   </p>
                   <p className="text-xs text-gray-500">{video.duration}</p>
                 </motion.div>

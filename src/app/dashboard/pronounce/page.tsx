@@ -20,7 +20,7 @@ export default function PronounceWordPage() {
     setIsLoading(true);
     setError("");
     try {
-      const response = await api.searchVideosByWordAndUser(query);
+      const response = await api.getVideosByUser(query);
       setHighlitedWord(query);
       response && setVideos(response);
     } catch {

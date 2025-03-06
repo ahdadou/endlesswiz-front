@@ -9,14 +9,14 @@ import {
   GetFavoriteVideoResponse,
   GetFavoriteWordsResponse,
   RegisterRequest,
-  SearchWordResponse,
+  GetWordResponse,
   TranscriptResponse,
 } from "../types/apiTypes";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
     try {
-      const response = await axiosClient.get<SearchWordResponse>(
+      const response = await axiosClient.get<GetWordResponse>(
         `${getBaseUrl()}/video/search`,
         {
           params: {
@@ -51,7 +51,7 @@ const api = {
   },
   loginState: async (token?: string | undefined) => {
     try {
-      const response = await axiosClient.get<SearchWordResponse>(
+      const response = await axiosClient.get<GetWordResponse>(
         `${getBaseUrl()}/users/login-state`,
         {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
@@ -97,15 +97,17 @@ const api = {
       return false;
     }
   },
-  searchVideosByWordAndUser: async (word: string, page?: number) => {
+  getVideosByUser: async (word?: string, page?: number, category?:string, favorites?: boolean) => {
     try {
-      const response = await axiosClient.get<SearchWordResponse>(
-        `${getBaseUrl()}/user_func/search`,
+      const response = await axiosClient.get<GetWordResponse>(
+        `${getBaseUrl()}/video`,
         {
           params: {
             word: word,
             size: 10,
             page: page ?? 0,
+            category: category?.toUpperCase(),
+            isFavorite: favorites
           },
         },
       );

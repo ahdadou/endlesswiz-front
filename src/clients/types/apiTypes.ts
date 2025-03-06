@@ -23,7 +23,7 @@ export interface TranscriptResponse {
   endTime: number;
 }
 
-export interface SearchWordResponse {
+export interface GetWordResponse {
   currentPage: number;
   totalPages: number;
   pageSize: number;
