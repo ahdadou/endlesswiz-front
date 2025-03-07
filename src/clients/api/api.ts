@@ -104,7 +104,7 @@ const api = {
         {
           params: {
             word: word,
-            size: 10,
+            size: 4,
             page: page ?? 0,
             category: category?.toUpperCase(),
             isFavorite: favorites
