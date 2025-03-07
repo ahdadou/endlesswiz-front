@@ -119,12 +119,12 @@ export default function WordsPage() {
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
-    null
+    null,
   );
   const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
-    []
+    [],
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -159,7 +159,7 @@ export default function WordsPage() {
 
   const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
     setFavoriteWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word))
+      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
     );
   };
 
@@ -173,7 +173,7 @@ export default function WordsPage() {
           filter === "all" || word.source === filter.toUpperCase();
         return matchesSearch && matchesFilter;
       }),
-    [favoriteWords, searchQuery, filter]
+    [favoriteWords, searchQuery, filter],
   );
 
   return (
@@ -215,7 +215,7 @@ export default function WordsPage() {
                 variant="outline"
                 onClick={() =>
                   setViewMode((prev) =>
-                    prev === "compact" ? "detailed" : "compact"
+                    prev === "compact" ? "detailed" : "compact",
                   )
                 }
                 className="flex items-center gap-2"

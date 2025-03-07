@@ -97,7 +97,12 @@ const api = {
       return false;
     }
   },
-  getVideosByUser: async (word?: string, page?: number, category?:string, favorites?: boolean) => {
+  getVideosByUser: async (
+    word?: string,
+    page?: number,
+    category?: string,
+    favorites?: boolean,
+  ) => {
     try {
       const response = await axiosClient.get<GetWordResponse>(
         `${getBaseUrl()}/video`,
@@ -107,7 +112,7 @@ const api = {
             size: 4,
             page: page ?? 0,
             category: category?.toUpperCase(),
-            isFavorite: favorites
+            isFavorite: favorites,
           },
         },
       );
