@@ -73,7 +73,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
           setCurrentVideo(newPosition);
         } else if (!isLastPage) {
           const nextPage = currentPage + 1;
-          const response = await api.searchVideosByWordAndUser(
+          const response = await api.getVideosByUser(
             highlitedWord,
             nextPage
           );

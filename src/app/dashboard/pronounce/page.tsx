@@ -36,7 +36,7 @@ export default function PronounceWordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-8 flex flex-col items-center px-4">
+    <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-8 flex flex-col items-center px-4">
       {/* Header Section */}
       <div className="w-full max-w-6xl mb-8 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
@@ -70,7 +70,7 @@ export default function PronounceWordPage() {
               <Skeleton className="h-full w-full rounded-lg" />
             </div>
           ) : (
-            <div className="h-[500px] bg-gray-900 flex justify-center items-center">
+            <div className="h-[300px] md:h-[500px] bg-gray-900 flex justify-center items-center">
               {currentVideo.video?.vid ? (
                 <div className="w-full h-full">
                   <YouTubePlayerComponent />
