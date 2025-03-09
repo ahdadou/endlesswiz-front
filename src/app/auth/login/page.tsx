@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import api from "@/clients/api/api";
 import GmailIcon from "@/Icons/GmailIcon";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { signInRequest } from "@/clients/AuthService";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -25,55 +26,23 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      toast({
-        title: "Error",
-        description: "Invalid email format",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!email || !password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error);
-      }
-      toast({
-        title: "Success",
-        description: "You have been logged in successfully",
-      });
-      router.push(DEFAULT_LOGIN_REDIRECT);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Invalid credentials",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    await signInRequest(email, password)
+      .then((data) => {
+        toast({
+          title: "Success",
+          description: "You have been logged in successfully",
+        });
+        router.push("/dashboard");
+      })
+      .catch((error) => {
+        console.log('### err :',error)
+        toast({
+          title: "Error",
+          description: "Invalid credentials",
+          variant: "destructive",
+        });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
