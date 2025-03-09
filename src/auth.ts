@@ -2,6 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import authConfig from "./auth.config";
 import { cookies } from "next/headers";
 import { TOKEN } from "./middleware";
+import { signInGoogleRequest } from "./clients/AuthService";
 
 declare module "next-auth" {
   interface Session {
@@ -26,22 +27,62 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     newUser: "/auth/register",
   },
   callbacks: {
+    async signIn({ account }) {
+      if (account?.provider === "google") {
+        const googleToken = account.id_token;
+        if (googleToken) {
+          try {
+            const res = await signInGoogleRequest(googleToken);
+            if (res?.access_token) {
+              const cookieStore = await cookies();
+
+              cookieStore.set(TOKEN, res.access_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax", // More compatible than 'strict'
+                maxAge: 7 * 24 * 60 * 60,
+                path: "/",
+                // priority: "high",
+                // Consider adding domain if using cross-origin
+                // domain: '.yourdomain.com',
+              });
+            } else {
+              console.error("Failed to retrieve access_token");
+              return false;
+            }
+          } catch (error) {
+            console.error("Authentication failed:", error);
+            return false;
+          }
+        }
+      }
+      return true;
+    },
     async jwt({ token, user }) {
-      if (user) {
+      if (user?.accessToken) {
+        const cookieStore = await cookies();
         token.accessToken = user.accessToken;
-        (await cookies()).set(TOKEN, user.accessToken, {
+        cookieStore.set(TOKEN, user.accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "strict", // Changed to lax for better CORS compatibility
+          sameSite: "strict",
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
         });
+      } else {
+        console.warn("### No accessToken found in jwt callback");
       }
       return token;
     },
     async session({ session, token }) {
       session.sessionToken = token.accessToken as string;
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      if (url === baseUrl || url === `${baseUrl}/`) {
+        return `${baseUrl}/dashboard`;
+      }
+      return url;
     },
   },
   session: {

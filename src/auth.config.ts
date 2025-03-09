@@ -1,16 +1,15 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
+import GoogleProvider from "next-auth/providers/google";
 
 export default {
   providers: [
-    Google({
+    GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
       authorization: {
         params: {
-          scope:
-            "openid email profile",
+          scope: "openid email profile",
           prompt: "consent",
           access_type: "offline",
           response_type: "code",

@@ -38,7 +38,7 @@ const VideoLibraryPage = () => {
   const { innerWidth } = useWindowDimensions();
   const isExtraSmall = useMemo(
     () => innerWidth < SMALL_MIN_WIDTH,
-    [innerWidth]
+    [innerWidth],
   );
 
   const fetchVideos = useCallback(
@@ -83,7 +83,7 @@ const VideoLibraryPage = () => {
         setIsLoading(false);
       }
     },
-    [page, selectedCategory, videos.videosDetailResponse]
+    [page, selectedCategory, videos.videosDetailResponse],
   );
 
   useEffect(() => {

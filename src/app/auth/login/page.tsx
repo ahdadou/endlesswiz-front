@@ -14,6 +14,7 @@ import api from "@/clients/api/api";
 import GmailIcon from "@/Icons/GmailIcon";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInRequest } from "@/clients/AuthService";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -35,7 +36,6 @@ const LoginPage = () => {
         router.push("/dashboard");
       })
       .catch((error) => {
-        console.log('### err :',error)
         toast({
           title: "Error",
           description: "Invalid credentials",
@@ -43,6 +43,14 @@ const LoginPage = () => {
         });
       })
       .finally(() => setIsLoading(false));
+  };
+
+  const handleLoginWithProvider = (
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
+  ) => {
+    signIn(provider, {
+      callbackUrl: "/dashboard",
+    });
   };
 
   return (
@@ -156,7 +164,7 @@ const LoginPage = () => {
           <Button
             variant="outline"
             className="w-full gap-2"
-            // onClick={handleGoogleLogin}
+            onClick={() => handleLoginWithProvider("google")}
             disabled={isLoading}
           >
             <GmailIcon />

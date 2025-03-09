@@ -23,7 +23,7 @@ const YouTubePlayerComponent = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId
+        currentVideo.video?.videoId,
       );
       setVid(currentVideo.video?.vid);
       response && setTranscript(response);
@@ -133,7 +133,7 @@ const YouTubePlayerComponent = () => {
     ) {
       playerRef.current.seekTo(
         currentVideo.video.transcriptResponse.startTime,
-        true
+        true,
       );
       setCurrentTranscript(currentVideo.video.transcriptResponse);
     }

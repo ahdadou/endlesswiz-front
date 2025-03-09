@@ -73,10 +73,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
           setCurrentVideo(newPosition);
         } else if (!isLastPage) {
           const nextPage = currentPage + 1;
-          const response = await api.getVideosByUser(
-            highlitedWord,
-            nextPage
-          );
+          const response = await api.getVideosByUser(highlitedWord, nextPage);
           response && setVideos(response);
         }
       } else {
@@ -85,7 +82,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
         }
       }
     },
-    [currentPosition, videosDetailResponse, currentPage, isLastPage]
+    [currentPosition, videosDetailResponse, currentPage, isLastPage],
   );
 
   const handleSpeedChange = useCallback(
@@ -94,14 +91,14 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
       changeSpeed(speed);
       setShowSpeedDropdown(false);
     },
-    [changeSpeed]
+    [changeSpeed],
   );
 
   return (
     <div
       className={cx(
         style,
-        "w-full p-2 bg-white rounded-t-sm shadow-sm border border-gray-100"
+        "w-full p-2 bg-white rounded-t-sm shadow-sm border border-gray-100",
       )}
     >
       <div className="flex items-center justify-between">
@@ -188,7 +185,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
                     onClick={() => handleSpeedChange(speed)}
                     className={cx(
                       "w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2",
-                      currentSpeed === speed && "bg-blue-50 text-blue-600"
+                      currentSpeed === speed && "bg-blue-50 text-blue-600",
                     )}
                   >
                     {speed}x
@@ -210,7 +207,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               "h-5 w-5 transition-all duration-300",
               currentVideoData?.isFavorite
                 ? "text-red-500 fill-red-500"
-                : "text-gray-700 fill-transparent hover:fill-red-200"
+                : "text-gray-700 fill-transparent hover:fill-red-200",
             )}
           />
         </Button>

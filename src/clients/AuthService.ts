@@ -6,9 +6,28 @@ import { RegisterRequest } from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
 const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const register = async (req: RegisterRequest) => {
+export const registerRequest = async (req: RegisterRequest) => {
+  if (!req.firstname || !req.lastname || !req.email || !req.password) {
+    toast({
+      title: "Error",
+      description: "Please fill in all fields",
+      variant: "destructive",
+    });
+    return;
+  }
+  if (req.password.length < 8) {
+    toast({
+      title: "Error",
+      description: "Password must be at least 8 characters long",
+      variant: "destructive",
+    });
+    return;
+  }
   try {
-    const response = await axios.post(`${USER_API_BASE_URL}/auth/register`, req);
+    const response = await axios.post(
+      `${USER_API_BASE_URL}/auth/register`,
+      req,
+    );
     return response.data;
   } catch (error) {
     console.error("### Error register ", error);
@@ -16,7 +35,7 @@ export const register = async (req: RegisterRequest) => {
   }
 };
 
-export const signInRequest = async (email:string, password: string) => {
+export const signInRequest = async (email: string, password: string) => {
   if (!/^\S+@\S+\.\S+$/.test(email)) {
     toast({
       title: "Error",
@@ -36,10 +55,12 @@ export const signInRequest = async (email:string, password: string) => {
   }
 
   try {
-    const response = await axios.post(`${USER_API_BASE_URL}/auth/authenticate`,{
+    const response = await axios.post(
+      `${USER_API_BASE_URL}/auth/authenticate`,
+      {
         email: email,
         password: password,
-      }
+      },
     );
 
     const { access_token, refresh_token } = response.data;
@@ -51,6 +72,27 @@ export const signInRequest = async (email:string, password: string) => {
     });
 
     return response.data;
+  } catch (error) {
+    console.error("### Error signInRequest ", error);
+    return Promise.reject(error);
+  }
+};
+
+export const signInGoogleRequest = async (idToken: string) => {
+  try {
+    const response = await axios.get(
+      `${USER_API_BASE_URL}/auth/google/authenticate`,
+      {
+        params: {
+          idToken: idToken,
+        },
+      },
+    );
+    const { access_token, refresh_token } = response.data;
+    return {
+      access_token,
+      refresh_token,
+    };
   } catch (error) {
     console.error("### Error signInRequest ", error);
     return Promise.reject(error);

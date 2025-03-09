@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import api from "@/clients/api/api";
+import { registerRequest } from "@/clients/AuthService";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -23,49 +24,29 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (password.length < 8) {
-      toast({
-        title: "Error",
-        description: "Password must be at least 8 characters long",
-        variant: "destructive",
-      });
-      return;
-    }
     setIsLoading(true);
-    try {
-      const response = await api.register({
-        firstname: firstName,
-        lastname: lastName,
-        email: email,
-        password: password,
-      });
-      if (response) {
+    await registerRequest({
+      firstname: firstName,
+      lastname: lastName,
+      email: email,
+      password: password,
+    })
+      .then((data) => {
         toast({
           title: "Success",
           description: "A confirmation token has been sent to your mail",
         });
         router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
-      } else {
-        throw new Error("Something is wrong, try again");
-      }
-    } catch (error) {
-      console.error("Registration failed:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please check your data.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+        toast({
+          title: "Error",
+          description: "Something went wrong. Please check your data.",
+          variant: "destructive",
+        });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
