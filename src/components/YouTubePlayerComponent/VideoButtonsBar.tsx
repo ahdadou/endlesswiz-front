@@ -21,8 +21,6 @@ interface VideoButtonsBarProps {
 }
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2];
-const COMMON_BUTTON_CLASSES =
-  "p-2 hover:bg-gray-100 rounded-lg transition-colors";
 const NAV_BUTTON_CLASSES =
   "hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 bg-white cursor-pointer w-11";
 

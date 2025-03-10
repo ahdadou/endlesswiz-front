@@ -1,11 +1,11 @@
 "use client";
 
 import api from "@/clients/api/api";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import YouTube, { YouTubePlayer } from "react-youtube";
+import { useCallback, useEffect, useRef, useState } from "react";
 import VideoButtonsBar from "./VideoButtonsBar";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import { TranscriptResponse } from "@/clients/types/apiTypes";
+import ReactPlayer from "react-player";
 
 const YouTubePlayerComponent = () => {
   const {
@@ -16,14 +16,55 @@ const YouTubePlayerComponent = () => {
     setVid,
   } = useZustandState();
 
-  const playerRef = useRef<YouTubePlayer | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [pause, setPause] = useState(false);
+  const playerRef = useRef<ReactPlayer | null>(null);
+  const [pip, setPip] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [controls, setControls] = useState(false);
+  const [light, setLight] = useState(false);
+  const [volume, setVolume] = useState(0.8);
+  const [muted, setMuted] = useState(false);
+  const [played, setPlayed] = useState(0);
+  const [loaded, setLoaded] = useState(0);
+  const [playbackRate, setPlaybackRate] = useState(1.0);
+  const [loop, setLoop] = useState(false);
+  const [seeking, setSeeking] = useState(false);
+
+  const handleToggleControls = () => {
+    setPlaying(!playing);
+  };
+
+  const seekBackward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(Math.max(0, currentTime - 5));
+    }
+  };
+
+  const seekForward = () => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      playerRef.current.seekTo(currentTime + 5);
+    }
+  };
+
+  const changeSpeed = (speed: number) => {
+    setPlaybackRate(speed);
+  };
+
+  const handleReset = () => {
+    if (
+      playerRef.current &&
+      currentVideo.video?.transcriptResponse?.startTime
+    ) {
+      playerRef.current.seekTo(currentVideo.video.transcriptResponse.startTime);
+      setCurrentTranscript(currentVideo.video.transcriptResponse);
+    }
+  };
 
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId,
+        currentVideo.video?.videoId
       );
       setVid(currentVideo.video?.vid);
       response && setTranscript(response);
@@ -36,53 +77,14 @@ const YouTubePlayerComponent = () => {
   ]);
 
   useEffect(() => {
+    setCurrentTranscript(currentVideo.video.transcriptResponse);
+    if (playerRef.current) {
+      playerRef.current.seekTo(
+        currentVideo.video?.transcriptResponse?.startTime
+      );
+    }
     fetchTranscript();
   }, [currentVideo?.video?.videoId]);
-
-  const opts = useMemo(() => {
-    return {
-      height: "100%",
-      width: "100%",
-      playerVars: {
-        autoplay: 1,
-        start: currentVideo.video?.transcriptResponse?.startTime,
-        controls: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        rel: 0, // 🔥 Prevents related videos from showing - Deprecated
-      },
-    };
-  }, [currentVideo.video?.transcriptResponse]);
-
-  const onReady = (event: { target: YouTubePlayer }) => {
-    playerRef.current = event.target;
-  };
-
-  const onStateChange = (event: { data: number }) => {
-    if (event.data === YouTube.PlayerState.PLAYING) {
-      if (intervalRef.current) clearInterval(intervalRef.current); // Clear existing interval before starting a new one
-
-      intervalRef.current = setInterval(() => {
-        if (playerRef.current) {
-          const currentTime = playerRef.current.getCurrentTime();
-          updateTranscript(currentTime);
-        }
-      }, 1000);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    setCurrentTranscript(currentVideo.video.transcriptResponse);
-  }, [currentVideo.position]);
 
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry: TranscriptResponse) => {
@@ -94,75 +96,56 @@ const YouTubePlayerComponent = () => {
     }
   };
 
-  const toggleVideo = () => {
-    if (playerRef.current) {
-      const state = playerRef.current.getPlayerState(); // Get current video state
-
-      if (state === 1) {
-        playerRef.current.pauseVideo(); // Pause instead of stopping
-      } else {
-        playerRef.current.playVideo(); // Resume from where it was paused
-      }
-    }
-  };
-
-  const seekBackward = () => {
-    if (playerRef.current) {
-      const currentTime = playerRef.current.getCurrentTime();
-      playerRef.current.seekTo(Math.max(0, currentTime - 5), true);
-    }
-  };
-
-  const seekForward = () => {
-    if (playerRef.current) {
-      const currentTime = playerRef.current.getCurrentTime();
-      playerRef.current.seekTo(currentTime + 5, true);
-    }
-  };
-
-  const changeSpeed = (speed: number) => {
-    if (playerRef.current) {
-      playerRef.current.setPlaybackRate(speed);
-    }
-  };
-
-  const handleReset = () => {
-    if (
-      playerRef.current &&
-      currentVideo.video?.transcriptResponse?.startTime
-    ) {
-      playerRef.current.seekTo(
-        currentVideo.video.transcriptResponse.startTime,
-        true,
-      );
-      setCurrentTranscript(currentVideo.video.transcriptResponse);
-    }
-  };
-
   if (!currentVideo) {
     return null;
   }
 
   return (
     <div className="relative h-full w-full flex flex-col bg-white">
-      <YouTube
-        key={currentVideo.video?.vid} // 👈 Forces re-render when vid changes
-        className="h-full w-full"
-        onPause={() => setPause(true)}
-        onPlay={() => setPause(false)}
-        videoId={currentVideo.video?.vid}
-        opts={opts}
-        onReady={onReady}
-        onStateChange={onStateChange}
+      <ReactPlayer
+        key={currentVideo.video?.vid}
+        ref={playerRef}
+        className="react-player"
+        width="100%"
+        height="100%"
+        url={`https://www.youtube.com/watch?v=${currentVideo.video?.vid}`}
+        pip={pip}
+        playing={playing}
+        controls={controls}
+        light={false}
+        loop={loop}
+        playbackRate={playbackRate}
+        volume={volume}
+        muted={muted}
+        onReady={(event) => setPlaying(true)}
+        onStart={() => console.log("onStart")}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onBuffer={() => console.log("onBuffer")}
+        onSeek={(e) => console.log("onSeek", e)}
+        onError={(e) => console.log("onError", e)}
+        onProgress={({ played, loaded, playedSeconds }) => {
+          updateTranscript(playedSeconds);
+          if (!seeking) {
+            setPlayed(played);
+            setLoaded(loaded);
+          }
+        }}
+        // onEnablePIP={this.handleEnablePIP}
+        // onDisablePIP={this.handleDisablePIP}
+        // onPlaybackRateChange={playbackRate}
+        // onEnded={this.handleEnded}
+        // onProgress={this.handleProgress}
+        // onDuration={this.handleDuration}
+        // onPlaybackQualityChange={e => console.log('onPlaybackQualityChange', e)}
       />
-
       <VideoButtonsBar
-        toggleVideo={toggleVideo}
+        toggleVideo={handleToggleControls}
         seekBackward={seekBackward}
         seekForward={seekForward}
         changeSpeed={changeSpeed}
         handleReset={handleReset}
-        pause={pause}
+        pause={!playing}
         style="w-full"
       />
     </div>
