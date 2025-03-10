@@ -62,12 +62,12 @@ const YouTubePlayerComponent = () => {
   };
 
   const fetchTranscript = useCallback(async () => {
-    if (currentVideo.video) {
+    if (currentVideo.video?.videoId) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId
+        currentVideo.video?.videoId,
       );
-      setVid(currentVideo.video?.vid);
       response && setTranscript(response);
+      setVid(currentVideo.video?.vid);
     }
   }, [
     currentVideo?.video?.videoId,
@@ -78,11 +78,13 @@ const YouTubePlayerComponent = () => {
   ]);
 
   useEffect(() => {
-    setCurrentTranscript(currentVideo.video.transcriptResponse);
-    if (playerRef.current) {
-      playerRef.current.seekTo(
-        currentVideo.video?.transcriptResponse?.startTime
-      );
+    if (currentVideo.video?.transcriptResponse) {
+      setCurrentTranscript(currentVideo.video.transcriptResponse);
+      if (playerRef.current) {
+        playerRef.current.seekTo(
+          currentVideo.video?.transcriptResponse?.startTime,
+        );
+      }
     }
     fetchTranscript();
   }, [currentVideo?.video?.transcriptResponse, currentVideo?.video?.vid]);
@@ -97,8 +99,8 @@ const YouTubePlayerComponent = () => {
     }
   };
 
-  if (!currentVideo) {
-    return null;
+  if (!currentVideo?.video?.vid) {
+    return <div className="h-full w-full bg-blue-500"></div>;
   }
 
   return (
@@ -135,10 +137,12 @@ const YouTubePlayerComponent = () => {
         config={{
           youtube: {
             playerVars: {
-              start: Math.floor(currentVideo.video?.transcriptResponse?.startTime || 0),
-              origin: window.location.origin
-            }
-          }
+              start: Math.floor(
+                currentVideo.video?.transcriptResponse?.startTime || 0,
+              ),
+              // origin: window.location.origin,
+            },
+          },
         }}
         // onEnablePIP={this.handleEnablePIP}
         // onDisablePIP={this.handleDisablePIP}
@@ -156,7 +160,7 @@ const YouTubePlayerComponent = () => {
         handleReset={handleReset}
         pause={!playing}
         played={played}
-        onSeekMouseDown={()=>setSeeking(true)}
+        onSeekMouseDown={() => setSeeking(true)}
         onSeekChange={(value) => setPlayed(value)}
         onSeekMouseUp={(value) => {
           setSeeking(false);

@@ -41,50 +41,58 @@ const VideoLibraryPage = () => {
     [innerWidth],
   );
 
-  const fetchVideos = useCallback(
-    async (pageNumber: number) => {
-      setIsLoading(true);
-      setError("");
-      console.log("###  -------> page :", page);
-      try {
-        const response =
-          selectedCategory === "Favorite"
-            ? await api.getVideosByUser(undefined, page, undefined, true)
-            : await api.getVideosByUser(undefined, page, selectedCategory);
+  const fetchVideos = async (pageNumber: number) => {
+    setIsLoading(true);
+    setError("");
+    console.log("###  -------> page :", page);
+    try {
+      const response =
+        selectedCategory === "Favorite"
+          ? await api.getVideosByUser(undefined, pageNumber, undefined, true)
+          : await api.getVideosByUser(undefined, pageNumber, selectedCategory);
 
-        if (!response || response.videosDetailResponse.length === 0) {
-          setHasMore(false);
-          setVideos({
-            currentPage: 0,
-            totalPages: 0,
-            pageSize: 0,
-            videosDetailResponse: [],
-          });
-          return;
-        }
-
-        var totalVideos = [
-          ...videos.videosDetailResponse,
-          ...response.videosDetailResponse,
-        ];
+      if (!response || response.videosDetailResponse.length === 0) {
+        setHasMore(false);
         setVideos({
-          currentPage: response.currentPage,
-          pageSize: totalVideos.length ?? 0,
-          totalPages: response.totalPages,
-          videosDetailResponse:
-            pageNumber === 1 ? response.videosDetailResponse : totalVideos,
+          currentPage: 0,
+          totalPages: 0,
+          pageSize: 0,
+          videosDetailResponse: [],
         });
-
-        setHasMore(response.currentPage < response.totalPages - 1);
-      } catch (err) {
-        console.log("Failed to fetch videos ", err);
-        setError("Failed to fetch videos");
-      } finally {
-        setIsLoading(false);
+        return;
       }
-    },
-    [page, selectedCategory, videos.videosDetailResponse],
-  );
+
+      var videosRes =
+        pageNumber === 0
+          ? response.videosDetailResponse
+          : [...videos.videosDetailResponse, ...response.videosDetailResponse];
+
+      setVideos({
+        currentPage: response.currentPage,
+        pageSize: response.pageSize ?? 0,
+        totalPages: response.totalPages,
+        videosDetailResponse: videosRes,
+        // response.videosDetailResponse
+      });
+
+      setHasMore(response.currentPage < response.totalPages - 1);
+    } catch (err) {
+      console.log("Failed to fetch videos ", err);
+      setError("Failed to fetch videos");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setPage(0);
+    setHasMore(true);
+    fetchVideos(0);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (page > 0) fetchVideos(page);
+  }, [page]);
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
@@ -98,16 +106,6 @@ const VideoLibraryPage = () => {
     observer.current = new IntersectionObserver(callback);
     if (loaderRef.current) observer.current.observe(loaderRef.current);
   }, [hasMore, isLoading]);
-
-  useEffect(() => {
-    setPage(0);
-    setHasMore(true);
-    fetchVideos(1);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    if (page > 0) fetchVideos(page);
-  }, [page]);
 
   return (
     <div className="flex bg-background">
@@ -173,12 +171,12 @@ const VideoLibraryPage = () => {
                     </div>
                   )}
                 </div>
-                {videos.videosDetailResponse.map((video) => (
+                {videos.videosDetailResponse.map((video, index) => (
                   <motion.div
                     key={video.videoId}
-                    onClick={() => setCurrentVideo(0, video)}
+                    onClick={() => setCurrentVideo(index, video)}
                     className={`cursor-pointer group rounded-lg p-3 transition-colors ${
-                      currentVideo?.video.videoId === video.videoId
+                      currentVideo?.video?.videoId === video.videoId
                         ? "bg-primary/10 border-2 border-primary"
                         : "transition-transform duration-300 ease-in-out hover:scale-95 hover:bg-muted"
                     }`}
@@ -262,12 +260,12 @@ const VideoLibraryPage = () => {
                 ref={listRef}
                 className="w-[100%] md:w-[40%] flex flex-col gap-4 overflow-y-auto pr-4"
               >
-                {videos.videosDetailResponse.map((video) => (
+                {videos.videosDetailResponse.map((video, index) => (
                   <motion.div
                     key={video.videoId}
-                    onClick={() => setCurrentVideo(0, video)}
+                    onClick={() => setCurrentVideo(index, video)}
                     className={`cursor-pointer group rounded-lg p-3 transition-colors ${
-                      currentVideo?.video.videoId === video.videoId
+                      currentVideo?.video?.videoId === video.videoId
                         ? "bg-primary/10 border-2 border-primary"
                         : "transition-transform duration-300 ease-in-out hover:scale-95 hover:bg-muted"
                     }`}
