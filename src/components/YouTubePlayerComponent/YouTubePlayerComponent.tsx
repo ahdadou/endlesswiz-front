@@ -71,6 +71,7 @@ const YouTubePlayerComponent = () => {
     }
   }, [
     currentVideo?.video?.videoId,
+    currentVideo?.video?.transcriptResponse,
     setTranscript,
     setCurrentTranscript,
     setVid,
@@ -84,7 +85,7 @@ const YouTubePlayerComponent = () => {
       );
     }
     fetchTranscript();
-  }, [currentVideo?.video?.videoId]);
+  }, [currentVideo?.video?.transcriptResponse, currentVideo?.video?.vid]);
 
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry: TranscriptResponse) => {
@@ -103,7 +104,7 @@ const YouTubePlayerComponent = () => {
   return (
     <div className="relative h-full w-full flex flex-col bg-white">
       <ReactPlayer
-        key={currentVideo.video?.vid}
+        // key={currentVideo.video?.transcriptResponse.startTime}
         ref={playerRef}
         className="react-player"
         width="100%"
@@ -131,6 +132,14 @@ const YouTubePlayerComponent = () => {
             setLoaded(loaded);
           }
         }}
+        config={{
+          youtube: {
+            playerVars: {
+              start: Math.floor(currentVideo.video?.transcriptResponse?.startTime || 0),
+              origin: window.location.origin
+            }
+          }
+        }}
         // onEnablePIP={this.handleEnablePIP}
         // onDisablePIP={this.handleDisablePIP}
         // onPlaybackRateChange={playbackRate}
@@ -146,7 +155,6 @@ const YouTubePlayerComponent = () => {
         changeSpeed={changeSpeed}
         handleReset={handleReset}
         pause={!playing}
-
         played={played}
         onSeekMouseDown={()=>setSeeking(true)}
         onSeekChange={(value) => setPlayed(value)}
