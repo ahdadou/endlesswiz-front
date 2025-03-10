@@ -146,6 +146,16 @@ const YouTubePlayerComponent = () => {
         changeSpeed={changeSpeed}
         handleReset={handleReset}
         pause={!playing}
+
+        played={played}
+        onSeekMouseDown={()=>setSeeking(true)}
+        onSeekChange={(value) => setPlayed(value)}
+        onSeekMouseUp={(value) => {
+          setSeeking(false);
+          if (playerRef.current) {
+            playerRef.current.seekTo(value);
+          }
+        }}
         style="w-full"
       />
     </div>

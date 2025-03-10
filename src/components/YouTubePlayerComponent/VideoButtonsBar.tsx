@@ -18,6 +18,10 @@ interface VideoButtonsBarProps {
   changeSpeed: (speed: number) => void;
   pause: boolean;
   style: string;
+  played: number;
+  onSeekMouseDown: () => void;
+  onSeekChange: (value: number) => void;
+  onSeekMouseUp: (value: number) => void;
 }
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2];
@@ -32,6 +36,10 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   handleReset,
   pause,
   style,
+  played,
+  onSeekMouseDown,
+  onSeekChange,
+  onSeekMouseUp,
 }) => {
   const {
     videos: { totalPages, currentPage, pageSize, videosDetailResponse },
@@ -162,7 +170,29 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               <SeekForwardIcon style="h-5 w-5 text-gray-700" />
             </Button>
           </div>
+        </div>
 
+        {/* Seek Bar */}
+        <div className="flex-grow mx-4">
+          <input
+            type="range"
+            min={0}
+            max={0.999999}
+            step="any"
+            value={played}
+            onMouseDown={onSeekMouseDown}
+            onChange={(e) => onSeekChange(parseFloat(e.target.value))}
+            onMouseUp={(e) => onSeekMouseUp(parseFloat(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer
+              [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4
+              [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:bg-slate-700 [&::-webkit-slider-thumb]:border-2
+              [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
+          />
+        </div>
+
+        {/* Right Controls Section */}
+        <div className="flex items-center gap-4">
           {/* Speed Control */}
           <div className="relative hidden md:block">
             <Button
@@ -192,23 +222,23 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
               </div>
             )}
           </div>
-        </div>
 
-        {/* Favorite Button */}
-        <Button
-          variant="ghost"
-          onClick={toggleFavorite}
-          className="h-10 w-10 p-2 hover:bg-red-50"
-        >
-          <Heart
-            className={cx(
-              "h-5 w-5 transition-all duration-300",
-              currentVideoData?.isFavorite
-                ? "text-red-500 fill-red-500"
-                : "text-gray-700 fill-transparent hover:fill-red-200",
-            )}
-          />
-        </Button>
+          {/* Favorite Button */}
+          <Button
+            variant="ghost"
+            onClick={toggleFavorite}
+            className="h-10 w-10 p-2 hover:bg-red-50"
+          >
+            <Heart
+              className={cx(
+                "h-5 w-5 transition-all duration-300",
+                currentVideoData?.isFavorite
+                  ? "text-red-500 fill-red-500"
+                  : "text-gray-700 fill-transparent hover:fill-red-200",
+              )}
+            />
+          </Button>
+        </div>
       </div>
     </div>
   );
