@@ -2,7 +2,7 @@
 
 import { signIn } from "@/auth";
 import axios from "axios";
-import { RegisterRequest } from "./types/apiTypes";
+import { RegisterRequest, ResetlinkRequest, ResetpasswordRequest } from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
 const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -95,6 +95,42 @@ export const signInGoogleRequest = async (idToken: string) => {
     };
   } catch (error) {
     console.error("### Error signInRequest ", error);
+    return Promise.reject(error);
+  }
+};
+
+export const resetlinkRequest = async (req: ResetlinkRequest) => {
+  console.log('### handle submite -->', `${USER_API_BASE_URL}/password/resetlink`)
+
+  if (!req.email) {
+    toast({
+      title: "Error",
+      description: "Please fill in all fields",
+      variant: "destructive",
+    });
+    return;
+  }
+  try {
+    const response = await axios.post(
+      `${USER_API_BASE_URL}/auth/password/resetlink`,
+      req,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("### Error password resetlink ", error);
+    return Promise.reject(error);
+  }
+};
+
+export const resetPasswordRequest = async (req: ResetpasswordRequest) => {
+  try {
+    const response = await axios.post(
+      `${USER_API_BASE_URL}/auth/password/reset`,
+      req,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("### Error password reset ", error);
     return Promise.reject(error);
   }
 };

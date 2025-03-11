@@ -91,3 +91,13 @@ export interface FavoriteWordRequest {
   description?: string;
   example?: string;
 }
+
+export interface ResetlinkRequest {
+  email: string
+}
+
+export interface ResetpasswordRequest {
+  token: string
+  password: string
+  confirmPassword: string
+}

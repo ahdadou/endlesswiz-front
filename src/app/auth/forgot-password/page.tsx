@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { resetlinkRequest } from "@/clients/AuthService";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,8 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true);
+    console.log('### handle submite')
     if (!email) {
       toast({
         title: "Error",
@@ -27,17 +29,27 @@ const ForgotPassword = () => {
       return;
     }
 
-    setIsLoading(true);
-
-    // Simulate password reset process
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSubmitted(true);
-      toast({
-        title: "Email sent",
-        description: "Check your inbox for password reset instructions",
+    await resetlinkRequest({
+      email,
+    })
+      .then((res) => {
+        toast({
+          title: "Email sent",
+          description: "Check your inbox for password reset instructions",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description: "Something wrong happened, please try again",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false)
+        setIsSubmitted(true);
       });
-    }, 1500);
+
   };
 
   return (
