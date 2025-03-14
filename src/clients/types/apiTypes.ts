@@ -118,12 +118,12 @@ export interface PracticeSetResponse {
   description?: string;
   title: string;
 
-  wordCount: number
-  createdAt: string
-  lastPracticed?: string
-  progress?: number
-  isFavorite?: boolean
-  tags?: string[]
+  wordCount: number;
+  createdAt: string;
+  lastPracticed?: string;
+  progress?: number;
+  isFavorite?: boolean;
+  tags?: string[];
 }
 
 export interface PracticeWordRequest {
@@ -135,12 +135,12 @@ export interface PracticeWordRequest {
 
 export interface GetPracticeSetDetailsResponse {
   id?: string;
-  title: string
-  description: string
-  words: PracticeWordResponse[]
-  createdAt: string
-  lastPracticed?: string
-  tags?: string[]
+  title: string;
+  description: string;
+  words: PracticeWordResponse[];
+  createdAt: string;
+  lastPracticed?: string;
+  tags?: string[];
 }
 
 export interface PracticeWordResponse {

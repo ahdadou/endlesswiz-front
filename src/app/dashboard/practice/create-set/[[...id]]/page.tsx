@@ -65,7 +65,7 @@ export default function CreateSetWithId() {
   const updateWord = (
     index: number,
     field: "word" | "description",
-    value: string
+    value: string,
   ) => {
     const newWords = [...practiceWords];
     newWords[index][field] = value;
@@ -77,18 +77,36 @@ export default function CreateSetWithId() {
     setIsLoading(true);
 
     try {
-      let response;
-        response = await api.addPracticeSet({
+      if (isEditMode) {
+        let response = await api.updatePracticeSetDetails(id as string, {
           title,
           description,
           words: practiceWords,
-        })
+        });
+
+        toast({
+          title: "Set Updated!",
+          description: "Your study set has been successfully updated.",
+        });
+
+        if (response) {
+          router.push(`/dashboard/practice/set/${id}`);
+        }
+      } else {
+        let response = await api.addPracticeSet({
+          title,
+          description,
+          words: practiceWords,
+        });
+
         toast({
           title: "Set Created!",
           description: "Your new study set has been successfully created.",
-        })
-      if (response) {
-        router.push(`/dashboard/practice`);
+        });
+
+        if (response) {
+          router.push(`/dashboard/practice`);
+        }
       }
     } catch (error: any) {
       toast({

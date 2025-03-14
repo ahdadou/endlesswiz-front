@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const flashcards = [
-  { front: 'Hello', back: 'Hola' },
-  { front: 'Thank you', back: 'Gracias' },
-  { front: 'Goodbye', back: 'Adiós' },
-  { front: 'Please', back: 'Por favor' },
-  { front: 'Yes', back: 'Sí' },
-  { front: 'No', back: 'No' },
-  { front: 'Sorry', back: 'Lo siento' },
-  { front: 'Excuse me', back: 'Perdón' },
-  { front: 'Good morning', back: 'Buenos días' },
-  { front: 'Good night', back: 'Buenas noches' },
+  { front: "Hello", back: "Hola" },
+  { front: "Thank you", back: "Gracias" },
+  { front: "Goodbye", back: "Adiós" },
+  { front: "Please", back: "Por favor" },
+  { front: "Yes", back: "Sí" },
+  { front: "No", back: "No" },
+  { front: "Sorry", back: "Lo siento" },
+  { front: "Excuse me", back: "Perdón" },
+  { front: "Good morning", back: "Buenos días" },
+  { front: "Good night", back: "Buenas noches" },
 ];
 
 export default function FlashcardsPage() {
@@ -39,14 +39,14 @@ export default function FlashcardsPage() {
   // Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         handlePrev();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         handleNext();
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentIndex]);
 
   // Animation Variants
@@ -98,7 +98,7 @@ export default function FlashcardsPage() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <Flashcard
                     front={flashcards[currentIndex].front}
@@ -131,21 +131,21 @@ function Flashcard({ front, back }) {
     <div className="w-64 h-40 mx-auto cursor-pointer" onClick={handleClick}>
       <div
         className={`relative w-full h-full transition-transform duration-600 ${
-          isFlipped ? 'rotate-y-180' : ''
+          isFlipped ? "rotate-y-180" : ""
         }`}
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{ transformStyle: "preserve-3d" }}
       >
         {/* Front Face */}
         <div
           className="absolute w-full h-full flex items-center justify-center text-2xl border rounded-lg shadow-md bg-white"
-          style={{ backfaceVisibility: 'hidden' }}
+          style={{ backfaceVisibility: "hidden" }}
         >
           {front}
         </div>
         {/* Back Face */}
         <div
           className="absolute w-full h-full flex items-center justify-center text-2xl border rounded-lg shadow-md bg-white rotate-y-180"
-          style={{ backfaceVisibility: 'hidden' }}
+          style={{ backfaceVisibility: "hidden" }}
         >
           {back}
         </div>

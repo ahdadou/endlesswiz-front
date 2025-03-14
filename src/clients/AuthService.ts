@@ -2,7 +2,11 @@
 
 import { signIn } from "@/auth";
 import axios from "axios";
-import { RegisterRequest, ResetlinkRequest, ResetpasswordRequest } from "./types/apiTypes";
+import {
+  RegisterRequest,
+  ResetlinkRequest,
+  ResetpasswordRequest,
+} from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
 const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -100,7 +104,10 @@ export const signInGoogleRequest = async (idToken: string) => {
 };
 
 export const resetlinkRequest = async (req: ResetlinkRequest) => {
-  console.log('### handle submite -->', `${USER_API_BASE_URL}/password/resetlink`)
+  console.log(
+    "### handle submite -->",
+    `${USER_API_BASE_URL}/password/resetlink`,
+  );
 
   if (!req.email) {
     toast({

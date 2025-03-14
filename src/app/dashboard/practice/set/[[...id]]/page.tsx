@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import {
   BookOpen,
   Trash2,
@@ -17,17 +17,17 @@ import {
   Share2,
   Printer,
   MoreHorizontal,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -35,119 +35,129 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/components/ui/use-toast"
-import api from "@/clients/api/api"
-import { GetPracticeSetDetailsResponse, PracticeWordResponse } from "@/clients/types/apiTypes"
-
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
+import api from "@/clients/api/api";
+import {
+  GetPracticeSetDetailsResponse,
+  PracticeWordResponse,
+} from "@/clients/types/apiTypes";
 
 export default function SetPage() {
-  const [set, setSet] = useState<GetPracticeSetDetailsResponse | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [editingWord, setEditingWord] = useState<PracticeWordResponse | null>(null)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const [updatedWord, setUpdatedWord] = useState({ word: "", description: "" })
-  const router = useRouter()
-  const { toast } = useToast()
+  const [set, setSet] = useState<GetPracticeSetDetailsResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [editingWord, setEditingWord] = useState<PracticeWordResponse | null>(
+    null,
+  );
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [updatedWord, setUpdatedWord] = useState({ word: "", description: "" });
+  const router = useRouter();
+  const { toast } = useToast();
   const { id } = useParams();
 
   useEffect(() => {
     const fetchSet = async () => {
       try {
-        setIsLoading(true)
-        const data = await api.fetchPracticeSetDetailsById(id as string)
-        setSet(data)
+        setIsLoading(true);
+        const data = await api.fetchPracticeSetDetailsById(id as string);
+        setSet(data);
       } catch (error) {
-        console.error("Failed to fetch set:", error)
+        console.error("Failed to fetch set:", error);
         toast({
           title: "Error",
           description: "Failed to load study set",
           variant: "destructive",
-        })
+        });
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchSet()
-  }, [id, toast])
+    fetchSet();
+  }, [id, toast]);
 
   const handleDeleteWord = async (wordId: string) => {
-    if (!set) return
+    if (!set) return;
 
     try {
-      await api.deletePracticeWord(wordId)
+      await api.deletePracticeWord(wordId);
 
       // Update local state
       setSet({
         ...set,
         words: set.words.filter((word) => word.id !== wordId),
-      })
+      });
 
       toast({
         title: "Word deleted",
         description: "The word has been removed from this set",
-      })
+      });
     } catch (error) {
-      console.error("Failed to delete word:", error)
+      console.error("Failed to delete word:", error);
       toast({
         title: "Error",
         description: "Failed to delete word",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleEditWord = (word: PracticeWordResponse) => {
-    setEditingWord(word)
+    setEditingWord(word);
     setUpdatedWord({
       word: word.word,
       description: word.description,
-    })
-    setIsEditModalOpen(true)
-  }
+    });
+    setIsEditModalOpen(true);
+  };
 
   const handleUpdateWord = async () => {
-    if (!set || !editingWord) return
+    if (!set || !editingWord) return;
 
     try {
       await api.updatePracticeWord({
         id: editingWord.id,
         word: updatedWord.word,
-        description: updatedWord.description
-      })
+        description: updatedWord.description,
+      });
 
       // Update local state
       setSet({
         ...set,
         words: set.words.map((word) =>
-          word.id === editingWord.id ? { ...word, word: updatedWord.word, description: updatedWord.description } : word,
+          word.id === editingWord.id
+            ? {
+                ...word,
+                word: updatedWord.word,
+                description: updatedWord.description,
+              }
+            : word,
         ),
-      })
+      });
 
-      setIsEditModalOpen(false)
+      setIsEditModalOpen(false);
       toast({
         title: "Word updated",
         description: "The word has been updated successfully",
-      })
+      });
     } catch (error) {
-      console.error("Failed to update word:", error)
+      console.error("Failed to update word:", error);
       toast({
         title: "Error",
         description: "Failed to update word",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handlePractice = (mode: string) => {
-    router.push(`/practice/${id}?mode=${mode}`)
-  }
+    router.push(`/practice/${id}?mode=${mode}`);
+  };
 
   if (isLoading) {
     return (
@@ -165,7 +175,7 @@ export default function SetPage() {
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   if (!set) {
@@ -175,15 +185,21 @@ export default function SetPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/dashboard/practice")}>Back to Sets</Button>
+        <Button onClick={() => router.push("/dashboard/practice")}>
+          Back to Sets
+        </Button>
       </div>
-    )
+    );
   }
 
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex items-center gap-2 mb-8">
-        <Button variant="ghost" size="icon" onClick={() => router.push("/dashboard/practice")}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.push("/dashboard/practice")}
+        >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>
         </Button>
@@ -283,14 +299,17 @@ export default function SetPage() {
 
       <div className="flex justify-between items-center mb-4">
         <div className="text-sm text-muted-foreground">
-          {set.words?.length} {set.words?.length === 1 ? "word" : "words"} • Created{" "}
-          {new Date(set.createdAt).toLocaleDateString()}
-          {set.lastPracticed && ` • Last practiced ${new Date(set.lastPracticed).toLocaleDateString()}`}
+          {set.words?.length} {set.words?.length === 1 ? "word" : "words"} •
+          Created {new Date(set.createdAt).toLocaleDateString()}
+          {set.lastPracticed &&
+            ` • Last practiced ${new Date(set.lastPracticed).toLocaleDateString()}`}
         </div>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => router.push(`/dashboard/practice/create-set/${set.id}`)}
+          onClick={() =>
+            router.push(`/dashboard/practice/create-set/${set.id}`)
+          }
           className="flex items-center gap-1"
         >
           <Plus className="h-3.5 w-3.5" />
@@ -309,7 +328,9 @@ export default function SetPage() {
                   <div className="flex-1 p-4 border-b md:border-b-0 md:border-r">
                     <div className="flex justify-between items-start">
                       <div>
-                        <div className="text-xs text-muted-foreground mb-1">Word {index + 1}</div>
+                        <div className="text-xs text-muted-foreground mb-1">
+                          Word {index + 1}
+                        </div>
                         <div className="font-medium">{word.word}</div>
                       </div>
                       <div className="flex gap-1">
@@ -335,7 +356,9 @@ export default function SetPage() {
                     </div>
                   </div>
                   <div className="flex-1 p-4">
-                    <div className="text-xs text-muted-foreground mb-1">Definition</div>
+                    <div className="text-xs text-muted-foreground mb-1">
+                      Definition
+                    </div>
                     <div>{word.description}</div>
                   </div>
                 </div>
@@ -344,9 +367,19 @@ export default function SetPage() {
           ))
         ) : (
           <div className="text-center py-12 border rounded-lg bg-muted/20">
-            <h3 className="text-lg font-medium mb-2">No words in this set yet</h3>
-            <p className="text-muted-foreground mb-6">Add some words to start studying</p>
-            <Button onClick={() => router.push(`/dashboard/practice/create-set/${set.id}`)}>Add Words</Button>
+            <h3 className="text-lg font-medium mb-2">
+              No words in this set yet
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Add some words to start studying
+            </p>
+            <Button
+              onClick={() =>
+                router.push(`/dashboard/practice/create-set/${set.id}`)
+              }
+            >
+              Add Words
+            </Button>
           </div>
         )}
       </div>
@@ -355,7 +388,9 @@ export default function SetPage() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Edit Word</DialogTitle>
-            <DialogDescription>Update the word and its definition.</DialogDescription>
+            <DialogDescription>
+              Update the word and its definition.
+            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
@@ -363,7 +398,9 @@ export default function SetPage() {
               <Input
                 id="edit-word"
                 value={updatedWord.word}
-                onChange={(e) => setUpdatedWord({ ...updatedWord, word: e.target.value })}
+                onChange={(e) =>
+                  setUpdatedWord({ ...updatedWord, word: e.target.value })
+                }
               />
             </div>
             <div className="grid gap-2">
@@ -371,7 +408,12 @@ export default function SetPage() {
               <Textarea
                 id="edit-definition"
                 value={updatedWord.description}
-                onChange={(e) => setUpdatedWord({ ...updatedWord, description: e.target.value })}
+                onChange={(e) =>
+                  setUpdatedWord({
+                    ...updatedWord,
+                    description: e.target.value,
+                  })
+                }
                 rows={3}
               />
             </div>
@@ -385,6 +427,5 @@ export default function SetPage() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
-

@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log('### handle submite')
+    console.log("### handle submite");
     if (!email) {
       toast({
         title: "Error",
@@ -46,10 +46,9 @@ const ForgotPassword = () => {
         });
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsLoading(false);
         setIsSubmitted(true);
       });
-
   };
 
   return (

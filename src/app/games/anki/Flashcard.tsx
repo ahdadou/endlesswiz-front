@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface FlashcardProps {
   front: string;
@@ -14,17 +14,17 @@ function Flashcard({ front, back, isFlipped, onFlip }: FlashcardProps) {
       onClick={onFlip}
       animate={{ rotateY: isFlipped ? 180 : 0 }}
       transition={{ duration: 0.6 }}
-      style={{ position: 'relative' }}
+      style={{ position: "relative" }}
     >
       <motion.div
         className="absolute w-full h-full flex items-center justify-center text-2xl bg-white rounded-lg border"
-        style={{ backfaceVisibility: 'hidden' }}
+        style={{ backfaceVisibility: "hidden" }}
       >
         {front}
       </motion.div>
       <motion.div
         className="absolute w-full h-full flex items-center justify-center text-2xl bg-white rounded-lg border"
-        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+        style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
       >
         {back}
       </motion.div>

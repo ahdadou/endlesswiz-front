@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import Link from 'next/link';
-import { useDecks } from './deck';
+import { useState } from "react";
+import Link from "next/link";
+import { useDecks } from "./deck";
 
 export default function DecksPage() {
   const { decks, setDecks } = useDecks();
-  const [newDeckName, setNewDeckName] = useState<string>('');
+  const [newDeckName, setNewDeckName] = useState<string>("");
 
   const handleCreateDeck = () => {
     if (newDeckName.trim()) {
@@ -14,7 +14,7 @@ export default function DecksPage() {
         cards: [],
       };
       setDecks([...decks, newDeck]);
-      setNewDeckName('');
+      setNewDeckName("");
     }
   };
 
@@ -46,7 +46,9 @@ export default function DecksPage() {
               className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
             >
               <Link href={`/decks/${deck.id}`}>
-                <a className="text-blue-600 text-lg font-semibold">{deck.name}</a>
+                <a className="text-blue-600 text-lg font-semibold">
+                  {deck.name}
+                </a>
               </Link>
             </li>
           ))}

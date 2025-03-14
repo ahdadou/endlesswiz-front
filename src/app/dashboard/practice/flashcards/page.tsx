@@ -1,7 +1,7 @@
-'use client';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+"use client";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 type Flashcard = {
   id: number;
@@ -18,8 +18,8 @@ type Flashcard = {
 const mockedFlashcards: Flashcard[] = [
   {
     id: 1,
-    question: 'What is the capital of France?',
-    answer: 'Paris',
+    question: "What is the capital of France?",
+    answer: "Paris",
     interval: 1,
     repetition: 0,
     easeFactor: 2.5,
@@ -28,8 +28,8 @@ const mockedFlashcards: Flashcard[] = [
   },
   {
     id: 2,
-    question: 'What is the largest planet in the solar system?',
-    answer: 'Jupiter',
+    question: "What is the largest planet in the solar system?",
+    answer: "Jupiter",
     interval: 1,
     repetition: 0,
     easeFactor: 2.5,
@@ -38,8 +38,8 @@ const mockedFlashcards: Flashcard[] = [
   },
   {
     id: 3,
-    question: 'What is the chemical symbol for water?',
-    answer: 'H2O',
+    question: "What is the chemical symbol for water?",
+    answer: "H2O",
     interval: 1,
     repetition: 0,
     easeFactor: 2.5,
@@ -53,8 +53,8 @@ export default function Home() {
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editQuestion, setEditQuestion] = useState('');
-  const [editAnswer, setEditAnswer] = useState('');
+  const [editQuestion, setEditQuestion] = useState("");
+  const [editAnswer, setEditAnswer] = useState("");
 
   // Handle flipping the card
   const handleFlip = () => {
@@ -108,7 +108,7 @@ export default function Home() {
       <div className="relative w-[60%] h-[60vh]">
         <motion.div
           className="absolute w-full h-full bg-white rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
-          style={{ backfaceVisibility: 'hidden' }}
+          style={{ backfaceVisibility: "hidden" }}
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ duration: 0.6 }}
           onClick={handleFlip}
@@ -119,7 +119,7 @@ export default function Home() {
         </motion.div>
         <motion.div
           className="absolute w-full h-full bg-white rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
-          style={{ backfaceVisibility: 'hidden', rotateY: 180 }}
+          style={{ backfaceVisibility: "hidden", rotateY: 180 }}
           animate={{ rotateY: isFlipped ? 0 : 180 }}
           transition={{ duration: 0.6 }}
           onClick={handleFlip}

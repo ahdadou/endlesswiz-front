@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
 interface Card {
   id: number;
@@ -25,20 +25,20 @@ export function DecksProvider({ children }: { children: React.ReactNode }) {
   const [decks, setDecks] = useState<Deck[]>([]);
 
   useEffect(() => {
-    const savedDecks = localStorage.getItem('decks');
+    const savedDecks = localStorage.getItem("decks");
     if (savedDecks) {
       setDecks(
         JSON.parse(savedDecks, (key, value) => {
-          if (key === 'nextReview') return new Date(value);
+          if (key === "nextReview") return new Date(value);
           return value;
-        })
+        }),
       );
     }
   }, []);
 
   useEffect(() => {
     if (decks.length > 0) {
-      localStorage.setItem('decks', JSON.stringify(decks));
+      localStorage.setItem("decks", JSON.stringify(decks));
     }
   }, [decks]);
 
@@ -52,7 +52,7 @@ export function DecksProvider({ children }: { children: React.ReactNode }) {
 export function useDecks() {
   const context = useContext(DecksContext);
   if (!context) {
-    throw new Error('useDecks must be used within a DecksProvider');
+    throw new Error("useDecks must be used within a DecksProvider");
   }
   return context;
 }

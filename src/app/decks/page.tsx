@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
-import { useDecks } from '../games/anki/deck';
-import Link from 'next/link';
+import { useState } from "react";
+import { useDecks } from "../games/anki/deck";
+import Link from "next/link";
 
 export default function DecksPage() {
   const { decks, setDecks } = useDecks();
-  const [newDeckName, setNewDeckName] = useState<string>('');
+  const [newDeckName, setNewDeckName] = useState<string>("");
 
   const handleCreateDeck = () => {
     if (newDeckName.trim()) {
@@ -16,7 +16,7 @@ export default function DecksPage() {
         cards: [],
       };
       setDecks([...decks, newDeck]);
-      setNewDeckName('');
+      setNewDeckName("");
     }
   };
 
@@ -48,7 +48,9 @@ export default function DecksPage() {
               className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
             >
               <Link href={`/decks/${deck?.id}`}>
-                <span className="text-blue-600 text-lg font-semibold">{deck?.name}</span>
+                <span className="text-blue-600 text-lg font-semibold">
+                  {deck?.name}
+                </span>
               </Link>
             </li>
           ))}

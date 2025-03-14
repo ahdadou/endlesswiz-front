@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import Link from 'next/link';
-import { useDecks } from '@/app/games/anki/deck';
-import { useRouter, useParams } from 'next/navigation';
+import Link from "next/link";
+import { useDecks } from "@/app/games/anki/deck";
+import { useRouter, useParams } from "next/navigation";
 
 export default function DeckPage() {
   const router = useRouter();
@@ -24,8 +24,8 @@ export default function DeckPage() {
     };
     setDecks(
       decks.map((d) =>
-        d.id === deck.id ? { ...d, cards: [...d.cards, newCard] } : d
-      )
+        d.id === deck.id ? { ...d, cards: [...d.cards, newCard] } : d,
+      ),
     );
   };
 
@@ -59,7 +59,9 @@ export default function DeckPage() {
         </ul>
       )}
 
-      <h2 className="text-2xl font-semibold text-gray-700 mt-6 mb-4">Add New Card</h2>
+      <h2 className="text-2xl font-semibold text-gray-700 mt-6 mb-4">
+        Add New Card
+      </h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();

@@ -265,7 +265,7 @@ const api = {
       return response;
     } catch (error: unknown) {
       console.error("### Error", error);
-      throw error; 
+      throw error;
     }
   },
   addPracticeSet: async (req: PracticeSetRequest) => {
@@ -280,7 +280,10 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-  updatePracticeSetDetails: async (setId: string ,req: PutPracticeSetDetailsRequest) => {
+  updatePracticeSetDetails: async (
+    setId: string,
+    req: PutPracticeSetDetailsRequest,
+  ) => {
     try {
       const response = await axiosClient.put<PracticeSetResponse>(
         `${getBaseUrl()}/practice_set/${setId}`,
@@ -313,7 +316,7 @@ const api = {
       return response;
     } catch (error: unknown) {
       console.error("### Error", error);
-      throw error; 
+      throw error;
     }
   },
   addPracticeWord: async (req: PracticeWordRequest) => {
@@ -340,8 +343,6 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-  
-
 };
 
 export default api;

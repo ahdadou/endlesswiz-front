@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   BookOpen,
   Search,
@@ -18,19 +18,29 @@ import {
   PenTool,
   Brain,
   Trash2,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import { Skeleton } from "@/components/ui/skeleton"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import api from "@/clients/api/api"
-import type { PracticeSetResponse } from "@/clients/types/apiTypes"
-import { useToast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import api from "@/clients/api/api";
+import type { PracticeSetResponse } from "@/clients/types/apiTypes";
+import { useToast } from "@/hooks/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -38,117 +48,131 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 export default function SetList() {
-  const [sets, setSets] = useState<PracticeSetResponse[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedTab, setSelectedTab] = useState("all")
-  const router = useRouter()
-  const { toast } = useToast()
+  const [sets, setSets] = useState<PracticeSetResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTab, setSelectedTab] = useState("all");
+  const router = useRouter();
+  const { toast } = useToast();
 
   // Add a state to track the set being deleted and dialog open state
-  const [setToDelete, setSetToDelete] = useState<PracticeSetResponse | null>(null)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [setToDelete, setSetToDelete] = useState<PracticeSetResponse | null>(
+    null,
+  );
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchSets = async () => {
       try {
-        setIsLoading(true)
-        const data = await api.fetchPracticeSets()
-        setSets(data)
+        setIsLoading(true);
+        const data = await api.fetchPracticeSets();
+        setSets(data);
       } catch (error) {
-        console.error("Failed to fetch sets:", error)
+        console.error("Failed to fetch sets:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchSets()
-  }, [])
+    fetchSets();
+  }, []);
 
   // Update the handleDeleteSet function to first open a confirmation dialog
   const handleDeleteSet = (set: PracticeSetResponse) => {
-    setSetToDelete(set)
-    setIsDeleteDialogOpen(true)
-  }
+    setSetToDelete(set);
+    setIsDeleteDialogOpen(true);
+  };
 
   // Add a new function to handle the actual deletion after confirmation
   const confirmDeleteSet = async () => {
-    if (!setToDelete) return
+    if (!setToDelete) return;
 
     try {
-      await api.deletePracticeSet(setToDelete.id)
+      await api.deletePracticeSet(setToDelete.id);
 
       // Update local state
-      setSets(sets.filter((set) => set.id !== setToDelete.id))
+      setSets(sets.filter((set) => set.id !== setToDelete.id));
 
       toast({
         title: "Set deleted",
         description: "The study set has been successfully deleted",
-      })
+      });
 
       // Close the dialog
-      setIsDeleteDialogOpen(false)
-      setSetToDelete(null)
+      setIsDeleteDialogOpen(false);
+      setSetToDelete(null);
     } catch (error) {
-      console.error("Failed to delete set:", error)
+      console.error("Failed to delete set:", error);
       toast({
         title: "Error",
         description: "Failed to delete study set",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const filteredSets = sets.filter(
     (set) =>
       set.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       set.description.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  );
 
   const filteredByTab = () => {
     switch (selectedTab) {
       case "favorites":
-        return filteredSets.filter((set) => set.isFavorite)
+        return filteredSets.filter((set) => set.isFavorite);
       case "recent":
         return [...filteredSets]
           .sort(
             (a, b) =>
-              new Date(b.lastPracticed || b.createdAt).getTime() - new Date(a.lastPracticed || a.createdAt).getTime(),
+              new Date(b.lastPracticed || b.createdAt).getTime() -
+              new Date(a.lastPracticed || a.createdAt).getTime(),
           )
-          .slice(0, 5)
+          .slice(0, 5);
       case "progress":
-        return [...filteredSets].sort((a, b) => (b.progress || 0) - (a.progress || 0))
+        return [...filteredSets].sort(
+          (a, b) => (b.progress || 0) - (a.progress || 0),
+        );
       default:
-        return filteredSets
+        return filteredSets;
     }
-  }
+  };
 
-  const displaySets = filteredByTab()
+  const displaySets = filteredByTab();
 
   const handlePractice = (setId?: string, mode?: string) => {
-    router.push(`/practice/${setId}?mode=${mode}`)
-  }
+    router.push(`/practice/${setId}?mode=${mode}`);
+  };
 
   const toggleFavorite = async (setId: string) => {
     try {
-      await api.toggleFavorite(setId)
-      setSets(sets.map((set) => (set.id === setId ? { ...set, isFavorite: !set.isFavorite } : set)))
+      await api.toggleFavorite(setId);
+      setSets(
+        sets.map((set) =>
+          set.id === setId ? { ...set, isFavorite: !set.isFavorite } : set,
+        ),
+      );
     } catch (error) {
-      console.error("Failed to toggle favorite:", error)
+      console.error("Failed to toggle favorite:", error);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold">Your Study Sets</h1>
-          <p className="text-muted-foreground mt-1">Manage and practice your study materials</p>
+          <p className="text-muted-foreground mt-1">
+            Manage and practice your study materials
+          </p>
         </div>
-        <Button onClick={() => router.push("/dashboard/practice/create-set")} className="flex items-center gap-2">
+        <Button
+          onClick={() => router.push("/dashboard/practice/create-set")}
+          className="flex items-center gap-2"
+        >
           <Plus className="h-4 w-4" />
           Create New Set
         </Button>
@@ -181,7 +205,11 @@ export default function SetList() {
           </DropdownMenu>
         </div>
 
-        <Tabs defaultValue="all" className="w-full" onValueChange={setSelectedTab}>
+        <Tabs
+          defaultValue="all"
+          className="w-full"
+          onValueChange={setSelectedTab}
+        >
           <TabsList className="grid grid-cols-4 md:w-fit">
             <TabsTrigger value="all">All Sets</TabsTrigger>
             <TabsTrigger value="favorites">Favorites</TabsTrigger>
@@ -215,8 +243,12 @@ export default function SetList() {
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div className="space-y-1">
-                          <h3 className="font-semibold text-lg line-clamp-1">{set.title}</h3>
-                          <p className="text-sm text-muted-foreground line-clamp-1">{set.description}</p>
+                          <h3 className="font-semibold text-lg line-clamp-1">
+                            {set.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground line-clamp-1">
+                            {set.description}
+                          </p>
                         </div>
                         {/* <Button
                           variant="ghost"
@@ -240,21 +272,32 @@ export default function SetList() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex items-center gap-2 mb-3">
-                        <Badge variant="outline" className="flex items-center gap-1">
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1"
+                        >
                           <Layers className="h-3 w-3" />
                           {set.wordCount} words
                         </Badge>
                         {set.lastPracticed && (
-                          <Badge variant="outline" className="flex items-center gap-1">
+                          <Badge
+                            variant="outline"
+                            className="flex items-center gap-1"
+                          >
                             <Clock className="h-3 w-3" />
-                            Last practiced {new Date(set.lastPracticed).toLocaleDateString()}
+                            Last practiced{" "}
+                            {new Date(set.lastPracticed).toLocaleDateString()}
                           </Badge>
                         )}
                       </div>
                       {set.tags && set.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-3">
                           {set.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge
+                              key={tag}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {tag}
                             </Badge>
                           ))}
@@ -318,7 +361,10 @@ export default function SetList() {
                           <span className="text-xs">Learn</span>
                         </Button>
                       </div>
-                      <Link href={`/dashboard/practice/set/${set.id}`} className="w-full">
+                      <Link
+                        href={`/dashboard/practice/set/${set.id}`}
+                        className="w-full"
+                      >
                         <Button variant="default" className="w-full">
                           View Set
                         </Button>
@@ -330,11 +376,19 @@ export default function SetList() {
             ) : (
               <div className="text-center py-12 border rounded-lg bg-muted/20">
                 <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">No study sets found</h3>
+                <h3 className="text-lg font-medium mb-2">
+                  No study sets found
+                </h3>
                 <p className="text-muted-foreground mb-6">
-                  {searchQuery ? "Try a different search term" : "Create your first study set to get started"}
+                  {searchQuery
+                    ? "Try a different search term"
+                    : "Create your first study set to get started"}
                 </p>
-                <Button onClick={() => router.push("/dashboard/practice/create-set")}>Create New Set</Button>
+                <Button
+                  onClick={() => router.push("/dashboard/practice/create-set")}
+                >
+                  Create New Set
+                </Button>
               </div>
             )}
           </TabsContent>
@@ -349,8 +403,12 @@ export default function SetList() {
             ) : (
               <div className="text-center py-12 border rounded-lg bg-muted/20">
                 <Star className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">No favorite sets yet</h3>
-                <p className="text-muted-foreground mb-6">Mark sets as favorites to find them quickly</p>
+                <h3 className="text-lg font-medium mb-2">
+                  No favorite sets yet
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Mark sets as favorites to find them quickly
+                </p>
               </div>
             )}
           </TabsContent>
@@ -377,8 +435,8 @@ export default function SetList() {
             <CardContent className="pt-6">
               <h3 className="font-medium mb-2">Spaced Repetition</h3>
               <p className="text-sm text-muted-foreground">
-                Study at increasing intervals to improve long-term retention. Review cards you find difficult more
-                frequently.
+                Study at increasing intervals to improve long-term retention.
+                Review cards you find difficult more frequently.
               </p>
             </CardContent>
           </Card>
@@ -386,7 +444,8 @@ export default function SetList() {
             <CardContent className="pt-6">
               <h3 className="font-medium mb-2">Active Recall</h3>
               <p className="text-sm text-muted-foreground">
-                Test yourself instead of passively reading. Try to recall information before flipping flashcards.
+                Test yourself instead of passively reading. Try to recall
+                information before flipping flashcards.
               </p>
             </CardContent>
           </Card>
@@ -394,7 +453,8 @@ export default function SetList() {
             <CardContent className="pt-6">
               <h3 className="font-medium mb-2">Mix Practice Types</h3>
               <p className="text-sm text-muted-foreground">
-                Alternate between different study modes to engage different parts of your brain and improve memory.
+                Alternate between different study modes to engage different
+                parts of your brain and improve memory.
               </p>
             </CardContent>
           </Card>
@@ -445,7 +505,8 @@ export default function SetList() {
           <DialogHeader>
             <DialogTitle>Delete Study Set</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this study set? This action cannot be undone.
+              Are you sure you want to delete this study set? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
@@ -453,13 +514,17 @@ export default function SetList() {
               <>
                 <p className="font-medium">{setToDelete.title}</p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  This set contains {setToDelete.wordCount} {setToDelete.wordCount === 1 ? "word" : "words"}.
+                  This set contains {setToDelete.wordCount}{" "}
+                  {setToDelete.wordCount === 1 ? "word" : "words"}.
                 </p>
               </>
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button variant="destructive" onClick={confirmDeleteSet}>
@@ -469,6 +534,5 @@ export default function SetList() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
-

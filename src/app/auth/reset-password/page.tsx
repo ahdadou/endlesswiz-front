@@ -17,7 +17,7 @@ const ResetPassword = () => {
   const token = searchParams.get("token");
   const router = useRouter();
   const { toast } = useToast();
-  
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +47,7 @@ const ResetPassword = () => {
 
     try {
       await resetPasswordRequest({ token, password, confirmPassword });
-      
+
       toast({
         title: "Password Reset",
         description: "Your password has been reset successfully",
@@ -56,7 +56,8 @@ const ResetPassword = () => {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message || "Failed to reset password. Please try again.",
+        description:
+          err.message || "Failed to reset password. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -75,7 +76,8 @@ const ResetPassword = () => {
         >
           <h2 className="text-2xl font-bold">Invalid Token</h2>
           <p className="text-muted-foreground">
-            The reset link is invalid or has expired. Please request a new password reset link.
+            The reset link is invalid or has expired. Please request a new
+            password reset link.
           </p>
           <Button asChild variant="link">
             <Link href="/auth/forgot-password" className="gap-1">
