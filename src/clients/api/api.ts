@@ -11,6 +11,12 @@ import {
   RegisterRequest,
   GetWordResponse,
   TranscriptResponse,
+  PracticeSetRequest,
+  PracticeWordRequest,
+  PracticeSetResponse,
+  PracticeWordResponse,
+  GetPracticeSetDetailsResponse,
+  PutPracticeSetDetailsRequest,
 } from "../types/apiTypes";
 
 const api = {
@@ -227,6 +233,115 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
+  fetchPracticeSets: async () => {
+    try {
+      const response = await axiosClient.get<PracticeSetResponse[]>(
+        `${getBaseUrl()}/practice_set`,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  // Practice set
+  fetchPracticeSetDetailsById: async (setId: string) => {
+    try {
+      const response = await axiosClient.get<GetPracticeSetDetailsResponse>(
+        `${getBaseUrl()}/practice_set/${setId}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  deletePracticeSet: async (id: string) => {
+    try {
+      const response = await axiosClient.delete<boolean>(
+        `${getBaseUrl()}/practice_set/${id}`,
+      );
+
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; 
+    }
+  },
+  addPracticeSet: async (req: PracticeSetRequest) => {
+    try {
+      const response = await axiosClient.post<PracticeSetResponse>(
+        `${getBaseUrl()}/practice_set`,
+        req,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updatePracticeSetDetails: async (setId: string ,req: PutPracticeSetDetailsRequest) => {
+    try {
+      const response = await axiosClient.put<PracticeSetResponse>(
+        `${getBaseUrl()}/practice_set/${setId}`,
+        req,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  // Practice word
+  fetchPracticeWords: async (setId: string) => {
+    try {
+      const response = await axiosClient.get<PracticeSetResponse[]>(
+        `${getBaseUrl()}/practice_word/${setId}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  deletePracticeWord: async (id: string) => {
+    try {
+      const response = await axiosClient.delete<boolean>(
+        `${getBaseUrl()}/practice_word/${id}`,
+      );
+
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; 
+    }
+  },
+  addPracticeWord: async (req: PracticeWordRequest) => {
+    try {
+      const response = await axiosClient.post<PracticeWordResponse>(
+        `${getBaseUrl()}/practice_word`,
+        req,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updatePracticeWord: async (req: PracticeWordRequest) => {
+    try {
+      const response = await axiosClient.put<PracticeWordResponse>(
+        `${getBaseUrl()}/practice_word`,
+        req,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  
+
 };
 
 export default api;

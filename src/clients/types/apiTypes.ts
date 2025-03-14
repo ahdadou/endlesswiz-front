@@ -93,11 +93,59 @@ export interface FavoriteWordRequest {
 }
 
 export interface ResetlinkRequest {
-  email: string
+  email: string;
 }
 
 export interface ResetpasswordRequest {
-  token: string
-  password: string
-  confirmPassword: string
+  token: string;
+  password: string;
+  confirmPassword: string;
+}
+export interface PracticeSetRequest {
+  id?: string;
+  description?: string;
+  title: string;
+  words?: PracticeWordRequest[];
+}
+
+export interface PutPracticeSetDetailsRequest {
+  description?: string;
+  title: string;
+  words?: PracticeWordRequest[];
+}
+export interface PracticeSetResponse {
+  id?: string;
+  description?: string;
+  title: string;
+
+  wordCount: number
+  createdAt: string
+  lastPracticed?: string
+  progress?: number
+  isFavorite?: boolean
+  tags?: string[]
+}
+
+export interface PracticeWordRequest {
+  id?: string;
+  word: string;
+  example?: string;
+  description?: string;
+}
+
+export interface GetPracticeSetDetailsResponse {
+  id?: string;
+  title: string
+  description: string
+  words: PracticeWordResponse[]
+  createdAt: string
+  lastPracticed?: string
+  tags?: string[]
+}
+
+export interface PracticeWordResponse {
+  id: string;
+  word: string;
+  example: string;
+  description: string;
 }
