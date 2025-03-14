@@ -159,7 +159,7 @@ export default function FlashcardsPage() {
           </div>
           <Progress value={progress} className="h-2" />
         </div>
-        <div className="relative w-[95%] h-[50vh]">
+        <div className="relative w-[60%] h-[50vh]">
           <motion.div
             className="absolute w-full h-full bg-white rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
             style={{ backfaceVisibility: "hidden" }}

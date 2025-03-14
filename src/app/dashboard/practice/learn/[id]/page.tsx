@@ -187,7 +187,7 @@ export default function LearnPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/sets")}>Back to Sets</Button>
+        <Button onClick={() => router.push("/dashboard/practice")}>Back to Sets</Button>
       </div>
     );
   }
@@ -203,7 +203,7 @@ export default function LearnPage() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.push("/sets")}
+            onClick={() => router.push("/dashboard/practice")}
           >
             <ArrowLeft className="h-4 w-4" />
             <span className="sr-only">Back to sets</span>
@@ -258,7 +258,7 @@ export default function LearnPage() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/sets")}
+          onClick={() => router.push("/dashboard/practice")}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>

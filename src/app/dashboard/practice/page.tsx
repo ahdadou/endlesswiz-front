@@ -147,19 +147,6 @@ export default function SetList() {
     router.push(`/dashboard/practice/${mode}/${setId}`);
   };
 
-  const toggleFavorite = async (setId: string) => {
-    try {
-      await api.toggleFavorite(setId);
-      setSets(
-        sets.map((set) =>
-          set.id === setId ? { ...set, isFavorite: !set.isFavorite } : set,
-        ),
-      );
-    } catch (error) {
-      console.error("Failed to toggle favorite:", error);
-    }
-  };
-
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
