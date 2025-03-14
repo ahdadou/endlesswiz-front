@@ -412,36 +412,34 @@ export default function SetList() {
       </div>
 
       {/* Study Tips Section */}
-      <div className="mt-12 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+      <div className="mt-12 rounded-xl p-6 pattern-bg border border-forest-100 shadow-custom">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-forest">
           <FlaskConical className="h-5 w-5" />
           Study Smart
         </h2>
         <div className="grid gap-4 md:grid-cols-3">
-          <Card>
+          <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2">Spaced Repetition</h3>
+              <h3 className="font-medium mb-2 text-forest">Spaced Repetition</h3>
               <p className="text-sm text-muted-foreground">
-                Study at increasing intervals to improve long-term retention.
-                Review cards you find difficult more frequently.
+                Study at increasing intervals to improve long-term retention. Review cards you find difficult more
+                frequently.
               </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2">Active Recall</h3>
+              <h3 className="font-medium mb-2 text-forest">Active Recall</h3>
               <p className="text-sm text-muted-foreground">
-                Test yourself instead of passively reading. Try to recall
-                information before flipping flashcards.
+                Test yourself instead of passively reading. Try to recall information before flipping flashcards.
               </p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2">Mix Practice Types</h3>
+              <h3 className="font-medium mb-2 text-forest">Mix Practice Types</h3>
               <p className="text-sm text-muted-foreground">
-                Alternate between different study modes to engage different
-                parts of your brain and improve memory.
+                Alternate between different study modes to engage different parts of your brain and improve memory.
               </p>
             </CardContent>
           </Card>
