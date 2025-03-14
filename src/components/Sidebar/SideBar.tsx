@@ -33,7 +33,7 @@ const SideBar = () => {
       label: "Video Library",
       href: "/dashboard/videoslibrary",
     },
-    { icon: <Gamepad />, label: "Games", href: "/dashboard/practice" },
+    { icon: <Gamepad />, label: "Practice", href: "/dashboard/practice" },
     { icon: <Clock />, label: "Study Time", href: "/dashboard/studytime" },
     { icon: <Settings />, label: "Settings", href: "/dashboard/settings" },
   ];

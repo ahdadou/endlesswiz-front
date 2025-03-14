@@ -144,7 +144,7 @@ export default function SetList() {
   const displaySets = filteredByTab();
 
   const handlePractice = (setId?: string, mode?: string) => {
-    router.push(`/practice/${setId}?mode=${mode}`);
+    router.push(`/dashboard/practice/${mode}/${setId}`);
   };
 
   const toggleFavorite = async (setId: string) => {

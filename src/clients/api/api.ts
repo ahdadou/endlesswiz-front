@@ -298,7 +298,7 @@ const api = {
   // Practice word
   fetchPracticeWords: async (setId: string) => {
     try {
-      const response = await axiosClient.get<PracticeSetResponse[]>(
+      const response = await axiosClient.get<PracticeWordResponse[]>(
         `${getBaseUrl()}/practice_word/${setId}`,
       );
       return response;

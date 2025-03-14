@@ -156,7 +156,7 @@ export default function SetPage() {
   };
 
   const handlePractice = (mode: string) => {
-    router.push(`/practice/${id}?mode=${mode}`);
+    router.push(`/dashboard/practice/${mode}/${id}`);
   };
 
   if (isLoading) {
