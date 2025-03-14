@@ -1,137 +1,182 @@
-import Link from "next/link";
-import { useState } from "react";
+"use client"
 
+import { useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
-  BookOpen,
-  Gamepad,
+  LayoutDashboard,
   Video,
-  Trophy,
-  Clock,
-  Star,
-  User,
   Settings,
   LogOut,
-  X,
-  Menu,
+  ChevronLeft,
+  ChevronRight,
   Mic,
-} from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
+  Library,
+  User,
+  ChevronDown,
+  Bell,
+  MessageSquare,
+  HelpCircle,
+  Dumbbell,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-const SideBar = () => {
-  const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
-  const { userData } = useUserDataZustandState();
-  const router = useRouter();
+export default function DashboardSidebar() {
+  const [collapsed, setCollapsed] = useState(false)
+  const pathname = usePathname()
 
   const navItems = [
-    { icon: <Trophy />, label: "Dashboard", href: "/dashboard" },
-    { icon: <Mic />, label: "Pronounce Word", href: "/dashboard/pronounce" }, // New button
-    { icon: <BookOpen />, label: "My Words", href: "/dashboard/mywords" },
     {
-      icon: <Video />,
-      label: "Video Library",
-      href: "/dashboard/videoslibrary",
+      title: "Dashboard",
+      icon: <LayoutDashboard className="h-5 w-5" />,
+      href: "/dashboard",
     },
-    { icon: <Gamepad />, label: "Practice", href: "/dashboard/practice" },
-    { icon: <Clock />, label: "Study Time", href: "/dashboard/studytime" },
-    { icon: <Settings />, label: "Settings", href: "/dashboard/settings" },
-  ];
-
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "GET" });
-    } catch (error) {
-      console.error("Logout failed:", error);
-    } finally {
-      router.push("/");
-    }
-  };
+    {
+      title: "Pronounce",
+      icon: <Mic className="h-5 w-5" />,
+      href: "/pronounce",
+    },
+    {
+      title: "Words Library",
+      icon: <Library className="h-5 w-5" />,
+      href: "/words",
+    },
+    {
+      title: "Videos Library",
+      icon: <Video className="h-5 w-5" />,
+      href: "/videos",
+    },
+    {
+      title: "Practice",
+      icon: <Dumbbell className="h-5 w-5" />,
+      href: "/practice",
+    },
+    {
+      title: "Settings",
+      icon: <Settings className="h-5 w-5" />,
+      href: "/settings",
+    },
+  ]
 
   return (
-    <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 right-4 p-2 z-50 bg-white rounded-lg shadow-md"
+    <div
+      className={cn(
+        "h-screen bg-white border-r border-gray-200 transition-all duration-300 relative",
+        collapsed ? "w-20" : "w-64",
+      )}
+    >
+      {/* Toggle button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-gray-200 bg-white shadow-sm z-10"
+        onClick={() => setCollapsed(!collapsed)}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+        {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+      </Button>
 
-      {/* Sidebar */}
-      <aside
-        className={`w-64 bg-white p-4 border-r border-gray-200 fixed lg:sticky top-0 h-screen transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 transition-transform duration-200 z-40`}
-      >
-        {/* Close Button for Mobile */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden absolute top-4 right-4 p-1"
-        >
-          <X className="w-5 h-5 text-gray-500" />
-        </button>
-
-        {/* User Profile */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="font-semibold">
-              {userData?.firstName} {userData?.lastName}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {userData?.level ?? "Beginner"}
-            </p>
-          </div>
+      <div className="flex flex-col h-full p-4">
+        {/* User profile with dropdown */}
+        <div className={cn("mb-8", collapsed ? "flex justify-center" : "px-2")}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="p-0 h-auto w-auto flex items-center gap-2">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarFallback className="bg-forest text-cream">JD</AvatarFallback>
+                </Avatar>
+                {!collapsed && (
+                  <div className="flex items-center justify-between w-full">
+                    <div className="text-left">
+                      <p className="font-medium text-forest">John Doe</p>
+                      <p className="text-xs text-muted-foreground">Premium Member</p>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align={collapsed ? "center" : "start"} className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Bell className="mr-2 h-4 w-4" />
+                <span>Notifications</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <MessageSquare className="mr-2 h-4 w-4" />
+                <span>Messages</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <HelpCircle className="mr-2 h-4 w-4" />
+                <span>Help & Support</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
-        <nav className="space-y-2 h-[calc(100vh-160px)] overflow-y-auto">
+        {/* Navigation */}
+        <nav className="space-y-1 flex-1">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href
+
             return (
-              <Link
-                href={item.href}
-                key={item.href} // Changed key to href for better uniqueness
-                className="block hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                <button
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-blue-50 text-blue-600"
-                      : "hover:bg-gray-100 text-gray-700"
-                  }`}
+              <Link key={item.href} href={item.href}>
+                <div
+                  className={cn(
+                    "flex items-center py-2 px-3 rounded-md transition-colors",
+                    isActive ? "bg-forest text-cream" : "text-gray-700 hover:bg-gray-100",
+                    collapsed && "justify-center px-2",
+                  )}
                 >
-                  {item.icon}
-                  <span className="text-gray-700">{item.label}</span>
-                </button>
+                  <span className={cn(collapsed ? "mr-0" : "mr-3")}>{item.icon}</span>
+                  {!collapsed && <span>{item.title}</span>}
+                </div>
               </Link>
-            );
+            )
           })}
         </nav>
-        {/* Logout Button */}
-        <div className="mt-auto pt-4 border-t border-gray-200">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-red-500"
-          >
-            <LogOut className="w-5 h-5" />
-            <span>Log Out</span>
-          </button>
-        </div>
-      </aside>
 
-      {/* Backdrop for Mobile */}
-      {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-    </>
-  );
-};
+        <Separator className="my-4" />
 
-export default SideBar;
+        {/* Logout button */}
+        <Button
+          variant="ghost"
+          className={cn(
+            "flex items-center text-gray-700 hover:bg-gray-100 transition-colors",
+            collapsed && "justify-center px-2",
+          )}
+        >
+          <LogOut className={cn("h-5 w-5", collapsed ? "mr-0" : "mr-3")} />
+          {!collapsed && <span>Logout</span>}
+        </Button>
+      </div>
+    </div>
+  )
+}
+

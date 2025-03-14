@@ -1,177 +1,508 @@
-// app/page.tsx
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Gamepad, Video, Trophy, Clock, Star } from "lucide-react";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
+import {
+  BookOpen,
+  Brain,
+  Gamepad2,
+  PenTool,
+  BarChart2,
+  Clock,
+  TrendingUp,
+  Calendar,
+  Award,
+  Zap,
+  Video,
+  ChevronRight,
+  Plus,
+  Heart,
+  BookMarked,
+  Mic,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import { Badge } from "@/components/ui/badge"
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts"
+import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar"
 
-export default function Home() {
-  // Mock data
-  const progressData = {
-    dailyStreak: 16,
-    masteredWords: 245,
-    timeSpent: "45h",
-    dailyGoals: 75, // Percentage
-    recentWords: ["Serendipity", "Ephemeral", "Quintessential"],
-  };
+// Mock data for the dashboard
+const studyStats = {
+  totalSets: 12,
+  wordsLearned: 347,
+  favoriteWords: 58,
+  videosWatched: 24,
+  studyTime: "5.2h",
+  avgAccuracy: "86%",
+  streak: 7,
+  lastActivity: "2 hours ago",
+  totalPractices: 42,
+  completedTests: 15,
+}
+
+const recentSets = [
+  {
+    id: "1",
+    title: "English Vocabulary - Beginner",
+    progress: 68,
+    wordCount: 42,
+    lastPracticed: "2 days ago",
+  },
+  {
+    id: "2",
+    title: "Business English Terms",
+    progress: 45,
+    wordCount: 35,
+    lastPracticed: "3 days ago",
+  },
+  {
+    id: "3",
+    title: "English Idioms and Phrases",
+    progress: 92,
+    wordCount: 28,
+    lastPracticed: "1 week ago",
+  },
+]
+
+const categories = [
+  { name: "Languages", count: 5, icon: <BookOpen className="h-4 w-4" /> },
+  { name: "Science", count: 3, icon: <Brain className="h-4 w-4" /> },
+  { name: "Technology", count: 2, icon: <Zap className="h-4 w-4" /> },
+  { name: "Business", count: 2, icon: <TrendingUp className="h-4 w-4" /> },
+]
+
+// Mock activity data for the calendar (similar to GitHub contributions)
+const generateActivityData = () => {
+  const today = new Date()
+  const data = {}
+
+  // Generate data for the last 365 days
+  for (let i = 0; i < 365; i++) {
+    const date = new Date(today)
+    date.setDate(today.getDate() - i)
+    const dateStr = date.toISOString().split("T")[0]
+
+    // Random activity level (0-4)
+    // 0: no activity, 1-4: increasing levels of activity
+    const activityLevel = Math.floor(Math.random() * 5)
+
+    data[dateStr] = activityLevel
+  }
+
+  return data
+}
+
+// Mock data for charts
+const weeklyProgressData = [
+  { name: "Mon", words: 12, time: 0.8 },
+  { name: "Tue", words: 19, time: 1.2 },
+  { name: "Wed", words: 8, time: 0.5 },
+  { name: "Thu", words: 24, time: 1.5 },
+  { name: "Fri", words: 15, time: 1.0 },
+  { name: "Sat", words: 32, time: 2.1 },
+  { name: "Sun", words: 21, time: 1.4 },
+]
+
+const categoryDistributionData = [
+  { name: "Languages", value: 45 },
+  { name: "Science", value: 20 },
+  { name: "Technology", value: 15 },
+  { name: "Business", value: 10 },
+  { name: "Other", value: 10 },
+]
+
+const COLORS = ["#14281d", "#3d7d5a", "#5f9477", "#81ab94", "#a3c2b1"]
+
+export default function Dashboard() {
+  const router = useRouter()
+  const [activityData] = useState(generateActivityData())
 
   return (
-    <div className="bg-white text-gray-900 flex">
-      <main className="flex-1 p-8 bg-gray-50">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Learning Dashboard
-          </h1>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" className="text-blue-500">
-              <Star className="w-5 h-5 mr-2" />
-              2450 Points
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex">
+        {/* Main Content */}
+        <div className="flex-1 p-8 overflow-auto">
+          {/* Welcome Section */}
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-forest">Welcome back, John!</h1>
+              <p className="text-muted-foreground">Track your progress and continue learning</p>
+            </div>
+            <Button onClick={() => router.push("/create-set")} className="bg-forest hover:bg-forest-700 text-cream">
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Set
             </Button>
           </div>
-        </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[
-            {
-              icon: <Trophy className="w-8 h-8 text-blue-500" />,
-              title: "Daily Streak",
-              value: `${progressData.dailyStreak} days`,
-              bg: "bg-blue-50",
-            },
-            {
-              icon: <BookOpen className="w-8 h-8 text-purple-500" />,
-              title: "Mastered Words",
-              value: progressData.masteredWords,
-              bg: "bg-purple-50",
-            },
-            {
-              icon: <Clock className="w-8 h-8 text-green-500" />,
-              title: "Time Spent",
-              value: progressData.timeSpent,
-              bg: "bg-green-50",
-            },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              className={`${stat.bg} p-6 rounded-xl border border-gray-200`}
-              whileHover={{ y: -5 }}
-            >
-              <div className="flex items-center gap-4">
-                {stat.icon}
-                <div>
-                  <h3 className="text-gray-500 mb-1">{stat.title}</h3>
-                  <div className="text-2xl font-bold text-gray-900">
-                    {stat.value}
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+              <Card className="border-forest-100 shadow-sm">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Words Learned</p>
+                      <p className="text-3xl font-bold text-forest">{studyStats.wordsLearned}</p>
+                    </div>
+                    <div className="rounded-full bg-forest/10 p-2">
+                      <BookOpen className="h-5 w-5 text-forest" />
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </motion.div>
-          ))}
-        </div>
 
-        {/* Progress Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Daily Goals */}
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <h3 className="text-lg font-semibold mb-4">Daily Goals</h3>
-            <div className="flex items-center gap-6">
-              <div className="relative w-24 h-24">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-gray-900">
-                    {progressData.dailyGoals}%
-                  </span>
-                </div>
-                <svg className="transform -rotate-90 w-24 h-24">
-                  <circle
-                    cx="48"
-                    cy="48"
-                    r="44"
-                    className="stroke-current text-gray-200"
-                    strokeWidth="8"
-                    fill="none"
-                  />
-                  <circle
-                    cx="48"
-                    cy="48"
-                    r="44"
-                    className="stroke-current text-blue-500"
-                    strokeWidth="8"
-                    fill="none"
-                    strokeDasharray={`${2.75 * progressData.dailyGoals} 282`}
-                  />
-                </svg>
-              </div>
-              <div className="space-y-2">
-                <p className="text-gray-600">15/20 words learned</p>
-                <p className="text-gray-600">45/60 minutes studied</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Words */}
-          <div className="bg-white p-6 rounded-xl border border-gray-200">
-            <h3 className="text-lg font-semibold mb-4">Recent Words</h3>
-            <div className="space-y-3">
-              {progressData.recentWords.map((word, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                  whileHover={{ x: 5 }}
-                >
-                  <span className="font-medium text-gray-900">{word}</span>
-                  <Button variant="ghost" size="sm" className="text-blue-500">
-                    Practice
-                  </Button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: <Gamepad className="w-12 h-12 text-purple-500" />,
-              title: "Pronunciation Games",
-              description: "Improve your skills through interactive challenges",
-              button: "Start Playing",
-              bg: "bg-purple-50",
-            },
-            {
-              icon: <Video className="w-12 h-12 text-blue-500" />,
-              title: "Video Library",
-              description: "Watch and learn from real-life examples",
-              button: "Browse Videos",
-              bg: "bg-blue-50",
-            },
-            {
-              icon: <Star className="w-12 h-12 text-yellow-500" />,
-              title: "Achievements",
-              description: "Unlock rewards and track progress",
-              button: "View Achievements",
-              bg: "bg-yellow-50",
-            },
-          ].map((action, index) => (
             <motion.div
-              key={index}
-              className={`${action.bg} p-6 rounded-xl border border-gray-200 flex flex-col items-center text-center`}
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
-              {action.icon}
-              <h3 className="text-lg font-semibold mb-2 mt-4">
-                {action.title}
-              </h3>
-              <p className="text-gray-600 mb-4">{action.description}</p>
-              <Button className="w-full bg-white text-gray-900 hover:bg-gray-100 border border-gray-200">
-                {action.button}
-              </Button>
+              <Card className="border-forest-100 shadow-sm">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Favorite Words</p>
+                      <p className="text-3xl font-bold text-forest">{studyStats.favoriteWords}</p>
+                    </div>
+                    <div className="rounded-full bg-forest/10 p-2">
+                      <Heart className="h-5 w-5 text-forest" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
-          ))}
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+            >
+              <Card className="border-forest-100 shadow-sm">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Videos Watched</p>
+                      <p className="text-3xl font-bold text-forest">{studyStats.videosWatched}</p>
+                    </div>
+                    <div className="rounded-full bg-forest/10 p-2">
+                      <Video className="h-5 w-5 text-forest" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
+            >
+              <Card className="border-forest-100 shadow-sm">
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Study Time</p>
+                      <p className="text-3xl font-bold text-forest">{studyStats.studyTime}</p>
+                    </div>
+                    <div className="rounded-full bg-forest/10 p-2">
+                      <Clock className="h-5 w-5 text-forest" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            {/* Weekly Progress Chart */}
+            <Card className="border-forest-100 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-forest flex items-center">
+                  <BarChart2 className="h-5 w-5 mr-2" />
+                  Weekly Learning Progress
+                </CardTitle>
+                <CardDescription>Words learned and study time per day</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={weeklyProgressData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis yAxisId="left" orientation="left" stroke="#14281d" />
+                      <YAxis yAxisId="right" orientation="right" stroke="#3d7d5a" />
+                      <Tooltip />
+                      <Legend />
+                      <Bar yAxisId="left" dataKey="words" name="Words Learned" fill="#14281d" radius={[4, 4, 0, 0]} />
+                      <Bar yAxisId="right" dataKey="time" name="Study Hours" fill="#3d7d5a" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Category Distribution Chart */}
+            <Card className="border-forest-100 shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-forest flex items-center">
+                  <PieChart className="h-5 w-5 mr-2" />
+                  Category Distribution
+                </CardTitle>
+                <CardDescription>Breakdown of your study materials by category</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={categoryDistributionData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {categoryDistributionData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Activity Calendar */}
+          <Card className="mb-8 border-forest-100 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-forest flex items-center">
+                <Calendar className="h-5 w-5 mr-2" />
+                Your Activity
+              </CardTitle>
+              <CardDescription>Track your daily learning consistency</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ActivityCalendar data={activityData} />
+              <div className="flex justify-end items-center mt-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-1 mr-4">Less</div>
+                <div className="flex gap-1">
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <div
+                      key={level}
+                      className={`w-3 h-3 rounded-sm ${
+                        level === 0
+                          ? "bg-gray-200"
+                          : level === 1
+                            ? "bg-forest-100"
+                            : level === 2
+                              ? "bg-forest-300"
+                              : level === 3
+                                ? "bg-forest-500"
+                                : "bg-forest"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center gap-1 ml-1">More</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Recent Sets and Learning Stats */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Recent Sets */}
+            <div className="lg:col-span-2">
+              <Card className="border-forest-100 shadow-sm">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-forest flex items-center">
+                    <Clock className="h-5 w-5 mr-2" />
+                    Recent Sets
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    className="text-forest hover:text-forest-700"
+                    onClick={() => router.push("/sets")}
+                  >
+                    View All
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {recentSets.map((set) => (
+                      <div
+                        key={set.id}
+                        className="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                        onClick={() => router.push(`/set/${set.id}`)}
+                      >
+                        <div className="flex-1">
+                          <h3 className="font-medium text-forest">{set.title}</h3>
+                          <div className="flex items-center text-sm text-muted-foreground mt-1">
+                            <BookOpen className="h-3.5 w-3.5 mr-1" />
+                            {set.wordCount} words
+                            <span className="mx-2">•</span>
+                            <Clock className="h-3.5 w-3.5 mr-1" />
+                            {set.lastPracticed}
+                          </div>
+                        </div>
+                        <div className="w-32">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span>Progress</span>
+                            <span>{set.progress}%</span>
+                          </div>
+                          <Progress value={set.progress} className="h-2" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Learning Stats */}
+            <div>
+              <Card className="border-forest-100 shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-forest flex items-center">
+                    <Award className="h-5 w-5 mr-2" />
+                    Learning Stats
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-forest/10 p-2 mr-3">
+                          <Zap className="h-4 w-4 text-forest" />
+                        </div>
+                        <span className="text-forest">Current Streak</span>
+                      </div>
+                      <Badge variant="outline" className="font-bold">
+                        {studyStats.streak} days
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-forest/10 p-2 mr-3">
+                          <BookMarked className="h-4 w-4 text-forest" />
+                        </div>
+                        <span className="text-forest">Total Sets</span>
+                      </div>
+                      <Badge variant="outline" className="font-bold">
+                        {studyStats.totalSets}
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-forest/10 p-2 mr-3">
+                          <PenTool className="h-4 w-4 text-forest" />
+                        </div>
+                        <span className="text-forest">Completed Tests</span>
+                      </div>
+                      <Badge variant="outline" className="font-bold">
+                        {studyStats.completedTests}
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-forest/10 p-2 mr-3">
+                          <Gamepad2 className="h-4 w-4 text-forest" />
+                        </div>
+                        <span className="text-forest">Practice Sessions</span>
+                      </div>
+                      <Badge variant="outline" className="font-bold">
+                        {studyStats.totalPractices}
+                      </Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <div className="rounded-full bg-forest/10 p-2 mr-3">
+                          <Brain className="h-4 w-4 text-forest" />
+                        </div>
+                        <span className="text-forest">Accuracy Rate</span>
+                      </div>
+                      <Badge variant="outline" className="font-bold">
+                        {studyStats.avgAccuracy}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Quick Actions */}
+              <Card className="border-forest-100 shadow-sm mt-6">
+                <CardHeader>
+                  <CardTitle className="text-forest flex items-center">
+                    <Zap className="h-5 w-5 mr-2" />
+                    Quick Actions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button
+                      variant="outline"
+                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                      onClick={() => router.push("/create-set")}
+                    >
+                      <Plus className="h-5 w-5 mb-1" />
+                      <span>New Set</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                      onClick={() => router.push("/practice/1?mode=flashcards")}
+                    >
+                      <BookOpen className="h-5 w-5 mb-1" />
+                      <span>Practice</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                      onClick={() => router.push("/videos")}
+                    >
+                      <Video className="h-5 w-5 mb-1" />
+                      <span>Videos</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                      onClick={() => router.push("/pronounce")}
+                    >
+                      <Mic className="h-5 w-5 mb-1" />
+                      <span>Pronounce</span>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
     </div>
-  );
+  )
 }
+
