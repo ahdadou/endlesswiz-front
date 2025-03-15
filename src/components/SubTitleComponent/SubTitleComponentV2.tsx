@@ -34,7 +34,7 @@ export function SubTitleComponentV2({
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle"
+    "idle",
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -271,7 +271,7 @@ export function SubTitleComponentV2({
                                               "{example}"
                                             </p>
                                           </div>
-                                        )
+                                        ),
                                       )}
                                     </div>
                                   )}
@@ -289,7 +289,7 @@ export function SubTitleComponentV2({
                 </>
               ) : (
                 <div className="p-4  rounded-lg h-[50vh] w-full flex justify-center items-center  text-red-600">
-                    Failed to load word details
+                  Failed to load word details
                 </div>
               )}
             </div>

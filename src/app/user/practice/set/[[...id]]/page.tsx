@@ -307,9 +307,7 @@ export default function SetPage() {
         <Button
           variant="outline"
           size="sm"
-          onClick={() =>
-            router.push(`/user/practice/create-set/${set.id}`)
-          }
+          onClick={() => router.push(`/user/practice/create-set/${set.id}`)}
           className="flex items-center gap-1"
         >
           <Plus className="h-3.5 w-3.5" />
@@ -374,9 +372,7 @@ export default function SetPage() {
               Add some words to start studying
             </p>
             <Button
-              onClick={() =>
-                router.push(`/user/practice/create-set/${set.id}`)
-              }
+              onClick={() => router.push(`/user/practice/create-set/${set.id}`)}
             >
               Add Words
             </Button>

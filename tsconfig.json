@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/user/practice/flashcards/page.tsx",
-    "src/app/user/practice/create-set/page.tsx_"
-, "src/app/user/words/layout.tsx_"  ],
+    "src/app/user/practice/create-set/page.tsx_",
+    "src/app/user/words/layout.tsx_"
+  ],
   "exclude": ["node_modules"]
 }

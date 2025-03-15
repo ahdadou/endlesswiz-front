@@ -8,9 +8,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     <main className="h-full overflow-auto flex">
       <ZustandUserDataProvider>
         <SideBar />
-        <div className="overflow-auto h-full w-full">
-          {children}
-        </div>
+        <div className="overflow-auto h-full w-full">{children}</div>
       </ZustandUserDataProvider>
     </main>
   );

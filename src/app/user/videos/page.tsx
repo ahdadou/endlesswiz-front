@@ -41,7 +41,7 @@ const VideoLibraryPage = () => {
   const { innerWidth } = useWindowDimensions();
   const isExtraSmall = useMemo(
     () => innerWidth < SMALL_MIN_WIDTH,
-    [innerWidth]
+    [innerWidth],
   );
 
   const fetchVideos = async (pageNumber: number) => {
@@ -157,7 +157,7 @@ const VideoLibraryPage = () => {
             className="w-[100%] md:w-[40%] h-[80vh] flex flex-col gap-4 overflow-y-auto"
           >
             {/* Subtitles */}
-            <div >
+            <div>
               <SubTitleComponentV2
                 isAuthenticated={true}
                 showCurrentTranscriptInTheMiddle={false}
