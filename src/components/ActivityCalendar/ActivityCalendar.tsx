@@ -1,43 +1,50 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { format, subMonths, addMonths, startOfMonth, endOfMonth, isSameDay } from "date-fns"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  format,
+  subMonths,
+  addMonths,
+  startOfMonth,
+  endOfMonth,
+  isSameDay,
+} from "date-fns";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ActivityCalendarProps {
-  data: Record<string, number>
+  data: Record<string, number>;
 }
 
 export default function ActivityCalendar({ data }: ActivityCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentDate, setCurrentDate] = useState(new Date());
 
-  const startDate = startOfMonth(currentDate)
-  const endDate = endOfMonth(currentDate)
-//   const days = eachDayOfInterval({ start: startDate, end: endDate })
-    const days =[23,23];
+  const startDate = startOfMonth(currentDate);
+  const endDate = endOfMonth(currentDate);
+  //   const days = eachDayOfInterval({ start: startDate, end: endDate })
+  const days = [23, 23];
 
   const previousMonth = () => {
-    setCurrentDate(subMonths(currentDate, 1))
-  }
+    setCurrentDate(subMonths(currentDate, 1));
+  };
 
   const nextMonth = () => {
-    setCurrentDate(addMonths(currentDate, 1))
-  }
+    setCurrentDate(addMonths(currentDate, 1));
+  };
 
   const getActivityLevel = (date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd")
-    return data[dateStr] || 0
-  }
+    const dateStr = format(date, "yyyy-MM-dd");
+    return data[dateStr] || 0;
+  };
 
   const getActivityColor = (level: number) => {
-    if (level === 0) return "bg-gray-200"
-    if (level === 1) return "bg-forest-100"
-    if (level === 2) return "bg-forest-300"
-    if (level === 3) return "bg-forest-500"
-    return "bg-forest"
-  }
+    if (level === 0) return "bg-gray-200";
+    if (level === 1) return "bg-forest-100";
+    if (level === 2) return "bg-forest-300";
+    if (level === 3) return "bg-forest-500";
+    return "bg-forest";
+  };
 
   return (
     <div className="w-full">
@@ -55,7 +62,10 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
 
       <div className="grid grid-cols-7 gap-1">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="text-center text-xs text-muted-foreground py-1">
+          <div
+            key={day}
+            className="text-center text-xs text-muted-foreground py-1"
+          >
             {day}
           </div>
         ))}
@@ -65,8 +75,8 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
         ))}
 
         {days?.map((day) => {
-          const activityLevel = getActivityLevel(day)
-          const isToday = isSameDay(day, new Date())
+          const activityLevel = getActivityLevel(day);
+          const isToday = isSameDay(day, new Date());
 
           return (
             <motion.div
@@ -87,10 +97,9 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
                 {format(day, "d")}
               </div>
             </motion.div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }
-

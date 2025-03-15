@@ -94,7 +94,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
           // Add correct answer and shuffle
           const allOptions = [...incorrectOptions, word.description].sort(
-            () => Math.random() - 0.5
+            () => Math.random() - 0.5,
           );
 
           question = {
@@ -314,8 +314,8 @@ export default function TestPage({ params }: { params: { id: string } }) {
                       isAnswered && option === currentQuestion.correctAnswer
                         ? "bg-green-100 dark:bg-green-900/20"
                         : isAnswered && option === selectedAnswer
-                        ? "bg-red-100 dark:bg-red-900/20"
-                        : ""
+                          ? "bg-red-100 dark:bg-red-900/20"
+                          : ""
                     }`}
                   >
                     <RadioGroupItem
@@ -406,10 +406,10 @@ export default function TestPage({ params }: { params: { id: string } }) {
                     isAnswered && "true" === currentQuestion.correctAnswer
                       ? "bg-green-100 dark:bg-green-900/20"
                       : isAnswered &&
-                        "true" === selectedAnswer &&
-                        "true" !== currentQuestion.correctAnswer
-                      ? "bg-red-100 dark:bg-red-900/20"
-                      : ""
+                          "true" === selectedAnswer &&
+                          "true" !== currentQuestion.correctAnswer
+                        ? "bg-red-100 dark:bg-red-900/20"
+                        : ""
                   }`}
                 >
                   <RadioGroupItem
@@ -435,10 +435,10 @@ export default function TestPage({ params }: { params: { id: string } }) {
                     isAnswered && "false" === currentQuestion.correctAnswer
                       ? "bg-green-100 dark:bg-green-900/20"
                       : isAnswered &&
-                        "false" === selectedAnswer &&
-                        "false" !== currentQuestion.correctAnswer
-                      ? "bg-red-100 dark:bg-red-900/20"
-                      : ""
+                          "false" === selectedAnswer &&
+                          "false" !== currentQuestion.correctAnswer
+                        ? "bg-red-100 dark:bg-red-900/20"
+                        : ""
                   }`}
                 >
                   <RadioGroupItem

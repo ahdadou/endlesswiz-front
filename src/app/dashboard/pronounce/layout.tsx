@@ -4,9 +4,9 @@ import { ZustandStoreProvider } from "@/provider/ZustandStoreProvider";
 
 const PronounceLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="h-full overflow-auto">
+    <main className="h-full w-full">
       <ZustandStoreProvider>
-        <div className="mx-auto max-w-screen-2xl h-full w-full">{children}</div>
+        <div className="h-full w-full">{children}</div>
       </ZustandStoreProvider>
     </main>
   );

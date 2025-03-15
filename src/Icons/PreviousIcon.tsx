@@ -10,6 +10,7 @@ export function PreviousIcon({ style }: PreviousIconProps) {
       className={cx(style, "h-6 w-6")}
       width="800px"
       height="800px"
+      fill="#E9EDDE"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       transform="scale(-1)"

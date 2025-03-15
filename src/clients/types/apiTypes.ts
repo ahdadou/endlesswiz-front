@@ -149,3 +149,18 @@ export interface PracticeWordResponse {
   example: string;
   description: string;
 }
+
+export interface DictionaryResponse {
+  entries: Entry[];
+}
+
+export interface Entry {
+  partOfSpeech: string;
+  language: string;
+  definitions: Definition[];
+}
+
+export interface Definition {
+  definition: string;
+  examples: string[];
+}

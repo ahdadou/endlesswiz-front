@@ -420,10 +420,12 @@ export default function SetList() {
         <div className="grid gap-4 md:grid-cols-3">
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 text-forest">Spaced Repetition</h3>
+              <h3 className="font-medium mb-2 text-forest">
+                Spaced Repetition
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Study at increasing intervals to improve long-term retention. Review cards you find difficult more
-                frequently.
+                Study at increasing intervals to improve long-term retention.
+                Review cards you find difficult more frequently.
               </p>
             </CardContent>
           </Card>
@@ -431,15 +433,19 @@ export default function SetList() {
             <CardContent className="pt-6">
               <h3 className="font-medium mb-2 text-forest">Active Recall</h3>
               <p className="text-sm text-muted-foreground">
-                Test yourself instead of passively reading. Try to recall information before flipping flashcards.
+                Test yourself instead of passively reading. Try to recall
+                information before flipping flashcards.
               </p>
             </CardContent>
           </Card>
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 text-forest">Mix Practice Types</h3>
+              <h3 className="font-medium mb-2 text-forest">
+                Mix Practice Types
+              </h3>
               <p className="text-sm text-muted-foreground">
-                Alternate between different study modes to engage different parts of your brain and improve memory.
+                Alternate between different study modes to engage different
+                parts of your brain and improve memory.
               </p>
             </CardContent>
           </Card>

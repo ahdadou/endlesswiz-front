@@ -187,7 +187,9 @@ export default function LearnPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/dashboard/practice")}>Back to Sets</Button>
+        <Button onClick={() => router.push("/dashboard/practice")}>
+          Back to Sets
+        </Button>
       </div>
     );
   }
