@@ -90,7 +90,7 @@ export default function CreateSetWithId() {
         });
 
         if (response) {
-          router.push(`/dashboard/practice/set/${id}`);
+          router.push(`/user/practice/set/${id}`);
         }
       } else {
         let response = await api.addPracticeSet({
@@ -105,7 +105,7 @@ export default function CreateSetWithId() {
         });
 
         if (response) {
-          router.push(`/dashboard/practice`);
+          router.push(`/user/practice`);
         }
       }
     } catch (error: any) {
@@ -126,7 +126,7 @@ export default function CreateSetWithId() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => router.push(`/dashboard/practice/set/${id}`)}
+            onClick={() => router.push(`/user/practice/set/${id}`)}
           >
             <ArrowLeft className="h-4 w-4" />
             <span className="sr-only">Back to set {title}</span>
@@ -150,7 +150,7 @@ export default function CreateSetWithId() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push(`/dashboard/practice/set/${id}`)}
+          onClick={() => router.push(`/user/practice/set/${id}`)}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to set {title}</span>

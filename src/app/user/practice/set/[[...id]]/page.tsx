@@ -156,7 +156,7 @@ export default function SetPage() {
   };
 
   const handlePractice = (mode: string) => {
-    router.push(`/dashboard/practice/${mode}/${id}`);
+    router.push(`/user/practice/${mode}/${id}`);
   };
 
   if (isLoading) {
@@ -185,7 +185,7 @@ export default function SetPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/dashboard/practice")}>
+        <Button onClick={() => router.push("/user/practice")}>
           Back to Sets
         </Button>
       </div>
@@ -198,7 +198,7 @@ export default function SetPage() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/dashboard/practice")}
+          onClick={() => router.push("/user/practice")}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>
@@ -308,7 +308,7 @@ export default function SetPage() {
           variant="outline"
           size="sm"
           onClick={() =>
-            router.push(`/dashboard/practice/create-set/${set.id}`)
+            router.push(`/user/practice/create-set/${set.id}`)
           }
           className="flex items-center gap-1"
         >
@@ -375,7 +375,7 @@ export default function SetPage() {
             </p>
             <Button
               onClick={() =>
-                router.push(`/dashboard/practice/create-set/${set.id}`)
+                router.push(`/user/practice/create-set/${set.id}`)
               }
             >
               Add Words

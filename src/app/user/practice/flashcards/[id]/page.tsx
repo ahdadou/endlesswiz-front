@@ -118,7 +118,7 @@ export default function FlashcardsPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/dashboard/practice")}>
+        <Button onClick={() => router.push("/user/practice")}>
           Back to Sets
         </Button>
       </div>
@@ -131,7 +131,7 @@ export default function FlashcardsPage() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/dashboard/practice")}
+          onClick={() => router.push("/user/practice")}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>

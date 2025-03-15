@@ -12,6 +12,9 @@ import { Loader2, Play } from "lucide-react";
 import useWindowDimensions, {
   SMALL_MIN_WIDTH,
 } from "@/utils/useWindowDimensions";
+import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
+import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComponentV2";
+import { formatTime } from "@/components/utils/TypeFormatUtils";
 
 export const categories = [
   { id: "Favorite", label: "Favorite" },
@@ -26,7 +29,7 @@ export const categories = [
 const VideoLibraryPage = () => {
   const { currentVideo, setVideos, videos, setCurrentVideo } =
     useZustandState();
-  const [selectedCategory, setSelectedCategory] = useState("Favorite");
+  const [selectedCategory, setSelectedCategory] = useState("Technology");
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -107,7 +110,7 @@ const VideoLibraryPage = () => {
   }, [hasMore, isLoading]);
 
   return (
-    <div className="h-full flex flex-col overflow-hidden p-8">
+    <div className="flex flex-col p-8">
       {/* Header */}
       <div className=" flex items-center justify-between mb-6 flex-col md:flex-row gap-6">
         <h1 className="text-2xl font-bold">Video Library</h1>
@@ -136,36 +139,29 @@ const VideoLibraryPage = () => {
 
       {/* Main Content */}
       {isExtraSmall ? (
-        <div className="flex overflow-hidden flex-col md:flex-row">
+        <div className="flex overflow-hidden flex-col md:flex-row gap-4 h-[100vh]">
           {/* Video Player Section */}
-          <div className="w-[100%] h-[100%] flex flex-col gap-4 overflow-y-auto">
-            <div className="aspect-video bg-muted rounded-md overflow-hidden">
-              {currentVideo ? (
-                <YouTubePlayerComponent />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-muted">
-                  <p className="text-muted-foreground">
-                    Select a video to play
-                  </p>
-                </div>
-              )}
-            </div>
+          <div className="bg-muted rounded-md overflow-hidden">
+            {currentVideo ? (
+              <YouTubePlayerComponentV2 />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-muted">
+                <p className="text-muted-foreground">Select a video to play</p>
+              </div>
+            )}
           </div>
 
-          {/* Video List */}
+          {/*List */}
           <div
             ref={listRef}
-            className="w-[100%] md:w-[40%] flex flex-col gap-4 overflow-y-auto pr-4"
+            className="w-[100%] md:w-[40%] h-[80vh] flex flex-col gap-4 overflow-y-auto"
           >
             {/* Subtitles */}
-            <div className="flex-1">
-              {currentVideo ? (
-                <SubTitleComponent isAuthenticated={true} />
-              ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">
-                  Video subtitles will appear here
-                </div>
-              )}
+            <div >
+              <SubTitleComponentV2
+                isAuthenticated={true}
+                showCurrentTranscriptInTheMiddle={false}
+              />
             </div>
             {videos.videosDetailResponse.map((video, index) => (
               <motion.div
@@ -219,12 +215,12 @@ const VideoLibraryPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex gap-6 overflow-hidden flex-col md:flex-row">
+        <div className="flex gap-6 flex-col md:flex-row">
           {/* Video Player Section */}
-          <div className="w-[100%] flex flex-col gap-4 overflow-y-auto">
-            <div className="aspect-video bg-muted rounded-xl overflow-hidden">
+          <div className="w-full flex flex-col gap-4 ">
+            <div className="bg-muted rounded-md">
               {currentVideo ? (
-                <YouTubePlayerComponent />
+                <YouTubePlayerComponentV2 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-muted">
                   <p className="text-muted-foreground">
@@ -233,23 +229,18 @@ const VideoLibraryPage = () => {
                 </div>
               )}
             </div>
-
-            {/* Subtitles */}
-            <div className="flex-1">
-              {currentVideo ? (
-                <SubTitleComponent isAuthenticated={true} />
-              ) : (
-                <div className="h-full flex items-center justify-center text-muted-foreground">
-                  Video subtitles will appear here
-                </div>
-              )}
+            <div className="h-[60vh]">
+              <SubTitleComponentV2
+                isAuthenticated={true}
+                showCurrentTranscriptInTheMiddle={false}
+              />
             </div>
           </div>
 
           {/* Video List */}
           <div
             ref={listRef}
-            className="w-[100%] md:w-[40%] flex flex-col gap-4 overflow-y-auto pr-4"
+            className="w-[100%] md:w-[40%] flex flex-col gap-4 overflow-y-auto pr-4 h-[120vh]"
           >
             {videos.videosDetailResponse.map((video, index) => (
               <motion.div
@@ -271,7 +262,7 @@ const VideoLibraryPage = () => {
                     <Play className="w-12 h-12 text-white fill-white/20 stroke-[3]" />
                   </div>
                   <span className="absolute bottom-2 right-2 text-xs bg-background/90 px-2 py-1 rounded">
-                    {video.duration}
+                    {formatTime(video.duration)}
                   </span>
                 </div>
               </motion.div>

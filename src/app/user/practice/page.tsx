@@ -144,7 +144,7 @@ export default function SetList() {
   const displaySets = filteredByTab();
 
   const handlePractice = (setId?: string, mode?: string) => {
-    router.push(`/dashboard/practice/${mode}/${setId}`);
+    router.push(`/user/practice/${mode}/${setId}`);
   };
 
   return (
@@ -157,7 +157,7 @@ export default function SetList() {
           </p>
         </div>
         <Button
-          onClick={() => router.push("/dashboard/practice/create-set")}
+          onClick={() => router.push("/user/practice/create-set")}
           className="flex items-center gap-2"
         >
           <Plus className="h-4 w-4" />
@@ -349,7 +349,7 @@ export default function SetList() {
                         </Button>
                       </div>
                       <Link
-                        href={`/dashboard/practice/set/${set.id}`}
+                        href={`/user/practice/set/${set.id}`}
                         className="w-full"
                       >
                         <Button variant="default" className="w-full">
@@ -372,7 +372,7 @@ export default function SetList() {
                     : "Create your first study set to get started"}
                 </p>
                 <Button
-                  onClick={() => router.push("/dashboard/practice/create-set")}
+                  onClick={() => router.push("/user/practice/create-set")}
                 >
                   Create New Set
                 </Button>

@@ -89,7 +89,7 @@ const YouTubePlayerComponentV2 = () => {
         }
       }
     },
-    [currentPosition, videosDetailResponse, currentPage, isLastPage],
+    [currentPosition, videosDetailResponse, currentPage, isLastPage]
   );
 
   const handlePlaybackSpeedChange = (speed: number) => {
@@ -97,19 +97,22 @@ const YouTubePlayerComponentV2 = () => {
   };
 
   const handleReset = () => {
-    if (
-      playerRef.current &&
-      currentVideo.video?.transcriptResponse?.startTime
-    ) {
-      playerRef.current.seekTo(currentVideo.video.transcriptResponse.startTime);
-      setCurrentTranscript(currentVideo.video.transcriptResponse);
+    if (playerRef.current) {
+      if (currentVideo.video?.transcriptResponse?.startTime) {
+        playerRef.current.seekTo(
+          currentVideo.video.transcriptResponse.startTime
+        );
+        setCurrentTranscript(currentVideo.video.transcriptResponse);
+      } else {
+        playerRef.current.seekTo(0);
+      }
     }
   };
 
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video?.videoId) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId,
+        currentVideo.video?.videoId
       );
       response && setTranscript(response);
       setVid(currentVideo.video?.vid);
@@ -127,7 +130,7 @@ const YouTubePlayerComponentV2 = () => {
       setCurrentTranscript(currentVideo.video.transcriptResponse);
       if (playerRef.current) {
         playerRef.current.seekTo(
-          currentVideo.video?.transcriptResponse?.startTime,
+          currentVideo.video?.transcriptResponse?.startTime
         );
       }
     }
@@ -155,9 +158,151 @@ const YouTubePlayerComponentV2 = () => {
     return <div className="h-[25vh] lg:h-[60vh] bg-black "></div>;
   }
 
+  const ControlBar = (
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+      <div className="mb-4">
+        <Slider
+          value={[playedSeconds]}
+          min={0}
+          max={currentVideo.video.duration}
+          step={1}
+          onValueChange={handleTimeChange}
+          className="cursor-pointer"
+        />
+        <div className="flex justify-between text-xs text-white mt-1">
+          <span>{formatTime(playedSeconds)}</span>
+          <span>{formatTime(currentVideo.video.duration)}</span>
+        </div>
+      </div>
+
+      {/* Control buttons */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => setMuted(!muted)}
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+          >
+            {muted ? (
+              <VolumeX className="h-5 w-5" />
+            ) : (
+              <Volume2 className="h-5 w-5" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+            onClick={handleReset}
+          >
+            <RotateCcw className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+            onClick={() => navigateVideo("previous")}
+            disabled={!hasPrevious}
+          >
+            <PreviousIcon style="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-10 w-10 text-white hover:bg-white/20"
+            onClick={() => setPlaying(!playing)}
+          >
+            {playing ? (
+              <Pause className="h-6 w-6" />
+            ) : (
+              <Play className="h-6 w-6" />
+            )}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+            onClick={() => navigateVideo("next")}
+            disabled={isLastItem && isLastPage}
+          >
+            <NextIcon style="h-5 w-5 " />
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/20"
+            onClick={toggleFavorite}
+          >
+            <Heart
+              className="h-5 w-5"
+              fill={currentVideo.video.isFavorite ? "currentColor" : "none"}
+            />
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-white hover:bg-white/20"
+              >
+                <Settings className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Playback Speed</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(0.5)}
+                className={playbackRate === 0.5 ? "bg-forest-100" : ""}
+              >
+                0.5x
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(0.75)}
+                className={playbackRate === 0.75 ? "bg-forest-100" : ""}
+              >
+                0.75x
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(1.0)}
+                className={playbackRate === 1.0 ? "bg-forest-100" : ""}
+              >
+                Normal (1x)
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(1.25)}
+                className={playbackRate === 1.25 ? "bg-forest-100" : ""}
+              >
+                1.25x
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(1.5)}
+                className={playbackRate === 1.5 ? "bg-forest-100" : ""}
+              >
+                1.5x
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlePlaybackSpeedChange(2.0)}
+                className={playbackRate === 2.0 ? "bg-forest-100" : ""}
+              >
+                2x
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-6">
-      <div className="relative bg-black rounded-md overflow-hidden  h-[25vh] lg:h-[60vh] ">
+      <div className="relative bg-black rounded-md overflow-hidden h-[25vh] lg:h-[60vh] ">
         <ReactPlayer
           // key={currentVideo.video?.transcriptResponse.startTime}
           ref={playerRef}
@@ -192,152 +337,13 @@ const YouTubePlayerComponentV2 = () => {
             youtube: {
               playerVars: {
                 start: Math.floor(
-                  currentVideo.video?.transcriptResponse?.startTime || 0,
+                  currentVideo.video?.transcriptResponse?.startTime || 0
                 ),
               },
             },
           }}
         />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-          <div className="mb-4">
-            <Slider
-              value={[playedSeconds]}
-              min={0}
-              max={currentVideo.video.duration}
-              step={1}
-              onValueChange={handleTimeChange}
-              className="cursor-pointer"
-            />
-            <div className="flex justify-between text-xs text-white mt-1">
-              <span>{formatTime(playedSeconds)}</span>
-              <span>{formatTime(currentVideo.video.duration)}</span>
-            </div>
-          </div>
-
-          {/* Control buttons */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Button
-                onClick={() => setMuted(!muted)}
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-              >
-                {muted ? (
-                  <VolumeX className="h-5 w-5" />
-                ) : (
-                  <Volume2 className="h-5 w-5" />
-                )}
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={handleReset}
-              >
-                <RotateCcw className="h-5 w-5" />
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={() => navigateVideo("previous")}
-                disabled={!hasPrevious}
-              >
-                <PreviousIcon style="h-5 w-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-10 w-10 text-white hover:bg-white/20"
-                onClick={() => setPlaying(!playing)}
-              >
-                {playing ? (
-                  <Pause className="h-6 w-6" />
-                ) : (
-                  <Play className="h-6 w-6" />
-                )}
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={() => navigateVideo("next")}
-                disabled={isLastItem && isLastPage}
-              >
-                <NextIcon style="h-5 w-5 " />
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-white hover:bg-white/20"
-                onClick={toggleFavorite}
-              >
-                <Heart
-                  className="h-5 w-5"
-                  fill={currentVideo.video.isFavorite ? "currentColor" : "none"}
-                />
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-white hover:bg-white/20"
-                  >
-                    <Settings className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Playback Speed</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(0.5)}
-                    className={playbackRate === 0.5 ? "bg-forest-100" : ""}
-                  >
-                    0.5x
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(0.75)}
-                    className={playbackRate === 0.75 ? "bg-forest-100" : ""}
-                  >
-                    0.75x
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(1.0)}
-                    className={playbackRate === 1.0 ? "bg-forest-100" : ""}
-                  >
-                    Normal (1x)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(1.25)}
-                    className={playbackRate === 1.25 ? "bg-forest-100" : ""}
-                  >
-                    1.25x
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(1.5)}
-                    className={playbackRate === 1.5 ? "bg-forest-100" : ""}
-                  >
-                    1.5x
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handlePlaybackSpeedChange(2.0)}
-                    className={playbackRate === 2.0 ? "bg-forest-100" : ""}
-                  >
-                    2x
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-        </div>
+        {ControlBar}
       </div>
     </div>
   );

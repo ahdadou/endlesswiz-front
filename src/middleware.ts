@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   if (isPublic) {
     if (token && (await api.loginState(token.value))) {
       const response = NextResponse.redirect(
-        new URL("/dashboard", request.url),
+        new URL("/user/dashboard", request.url),
       );
       response.headers.set("x-jwt", token.value);
       return response;

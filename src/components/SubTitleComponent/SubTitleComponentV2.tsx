@@ -18,10 +18,12 @@ import { DictionaryResponse } from "@/clients/types/apiTypes";
 
 interface SubTitleComponentProps {
   isAuthenticated?: boolean;
+  showCurrentTranscriptInTheMiddle?: boolean;
 }
 
 export function SubTitleComponentV2({
   isAuthenticated = false,
+  showCurrentTranscriptInTheMiddle = true,
 }: SubTitleComponentProps) {
   const { currentTranscript, transcript, currentVideo, highlitedWord } =
     useZustandState();
@@ -32,7 +34,7 @@ export function SubTitleComponentV2({
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle",
+    "idle"
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -85,8 +87,9 @@ export function SubTitleComponentV2({
 
   // Split subtitle text into words for interactive clicking
   const renderSubtitleWords = (text: string) => {
-    return text.split(" ").map((word, index, array) => {
+    return text.split(/\s+/).map((word, index, array) => {
       const cleanedWord = word.replace(/[.,!?;:'"()]/g, "");
+
       const isHighlighted = cleanedWord === highlitedWord;
 
       return (
@@ -124,7 +127,7 @@ export function SubTitleComponentV2({
           subtitleElement.clientHeight / 2;
 
         container.scrollTo({
-          top: offsetTop,
+          top: showCurrentTranscriptInTheMiddle ? offsetTop : offsetTop + 100,
           behavior: "smooth",
         });
       }
@@ -145,7 +148,7 @@ export function SubTitleComponentV2({
             className="h-[300px] overflow-y-auto pr-2 custom-scrollbar"
             ref={subtitlesRef}
           >
-            {currentVideo.video.transcriptResponse ? (
+            {transcript ? (
               transcript.map((subtitle, index) => (
                 <div
                   key={subtitle.transcriptId}
@@ -268,7 +271,7 @@ export function SubTitleComponentV2({
                                               "{example}"
                                             </p>
                                           </div>
-                                        ),
+                                        )
                                       )}
                                     </div>
                                   )}
@@ -285,8 +288,8 @@ export function SubTitleComponentV2({
                   </div>
                 </>
               ) : (
-                <div className="p-4 bg-red-50 rounded-lg text-red-600">
-                  Failed to load word details
+                <div className="p-4  rounded-lg h-[50vh] w-full flex justify-center items-center  text-red-600">
+                    Failed to load word details
                 </div>
               )}
             </div>
