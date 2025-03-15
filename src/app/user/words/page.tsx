@@ -1,15 +1,12 @@
-// app/words/page.tsx
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
-  BookOpen,
   Plus,
   Star,
   Search,
-  Filter,
   List,
   LayoutGrid,
   Edit,
@@ -119,12 +116,12 @@ export default function WordsPage() {
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
-    null,
+    null
   );
   const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
-    [],
+    []
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -159,7 +156,7 @@ export default function WordsPage() {
 
   const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
     setFavoriteWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
+      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word))
     );
   };
 
@@ -173,113 +170,111 @@ export default function WordsPage() {
           filter === "all" || word.source === filter.toUpperCase();
         return matchesSearch && matchesFilter;
       }),
-    [favoriteWords, searchQuery, filter],
+    [favoriteWords, searchQuery, filter]
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col gap-6 mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Vocabulary Manager
-              </h1>
-              <p className="text-gray-500 mt-2">
-                {filteredWords.length} words displayed of {favoriteWords.length}
-              </p>
-            </div>
-            <Button
-              onClick={() => setShowAddModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
-            >
-              <Plus className="w-5 h-5" />
-              Add Word
-            </Button>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="flex flex-col gap-6 mb-8">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Vocabulary Manager
+            </h1>
+            <p className="text-gray-500 mt-2">
+              {filteredWords.length} words displayed of {favoriteWords.length}
+            </p>
           </div>
-
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search words..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <Button
-                variant="outline"
-                onClick={() =>
-                  setViewMode((prev) =>
-                    prev === "compact" ? "detailed" : "compact",
-                  )
-                }
-                className="flex items-center gap-2"
-              >
-                {viewMode === "compact" ? (
-                  <>
-                    <LayoutGrid className="w-5 h-5" />
-                    <span>Grid View</span>
-                  </>
-                ) : (
-                  <>
-                    <List className="w-5 h-5" />
-                    <span>List View</span>
-                  </>
-                )}
-              </Button>
-              <select
-                value={filter}
-                onChange={(e) =>
-                  setFilter(e.target.value as "all" | "video" | "manual")
-                }
-                className="rounded-lg border border-gray-200 px-4 py-2 bg-white focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All Sources</option>
-                <option value="video">From Videos</option>
-                <option value="manual">Manual Entries</option>
-              </select>
-            </div>
-          </div>
+          <Button
+            onClick={() => setShowAddModal(true)}
+            className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Add Word
+          </Button>
         </div>
 
-        <div
-          className={`grid gap-4 ${
-            viewMode === "detailed"
-              ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
-              : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"
-          }`}
-        >
-          {filteredWords.map((word) => (
-            <WordCard
-              key={word.id}
-              word={word}
-              viewMode={viewMode}
-              onEdit={setEditingWord}
-              onDelete={handleDeleteWord}
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search words..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-          ))}
+          </div>
+
+          <div className="flex gap-2 items-center">
+            <Button
+              variant="outline"
+              onClick={() =>
+                setViewMode((prev) =>
+                  prev === "compact" ? "detailed" : "compact"
+                )
+              }
+              className="flex items-center gap-2"
+            >
+              {viewMode === "compact" ? (
+                <>
+                  <LayoutGrid className="w-5 h-5" />
+                  <span>Grid View</span>
+                </>
+              ) : (
+                <>
+                  <List className="w-5 h-5" />
+                  <span>List View</span>
+                </>
+              )}
+            </Button>
+            <select
+              value={filter}
+              onChange={(e) =>
+                setFilter(e.target.value as "all" | "video" | "manual")
+              }
+              className="rounded-lg border border-gray-200 px-4 py-2 bg-white focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Sources</option>
+              <option value="video">From Videos</option>
+              <option value="manual">Manual Entries</option>
+            </select>
+          </div>
         </div>
+      </div>
 
-        {showAddModal && (
-          <AddWordModal
-            setShowAddModal={setShowAddModal}
-            onWordAdded={handleAddWord}
+      <div
+        className={`grid gap-4 ${
+          viewMode === "detailed"
+            ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+            : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"
+        }`}
+      >
+        {filteredWords.map((word) => (
+          <WordCard
+            key={word.id}
+            word={word}
+            viewMode={viewMode}
+            onEdit={setEditingWord}
+            onDelete={handleDeleteWord}
           />
-        )}
+        ))}
+      </div>
 
-        {editingWord && (
-          <EditWordModal
-            word={editingWord}
-            setShowEditModal={setEditingWord}
-            onWordUpdated={handleUpdateWord}
-          />
-        )}
-      </main>
+      {showAddModal && (
+        <AddWordModal
+          setShowAddModal={setShowAddModal}
+          onWordAdded={handleAddWord}
+        />
+      )}
+
+      {editingWord && (
+        <EditWordModal
+          word={editingWord}
+          setShowEditModal={setEditingWord}
+          onWordUpdated={handleUpdateWord}
+        />
+      )}
     </div>
   );
 }

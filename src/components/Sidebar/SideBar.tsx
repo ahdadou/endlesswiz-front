@@ -59,32 +59,32 @@ export default function DashboardSidebar() {
     {
       title: "Dashboard",
       icon: <LayoutDashboard className="h-5 w-5" />,
-      href: "/dashboard",
+      href: "/user/dashboard",
     },
     {
       title: "Pronounce",
       icon: <Mic className="h-5 w-5" />,
-      href: "/pronounce",
+      href: "/user/pronounce",
     },
     {
       title: "Words Library",
       icon: <Library className="h-5 w-5" />,
-      href: "/words",
+      href: "/user/words",
     },
     {
       title: "Videos Library",
       icon: <Video className="h-5 w-5" />,
-      href: "/videos",
+      href: "/user/videos",
     },
     {
       title: "Practice",
       icon: <Dumbbell className="h-5 w-5" />,
-      href: "/practice",
+      href: "/user/practice",
     },
     {
       title: "Settings",
       icon: <Settings className="h-5 w-5" />,
-      href: "/settings",
+      href: "/user/settings",
     },
   ];
 
