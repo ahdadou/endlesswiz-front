@@ -178,9 +178,7 @@ export default function WordsPage() {
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Vocabulary Manager
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-900">Words Library</h1>
             <p className="text-gray-500 mt-2">
               {filteredWords.length} words displayed of {favoriteWords.length}
             </p>

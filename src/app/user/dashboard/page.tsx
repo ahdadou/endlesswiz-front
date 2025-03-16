@@ -44,6 +44,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import DashboardSidebar from "@/components/Sidebar/SideBar";
 import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar";
 
 // Mock data for the dashboard
@@ -143,7 +144,12 @@ export default function Dashboard() {
         {/* Main Content */}
         <div className="flex-1 p-8 overflow-auto">
           {/* Welcome Section */}
-          <div className="flex justify-between items-center mb-8">
+          <motion.div
+            className="flex justify-between items-center mb-8"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <div>
               <h1 className="text-3xl font-bold text-forest">
                 Welcome back, John!
@@ -152,254 +158,210 @@ export default function Dashboard() {
                 Track your progress and continue learning
               </p>
             </div>
-            <Button
-              onClick={() => router.push("/create-set")}
-              className="bg-forest hover:bg-forest-700 text-cream"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Create New Set
-            </Button>
-          </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button
+                onClick={() => router.push("/create-set")}
+                className="bg-forest hover:bg-forest-700 text-cream"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Create New Set
+              </Button>
+            </motion.div>
+          </motion.div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Card className="border-forest-100 shadow-sm">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Words Learned
-                      </p>
-                      <p className="text-3xl font-bold text-forest">
-                        {studyStats.wordsLearned}
-                      </p>
+            {[
+              {
+                title: "Words Learned",
+                value: studyStats.wordsLearned,
+                icon: <BookOpen className="h-5 w-5 text-forest" />,
+              },
+              {
+                title: "Favorite Words",
+                value: studyStats.favoriteWords,
+                icon: <Heart className="h-5 w-5 text-forest" />,
+              },
+              {
+                title: "Videos Watched",
+                value: studyStats.videosWatched,
+                icon: <Video className="h-5 w-5 text-forest" />,
+              },
+              {
+                title: "Study Time",
+                value: studyStats.studyTime,
+                icon: <Clock className="h-5 w-5 text-forest" />,
+              },
+            ].map((stat, index) => (
+              <motion.div
+                key={stat.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+              >
+                <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
+                  <CardContent className="pt-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm text-muted-foreground">
+                          {stat.title}
+                        </p>
+                        <p className="text-3xl font-bold text-forest">
+                          {stat.value}
+                        </p>
+                      </div>
+                      <div className="rounded-full bg-forest/10 p-2">
+                        {stat.icon}
+                      </div>
                     </div>
-                    <div className="rounded-full bg-forest/10 p-2">
-                      <BookOpen className="h-5 w-5 text-forest" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              <Card className="border-forest-100 shadow-sm">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Favorite Words
-                      </p>
-                      <p className="text-3xl font-bold text-forest">
-                        {studyStats.favoriteWords}
-                      </p>
-                    </div>
-                    <div className="rounded-full bg-forest/10 p-2">
-                      <Heart className="h-5 w-5 text-forest" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-            >
-              <Card className="border-forest-100 shadow-sm">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Videos Watched
-                      </p>
-                      <p className="text-3xl font-bold text-forest">
-                        {studyStats.videosWatched}
-                      </p>
-                    </div>
-                    <div className="rounded-full bg-forest/10 p-2">
-                      <Video className="h-5 w-5 text-forest" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-            >
-              <Card className="border-forest-100 shadow-sm">
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        Study Time
-                      </p>
-                      <p className="text-3xl font-bold text-forest">
-                        {studyStats.studyTime}
-                      </p>
-                    </div>
-                    <div className="rounded-full bg-forest/10 p-2">
-                      <Clock className="h-5 w-5 text-forest" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
 
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Weekly Progress Chart */}
-            <Card className="border-forest-100 shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-forest flex items-center">
-                  <BarChart2 className="h-5 w-5 mr-2" />
-                  Weekly Learning Progress
-                </CardTitle>
-                <CardDescription>
-                  Words learned and study time per day
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={weeklyProgressData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis
-                        yAxisId="left"
-                        orientation="left"
-                        stroke="#14281d"
-                      />
-                      <YAxis
-                        yAxisId="right"
-                        orientation="right"
-                        stroke="#3d7d5a"
-                      />
-                      <Tooltip />
-                      <Legend />
-                      <Bar
-                        yAxisId="left"
-                        dataKey="words"
-                        name="Words Learned"
-                        fill="#14281d"
-                        radius={[4, 4, 0, 0]}
-                      />
-                      <Bar
-                        yAxisId="right"
-                        dataKey="time"
-                        name="Study Hours"
-                        fill="#3d7d5a"
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
+                <CardHeader>
+                  <CardTitle className="text-forest flex items-center">
+                    <BarChart2 className="h-5 w-5 mr-2" />
+                    Weekly Learning Progress
+                  </CardTitle>
+                  <CardDescription>
+                    Words learned and study time per day
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        data={weeklyProgressData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis
+                          yAxisId="left"
+                          orientation="left"
+                          stroke="#14281d"
+                        />
+                        <YAxis
+                          yAxisId="right"
+                          orientation="right"
+                          stroke="#3d7d5a"
+                        />
+                        <Tooltip />
+                        <Legend />
+                        <Bar
+                          yAxisId="left"
+                          dataKey="words"
+                          name="Words Learned"
+                          fill="#14281d"
+                          radius={[4, 4, 0, 0]}
+                        />
+                        <Bar
+                          yAxisId="right"
+                          dataKey="time"
+                          name="Study Hours"
+                          fill="#3d7d5a"
+                          radius={[4, 4, 0, 0]}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
             {/* Category Distribution Chart */}
-            <Card className="border-forest-100 shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-forest flex items-center">
-                  <PieChart className="h-5 w-5 mr-2" />
-                  Category Distribution
-                </CardTitle>
-                <CardDescription>
-                  Breakdown of your study materials by category
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={categoryDistributionData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label={({ name, percent }) =>
-                          `${name} ${(percent * 100).toFixed(0)}%`
-                        }
-                      >
-                        {categoryDistributionData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
+                <CardHeader>
+                  <CardTitle className="text-forest flex items-center">
+                    <PieChart className="h-5 w-5 mr-2" />
+                    Category Distribution
+                  </CardTitle>
+                  <CardDescription>
+                    Breakdown of your study materials by category
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={categoryDistributionData}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                          label={({ name, percent }) =>
+                            `${name} ${(percent * 100).toFixed(0)}%`
+                          }
+                        >
+                          {categoryDistributionData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
 
           {/* Activity Calendar */}
-          <Card className="mb-8 border-forest-100 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-forest flex items-center">
-                <Calendar className="h-5 w-5 mr-2" />
-                Your Activity
-              </CardTitle>
-              <CardDescription>
-                Track your daily learning consistency
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ActivityCalendar data={activityData} />
-              <div className="flex justify-end items-center mt-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1 mr-4">Less</div>
-                <div className="flex gap-1">
-                  {[0, 1, 2, 3, 4].map((level) => (
-                    <div
-                      key={level}
-                      className={`w-3 h-3 rounded-sm ${
-                        level === 0
-                          ? "bg-gray-200"
-                          : level === 1
-                            ? "bg-forest-100"
-                            : level === 2
-                              ? "bg-forest-300"
-                              : level === 3
-                                ? "bg-forest-500"
-                                : "bg-forest"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <div className="flex items-center gap-1 ml-1">More</div>
-              </div>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Card className="mb-8 border-forest-100 shadow-sm hover:shadow-md transition-all">
+              <CardHeader>
+                <CardTitle className="text-forest flex items-center">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  Your Activity
+                </CardTitle>
+                <CardDescription>
+                  Track your daily learning consistency throughout the year
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="overflow-x-auto">
+                <ActivityCalendar data={activityData} />
+              </CardContent>
+            </Card>
+          </motion.div>
 
           {/* Recent Sets and Learning Stats */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Recent Sets */}
-            <div className="lg:col-span-2">
-              <Card className="border-forest-100 shadow-sm">
+            <motion.div
+              className="lg:col-span-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-forest flex items-center">
                     <Clock className="h-5 w-5 mr-2" />
@@ -416,10 +378,18 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentSets.map((set) => (
-                      <div
+                    {recentSets.map((set, index) => (
+                      <motion.div
                         key={set.id}
-                        className="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 * index }}
+                        whileHover={{
+                          scale: 1.02,
+                          backgroundColor: "rgba(20, 40, 29, 0.05)",
+                          transition: { duration: 0.2 },
+                        }}
+                        className="flex items-center p-3 rounded-lg cursor-pointer transition-colors"
                         onClick={() => router.push(`/set/${set.id}`)}
                       >
                         <div className="flex-1">
@@ -441,16 +411,20 @@ export default function Dashboard() {
                           </div>
                           <Progress value={set.progress} className="h-2" />
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </CardContent>
               </Card>
-            </div>
+            </motion.div>
 
             {/* Learning Stats */}
-            <div>
-              <Card className="border-forest-100 shadow-sm">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader>
                   <CardTitle className="text-forest flex items-center">
                     <Award className="h-5 w-5 mr-2" />
@@ -459,115 +433,119 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <div className="rounded-full bg-forest/10 p-2 mr-3">
-                          <Zap className="h-4 w-4 text-forest" />
+                    {[
+                      {
+                        icon: <Zap className="h-4 w-4 text-forest" />,
+                        label: "Current Streak",
+                        value: `${studyStats.streak} days`,
+                      },
+                      {
+                        icon: <BookMarked className="h-4 w-4 text-forest" />,
+                        label: "Total Sets",
+                        value: studyStats.totalSets,
+                      },
+                      {
+                        icon: <PenTool className="h-4 w-4 text-forest" />,
+                        label: "Completed Tests",
+                        value: studyStats.completedTests,
+                      },
+                      {
+                        icon: <Gamepad2 className="h-4 w-4 text-forest" />,
+                        label: "Practice Sessions",
+                        value: studyStats.totalPractices,
+                      },
+                      {
+                        icon: <Brain className="h-4 w-4 text-forest" />,
+                        label: "Accuracy Rate",
+                        value: studyStats.avgAccuracy,
+                      },
+                    ].map((stat, index) => (
+                      <motion.div
+                        key={stat.label}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 * index }}
+                        whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                        className="flex justify-between items-center"
+                      >
+                        <div className="flex items-center">
+                          <div className="rounded-full bg-forest/10 p-2 mr-3">
+                            {stat.icon}
+                          </div>
+                          <span className="text-forest">{stat.label}</span>
                         </div>
-                        <span className="text-forest">Current Streak</span>
-                      </div>
-                      <Badge variant="outline" className="font-bold">
-                        {studyStats.streak} days
-                      </Badge>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <div className="rounded-full bg-forest/10 p-2 mr-3">
-                          <BookMarked className="h-4 w-4 text-forest" />
-                        </div>
-                        <span className="text-forest">Total Sets</span>
-                      </div>
-                      <Badge variant="outline" className="font-bold">
-                        {studyStats.totalSets}
-                      </Badge>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <div className="rounded-full bg-forest/10 p-2 mr-3">
-                          <PenTool className="h-4 w-4 text-forest" />
-                        </div>
-                        <span className="text-forest">Completed Tests</span>
-                      </div>
-                      <Badge variant="outline" className="font-bold">
-                        {studyStats.completedTests}
-                      </Badge>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <div className="rounded-full bg-forest/10 p-2 mr-3">
-                          <Gamepad2 className="h-4 w-4 text-forest" />
-                        </div>
-                        <span className="text-forest">Practice Sessions</span>
-                      </div>
-                      <Badge variant="outline" className="font-bold">
-                        {studyStats.totalPractices}
-                      </Badge>
-                    </div>
-
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center">
-                        <div className="rounded-full bg-forest/10 p-2 mr-3">
-                          <Brain className="h-4 w-4 text-forest" />
-                        </div>
-                        <span className="text-forest">Accuracy Rate</span>
-                      </div>
-                      <Badge variant="outline" className="font-bold">
-                        {studyStats.avgAccuracy}
-                      </Badge>
-                    </div>
+                        <Badge variant="outline" className="font-bold">
+                          {stat.value}
+                        </Badge>
+                      </motion.div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
 
               {/* Quick Actions */}
-              <Card className="border-forest-100 shadow-sm mt-6">
-                <CardHeader>
-                  <CardTitle className="text-forest flex items-center">
-                    <Zap className="h-5 w-5 mr-2" />
-                    Quick Actions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button
-                      variant="outline"
-                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
-                      onClick={() => router.push("/create-set")}
-                    >
-                      <Plus className="h-5 w-5 mb-1" />
-                      <span>New Set</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
-                      onClick={() => router.push("/practice/1?mode=flashcards")}
-                    >
-                      <BookOpen className="h-5 w-5 mb-1" />
-                      <span>Practice</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
-                      onClick={() => router.push("/videos")}
-                    >
-                      <Video className="h-5 w-5 mb-1" />
-                      <span>Videos</span>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="flex flex-col h-auto py-4 border-forest text-forest hover:bg-forest hover:text-cream"
-                      onClick={() => router.push("/pronounce")}
-                    >
-                      <Mic className="h-5 w-5 mb-1" />
-                      <span>Pronounce</span>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all mt-6">
+                  <CardHeader>
+                    <CardTitle className="text-forest flex items-center">
+                      <Zap className="h-5 w-5 mr-2" />
+                      Quick Actions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        {
+                          icon: <Plus className="h-5 w-5 mb-1" />,
+                          label: "New Set",
+                          path: "/create-set",
+                        },
+                        {
+                          icon: <BookOpen className="h-5 w-5 mb-1" />,
+                          label: "Practice",
+                          path: "/practice/1?mode=flashcards",
+                        },
+                        {
+                          icon: <Video className="h-5 w-5 mb-1" />,
+                          label: "Videos",
+                          path: "/videos",
+                        },
+                        {
+                          icon: <Mic className="h-5 w-5 mb-1" />,
+                          label: "Pronounce",
+                          path: "/pronounce",
+                        },
+                      ].map((action, index) => (
+                        <motion.div
+                          key={action.label}
+                          whileHover={{
+                            scale: 1.05,
+                            transition: { duration: 0.2 },
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.1 * index }}
+                        >
+                          <Button
+                            variant="outline"
+                            className="flex flex-col h-auto w-full py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                            onClick={() => router.push(action.path)}
+                          >
+                            {action.icon}
+                            <span>{action.label}</span>
+                          </Button>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </div>

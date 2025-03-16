@@ -45,6 +45,16 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmationPassword: string;
+}
+export interface UpdateUserRequest {
+  firstname: string;
+  bio: string;
+}
+
 export interface FavoriteVideoResponse {
   favoriteVideoId: string;
   vid: string;

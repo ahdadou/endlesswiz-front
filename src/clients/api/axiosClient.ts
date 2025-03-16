@@ -104,7 +104,24 @@ const axiosClient = {
       throw new HttpClientError(error as Error, "POST", url, config.traceId);
     }
   },
-
+  patch: async <T, D = unknown>(
+    url: string,
+    data: D,
+    config: CustomAxiosConfig = {},
+  ): Promise<T> => {
+    try {
+      const headers = await resolveHeaders(config);
+      const requestConfig = { ...config, headers };
+      const resp: AxiosResponse<T> = await axiosInstance.patch(
+        url,
+        data,
+        requestConfig,
+      );
+      return resp.data;
+    } catch (error) {
+      throw new HttpClientError(error as Error, "POST", url, config.traceId);
+    }
+  },
   delete: async <T>(
     url: string,
     config: CustomAxiosConfig = {},

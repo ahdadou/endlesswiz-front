@@ -9,10 +9,13 @@ export interface UserData {
   email?: string;
   emailHash?: string;
   firstName?: string;
+  bio?: string;
   level?: string;
   lastName?: string;
   sessionId?: string;
   state: ELoginState;
+  profileImageUrl?: string;
+  hasVerifiedEmail?: boolean;
 }
 
 export interface UserDataStoreState {

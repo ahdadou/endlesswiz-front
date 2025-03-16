@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Video,
@@ -12,7 +12,6 @@ import {
   ChevronRight,
   Mic,
   Library,
-  User,
   ChevronDown,
   Bell,
   MessageSquare,
@@ -28,16 +27,46 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
+
+const navItems = [
+  {
+    title: "Dashboard",
+    icon: <LayoutDashboard className="h-5 w-5" />,
+    href: "/user/dashboard",
+  },
+  {
+    title: "Pronounce",
+    icon: <Mic className="h-5 w-5" />,
+    href: "/user/pronounce",
+  },
+  {
+    title: "Words Library",
+    icon: <Library className="h-5 w-5" />,
+    href: "/user/words",
+  },
+  {
+    title: "Videos Library",
+    icon: <Video className="h-5 w-5" />,
+    href: "/user/videos",
+  },
+  {
+    title: "Practice",
+    icon: <Dumbbell className="h-5 w-5" />,
+    href: "/user/practice",
+  },
+];
 
 export default function DashboardSidebar() {
+  const { userData } = useUserDataZustandState();
   const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Check if we're on mobile
   useEffect(() => {
@@ -55,43 +84,25 @@ export default function DashboardSidebar() {
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  const navItems = [
-    {
-      title: "Dashboard",
-      icon: <LayoutDashboard className="h-5 w-5" />,
-      href: "/user/dashboard",
-    },
-    {
-      title: "Pronounce",
-      icon: <Mic className="h-5 w-5" />,
-      href: "/user/pronounce",
-    },
-    {
-      title: "Words Library",
-      icon: <Library className="h-5 w-5" />,
-      href: "/user/words",
-    },
-    {
-      title: "Videos Library",
-      icon: <Video className="h-5 w-5" />,
-      href: "/user/videos",
-    },
-    {
-      title: "Practice",
-      icon: <Dumbbell className="h-5 w-5" />,
-      href: "/user/practice",
-    },
-    {
-      title: "Settings",
-      icon: <Settings className="h-5 w-5" />,
-      href: "/user/settings",
-    },
-  ];
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "GET" });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      router.push("/");
+    }
+  };
 
-  const SidebarContent = () => (
+  const SidebarContent = ({ isMobileView = false }) => (
     <div className="flex flex-col h-full p-4">
       {/* User profile with dropdown */}
-      <div className={cn("mb-8", collapsed ? "flex justify-center" : "px-2")}>
+      <div
+        className={cn(
+          "mb-8",
+          collapsed && !isMobileView ? "flex justify-center" : "px-2",
+        )}
+      >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -99,15 +110,20 @@ export default function DashboardSidebar() {
               className="p-0 h-auto w-auto flex items-center gap-2"
             >
               <Avatar className="h-10 w-10">
-                <AvatarImage src="/placeholder.svg" />
+                <AvatarImage
+                  src={userData?.profileImageUrl ?? "/placeholder.svg"}
+                />
                 <AvatarFallback className="bg-forest text-cream">
-                  JD
+                  {userData?.firstName?.charAt(0)}
+                  {userData?.lastName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-              {!collapsed && (
+              {(!collapsed || isMobileView) && (
                 <div className="flex items-center justify-between w-full">
                   <div className="text-left">
-                    <p className="font-medium text-forest">John Doe</p>
+                    <p className="font-medium text-forest">
+                      {userData?.firstName} {userData?.lastName}
+                    </p>
                     <p className="text-xs text-muted-foreground">
                       Premium Member
                     </p>
@@ -118,34 +134,45 @@ export default function DashboardSidebar() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            align={collapsed ? "center" : "start"}
-            className="w-56"
+            align={collapsed && !isMobileView ? "center" : "start"}
+            className="w-56 rounded-xl shadow-lg border-0"
           >
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            <div className="px-4 py-3 border-b">
+              <p className="font-medium text-forest">
+                {userData?.firstName} {userData?.lastName}
+              </p>
+              <p className="text-xs text-muted-foreground">Premium Member</p>
+            </div>
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => console.log("Notifications")}
+            >
               <Bell className="mr-2 h-4 w-4" />
               <span>Notifications</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem className="py-2.5 my-1 cursor-pointer" onClick={() => console.log("Messages")}>
               <MessageSquare className="mr-2 h-4 w-4" />
               <span>Messages</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            </DropdownMenuItem> */}
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => router.push("/help-support")}
+            >
               <HelpCircle className="mr-2 h-4 w-4" />
               <span>Help & Support</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => router.push("/user/settings")}
+            >
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuSeparator className="my-1" />
+            <DropdownMenuItem
+              className="py-2.5 my-1 text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+              onClick={handleLogout}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>
@@ -166,13 +193,15 @@ export default function DashboardSidebar() {
                   isActive
                     ? "bg-forest text-cream"
                     : "text-gray-700 hover:bg-gray-100",
-                  collapsed && "justify-center px-2",
+                  collapsed && !isMobileView && "justify-center px-2",
                 )}
               >
-                <span className={cn(collapsed ? "mr-0" : "mr-3")}>
+                <span
+                  className={cn(collapsed && !isMobileView ? "mr-0" : "mr-3")}
+                >
                   {item.icon}
                 </span>
-                {!collapsed && <span>{item.title}</span>}
+                {(!collapsed || isMobileView) && <span>{item.title}</span>}
               </div>
             </Link>
           );
@@ -180,18 +209,6 @@ export default function DashboardSidebar() {
       </nav>
 
       <Separator className="my-4" />
-
-      {/* Logout button */}
-      <Button
-        variant="ghost"
-        className={cn(
-          "flex items-center text-gray-700 hover:bg-gray-100 transition-colors",
-          collapsed && "justify-center px-2",
-        )}
-      >
-        <LogOut className={cn("h-5 w-5", collapsed ? "mr-0" : "mr-3")} />
-        {!collapsed && <span>Logout</span>}
-      </Button>
     </div>
   );
 
@@ -210,7 +227,7 @@ export default function DashboardSidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-64">
-            <SidebarContent />
+            <SidebarContent isMobileView={true} />
           </SheetContent>
         </Sheet>
       </>
