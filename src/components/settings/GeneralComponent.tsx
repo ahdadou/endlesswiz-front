@@ -20,10 +20,13 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Switch } from "../ui/switch";
+import { useTheme } from "next-themes";
+import cx from "classnames";
 
 const GeneralPage = () => {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const handleSaveSettings = () => {
     setIsSaving(true);
@@ -58,15 +61,22 @@ const GeneralPage = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8 border-forest "
+                  className={cx("h-8 w-8 border-forest", theme==="light" && "bg-forest-200")}
+                  onClick={() => {
+                    setTheme("light");
+                  }}
                 >
                   <Sun className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className={cx("h-8 w-8", theme==="dark" && "border-white bg-white/10")}
+                  onClick={() => {
+                    setTheme("dark");
+                  }}
+                >
                   <Moon className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon" className="h-8 w-8">
-                  <div className="h-4 w-4 rounded-full bg-gradient-to-br from-forest to-forest-300" />
                 </Button>
               </div>
             </div>

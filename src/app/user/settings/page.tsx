@@ -21,28 +21,28 @@ export default function SettingsPage() {
           </div>
 
           <Tabs defaultValue="profile" className="w-full">
-            <TabsList className="grid w-full md:w-auto grid-cols-4 mb-8">
+            <TabsList className="grid w-full md:w-auto grid-cols-2 mb-8">
               <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="general">General</TabsTrigger>
+              {/* <TabsTrigger value="general">General</TabsTrigger> */}
               <TabsTrigger value="subscription">Subscription</TabsTrigger>
-              <TabsTrigger value="notifications">Notifications</TabsTrigger>
+              {/* <TabsTrigger value="notifications">Notifications</TabsTrigger> */}
             </TabsList>
 
             <TabsContent value="profile">
               <ProfilePage/>
             </TabsContent>
 
-            <TabsContent value="general">
+            {/* <TabsContent value="general">
               <GeneralPage />
-            </TabsContent>
+            </TabsContent> */}
 
             <TabsContent value="subscription">
               <SubscriptionPage />
             </TabsContent>
 
-            <TabsContent value="notifications">
+            {/* <TabsContent value="notifications">
               <NotificationPage />
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </div>

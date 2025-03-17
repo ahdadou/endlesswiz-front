@@ -19,6 +19,7 @@ import {
   PutPracticeSetDetailsRequest,
   UpdateUserRequest,
   ChangePasswordRequest,
+  UpdateUserSettingsRequest,
 } from "../types/apiTypes";
 
 const api = {
@@ -135,6 +136,18 @@ const api = {
       return response;
     } catch (error) {
       console.error("update user profile failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updateUserSettings: async (req: UpdateUserSettingsRequest) => {
+    try {
+      const response = await axiosClient.post<string>(
+        `${getBaseUrl()}/settings`,
+        req
+      );
+      return response;
+    } catch (error) {
+      console.error("update user settings failed:", error);
       throw error; // Re-throw the error after logging it
     }
   },

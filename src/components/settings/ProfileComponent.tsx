@@ -13,21 +13,40 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
-import { AlertTriangle, Camera, Loader2, Save, Trash2 } from "lucide-react";
+import {
+  AlertTriangle,
+  Camera,
+  Loader2,
+  Moon,
+  Save,
+  Sun,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Separator } from "../ui/separator";
 import api from "@/clients/api/api";
+import { useTheme } from "next-themes";
+import cx from "classnames";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Select,
+} from "../ui/select";
+import { Languages, TimeZone } from "@/clients/types/apiTypes";
 
 const ProfilePage = () => {
   const { toast } = useToast();
   const { userData } = useUserDataZustandState();
 
+  // personal information
   const [profileImage, setProfileImage] = useState<string | null>(
     userData?.profileImageUrl || null
   );
-  const [isUploading, setIsUploading] = useState(false);
+  const [profileImageIsUploading, setProfileImageIsUploading] = useState(false);
 
-  const [isSaving, setIsSaving] = useState(false);
+  const [personalInfoAreSaving, setPersonalInfoAreSaving] = useState(false);
   const [name, setName] = useState(userData?.firstName || "");
   const [bio, setBio] = useState(userData?.bio || "");
 
@@ -37,10 +56,16 @@ const ProfilePage = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [changePasswordIsloading, setChangePasswordIsloading] = useState(false);
   const [error, setError] = useState("");
+  const { theme, setTheme } = useTheme();
   const isFormValid =
     currentPassword.trim() !== "" &&
     newPassword.trim() !== "" &&
     confirmNewPassword.trim() !== "";
+
+  // Settings
+  const [settingsAreSaving, setSettingsAreSaving] = useState(false);
+  const [language, setLanguage] = useState(Languages.ENGLISH);
+  const [timeZone, setTimeZone] = useState(TimeZone.UTC);
 
   useEffect(() => {
     setProfileImage(userData?.profileImageUrl || null);
@@ -50,7 +75,7 @@ const ProfilePage = () => {
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setIsUploading(true);
+      setProfileImageIsUploading(true);
       api
         .uploadUserImage(e.target.files[0])
         .then((res) => {
@@ -67,7 +92,7 @@ const ProfilePage = () => {
           });
         })
         .finally(() => {
-          setIsUploading(false);
+          setProfileImageIsUploading(false);
         });
     }
   };
@@ -91,7 +116,7 @@ const ProfilePage = () => {
   };
 
   const handleSaveProfile = () => {
-    setIsSaving(true);
+    setPersonalInfoAreSaving(true);
     api
       .updateUserProfile({
         firstname: name,
@@ -111,7 +136,7 @@ const ProfilePage = () => {
         });
       })
       .finally(() => {
-        setIsSaving(false);
+        setPersonalInfoAreSaving(false);
       });
   };
 
@@ -143,6 +168,31 @@ const ProfilePage = () => {
       })
       .finally(() => {
         setChangePasswordIsloading(false); // Hide loading spinner
+      });
+  };
+
+  const handleSaveSettings = () => {
+    setSettingsAreSaving(true);
+    api
+      .updateUserSettings({
+        language: language,
+        timeZone: timeZone,
+      })
+      .then((res) => {
+        toast({
+          title: "Settings updated",
+          description:
+            "Your Settings information has been successfully updated.",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description: "An error occurred while updating your settings",
+        });
+      })
+      .finally(() => {
+        setSettingsAreSaving(false);
       });
   };
 
@@ -179,7 +229,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          {isUploading ? (
+          {profileImageIsUploading ? (
             <div className="flex items-center gap-2">
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-forest border-r-transparent"></div>
               <span className="text-sm text-muted-foreground">
@@ -243,9 +293,9 @@ const ProfilePage = () => {
           <Button
             className="bg-forest hover:bg-forest-700 text-cream"
             onClick={handleSaveProfile}
-            disabled={isSaving}
+            disabled={personalInfoAreSaving}
           >
-            {isSaving ? (
+            {personalInfoAreSaving ? (
               <>
                 <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent"></div>
                 Saving...
@@ -326,6 +376,102 @@ const ProfilePage = () => {
 
       <Card className="border-forest-100 shadow-sm">
         <CardHeader>
+          <CardTitle className="">Appearance</CardTitle>
+          <CardDescription>Customize how StudyCards looks</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label className="text-base">Theme</Label>
+              <p className="text-sm text-muted-foreground">
+                Select your preferred theme
+              </p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="icon"
+                className={cx(
+                  "h-8 w-8 border-forest",
+                  theme === "light" && "bg-forest-200"
+                )}
+                onClick={() => {
+                  setTheme("light");
+                }}
+              >
+                <Sun className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className={cx(
+                  "h-8 w-8",
+                  theme === "dark" && "border-white bg-white/10"
+                )}
+                onClick={() => {
+                  setTheme("dark");
+                }}
+              >
+                <Moon className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <Separator />
+          <div className="space-y-2">
+            <Label>App Language</Label>
+            <Select defaultValue={Languages.ENGLISH} onValueChange={(e) => setTimeZone(e as Languages)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={Languages.ENGLISH}>English</SelectItem>
+                <SelectItem value={Languages.SPANISH}>Español</SelectItem>
+                <SelectItem value={Languages.FRENCH}>Français</SelectItem>
+                <SelectItem value={Languages.GERMAN}>Deutsch</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Time Zone</Label>
+            <Select defaultValue={TimeZone.UTC} onValueChange={(e) => setTimeZone(e as TimeZone)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select time zone" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={TimeZone.ET}>Eastern Time (ET)</SelectItem>
+                <SelectItem value={TimeZone.CT}>Central Time (CT)</SelectItem>
+                <SelectItem value={TimeZone.MT}>Mountain Time (MT)</SelectItem>
+                <SelectItem value={TimeZone.PT}>Pacific Time (PT)</SelectItem>
+                <SelectItem value={TimeZone.UTC}>
+                  Coordinated Universal Time (UTC)
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <CardFooter className="flex justify-end">
+            <Button
+              className="bg-forest hover:bg-forest-700 text-cream"
+              onClick={handleSaveSettings}
+              disabled={settingsAreSaving}
+            >
+              {settingsAreSaving ? (
+                <>
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent"></div>
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Changes
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </CardContent>
+      </Card>
+      {/* <Card className="border-forest-100 shadow-sm">
+        <CardHeader>
           <CardTitle className="">Account Activity</CardTitle>
           <CardDescription>Recent security events</CardDescription>
         </CardHeader>
@@ -392,7 +538,7 @@ const ProfilePage = () => {
             View Full Activity Log
           </Button>
         </CardFooter>
-      </Card>
+      </Card> */}
     </div>
   );
 };
