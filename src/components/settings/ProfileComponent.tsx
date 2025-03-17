@@ -420,7 +420,7 @@ const ProfilePage = () => {
           <Separator />
           <div className="space-y-2">
             <Label>App Language</Label>
-            <Select defaultValue={Languages.ENGLISH} onValueChange={(e) => setTimeZone(e as Languages)}>
+            <Select defaultValue={Languages.ENGLISH} onValueChange={(e) => setLanguage(e as Languages)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
