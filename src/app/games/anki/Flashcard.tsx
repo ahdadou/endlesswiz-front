@@ -17,13 +17,13 @@ function Flashcard({ front, back, isFlipped, onFlip }: FlashcardProps) {
       style={{ position: "relative" }}
     >
       <motion.div
-        className="absolute w-full h-full flex items-center justify-center text-2xl bg-white rounded-lg border"
+        className="absolute w-full h-full flex items-center justify-center text-2xl rounded-lg border"
         style={{ backfaceVisibility: "hidden" }}
       >
         {front}
       </motion.div>
       <motion.div
-        className="absolute w-full h-full flex items-center justify-center text-2xl bg-white rounded-lg border"
+        className="absolute w-full h-full flex items-center justify-center text-2xl rounded-lg border"
         style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
       >
         {back}

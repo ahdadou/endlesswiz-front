@@ -135,11 +135,11 @@ export default function HelpSupportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <div className="flex">
         <div className="flex-1 p-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-forest">Help & Support</h1>
+            <h1 className="text-3xl font-bold ">Help & Support</h1>
             <p className="text-muted-foreground">
               Find answers to common questions or contact our support team
             </p>
@@ -177,7 +177,7 @@ export default function HelpSupportPage() {
                 {faqCategories.map((category, index) => (
                   <Card key={index} className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-forest">
+                      <CardTitle className="">
                         {category.category}
                       </CardTitle>
                       <CardDescription>
@@ -226,7 +226,7 @@ export default function HelpSupportPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Card className="md:col-span-2 border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">
+                    <CardTitle className="">
                       Contact Support
                     </CardTitle>
                     <CardDescription>
@@ -332,13 +332,13 @@ export default function HelpSupportPage() {
                 <div className="space-y-6">
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-forest">
+                      <CardTitle className="">
                         Contact Information
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex items-start gap-3">
-                        <Mail className="h-5 w-5 text-forest mt-0.5" />
+                        <Mail className="h-5 w-5 mt-0.5" />
                         <div>
                           <p className="font-medium">Email Support</p>
                           <p className="text-sm text-muted-foreground">
@@ -351,7 +351,7 @@ export default function HelpSupportPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Phone className="h-5 w-5 text-forest mt-0.5" />
+                        <Phone className="h-5 w-5 mt-0.5" />
                         <div>
                           <p className="font-medium">Phone Support</p>
                           <p className="text-sm text-muted-foreground">
@@ -367,7 +367,7 @@ export default function HelpSupportPage() {
 
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-forest">
+                      <CardTitle className="">
                         Support Hours
                       </CardTitle>
                     </CardHeader>
@@ -399,42 +399,42 @@ export default function HelpSupportPage() {
                     title: "Getting Started Guide",
                     description:
                       "Learn the basics of StudyCards and set up your first study set",
-                    icon: <BookOpen className="h-8 w-8 text-forest" />,
+                    icon: <BookOpen className="h-8 w-8 " />,
                     link: "/guides/getting-started",
                   },
                   {
                     title: "Creating Effective Flashcards",
                     description:
                       "Tips and best practices for creating memorable flashcards",
-                    icon: <PenTool className="h-8 w-8 text-forest" />,
+                    icon: <PenTool className="h-8 w-8 " />,
                     link: "/guides/creating-flashcards",
                   },
                   {
                     title: "Study Techniques",
                     description:
                       "Learn about different study methods and how to use them effectively",
-                    icon: <Brain className="h-8 w-8 text-forest" />,
+                    icon: <Brain className="h-8 w-8 " />,
                     link: "/guides/study-techniques",
                   },
                   {
                     title: "Using Practice Modes",
                     description:
                       "Detailed guide on all the different practice modes available",
-                    icon: <Gamepad2 className="h-8 w-8 text-forest" />,
+                    icon: <Gamepad2 className="h-8 w-8 " />,
                     link: "/guides/practice-modes",
                   },
                   {
                     title: "Pronunciation Features",
                     description:
                       "How to use the pronunciation tools to improve your speaking skills",
-                    icon: <Mic className="h-8 w-8 text-forest" />,
+                    icon: <Mic className="h-8 w-8 " />,
                     link: "/guides/pronunciation",
                   },
                   {
                     title: "Premium Features Guide",
                     description:
                       "Explore all the features available with a Premium subscription",
-                    icon: <Star className="h-8 w-8 text-forest" />,
+                    icon: <Star className="h-8 w-8 " />,
                     link: "/guides/premium-features",
                   },
                 ].map((guide, index) => (
@@ -447,7 +447,7 @@ export default function HelpSupportPage() {
                         <div className="mb-4 rounded-full bg-forest/10 p-3">
                           {guide.icon}
                         </div>
-                        <h3 className="text-lg font-medium text-forest mb-2">
+                        <h3 className="text-lg font-medium mb-2">
                           {guide.title}
                         </h3>
                         <p className="text-sm text-muted-foreground mb-4">
@@ -455,7 +455,7 @@ export default function HelpSupportPage() {
                         </p>
                         <Button
                           variant="outline"
-                          className="w-full border-forest text-forest hover:bg-forest hover:text-cream"
+                          className="w-full border-forest hover:bg-forest hover:text-cream"
                           asChild
                         >
                           <a href={guide.link}>
@@ -470,7 +470,7 @@ export default function HelpSupportPage() {
               </div>
 
               <div className="mt-12 p-6 bg-forest/5 rounded-lg">
-                <h3 className="text-xl font-medium text-forest mb-4">
+                <h3 className="text-xl font-medium mb-4">
                   Video Tutorials
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -497,7 +497,7 @@ export default function HelpSupportPage() {
                     <a
                       key={index}
                       href={video.link}
-                      className="block group rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow"
+                      className="block group rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="relative">
                         <img
@@ -510,12 +510,12 @@ export default function HelpSupportPage() {
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                           <div className="rounded-full bg-white/90 p-3">
-                            <Play className="h-6 w-6 text-forest" />
+                            <Play className="h-6 w-6 " />
                           </div>
                         </div>
                       </div>
                       <div className="p-3">
-                        <h4 className="font-medium text-forest group-hover:text-forest-700 transition-colors">
+                        <h4 className="font-medium group-hover:text-forest-700 transition-colors">
                           {video.title}
                         </h4>
                       </div>

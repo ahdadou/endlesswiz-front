@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 const PronounciationTips = () => {
   return (
     <div className="order-4">
-      <Card className="border-forest-100 shadow-sm bg-forest-50">
+      <Card className="border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Pronunciation Tips</CardTitle>
+          <CardTitle className="">Pronunciation Tips</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-start gap-3">

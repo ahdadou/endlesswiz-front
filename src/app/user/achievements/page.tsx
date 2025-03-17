@@ -217,7 +217,7 @@ export default function AchievementsPage() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold text-forest mb-2">
+        <h1 className="text-3xl font-bold mb-2">
           Your Achievements
         </h1>
         <p className="text-gray-600">
@@ -237,14 +237,14 @@ export default function AchievementsPage() {
             key={index}
             variants={item}
             whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-            className="bg-white rounded-lg shadow-md p-4 flex items-center"
+            className="rounded-lg shadow-md p-4 flex items-center"
           >
             <div className="bg-forest/10 p-3 rounded-full mr-4">
               {stat.icon}
             </div>
             <div>
               <p className="text-gray-600 text-sm">{stat.label}</p>
-              <p className="text-forest text-xl font-bold">{stat.value}</p>
+              <p className="text-xl font-bold">{stat.value}</p>
             </div>
           </motion.div>
         ))}
@@ -257,7 +257,7 @@ export default function AchievementsPage() {
         transition={{ delay: 0.3, duration: 0.5 }}
         className="mb-10"
       >
-        <h2 className="text-2xl font-bold text-forest mb-4">
+        <h2 className="text-2xl font-bold mb-4">
           Recent Achievements
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -265,12 +265,12 @@ export default function AchievementsPage() {
             <motion.div
               key={achievement.id}
               whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
+              className="rounded-lg shadow-md overflow-hidden"
             >
               <div className="p-4 flex items-center">
                 <div className="mr-4">{achievement.icon}</div>
                 <div>
-                  <h3 className="font-bold text-lg text-forest">
+                  <h3 className="font-bold text-lg ">
                     {achievement.title}
                   </h3>
                   <p className="text-gray-600 text-sm">
@@ -299,7 +299,7 @@ export default function AchievementsPage() {
         className="mb-10"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-forest">Badges in Progress</h2>
+          <h2 className="text-2xl font-bold ">Badges in Progress</h2>
           <Tabs
             value={selectedTab}
             onValueChange={setSelectedTab}
@@ -327,10 +327,10 @@ export default function AchievementsPage() {
               key={badge.id}
               variants={item}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center text-center"
+              className="rounded-lg shadow-md p-6 flex flex-col items-center text-center"
             >
               <div className="mb-4">{badge.icon}</div>
-              <h3 className="font-bold text-lg text-forest mb-1">
+              <h3 className="font-bold text-lg mb-1">
                 {badge.title}
               </h3>
               <p className="text-gray-600 text-sm mb-4">{badge.description}</p>
@@ -351,14 +351,14 @@ export default function AchievementsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
       >
-        <h2 className="text-2xl font-bold text-forest mb-4">Milestones</h2>
+        <h2 className="text-2xl font-bold mb-4">Milestones</h2>
         <div className="space-y-4">
           {achievementData.milestones.map((milestone) => (
             <motion.div
               key={milestone.id}
               initial={{ opacity: 0.9 }}
               whileHover={{ opacity: 1, scale: 1.01 }}
-              className={`bg-white rounded-lg shadow-md overflow-hidden ${!milestone.unlocked ? "opacity-60" : ""}`}
+              className={`rounded-lg shadow-md overflow-hidden ${!milestone.unlocked ? "opacity-60" : ""}`}
             >
               <div
                 className="p-4 flex items-center justify-between cursor-pointer"
@@ -371,7 +371,7 @@ export default function AchievementsPage() {
                     {milestone.icon}
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-forest">
+                    <h3 className="font-bold text-lg ">
                       {milestone.title}
                     </h3>
                     <p className="text-gray-600 text-sm">
@@ -415,7 +415,7 @@ export default function AchievementsPage() {
                     <span className="text-gray-600 text-sm">
                       Points Awarded:
                     </span>
-                    <span className="font-medium text-forest">
+                    <span className="font-medium ">
                       {milestone.points} points
                     </span>
                   </div>
@@ -424,7 +424,7 @@ export default function AchievementsPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="text-forest border-forest hover:bg-forest hover:text-white"
+                        className="border-forest hover:bg-forest hover:text-white"
                       >
                         Share Achievement
                       </Button>

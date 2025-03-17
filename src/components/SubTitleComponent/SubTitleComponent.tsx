@@ -99,13 +99,13 @@ export function SubTitleComponent({
     : mockSubtitle;
 
   return (
-    <div className="bg-white border-2 border-gray-200 rounded-2xl shadow-lg p-6 h-full">
+    <div className="border-2 border-gray-200 rounded-2xl shadow-lg p-6 h-full">
       <div className="flex gap-3 items-center mb-6">
         <Captions className="w-6 h-6 text-gray-900" />
         <h3 className="text-xl font-semibold text-gray-900">Live Subtitles</h3>
       </div>
 
-      <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
+      <div className="p-4 rounded-lg border border-gray-100">
         <p className="text-gray-700 leading-relaxed">
           {displayTranscript.paragraph.split(" ").map((word, index) => {
             const cleanWord = word.replace(/[.,]/g, "");
@@ -137,7 +137,7 @@ export function SubTitleComponent({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
+            className="rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="space-y-4 px-6 pb-6 relative overflow-y-auto">

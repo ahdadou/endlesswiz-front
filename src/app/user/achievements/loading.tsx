@@ -14,7 +14,7 @@ export default function AchievementsLoading() {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="bg-white rounded-lg shadow-md p-4 flex items-center"
+            className="rounded-lg shadow-md p-4 flex items-center"
           >
             <Skeleton className="h-12 w-12 rounded-full mr-4" />
             <div className="w-full">
@@ -32,7 +32,7 @@ export default function AchievementsLoading() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
+              className="rounded-lg shadow-md overflow-hidden"
             >
               <div className="p-4 flex items-center">
                 <Skeleton className="h-10 w-10 rounded-full mr-4" />
@@ -41,7 +41,7 @@ export default function AchievementsLoading() {
                   <Skeleton className="h-4 w-40" />
                 </div>
               </div>
-              <div className="bg-gray-50 px-4 py-2 flex justify-between items-center">
+              <div className="px-4 py-2 flex justify-between items-center">
                 <Skeleton className="h-4 w-20" />
                 <Skeleton className="h-6 w-16 rounded-full" />
               </div>
@@ -61,7 +61,7 @@ export default function AchievementsLoading() {
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center"
+              className="rounded-lg shadow-md p-6 flex flex-col items-center"
             >
               <Skeleton className="h-16 w-16 rounded-full mb-4" />
               <Skeleton className="h-5 w-32 mb-2" />
@@ -78,7 +78,7 @@ export default function AchievementsLoading() {
         <Skeleton className="h-8 w-36 mb-4" />
         <div className="space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg shadow-md p-4">
+            <div key={i} className="rounded-lg shadow-md p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Skeleton className="h-12 w-12 rounded-full mr-4" />

@@ -74,7 +74,7 @@ export default function FlashcardsPage() {
         />
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center p-4">
-        <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
+        <div className="p-6 rounded-xl shadow-lg max-w-md w-full">
           <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">
             English Flashcards
           </h1>
@@ -144,7 +144,7 @@ function Flashcard({ front, back }) {
         </div>
         {/* Back Face */}
         <div
-          className="absolute w-full h-full flex items-center justify-center text-2xl border rounded-lg shadow-md bg-white rotate-y-180"
+          className="absolute w-full h-full flex items-center justify-center text-2xl border rounded-lg shadow-md rotate-y-180"
           style={{ backfaceVisibility: "hidden" }}
         >
           {back}

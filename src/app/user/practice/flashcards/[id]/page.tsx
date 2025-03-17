@@ -140,7 +140,7 @@ export default function FlashcardsPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-forest">
+        <h1 className="text-3xl font-bold ">
           {set.title} - Flashcards
         </h1>
         <p className="text-muted-foreground">{set.description}</p>
@@ -161,7 +161,7 @@ export default function FlashcardsPage() {
         </div>
         <div className="relative w-[60%] h-[50vh]">
           <motion.div
-            className="absolute w-full h-full bg-white rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
+            className="absolute w-full h-full rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
             style={{ backfaceVisibility: "hidden" }}
             animate={{ rotateY: flipped ? 180 : 0 }}
             transition={{ duration: 0.6 }}
@@ -172,7 +172,7 @@ export default function FlashcardsPage() {
             </p>
           </motion.div>
           <motion.div
-            className="absolute w-full h-full bg-white rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
+            className="absolute w-full h-full rounded-lg shadow-lg flex items-center justify-center p-6 cursor-pointer"
             style={{ backfaceVisibility: "hidden", rotateY: 180 }}
             animate={{ rotateY: flipped ? 0 : 180 }}
             transition={{ duration: 0.6 }}
@@ -188,7 +188,7 @@ export default function FlashcardsPage() {
             variant="outline"
             onClick={handlePrevious}
             disabled={currentIndex === 0}
-            className="border-forest text-forest hover:bg-forest hover:text-cream"
+            className="border-forest hover:bg-forest hover:text-cream"
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Previous
@@ -197,7 +197,7 @@ export default function FlashcardsPage() {
           <Button
             variant="outline"
             onClick={speakWord}
-            className="border-forest text-forest hover:bg-forest hover:text-cream"
+            className="border-forest hover:bg-forest hover:text-cream"
           >
             <Volume2 className="h-4 w-4" />
             <span className="sr-only">Speak</span>
@@ -207,7 +207,7 @@ export default function FlashcardsPage() {
             variant="outline"
             onClick={handleNext}
             disabled={currentIndex === shuffledWords.length - 1}
-            className="border-forest text-forest hover:bg-forest hover:text-cream"
+            className="border-forest hover:bg-forest hover:text-cream"
           >
             Next
             <ChevronRight className="h-4 w-4 ml-2" />

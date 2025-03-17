@@ -157,7 +157,7 @@ const FavoritePage = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg"
+            className="rounded-2xl p-6 border border-gray-100 shadow-lg"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-900">
@@ -170,7 +170,7 @@ const FavoritePage = () => {
                 <input
                   type="text"
                   placeholder="Search words..."
-                  className="pl-10 pr-4 py-2 bg-gray-50 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="pl-10 pr-4 py-2 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
                 <Search className="h-5 w-5 text-gray-400 absolute left-3 top-2.5" />
               </div>
@@ -189,7 +189,7 @@ const FavoritePage = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="group p-4 rounded-xl bg-gray-50 hover:bg-indigo-50 transition-all border border-gray-200 hover:border-indigo-200"
+                    className="group p-4 rounded-xl hover:bg-indigo-50 transition-all border border-gray-200 hover:border-indigo-200"
                   >
                     <div className="flex justify-between items-start">
                       <div>
@@ -217,7 +217,7 @@ const FavoritePage = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-2xl p-6 border border-gray-100 shadow-lg"
+            className="rounded-2xl p-6 border border-gray-100 shadow-lg"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-900">
@@ -267,7 +267,7 @@ const FavoritePage = () => {
                       className="absolute inset-0 w-full h-full"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <button className="p-3 bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors">
+                      <button className="p-3 bg-white/90 rounded-full shadow-lg hover:transition-colors">
                         <svg
                           className="w-8 h-8 text-indigo-600"
                           fill="none"
@@ -335,7 +335,7 @@ const FavoritePage = () => {
               </svg>
               Memory Challenge
             </button>
-            <button className="bg-white text-indigo-600 px-6 py-3 rounded-lg hover:bg-indigo-50 border border-indigo-200 flex items-center gap-2">
+            <button className="text-indigo-600 px-6 py-3 rounded-lg hover:bg-indigo-50 border border-indigo-200 flex items-center gap-2">
               <svg
                 className="w-5 h-5"
                 fill="none"

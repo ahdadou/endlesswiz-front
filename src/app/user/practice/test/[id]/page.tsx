@@ -277,7 +277,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-forest">{set.title} - Test</h1>
+        <h1 className="text-3xl font-bold ">{set.title} - Test</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
 

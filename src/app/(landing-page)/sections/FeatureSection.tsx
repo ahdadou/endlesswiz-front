@@ -186,7 +186,7 @@ const FeatureSection = () => {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
-          <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative rounded-2xl shadow-xl overflow-hidden">
             <Image
               src="/133679140_10219929.jpg"
               width={500}

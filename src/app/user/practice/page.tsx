@@ -413,14 +413,14 @@ export default function SetList() {
 
       {/* Study Tips Section */}
       <div className="mt-12 rounded-xl p-6 pattern-bg border border-forest-100 shadow-custom">
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-forest">
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 ">
           <FlaskConical className="h-5 w-5" />
           Study Smart
         </h2>
         <div className="grid gap-4 md:grid-cols-3">
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 text-forest">
+              <h3 className="font-medium mb-2 ">
                 Spaced Repetition
               </h3>
               <p className="text-sm text-muted-foreground">
@@ -431,7 +431,7 @@ export default function SetList() {
           </Card>
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 text-forest">Active Recall</h3>
+              <h3 className="font-medium mb-2 ">Active Recall</h3>
               <p className="text-sm text-muted-foreground">
                 Test yourself instead of passively reading. Try to recall
                 information before flipping flashcards.
@@ -440,7 +440,7 @@ export default function SetList() {
           </Card>
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 text-forest">
+              <h3 className="font-medium mb-2 ">
                 Mix Practice Types
               </h3>
               <p className="text-sm text-muted-foreground">

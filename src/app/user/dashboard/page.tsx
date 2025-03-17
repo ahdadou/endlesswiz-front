@@ -139,7 +139,7 @@ export default function Dashboard() {
   const [activityData] = useState(generateActivityData());
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="flex">
         {/* Main Content */}
         <div className="flex-1 p-8 overflow-auto">
@@ -151,7 +151,7 @@ export default function Dashboard() {
             transition={{ duration: 0.5 }}
           >
             <div>
-              <h1 className="text-3xl font-bold text-forest">
+              <h1 className="text-3xl font-bold ">
                 Welcome back, John!
               </h1>
               <p className="text-muted-foreground">
@@ -175,22 +175,22 @@ export default function Dashboard() {
               {
                 title: "Words Learned",
                 value: studyStats.wordsLearned,
-                icon: <BookOpen className="h-5 w-5 text-forest" />,
+                icon: <BookOpen className="h-5 w-5 " />,
               },
               {
                 title: "Favorite Words",
                 value: studyStats.favoriteWords,
-                icon: <Heart className="h-5 w-5 text-forest" />,
+                icon: <Heart className="h-5 w-5 " />,
               },
               {
                 title: "Videos Watched",
                 value: studyStats.videosWatched,
-                icon: <Video className="h-5 w-5 text-forest" />,
+                icon: <Video className="h-5 w-5 " />,
               },
               {
                 title: "Study Time",
                 value: studyStats.studyTime,
-                icon: <Clock className="h-5 w-5 text-forest" />,
+                icon: <Clock className="h-5 w-5 " />,
               },
             ].map((stat, index) => (
               <motion.div
@@ -207,7 +207,7 @@ export default function Dashboard() {
                         <p className="text-sm text-muted-foreground">
                           {stat.title}
                         </p>
-                        <p className="text-3xl font-bold text-forest">
+                        <p className="text-3xl font-bold ">
                           {stat.value}
                         </p>
                       </div>
@@ -231,7 +231,7 @@ export default function Dashboard() {
             >
               <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader>
-                  <CardTitle className="text-forest flex items-center">
+                  <CardTitle className="flex items-center">
                     <BarChart2 className="h-5 w-5 mr-2" />
                     Weekly Learning Progress
                   </CardTitle>
@@ -289,7 +289,7 @@ export default function Dashboard() {
             >
               <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader>
-                  <CardTitle className="text-forest flex items-center">
+                  <CardTitle className="flex items-center">
                     <PieChart className="h-5 w-5 mr-2" />
                     Category Distribution
                   </CardTitle>
@@ -338,7 +338,7 @@ export default function Dashboard() {
           >
             <Card className="mb-8 border-forest-100 shadow-sm hover:shadow-md transition-all">
               <CardHeader>
-                <CardTitle className="text-forest flex items-center">
+                <CardTitle className="flex items-center">
                   <Calendar className="h-5 w-5 mr-2" />
                   Your Activity
                 </CardTitle>
@@ -363,13 +363,13 @@ export default function Dashboard() {
             >
               <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-forest flex items-center">
+                  <CardTitle className="flex items-center">
                     <Clock className="h-5 w-5 mr-2" />
                     Recent Sets
                   </CardTitle>
                   <Button
                     variant="ghost"
-                    className="text-forest hover:text-forest-700"
+                    className="hover:text-forest-700"
                     onClick={() => router.push("/sets")}
                   >
                     View All
@@ -393,7 +393,7 @@ export default function Dashboard() {
                         onClick={() => router.push(`/set/${set.id}`)}
                       >
                         <div className="flex-1">
-                          <h3 className="font-medium text-forest">
+                          <h3 className="font-medium ">
                             {set.title}
                           </h3>
                           <div className="flex items-center text-sm text-muted-foreground mt-1">
@@ -426,7 +426,7 @@ export default function Dashboard() {
             >
               <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
                 <CardHeader>
-                  <CardTitle className="text-forest flex items-center">
+                  <CardTitle className="flex items-center">
                     <Award className="h-5 w-5 mr-2" />
                     Learning Stats
                   </CardTitle>
@@ -435,27 +435,27 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {[
                       {
-                        icon: <Zap className="h-4 w-4 text-forest" />,
+                        icon: <Zap className="h-4 w-4 " />,
                         label: "Current Streak",
                         value: `${studyStats.streak} days`,
                       },
                       {
-                        icon: <BookMarked className="h-4 w-4 text-forest" />,
+                        icon: <BookMarked className="h-4 w-4 " />,
                         label: "Total Sets",
                         value: studyStats.totalSets,
                       },
                       {
-                        icon: <PenTool className="h-4 w-4 text-forest" />,
+                        icon: <PenTool className="h-4 w-4 " />,
                         label: "Completed Tests",
                         value: studyStats.completedTests,
                       },
                       {
-                        icon: <Gamepad2 className="h-4 w-4 text-forest" />,
+                        icon: <Gamepad2 className="h-4 w-4 " />,
                         label: "Practice Sessions",
                         value: studyStats.totalPractices,
                       },
                       {
-                        icon: <Brain className="h-4 w-4 text-forest" />,
+                        icon: <Brain className="h-4 w-4 " />,
                         label: "Accuracy Rate",
                         value: studyStats.avgAccuracy,
                       },
@@ -472,7 +472,7 @@ export default function Dashboard() {
                           <div className="rounded-full bg-forest/10 p-2 mr-3">
                             {stat.icon}
                           </div>
-                          <span className="text-forest">{stat.label}</span>
+                          <span className="">{stat.label}</span>
                         </div>
                         <Badge variant="outline" className="font-bold">
                           {stat.value}
@@ -491,7 +491,7 @@ export default function Dashboard() {
               >
                 <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all mt-6">
                   <CardHeader>
-                    <CardTitle className="text-forest flex items-center">
+                    <CardTitle className="flex items-center">
                       <Zap className="h-5 w-5 mr-2" />
                       Quick Actions
                     </CardTitle>
@@ -533,7 +533,7 @@ export default function Dashboard() {
                         >
                           <Button
                             variant="outline"
-                            className="flex flex-col h-auto w-full py-4 border-forest text-forest hover:bg-forest hover:text-cream"
+                            className="flex flex-col h-auto w-full py-4 border-forest hover:bg-forest hover:text-cream"
                             onClick={() => router.push(action.path)}
                           >
                             {action.icon}

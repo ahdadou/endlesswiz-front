@@ -269,7 +269,7 @@ export default function LearnPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-forest">{set.title} - Learn</h1>
+        <h1 className="text-3xl font-bold ">{set.title} - Learn</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
 
@@ -346,7 +346,7 @@ export default function LearnPage() {
                   <Button
                     variant="outline"
                     onClick={() => setShowAnswer(true)}
-                    className="border-forest text-forest hover:bg-forest hover:text-cream"
+                    className="border-forest hover:bg-forest hover:text-cream"
                   >
                     Show Answer
                   </Button>

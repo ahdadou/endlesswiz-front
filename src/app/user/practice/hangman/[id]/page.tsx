@@ -250,7 +250,7 @@ export default function HangmanPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-forest">
+        <h1 className="text-3xl font-bold ">
           {set.title} - Hangman
         </h1>
         <p className="text-muted-foreground">{set.description}</p>
@@ -268,7 +268,7 @@ export default function HangmanPage() {
                 variant="outline"
                 size="sm"
                 onClick={resetGame}
-                className="border-forest text-forest hover:bg-forest hover:text-cream"
+                className="border-forest hover:bg-forest hover:text-cream"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Restart

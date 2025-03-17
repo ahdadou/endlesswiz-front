@@ -42,7 +42,7 @@ export default function CreatingFlashcardsGuidePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <div className="flex">
         <div className="flex-1 p-8">
           <motion.div
@@ -54,12 +54,12 @@ export default function CreatingFlashcardsGuidePage() {
             <div>
               <Link
                 href="/help-support"
-                className="inline-flex items-center text-forest hover:text-forest-700 mb-2"
+                className="inline-flex items-center hover:text-forest-700 mb-2"
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
                 Back to Help & Support
               </Link>
-              <h1 className="text-3xl font-bold text-forest">
+              <h1 className="text-3xl font-bold ">
                 Creating Effective Flashcards
               </h1>
               <p className="text-muted-foreground">
@@ -83,8 +83,8 @@ export default function CreatingFlashcardsGuidePage() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="md:col-span-1"
             >
-              <div className="bg-white rounded-lg shadow-sm p-4 sticky top-8">
-                <h3 className="font-medium text-forest mb-4 flex items-center">
+              <div className="rounded-lg shadow-sm p-4 sticky top-8">
+                <h3 className="font-medium mb-4 flex items-center">
                   <PenTool className="h-5 w-5 mr-2" />
                   Guide Contents
                 </h3>
@@ -110,7 +110,7 @@ export default function CreatingFlashcardsGuidePage() {
                           activeStep > step.step
                             ? "bg-green-500 text-white"
                             : activeStep === step.step
-                              ? "bg-white text-forest"
+                              ? ""
                               : "bg-gray-200 text-gray-600"
                         }`}
                       >
@@ -144,7 +144,7 @@ export default function CreatingFlashcardsGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Flashcard Fundamentals
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -157,7 +157,7 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Why Flashcards Work
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -197,14 +197,14 @@ export default function CreatingFlashcardsGuidePage() {
                             ].map((benefit, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
                                 <div className="flex items-start gap-3">
                                   <div className="rounded-full bg-amber-100 p-2">
                                     {benefit.icon}
                                   </div>
                                   <div>
-                                    <h4 className="font-medium text-forest mb-1">
+                                    <h4 className="font-medium mb-1">
                                       {benefit.title}
                                     </h4>
                                     <p className="text-sm text-muted-foreground">
@@ -218,16 +218,16 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             The Anatomy of a Good Flashcard
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   Front Side (Question)
                                 </h4>
-                                <div className="bg-gray-50 p-4 rounded-md border border-gray-200 h-40 flex items-center justify-center">
+                                <div className="p-4 rounded-md border border-gray-200 h-40 flex items-center justify-center">
                                   <div className="text-center">
                                     <p className="font-medium">
                                       What is photosynthesis?
@@ -254,10 +254,10 @@ export default function CreatingFlashcardsGuidePage() {
                                 </div>
                               </div>
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   Back Side (Answer)
                                 </h4>
-                                <div className="bg-gray-50 p-4 rounded-md border border-gray-200 h-40 overflow-auto">
+                                <div className="p-4 rounded-md border border-gray-200 h-40 overflow-auto">
                                   <p className="font-medium mb-2">
                                     The process by which plants convert:
                                   </p>
@@ -296,7 +296,7 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Common Flashcard Mistakes
                           </h3>
                           <div className="space-y-3 mb-6">
@@ -325,12 +325,12 @@ export default function CreatingFlashcardsGuidePage() {
                             ].map((item, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
                                 <div className="flex items-start gap-3">
                                   <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
                                   <div>
-                                    <h4 className="font-medium text-forest mb-1">
+                                    <h4 className="font-medium mb-1">
                                       Mistake: {item.mistake}
                                     </h4>
                                     <p className="text-sm text-muted-foreground">
@@ -350,7 +350,7 @@ export default function CreatingFlashcardsGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Did You Know?
                           </h3>
@@ -373,7 +373,7 @@ export default function CreatingFlashcardsGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Crafting Effective Content
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -386,7 +386,7 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Question Types & Formats
                           </h3>
                           <div className="space-y-4 mb-6">
@@ -429,9 +429,9 @@ export default function CreatingFlashcardsGuidePage() {
                             ].map((format, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {format.type}
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-2">
@@ -448,12 +448,12 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Writing Effective Questions
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                              <h4 className="font-medium text-forest mb-3">
+                            <div className="p-4 rounded-lg border border-gray-100 shadow-sm">
+                              <h4 className="font-medium mb-3">
                                 Do's
                               </h4>
                               <div className="space-y-2">
@@ -474,8 +474,8 @@ export default function CreatingFlashcardsGuidePage() {
                                 ))}
                               </div>
                             </div>
-                            <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-                              <h4 className="font-medium text-forest mb-3">
+                            <div className="p-4 rounded-lg border border-gray-100 shadow-sm">
+                              <h4 className="font-medium mb-3">
                                 Don'ts
                               </h4>
                               <div className="space-y-2">
@@ -500,7 +500,7 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Before & After Examples
                           </h3>
                           <div className="space-y-4 mb-6">
@@ -536,9 +536,9 @@ export default function CreatingFlashcardsGuidePage() {
                             ].map((example, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   {example.subject} Example
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -592,7 +592,7 @@ export default function CreatingFlashcardsGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -615,7 +615,7 @@ export default function CreatingFlashcardsGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Using Media & Formatting
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -628,13 +628,13 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Adding Images to Flashcards
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   When to Use Images
                                 </h4>
                                 <div className="space-y-2">
@@ -656,7 +656,7 @@ export default function CreatingFlashcardsGuidePage() {
                                 </div>
                               </div>
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   Image Best Practices
                                 </h4>
                                 <div className="space-y-2">
@@ -680,11 +680,11 @@ export default function CreatingFlashcardsGuidePage() {
                             </div>
 
                             <div className="mt-6">
-                              <h4 className="font-medium text-forest mb-3">
+                              <h4 className="font-medium mb-3">
                                 Example: Anatomy Flashcard
                               </h4>
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+                                <div className="p-4 rounded-md border border-gray-200">
                                   <p className="font-medium mb-3">
                                     Front Side (Question)
                                   </p>
@@ -697,7 +697,7 @@ export default function CreatingFlashcardsGuidePage() {
                                     <p>Label the chambers of the heart</p>
                                   </div>
                                 </div>
-                                <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+                                <div className="p-4 rounded-md border border-gray-200">
                                   <p className="font-medium mb-3">
                                     Back Side (Answer)
                                   </p>
@@ -721,17 +721,17 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Text Formatting Techniques
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   Formatting Elements
                                 </h4>
                                 <div className="space-y-3">
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="font-medium mb-1">
                                       Bold & Italics
                                     </p>
@@ -743,7 +743,7 @@ export default function CreatingFlashcardsGuidePage() {
                                       for emphasis or foreign words.
                                     </p>
                                   </div>
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="font-medium mb-1">
                                       Lists & Bullet Points
                                     </p>
@@ -756,7 +756,7 @@ export default function CreatingFlashcardsGuidePage() {
                                       <li>Third item</li>
                                     </ul>
                                   </div>
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="font-medium mb-1">
                                       Headings & Subheadings
                                     </p>
@@ -768,11 +768,11 @@ export default function CreatingFlashcardsGuidePage() {
                                 </div>
                               </div>
                               <div>
-                                <h4 className="font-medium text-forest mb-3">
+                                <h4 className="font-medium mb-3">
                                   Color & Highlighting
                                 </h4>
                                 <div className="space-y-3">
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="font-medium mb-1">
                                       Color Coding
                                     </p>
@@ -804,7 +804,7 @@ export default function CreatingFlashcardsGuidePage() {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="font-medium mb-1">
                                       Highlighting
                                     </p>
@@ -822,16 +822,16 @@ export default function CreatingFlashcardsGuidePage() {
                             </div>
 
                             <div className="mt-6">
-                              <h4 className="font-medium text-forest mb-3">
+                              <h4 className="font-medium mb-3">
                                 Example: Well-Formatted Flashcard
                               </h4>
-                              <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+                              <div className="p-4 rounded-md border border-gray-200">
                                 <p className="font-medium mb-2">
                                   Back Side (Answer to "What are the three
                                   branches of the U.S. government?")
                                 </p>
                                 <div>
-                                  <h5 className="font-medium text-forest">
+                                  <h5 className="font-medium ">
                                     The Three Branches:
                                   </h5>
                                   <ol className="list-decimal list-inside mt-2 space-y-2">
@@ -882,13 +882,13 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Using Audio in Flashcards
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   When to Use Audio
                                 </h4>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
@@ -905,7 +905,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Audio Best Practices
                                 </h4>
                                 <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
@@ -921,8 +921,8 @@ export default function CreatingFlashcardsGuidePage() {
                                 </ul>
                               </div>
 
-                              <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                                <h4 className="font-medium text-forest mb-3">
+                              <div className="p-4 rounded-md border border-gray-200">
+                                <h4 className="font-medium mb-3">
                                   Example: Language Learning Flashcard
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -930,11 +930,11 @@ export default function CreatingFlashcardsGuidePage() {
                                     <p className="font-medium mb-2">
                                       Front Side
                                     </p>
-                                    <div className="bg-white p-3 rounded-md border border-gray-200">
+                                    <div className="p-3 rounded-md border border-gray-200">
                                       <p className="mb-2">
                                         How do you say "Thank you" in Japanese?
                                       </p>
-                                      <button className="text-sm text-forest flex items-center">
+                                      <button className="text-sm flex items-center">
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           width="16"
@@ -957,7 +957,7 @@ export default function CreatingFlashcardsGuidePage() {
                                     <p className="font-medium mb-2">
                                       Back Side
                                     </p>
-                                    <div className="bg-white p-3 rounded-md border border-gray-200">
+                                    <div className="p-3 rounded-md border border-gray-200">
                                       <p className="font-medium mb-1">
                                         ありがとう
                                       </p>
@@ -965,7 +965,7 @@ export default function CreatingFlashcardsGuidePage() {
                                         Romanized: Arigatou
                                       </p>
                                       <div className="flex space-x-2">
-                                        <button className="text-xs text-forest flex items-center">
+                                        <button className="text-xs flex items-center">
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="14"
@@ -982,7 +982,7 @@ export default function CreatingFlashcardsGuidePage() {
                                           </svg>
                                           Native speed
                                         </button>
-                                        <button className="text-xs text-forest flex items-center">
+                                        <button className="text-xs flex items-center">
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="14"
@@ -1012,7 +1012,7 @@ export default function CreatingFlashcardsGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -1036,7 +1036,7 @@ export default function CreatingFlashcardsGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Organization Strategies
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -1050,13 +1050,13 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Creating Effective Study Sets
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Optimal Set Size
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">
@@ -1064,17 +1064,17 @@ export default function CreatingFlashcardsGuidePage() {
                                   size is between 20-50 cards. This range is:
                                 </p>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="text-sm font-medium text-center">
                                       Small enough to be manageable
                                     </p>
                                   </div>
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="text-sm font-medium text-center">
                                       Large enough to be worthwhile
                                     </p>
                                   </div>
-                                  <div className="bg-gray-50 p-3 rounded-md">
+                                  <div className="p-3 rounded-md">
                                     <p className="text-sm font-medium text-center">
                                       Completable in a single study session
                                     </p>
@@ -1083,7 +1083,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Organizing Principles
                                 </h4>
                                 <div className="space-y-3">
@@ -1118,9 +1118,9 @@ export default function CreatingFlashcardsGuidePage() {
                                   ].map((item, index) => (
                                     <div
                                       key={index}
-                                      className="bg-gray-50 p-3 rounded-md"
+                                      className="p-3 rounded-md"
                                     >
-                                      <h5 className="font-medium text-forest mb-1">
+                                      <h5 className="font-medium mb-1">
                                         {item.principle}
                                       </h5>
                                       <p className="text-sm text-muted-foreground mb-1">
@@ -1138,13 +1138,13 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Tagging and Categorization
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Using Tags Effectively
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">
@@ -1154,8 +1154,8 @@ export default function CreatingFlashcardsGuidePage() {
                                   find and study related information.
                                 </p>
 
-                                <div className="bg-gray-50 p-4 rounded-md">
-                                  <h5 className="font-medium text-forest mb-2">
+                                <div className="p-4 rounded-md">
+                                  <h5 className="font-medium mb-2">
                                     Example: Medical Student's Flashcard Tags
                                   </h5>
                                   <div className="flex flex-wrap gap-2 mb-3">
@@ -1184,7 +1184,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Tag Types to Consider
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1232,16 +1232,16 @@ export default function CreatingFlashcardsGuidePage() {
                                   ].map((tag, index) => (
                                     <div
                                       key={index}
-                                      className="bg-gray-50 p-3 rounded-md"
+                                      className="p-3 rounded-md"
                                     >
-                                      <h5 className="font-medium text-forest mb-1">
+                                      <h5 className="font-medium mb-1">
                                         {tag.type}
                                       </h5>
                                       <div className="flex flex-wrap gap-1">
                                         {tag.examples.map((example, i) => (
                                           <span
                                             key={i}
-                                            className="bg-forest/10 text-forest text-xs px-2 py-0.5 rounded-full"
+                                            className="bg-forest/10 text-xs px-2 py-0.5 rounded-full"
                                           >
                                             {example}
                                           </span>
@@ -1256,13 +1256,13 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Study Order and Sequencing
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   Strategic Card Ordering
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">
@@ -1304,9 +1304,9 @@ export default function CreatingFlashcardsGuidePage() {
                                   ].map((method, index) => (
                                     <div
                                       key={index}
-                                      className="bg-gray-50 p-3 rounded-md"
+                                      className="p-3 rounded-md"
                                     >
-                                      <h5 className="font-medium text-forest mb-1">
+                                      <h5 className="font-medium mb-1">
                                         {method.method}
                                       </h5>
                                       <p className="text-sm text-muted-foreground mb-1">
@@ -1330,7 +1330,7 @@ export default function CreatingFlashcardsGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -1354,7 +1354,7 @@ export default function CreatingFlashcardsGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Advanced Techniques
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -1367,10 +1367,10 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Cloze Deletion
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div>
                               <p className="text-sm text-muted-foreground mb-4">
                                 Cloze deletion is a technique where you remove
@@ -1380,8 +1380,8 @@ export default function CreatingFlashcardsGuidePage() {
                                 formulas, and processes in context.
                               </p>
 
-                              <div className="bg-gray-50 p-4 rounded-md mb-4">
-                                <h4 className="font-medium text-forest mb-2">
+                              <div className="p-4 rounded-md mb-4">
+                                <h4 className="font-medium mb-2">
                                   How to Create Cloze Deletions
                                 </h4>
                                 <div className="space-y-3">
@@ -1389,7 +1389,7 @@ export default function CreatingFlashcardsGuidePage() {
                                     <p className="text-sm font-medium mb-1">
                                       Original Sentence:
                                     </p>
-                                    <p className="text-sm bg-white p-2 rounded border border-gray-200">
+                                    <p className="text-sm p-2 rounded border border-gray-200">
                                       The mitochondria is the powerhouse of the
                                       cell and is responsible for producing ATP
                                       through cellular respiration.
@@ -1400,18 +1400,18 @@ export default function CreatingFlashcardsGuidePage() {
                                       Cloze Deletion Cards:
                                     </p>
                                     <div className="space-y-2">
-                                      <p className="text-sm bg-white p-2 rounded border border-gray-200">
+                                      <p className="text-sm p-2 rounded border border-gray-200">
                                         The [...] is the powerhouse of the cell
                                         and is responsible for producing ATP
                                         through cellular respiration.
                                       </p>
-                                      <p className="text-sm bg-white p-2 rounded border border-gray-200">
+                                      <p className="text-sm p-2 rounded border border-gray-200">
                                         The mitochondria is the powerhouse of
                                         the cell and is responsible for
                                         producing [...] through cellular
                                         respiration.
                                       </p>
-                                      <p className="text-sm bg-white p-2 rounded border border-gray-200">
+                                      <p className="text-sm p-2 rounded border border-gray-200">
                                         The mitochondria is the powerhouse of
                                         the cell and is responsible for
                                         producing ATP through [...].
@@ -1423,7 +1423,7 @@ export default function CreatingFlashcardsGuidePage() {
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                  <h4 className="font-medium text-forest mb-2">
+                                  <h4 className="font-medium mb-2">
                                     Benefits of Cloze Deletion
                                   </h4>
                                   <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
@@ -1446,7 +1446,7 @@ export default function CreatingFlashcardsGuidePage() {
                                   </ul>
                                 </div>
                                 <div>
-                                  <h4 className="font-medium text-forest mb-2">
+                                  <h4 className="font-medium mb-2">
                                     Best Subjects for Cloze Deletion
                                   </h4>
                                   <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
@@ -1465,10 +1465,10 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Mnemonic Techniques
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <p className="text-sm text-muted-foreground">
                                 Mnemonics are memory aids that help you remember
@@ -1518,9 +1518,9 @@ export default function CreatingFlashcardsGuidePage() {
                                 ].map((technique, index) => (
                                   <div
                                     key={index}
-                                    className="bg-gray-50 p-3 rounded-md"
+                                    className="p-3 rounded-md"
                                   >
-                                    <h4 className="font-medium text-forest mb-1">
+                                    <h4 className="font-medium mb-1">
                                       {technique.technique}
                                     </h4>
                                     <p className="text-sm text-muted-foreground mb-1">
@@ -1534,7 +1534,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div className="bg-forest/5 p-3 rounded-md">
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   Adding Mnemonics to Flashcards
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-2">
@@ -1542,7 +1542,7 @@ export default function CreatingFlashcardsGuidePage() {
                                   side of your flashcards to reinforce these
                                   memory associations. For example:
                                 </p>
-                                <div className="bg-white p-3 rounded border border-gray-200">
+                                <div className="p-3 rounded border border-gray-200">
                                   <p className="font-medium mb-1">
                                     Q: List the cranial nerves in order (I-XII)
                                   </p>
@@ -1570,10 +1570,10 @@ export default function CreatingFlashcardsGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Interleaving and Varied Practice
                           </h3>
-                          <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <div className="space-y-4">
                               <p className="text-sm text-muted-foreground">
                                 Interleaving is the practice of mixing different
@@ -1585,8 +1585,8 @@ export default function CreatingFlashcardsGuidePage() {
                               </p>
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div className="bg-gray-50 p-3 rounded-md">
-                                  <h4 className="font-medium text-forest mb-2">
+                                <div className="p-3 rounded-md">
+                                  <h4 className="font-medium mb-2">
                                     Blocking (Less Effective)
                                   </h4>
                                   <div className="space-y-2">
@@ -1601,8 +1601,8 @@ export default function CreatingFlashcardsGuidePage() {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="bg-gray-50 p-3 rounded-md">
-                                  <h4 className="font-medium text-forest mb-2">
+                                <div className="p-3 rounded-md">
+                                  <h4 className="font-medium mb-2">
                                     Interleaving (More Effective)
                                   </h4>
                                   <div className="space-y-2">
@@ -1623,7 +1623,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div>
-                                <h4 className="font-medium text-forest mb-2">
+                                <h4 className="font-medium mb-2">
                                   How to Implement Interleaving with Flashcards
                                 </h4>
                                 <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
@@ -1651,7 +1651,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
 
                               <div className="bg-forest/5 p-3 rounded-md">
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   Example Study Plan with Interleaving
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-2">
@@ -1705,7 +1705,7 @@ export default function CreatingFlashcardsGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -1729,7 +1729,7 @@ export default function CreatingFlashcardsGuidePage() {
                   variant="outline"
                   onClick={() => handleStepChange(Math.max(1, activeStep - 1))}
                   disabled={activeStep === 1}
-                  className="border-forest text-forest hover:bg-forest hover:text-cream"
+                  className="border-forest hover:bg-forest hover:text-cream"
                 >
                   Previous
                 </Button>

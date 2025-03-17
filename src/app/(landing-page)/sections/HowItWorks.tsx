@@ -38,7 +38,7 @@ const HowItWorks = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white p-6 rounded-xl shadow-lg text-center"
+              className="p-6 rounded-xl shadow-lg text-center"
             >
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 {step.icon}

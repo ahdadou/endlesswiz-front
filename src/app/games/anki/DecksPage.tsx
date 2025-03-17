@@ -43,7 +43,7 @@ export default function DecksPage() {
           {decks.map((deck) => (
             <li
               key={deck.id}
-              className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition"
+              className="p-4 rounded-lg shadow-md hover:shadow-lg transition"
             >
               <Link href={`/decks/${deck.id}`}>
                 <a className="text-blue-600 text-lg font-semibold">

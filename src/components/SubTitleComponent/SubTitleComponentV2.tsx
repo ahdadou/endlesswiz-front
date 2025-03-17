@@ -95,7 +95,7 @@ export function SubTitleComponentV2({
       return (
         <span key={index}>
           <span
-            className={`cursor-pointer hover:text-forest hover:underline ${
+            className={`cursor-pointer hover:hover:underline ${
               isHighlighted
                 ? "font-bold text-forest-700 bg-forest/10 px-1 rounded"
                 : ""
@@ -138,7 +138,7 @@ export function SubTitleComponentV2({
     <>
       <Card className="border-forest-100 shadow-sm h-full">
         <CardHeader>
-          <CardTitle className="text-forest">Subtitles</CardTitle>
+          <CardTitle className="">Subtitles</CardTitle>
           <CardDescription>
             Click on any word to see its definition
           </CardDescription>
@@ -185,7 +185,7 @@ export function SubTitleComponentV2({
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
+            className="rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="space-y-4 px-6 pb-6 relative overflow-y-auto">

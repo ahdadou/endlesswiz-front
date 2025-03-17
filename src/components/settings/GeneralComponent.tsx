@@ -43,7 +43,7 @@ const GeneralPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Appearance</CardTitle>
+            <CardTitle className="">Appearance</CardTitle>
             <CardDescription>Customize how StudyCards looks</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -58,7 +58,7 @@ const GeneralPage = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-8 w-8 border-forest text-forest"
+                  className="h-8 w-8 border-forest "
                 >
                   <Sun className="h-4 w-4" />
                 </Button>
@@ -108,7 +108,7 @@ const GeneralPage = () => {
 
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Language & Region</CardTitle>
+            <CardTitle className="">Language & Region</CardTitle>
             <CardDescription>
               Set your language and regional preferences
             </CardDescription>
@@ -167,7 +167,7 @@ const GeneralPage = () => {
 
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Learning Preferences</CardTitle>
+            <CardTitle className="">Learning Preferences</CardTitle>
             <CardDescription>
               Customize your learning experience
             </CardDescription>
@@ -232,7 +232,7 @@ const GeneralPage = () => {
 
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Accessibility</CardTitle>
+            <CardTitle className="">Accessibility</CardTitle>
             <CardDescription>Adjust accessibility settings</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">

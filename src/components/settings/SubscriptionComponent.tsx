@@ -104,7 +104,7 @@ const SubscriptionPage = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <Card className="md:col-span-2 border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Subscription Plan</CardTitle>
+          <CardTitle className="">Subscription Plan</CardTitle>
           <CardDescription>
             Manage your subscription and billing
           </CardDescription>
@@ -221,7 +221,7 @@ const SubscriptionPage = () => {
       <div className="space-y-6">
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Payment Methods</CardTitle>
+            <CardTitle className="">Payment Methods</CardTitle>
             <CardDescription>Manage your payment information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -229,7 +229,7 @@ const SubscriptionPage = () => {
               <>
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <div className="flex items-center gap-3">
-                    <div className="rounded-md bg-white p-2 border">
+                    <div className="rounded-md p-2 border">
                       <MasterCard />
                     </div>
                     <div>
@@ -372,7 +372,7 @@ const SubscriptionPage = () => {
 
         <Card className="border-forest-100 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-forest">Billing History</CardTitle>
+            <CardTitle className="">Billing History</CardTitle>
             <CardDescription>View your past invoices</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

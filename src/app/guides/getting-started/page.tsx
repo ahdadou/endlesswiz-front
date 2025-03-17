@@ -42,7 +42,7 @@ export default function GettingStartedGuidePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <div className="flex">
         <div className="flex-1 p-8">
           <motion.div
@@ -54,12 +54,12 @@ export default function GettingStartedGuidePage() {
             <div>
               <Link
                 href="/help-support"
-                className="inline-flex items-center text-forest hover:text-forest-700 mb-2"
+                className="inline-flex items-center hover:text-forest-700 mb-2"
               >
                 <ChevronLeft className="h-4 w-4 mr-1" />
                 Back to Help & Support
               </Link>
-              <h1 className="text-3xl font-bold text-forest">
+              <h1 className="text-3xl font-bold ">
                 Getting Started Guide
               </h1>
               <p className="text-muted-foreground">
@@ -82,8 +82,8 @@ export default function GettingStartedGuidePage() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="md:col-span-1"
             >
-              <div className="bg-white rounded-lg shadow-sm p-4 sticky top-8">
-                <h3 className="font-medium text-forest mb-4 flex items-center">
+              <div className="rounded-lg shadow-sm p-4 sticky top-8">
+                <h3 className="font-medium mb-4 flex items-center">
                   <BookOpen className="h-5 w-5 mr-2" />
                   Guide Contents
                 </h3>
@@ -109,7 +109,7 @@ export default function GettingStartedGuidePage() {
                           activeStep > step.step
                             ? "bg-green-500 text-white"
                             : activeStep === step.step
-                              ? "bg-white text-forest"
+                              ? ""
                               : "bg-gray-200 text-gray-600"
                         }`}
                       >
@@ -143,7 +143,7 @@ export default function GettingStartedGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Welcome to StudyCards
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -157,7 +157,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             What You Can Do With StudyCards
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -185,9 +185,9 @@ export default function GettingStartedGuidePage() {
                             ].map((feature, index) => (
                               <div
                                 key={index}
-                                className="bg-gray-50 p-4 rounded-lg"
+                                className="p-4 rounded-lg"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {feature.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -218,7 +218,7 @@ export default function GettingStartedGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Did You Know?
                           </h3>
@@ -240,7 +240,7 @@ export default function GettingStartedGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Creating Your Account
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -251,7 +251,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Step-by-Step Account Setup
                           </h3>
                           <div className="space-y-4 mb-6">
@@ -277,7 +277,7 @@ export default function GettingStartedGuidePage() {
                             ].map((step, index) => (
                               <div
                                 key={index}
-                                className="flex flex-col md:flex-row gap-4 p-4 bg-white rounded-lg border border-gray-100 shadow-sm"
+                                className="flex flex-col md:flex-row gap-4 p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
                                 <div className="md:w-1/3">
                                   <img
@@ -287,7 +287,7 @@ export default function GettingStartedGuidePage() {
                                   />
                                 </div>
                                 <div className="md:w-2/3">
-                                  <h4 className="font-medium text-forest mb-1">
+                                  <h4 className="font-medium mb-1">
                                     {index + 1}. {step.title}
                                   </h4>
                                   <p className="text-sm text-muted-foreground">
@@ -300,7 +300,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Account Settings
                           </h3>
                           <p className="text-muted-foreground mb-4">
@@ -320,7 +320,7 @@ export default function GettingStartedGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -341,7 +341,7 @@ export default function GettingStartedGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Creating Your First Set
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -353,7 +353,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Creating a New Study Set
                           </h3>
                           <ol className="space-y-4 mb-6">
@@ -386,9 +386,9 @@ export default function GettingStartedGuidePage() {
                             ].map((step, index) => (
                               <li
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {step.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -400,7 +400,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Tips for Effective Flashcards
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -414,7 +414,7 @@ export default function GettingStartedGuidePage() {
                             ].map((tip, index) => (
                               <div
                                 key={index}
-                                className="flex items-start gap-2 bg-gray-50 p-3 rounded-md"
+                                className="flex items-start gap-2 p-3 rounded-md"
                               >
                                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                                 <p className="text-sm">{tip}</p>
@@ -424,8 +424,8 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm mb-6">
-                            <h3 className="text-xl font-medium text-forest mb-3">
+                          <div className="p-4 rounded-lg border border-gray-100 shadow-sm mb-6">
+                            <h3 className="text-xl font-medium mb-3">
                               Example Study Set
                             </h3>
                             <p className="text-muted-foreground mb-4">
@@ -444,7 +444,7 @@ export default function GettingStartedGuidePage() {
                               ].map((card, index) => (
                                 <div
                                   key={index}
-                                  className="flex bg-gray-50 rounded-md overflow-hidden"
+                                  className="flex rounded-md overflow-hidden"
                                 >
                                   <div className="w-1/2 p-3 border-r border-gray-200">
                                     <p className="font-medium">{card.term}</p>
@@ -462,7 +462,7 @@ export default function GettingStartedGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -484,7 +484,7 @@ export default function GettingStartedGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Study Modes Overview
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -496,7 +496,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Available Study Modes
                           </h3>
                           <div className="space-y-4 mb-6">
@@ -548,12 +548,12 @@ export default function GettingStartedGuidePage() {
                             ].map((mode, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
                                 <div className="flex items-start gap-3">
                                   <div className="text-2xl">{mode.icon}</div>
                                   <div>
-                                    <h4 className="font-medium text-forest mb-1">
+                                    <h4 className="font-medium mb-1">
                                       {mode.title}
                                     </h4>
                                     <p className="text-sm text-muted-foreground mb-2">
@@ -563,7 +563,7 @@ export default function GettingStartedGuidePage() {
                                       {mode.benefits.map((benefit, i) => (
                                         <span
                                           key={i}
-                                          className="text-xs bg-forest/10 text-forest px-2 py-1 rounded-full"
+                                          className="text-xs bg-forest/10 px-2 py-1 rounded-full"
                                         >
                                           {benefit}
                                         </span>
@@ -577,10 +577,10 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Choosing the Right Study Mode
                           </h3>
-                          <div className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm mb-6">
+                          <div className="p-4 rounded-lg border border-gray-100 shadow-sm mb-6">
                             <p className="text-muted-foreground mb-4">
                               Different study modes are effective at different
                               stages of learning:
@@ -627,7 +627,7 @@ export default function GettingStartedGuidePage() {
                           variants={item}
                           className="bg-forest/5 p-4 rounded-lg border border-forest/10"
                         >
-                          <h3 className="flex items-center text-forest font-medium mb-2">
+                          <h3 className="flex items-center font-medium mb-2">
                             <HelpCircle className="h-5 w-5 mr-2" />
                             Pro Tip
                           </h3>
@@ -649,7 +649,7 @@ export default function GettingStartedGuidePage() {
                         className="space-y-6"
                       >
                         <motion.div variants={item}>
-                          <h2 className="text-2xl font-bold text-forest mb-4">
+                          <h2 className="text-2xl font-bold mb-4">
                             Next Steps
                           </h2>
                           <p className="text-muted-foreground mb-4">
@@ -660,7 +660,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Recommended Actions
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -696,9 +696,9 @@ export default function GettingStartedGuidePage() {
                             ].map((item, index) => (
                               <div
                                 key={index}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {item.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground mb-3">
@@ -706,7 +706,7 @@ export default function GettingStartedGuidePage() {
                                 </p>
                                 <Button
                                   variant="outline"
-                                  className="w-full border-forest text-forest hover:bg-forest hover:text-cream"
+                                  className="w-full border-forest hover:bg-forest hover:text-cream"
                                   asChild
                                 >
                                   <Link href={item.link}>
@@ -720,7 +720,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Advanced Features to Explore
                           </h3>
                           <div className="space-y-3 mb-6">
@@ -748,9 +748,9 @@ export default function GettingStartedGuidePage() {
                             ].map((feature, index) => (
                               <div
                                 key={index}
-                                className="bg-gray-50 p-3 rounded-md"
+                                className="p-3 rounded-md"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {feature.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -763,7 +763,7 @@ export default function GettingStartedGuidePage() {
 
                         <motion.div variants={item}>
                           <div className="bg-forest/10 p-6 rounded-lg text-center mb-6">
-                            <h3 className="text-xl font-bold text-forest mb-3">
+                            <h3 className="text-xl font-bold mb-3">
                               Congratulations!
                             </h3>
                             <p className="text-muted-foreground mb-4">
@@ -785,7 +785,7 @@ export default function GettingStartedGuidePage() {
                         </motion.div>
 
                         <motion.div variants={item}>
-                          <h3 className="text-xl font-medium text-forest mb-3">
+                          <h3 className="text-xl font-medium mb-3">
                             Additional Resources
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -812,9 +812,9 @@ export default function GettingStartedGuidePage() {
                               <Link
                                 key={index}
                                 href={resource.link}
-                                className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                                className="p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
                               >
-                                <h4 className="font-medium text-forest mb-1">
+                                <h4 className="font-medium mb-1">
                                   {resource.title}
                                 </h4>
                                 <p className="text-sm text-muted-foreground">
@@ -835,7 +835,7 @@ export default function GettingStartedGuidePage() {
                   variant="outline"
                   onClick={() => handleStepChange(Math.max(1, activeStep - 1))}
                   disabled={activeStep === 1}
-                  className="border-forest text-forest hover:bg-forest hover:text-cream"
+                  className="border-forest hover:bg-forest hover:text-cream"
                 >
                   Previous
                 </Button>

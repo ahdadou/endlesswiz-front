@@ -121,7 +121,7 @@ export default function DashboardSidebar() {
               {(!collapsed || isMobileView) && (
                 <div className="flex items-center justify-between w-full">
                   <div className="text-left">
-                    <p className="font-medium text-forest">
+                    <p className="font-medium ">
                       {userData?.firstName} {userData?.lastName}
                     </p>
                     <p className="text-xs text-muted-foreground">
@@ -138,7 +138,7 @@ export default function DashboardSidebar() {
             className="w-56 rounded-xl shadow-lg border-0"
           >
             <div className="px-4 py-3 border-b">
-              <p className="font-medium text-forest">
+              <p className="font-medium ">
                 {userData?.firstName} {userData?.lastName}
               </p>
               <p className="text-xs text-muted-foreground">Premium Member</p>
@@ -192,7 +192,7 @@ export default function DashboardSidebar() {
                   "flex items-center py-2 px-3 rounded-md transition-colors",
                   isActive
                     ? "bg-forest text-cream"
-                    : "text-gray-700 hover:bg-gray-100",
+                    : "hover:text-forest hover:bg-gray-100",
                   collapsed && !isMobileView && "justify-center px-2",
                 )}
               >
@@ -238,7 +238,7 @@ export default function DashboardSidebar() {
   return (
     <div
       className={cn(
-        "h-screen bg-white border-r border-gray-200 transition-all duration-300 relative hidden md:block",
+        "h-screen  border-gray-200 transition-all duration-300 relative hidden md:block",
         collapsed ? "w-20" : "w-64",
       )}
     >
@@ -246,7 +246,7 @@ export default function DashboardSidebar() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-gray-200 bg-white shadow-sm z-10"
+        className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-gray-200 shadow-sm z-10"
         onClick={() => setCollapsed(!collapsed)}
       >
         {collapsed ? (

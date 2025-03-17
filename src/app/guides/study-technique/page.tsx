@@ -35,7 +35,7 @@
 //   }
 
 //   return (
-//     <div className="min-h-screen bg-gray-50">
+//     <div className="min-h-screen ">
 //       <div className="flex">
 //         <DashboardSidebar />
 
@@ -47,11 +47,11 @@
 //             className="mb-8 flex items-center justify-between"
 //           >
 //             <div>
-//               <Link href="/help-support" className="inline-flex items-center text-forest hover:text-forest-700 mb-2">
+//               <Link href="/help-support" className="inline-flex items-center hover:text-forest-700 mb-2">
 //                 <ChevronLeft className="h-4 w-4 mr-1" />
 //                 Back to Help & Support
 //               </Link>
-//               <h1 className="text-3xl font-bold text-forest">Study Techniques</h1>
+//               <h1 className="text-3xl font-bold ">Study Techniques</h1>
 //               <p className="text-muted-foreground">Learn about different study methods and how to use them effectively</p>
 //             </div>
 //             <div className="flex items-center gap-2">
@@ -68,8 +68,8 @@
 //               transition={{ duration: 0.3, delay: 0.1 }}
 //               className="md:col-span-1"
 //             >
-//               <div className="bg-white rounded-lg shadow-sm p-4 sticky top-8">
-//                 <h3 className="font-medium text-forest mb-4 flex items-center">
+//               <div className="rounded-lg shadow-sm p-4 sticky top-8">
+//                 <h3 className="font-medium mb-4 flex items-center">
 //                   <Brain className="h-5 w-5 mr-2" />
 //                   Guide Contents
 //                 </h3>
@@ -95,7 +95,7 @@
 //                           activeStep > step.step
 //                             ? "bg-green-500 text-white"
 //                             : activeStep === step.step
-//                             ? "bg-white text-forest"
+//                             ? ""
 //                             : "bg-gray-200 text-gray-600"
 //                         }`}
 //                       >
@@ -124,31 +124,31 @@
 //                     <TabsContent value="step-1" className="mt-0">
 //                       <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
 //                         <motion.div variants={item}>
-//                           <h2 className="text-2xl font-bold text-forest mb-4">The Science of Learning</h2>
+//                           <h2 className="text-2xl font-bold mb-4">The Science of Learning</h2>
 //                           <p className="text-muted-foreground mb-4">
 //                             Understanding how your brain learns and retains information is the first step to becoming a more effective learner. Modern cognitive science has revealed key principles that can dramatically improve your study efficiency.
 //                           </p>
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">How Memory Works</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">How Memory Works</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-//                               <div className="bg-gray-50 p-4 rounded-lg">
-//                                 <h4 className="font-medium text-forest mb-2 text-center">Encoding</h4>
+//                               <div className="p-4 rounded-lg">
+//                                 <h4 className="font-medium mb-2 text-center">Encoding</h4>
 //                                 <p className="text-sm text-center">The process of converting information into a form your brain can store</p>
 //                                 <div className="flex justify-center mt-3">
 //                                   <div className="bg-forest/10 rounded-full p-3">
-//                                     <Brain className="h-8 w-8 text-forest" />
+//                                     <Brain className="h-8 w-8 " />
 //                                   </div>
 //                                 </div>
 //                               </div>
-//                               <div className="bg-gray-50 p-4 rounded-lg">
-//                                 <h4 className="font-medium text-forest mb-2 text-center">Storage</h4>
+//                               <div className="p-4 rounded-lg">
+//                                 <h4 className="font-medium mb-2 text-center">Storage</h4>
 //                                 <p className="text-sm text-center">Maintaining encoded information over time in short and long-term memory</p>
 //                                 <div className="flex justify-center mt-3">
 //                                   <div className="bg-forest/10 rounded-full p-3">
-//                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-forest">
+//                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="">
 //                                       <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"></path>
 //                                       <path d="M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"></path>
 //                                       <path d="M4 12h16"></path>
@@ -156,12 +156,12 @@
 //                                   </div>
 //                                 </div>
 //                               </div>
-//                               <div className="bg-gray-50 p-4 rounded-lg">
-//                                 <h4 className="font-medium text-forest mb-2 text-center">Retrieval</h4>
+//                               <div className="p-4 rounded-lg">
+//                                 <h4 className="font-medium mb-2 text-center">Retrieval</h4>
 //                                 <p className="text-sm text-center">Accessing stored information when needed</p>
 //                                 <div className="flex justify-center mt-3">
 //                                   <div className="bg-forest/10 rounded-full p-3">
-//                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-forest">
+//                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="">
 //                                       <circle cx="11" cy="11" r="8"></circle>
 //                                       <path d="m21 21-4.3-4.3"></path>
 //                                     </svg>
@@ -172,11 +172,11 @@
 
 //                             <div className="space-y-4">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">The Forgetting Curve</h4>
+//                                 <h4 className="font-medium mb-2">The Forgetting Curve</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   In the 1880s, Hermann Ebbinghaus discovered that memory retention declines over time when there is no attempt to retain it. This decline follows a predictable pattern known as the "forgetting curve."
 //                                 </p>
-//                                 <div className="bg-gray-50 p-4 rounded-lg flex items-center justify-center">
+//                                 <div className="p-4 rounded-lg flex items-center justify-center">
 //                                   <img
 //                                     src="/placeholder.svg?height=200&width=400"
 //                                     alt="Ebbinghaus Forgetting Curve"
@@ -194,11 +194,11 @@
 //                               </div>
 
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Combating the Forgetting Curve</h4>
+//                                 <h4 className="font-medium mb-2">Combating the Forgetting Curve</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   The good news is that we can "reset" the forgetting curve through strategic review, making the memory more durable each time. This is the foundation of effective study techniques.
 //                                 </p>
-//                                 <div className="bg-gray-50 p-4 rounded-lg flex items-center justify-center">
+//                                 <div className="p-4 rounded-lg flex items-center justify-center">
 //                                   <img
 //                                     src="/placeholder.svg?height=200&width=400"
 //                                     alt="Combating the Forgetting Curve with Spaced Repetition"
@@ -211,7 +211,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Learning Principles</h3>
+//                           <h3 className="text-xl font-medium mb-3">Learning Principles</h3>
 //                           <div className="space-y-4 mb-6">
 //                             {[
 //                               {
@@ -243,11 +243,11 @@
 //                                 </svg>,
 //                               },
 //                             ].map((principle, index) => (
-//                               <div key={index} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+//                               <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm">
 //                                 <div className="flex items-start gap-3">
 //                                   <div className="rounded-full bg-amber-100 p-2 flex-shrink-0">{principle.icon}</div>
 //                                   <div>
-//                                     <h4 className="font-medium text-forest mb-1">{principle.principle}</h4>
+//                                     <h4 className="font-medium mb-1">{principle.principle}</h4>
 //                                     <p className="text-sm text-muted-foreground">{principle.description}</p>
 //                                   </div>
 //                                 </div>
@@ -257,11 +257,11 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">The Role of Sleep and Physical Health</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">The Role of Sleep and Physical Health</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Sleep and Memory Consolidation</h4>
+//                                 <h4 className="font-medium mb-2">Sleep and Memory Consolidation</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   Sleep plays a crucial role in memory consolidation—the process of transferring information from short-term to long-term memory.
 //                                 </p>
@@ -273,21 +273,21 @@
 //                                 </ul>
 //                               </div>
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Physical Factors Affecting Learning</h4>
+//                                 <h4 className="font-medium mb-2">Physical Factors Affecting Learning</h4>
 //                                 <div className="space-y-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="font-medium mb-1">Exercise</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Regular physical activity increases blood flow to the brain, promotes the growth of new neurons, and improves cognitive function.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="font-medium mb-1">Nutrition</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Your brain consumes about 20% of your body's energy. Foods rich in omega-3 fatty acids, antioxidants, and complex carbohydrates support optimal brain function.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="font-medium mb-1">Hydration</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Even mild dehydration can impair attention, working memory, and physical performance. Aim to drink water consistently throughout the day.
@@ -300,7 +300,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item} className="bg-forest/5 p-4 rounded-lg border border-forest/10">
-//                           <h3 className="flex items-center text-forest font-medium mb-2">
+//                           <h3 className="flex items-center font-medium mb-2">
 //                             <HelpCircle className="h-5 w-5 mr-2" />
 //                             Did You Know?
 //                           </h3>
@@ -314,18 +314,18 @@
 //                     <TabsContent value="step-2" className="mt-0">
 //                       <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
 //                         <motion.div variants={item}>
-//                           <h2 className="text-2xl font-bold text-forest mb-4">Active Recall</h2>
+//                           <h2 className="text-2xl font-bold mb-4">Active Recall</h2>
 //                           <p className="text-muted-foreground mb-4">
 //                             Active recall is the practice of actively stimulating memory during the learning process. Rather than passively reviewing information, you test yourself by trying to recall specific facts or concepts from memory. This technique is one of the most powerful learning strategies backed by cognitive science.
 //                           </p>
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Why Active Recall Works</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Why Active Recall Works</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">The Science Behind It</h4>
+//                                 <h4 className="font-medium mb-2">The Science Behind It</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   When you attempt to recall information, you're:
 //                                 </p>
@@ -337,19 +337,19 @@
 //                                 </ul>
 //                               </div>
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Research Evidence</h4>
+//                                 <h4 className="font-medium mb-2">Research Evidence</h4>
 //                                 <div className="space-y-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm text-muted-foreground">
 //                                       A 2013 study found that students who used active recall scored 50% better on exams than those who used passive study methods.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Another study showed that testing yourself just once improves long-term retention more than rereading material multiple times.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Even when students get answers wrong during practice, the act of attempting recall improves future performance.
 //                                     </p>
@@ -361,7 +361,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Active Recall Techniques</h3>
+//                           <h3 className="text-xl font-medium mb-3">Active Recall Techniques</h3>
 //                           <div className="space-y-4 mb-6">
 //                             {[
 //                               {
@@ -411,8 +411,8 @@
 //                                 bestFor: "Comprehensive topic review, identifying knowledge gaps"
 //                               },
 //                             ].map((technique, index) => (
-//                               <div key={index} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-//                                 <h4 className="font-medium text-forest mb-2">{technique.technique}</h4>
+//                               <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm">
+//                                 <h4 className="font-medium mb-2">{technique.technique}</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">{technique.description}</p>
 //                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                                   <div>
@@ -434,8 +434,8 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Common Mistakes to Avoid</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Common Mistakes to Avoid</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="space-y-3">
 //                               {[
 //                                 {
@@ -459,8 +459,8 @@
 //                                   solution: "Vary your question formats (multiple choice, short answer, application problems) to build flexible knowledge."
 //                                 },
 //                               ].map((item, index) => (
-//                                 <div key={index} className="bg-gray-50 p-3 rounded-md">
-//                                   <h4 className="font-medium text-forest mb-1">{item.mistake}</h4>
+//                                 <div key={index} className="p-3 rounded-md">
+//                                   <h4 className="font-medium mb-1">{item.mistake}</h4>
 //                                   <p className="text-sm text-muted-foreground mb-2">{item.explanation}</p>
 //                                   <p className="text-sm">
 //                                     <span className="font-medium">Solution:</span> {item.solution}
@@ -472,7 +472,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item} className="bg-forest/5 p-4 rounded-lg border border-forest/10">
-//                           <h3 className="flex items-center text-forest font-medium mb-2">
+//                           <h3 className="flex items-center font-medium mb-2">
 //                             <HelpCircle className="h-5 w-5 mr-2" />
 //                             Pro Tip
 //                           </h3>
@@ -486,22 +486,22 @@
 //                     <TabsContent value="step-3" className="mt-0">
 //                       <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
 //                         <motion.div variants={item}>
-//                           <h2 className="text-2xl font-bold text-forest mb-4">Spaced Repetition</h2>
+//                           <h2 className="text-2xl font-bold mb-4">Spaced Repetition</h2>
 //                           <p className="text-muted-foreground mb-4">
 //                             Spaced repetition is a learning technique that involves reviewing information at increasing intervals over time. This method takes advantage of the psychological spacing effect, which demonstrates that we learn more effectively when we space out our learning over time rather than cramming.
 //                           </p>
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">How Spaced Repetition Works</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">How Spaced Repetition Works</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">The Basic Principle</h4>
+//                                 <h4 className="font-medium mb-2">The Basic Principle</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   Spaced repetition follows a simple principle: review information just as you're about to forget it. This creates an optimal level of challenge that strengthens memory.
 //                                 </p>
-//                                 <div className="bg-gray-50 p-3 rounded-md">
+//                                 <div className="p-3 rounded-md">
 //                                   <p className="text-sm text-muted-foreground">
 //                                     Instead of reviewing at fixed intervals (like every day), you increase the intervals between reviews:
 //                                   </p>
@@ -515,11 +515,11 @@
 //                                 </div>
 //                               </div>
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Adaptive Intervals</h4>
+//                                 <h4 className="font-medium mb-2">Adaptive Intervals</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">
 //                                   Modern spaced repetition systems adapt to your performance. Items you find difficult appear more frequently, while well-known items appear less often.
 //                                 </p>
-//                                 <div className="bg-gray-50 p-3 rounded-md">
+//                                 <div className="p-3 rounded-md">
 //                                   <p className="text-sm font-medium mb-1">How it adapts:</p>
 //                                   <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
 //                                     <li>If you recall an item easily, the next interval increases significantly</li>
@@ -533,7 +533,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Implementing Spaced Repetition</h3>
+//                           <h3 className="text-xl font-medium mb-3">Implementing Spaced Repetition</h3>
 //                           <div className="space-y-4 mb-6">
 //                             {[
 //                               {
@@ -582,8 +582,8 @@
 //                                 bestFor: "Note-takers, students with lecture or reading materials"
 //                               },
 //                             ].map((method, index) => (
-//                               <div key={index} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-//                                 <h4 className="font-medium text-forest mb-2">{method.method}</h4>
+//                               <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm">
+//                                 <h4 className="font-medium mb-2">{method.method}</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">{method.description}</p>
 //                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                                   <div>
@@ -605,31 +605,31 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Optimizing Your Spaced Repetition Practice</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Optimizing Your Spaced Repetition Practice</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="space-y-4">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Best Practices</h4>
+//                                 <h4 className="font-medium mb-2">Best Practices</h4>
 //                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Consistency is Key</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Daily review, even if brief, is more effective than occasional long sessions. Set a specific time each day for reviews.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Quality Over Quantity</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       It's better to thoroughly learn 10 cards than to superficially review 50. Focus on understanding, not just memorization.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Combine with Active Recall</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Always try to recall the answer before checking. The effort of retrieval is what strengthens memory.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Manage Your Workload</p>
 //                                     <p className="text-sm text-muted-foreground">
 //                                       Introduce new material gradually. Aim for 10-20 new items per day to avoid overwhelming your review schedule.
@@ -639,9 +639,9 @@
 //                               </div>
 
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Troubleshooting Common Issues</h4>
+//                                 <h4 className="font-medium mb-2">Troubleshooting Common Issues</h4>
 //                                 <div className="space-y-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Review Backlog</p>
 //                                     <p className="text-sm text-muted-foreground mb-1">
 //                                       You've missed several days and now have hundreds of cards due.
@@ -650,7 +650,7 @@
 //                                       <span className="font-medium">Solution:</span> Don't try to clear it all at once. Set a daily limit (50-100 cards) and chip away consistently. Temporarily reduce new cards until you're caught up.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Leeches</p>
 //                                     <p className="text-sm text-muted-foreground mb-1">
 //                                       Certain cards you consistently forget despite multiple reviews.
@@ -659,7 +659,7 @@
 //                                       <span className="font-medium">Solution:</span> Rewrite these cards, break them into smaller pieces, or create mnemonics. Sometimes the problem is with the card, not your memory.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Boredom</p>
 //                                     <p className="text-sm text-muted-foreground mb-1">
 //                                       Repetitive reviewing becomes tedious and demotivating.
@@ -675,7 +675,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item} className="bg-forest/5 p-4 rounded-lg border border-forest/10">
-//                           <h3 className="flex items-center text-forest font-medium mb-2">
+//                           <h3 className="flex items-center font-medium mb-2">
 //                             <HelpCircle className="h-5 w-5 mr-2" />
 //                             Pro Tip
 //                           </h3>
@@ -689,32 +689,32 @@
 //                     <TabsContent value="step-4" className="mt-0">
 //                       <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
 //                         <motion.div variants={item}>
-//                           <h2 className="text-2xl font-bold text-forest mb-4">Study Schedules</h2>
+//                           <h2 className="text-2xl font-bold mb-4">Study Schedules</h2>
 //                           <p className="text-muted-foreground mb-4">
 //                             Creating an effective study schedule is crucial for consistent learning and long-term retention. A well-designed schedule helps you manage your time efficiently, maintain motivation, and ensure you're covering all necessary material.
 //                           </p>
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Designing Your Study Schedule</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Designing Your Study Schedule</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="space-y-4">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Key Principles</h4>
+//                                 <h4 className="font-medium mb-2">Key Principles</h4>
 //                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1 text-center">Consistency</p>
 //                                     <p className="text-sm text-muted-foreground text-center">
 //                                       Regular, shorter sessions are more effective than occasional marathon sessions
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1 text-center">Balance</p>
 //                                     <p className="text-sm text-muted-foreground text-center">
 //                                       Distribute time across subjects based on difficulty and importance
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1 text-center">Flexibility</p>
 //                                     <p className="text-sm text-muted-foreground text-center">
 //                                       Allow for adjustments based on progress and unexpected events
@@ -724,34 +724,34 @@
 //                               </div>
 
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Steps to Create Your Schedule</h4>
+//                                 <h4 className="font-medium mb-2">Steps to Create Your Schedule</h4>
 //                                 <ol className="list-decimal list-inside space-y-3 text-sm text-muted-foreground">
-//                                   <li className="bg-gray-50 p-3 rounded-md">
-//                                     <span className="font-medium text-forest">Assess your available time</span>
+//                                   <li className="p-3 rounded-md">
+//                                     <span className="font-medium ">Assess your available time</span>
 //                                     <p className="mt-1">
 //                                       Track your activities for a week to identify available study blocks. Be realistic about your energy levels at different times of day.
 //                                     </p>
 //                                   </li>
-//                                   <li className="bg-gray-50 p-3 rounded-md">
-//                                     <span className="font-medium text-forest">Identify your learning goals</span>
+//                                   <li className="p-3 rounded-md">
+//                                     <span className="font-medium ">Identify your learning goals</span>
 //                                     <p className="mt-1">
 //                                       Break down what you need to learn into specific topics and subtopics. Prioritize based on importance, difficulty, and upcoming deadlines.
 //                                     </p>
 //                                   </li>
-//                                   <li className="bg-gray-50 p-3 rounded-md">
-//                                     <span className="font-medium text-forest">Allocate time blocks</span>
+//                                   <li className="p-3 rounded-md">
+//                                     <span className="font-medium ">Allocate time blocks</span>
 //                                     <p className="mt-1">
 //                                       Assign specific subjects to your available time slots. Match challenging subjects with your peak energy times. Aim for 25-50 minute focused sessions with short breaks.
 //                                     </p>
 //                                   </li>
-//                                   <li className="bg-gray-50 p-3 rounded-md">
-//                                     <span className="font-medium text-forest">Build in review sessions</span>
+//                                   <li className="p-3 rounded-md">
+//                                     <span className="font-medium ">Build in review sessions</span>
 //                                     <p className="mt-1">
 //                                       Schedule regular review periods using spaced repetition principles. Include both short daily reviews and longer weekly consolidation sessions.
 //                                     </p>
 //                                   </li>
-//                                   <li className="bg-gray-50 p-3 rounded-md">
-//                                     <span className="font-medium text-forest">Include buffer time</span>
+//                                   <li className="p-3 rounded-md">
+//                                     <span className="font-medium ">Include buffer time</span>
 //                                     <p className="mt-1">
 //                                       Leave some unscheduled time for catching up, unexpected tasks, or deeper exploration of difficult concepts.
 //                                     </p>
@@ -763,7 +763,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Sample Study Schedule Templates</h3>
+//                           <h3 className="text-xl font-medium mb-3">Sample Study Schedule Templates</h3>
 //                           <div className="space-y-4 mb-6">
 //                             {[
 //                               {
@@ -823,10 +823,10 @@
 //                                 bestFor: "People with busy schedules, working professionals"
 //                               },
 //                             ].map((schedule, index) => (
-//                               <div key={index} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-//                                 <h4 className="font-medium text-forest mb-2">{schedule.type}</h4>
+//                               <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm">
+//                                 <h4 className="font-medium mb-2">{schedule.type}</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">{schedule.description}</p>
-//                                 <div className="bg-gray-50 p-3 rounded-md mb-3">
+//                                 <div className="p-3 rounded-md mb-3">
 //                                   <p className="text-sm font-medium mb-1">Example:</p>
 //                                   <pre className="text-xs text-muted-foreground whitespace-pre-line">{schedule.example}</pre>
 //                                 </div>
@@ -839,20 +839,20 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Maintaining Your Schedule</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Maintaining Your Schedule</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <div className="space-y-4">
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Tracking and Adjusting</h4>
+//                                 <h4 className="font-medium mb-2">Tracking and Adjusting</h4>
 //                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                                   <div className="space-y-3">
-//                                     <div className="bg-gray-50 p-3 rounded-md">
+//                                     <div className="p-3 rounded-md">
 //                                       <p className="text-sm font-medium mb-1">Track Your Progress</p>
 //                                       <p className="text-sm text-muted-foreground">
 //                                         Keep a study journal or use an app to record what you've covered and how well you understand it. Note areas where you're struggling.
 //                                       </p>
 //                                     </div>
-//                                     <div className="bg-gray-50 p-3 rounded-md">
+//                                     <div className="p-3 rounded-md">
 //                                       <p className="text-sm font-medium mb-1">Weekly Review</p>
 //                                       <p className="text-sm text-muted-foreground">
 //                                         Set aside time each week to evaluate your schedule's effectiveness. Are you covering everything? Are you retaining the information?
@@ -860,13 +860,13 @@
 //                                     </div>
 //                                   </div>
 //                                   <div className="space-y-3">
-//                                     <div className="bg-gray-50 p-3 rounded-md">
+//                                     <div className="p-3 rounded-md">
 //                                       <p className="text-sm font-medium mb-1">Make Adjustments</p>
 //                                       <p className="text-sm text-muted-foreground">
 //                                         Don't be afraid to modify your schedule based on what's working. Increase time for challenging subjects or change study methods if needed.
 //                                       </p>
 //                                     </div>
-//                                     <div className="bg-gray-50 p-3 rounded-md">
+//                                     <div className="p-3 rounded-md">
 //                                       <p className="text-sm font-medium mb-1">Celebrate Milestones</p>
 //                                       <p className="text-sm text-muted-foreground">
 //                                         Acknowledge your progress and reward yourself for sticking to your schedule. This reinforces the habit and maintains motivation.
@@ -877,27 +877,27 @@
 //                               </div>
 
 //                               <div>
-//                                 <h4 className="font-medium text-forest mb-2">Overcoming Common Challenges</h4>
+//                                 <h4 className="font-medium mb-2">Overcoming Common Challenges</h4>
 //                                 <div className="space-y-3">
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Procrastination</p>
 //                                     <p className="text-sm">
 //                                       <span className="font-medium">Solution:</span> Use the "5-minute rule"—commit to just 5 minutes of study. Once started, you'll often continue. Also, identify and eliminate distractions before starting.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Inconsistency</p>
 //                                     <p className="text-sm">
 //                                       <span className="font-medium">Solution:</span> Build study habits by linking sessions to existing routines (e.g., study after breakfast). Use habit-tracking apps to maintain a streak of consistent days.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Burnout</p>
 //                                     <p className="text-sm">
 //                                       <span className="font-medium">Solution:</span> Schedule regular breaks and days off. Vary your study methods and environments to keep things fresh. Ensure you're getting enough sleep and exercise.
 //                                     </p>
 //                                   </div>
-//                                   <div className="bg-gray-50 p-3 rounded-md">
+//                                   <div className="p-3 rounded-md">
 //                                     <p className="text-sm font-medium mb-1">Problem: Unexpected Disruptions</p>
 //                                     <p className="text-sm">
 //                                       <span className="font-medium">Solution:</span> Build buffer time into your schedule. Have a "minimum viable study plan" for days when time is limited—focus on high-priority items only.
@@ -910,7 +910,7 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item} className="bg-forest/5 p-4 rounded-lg border border-forest/10">
-//                           <h3 className="flex items-center text-forest font-medium mb-2">
+//                           <h3 className="flex items-center font-medium mb-2">
 //                             <HelpCircle className="h-5 w-5 mr-2" />
 //                             Pro Tip
 //                           </h3>
@@ -924,14 +924,14 @@
 //                     <TabsContent value="step-5" className="mt-0">
 //                       <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
 //                         <motion.div variants={item}>
-//                           <h2 className="text-2xl font-bold text-forest mb-4">Advanced Techniques</h2>
+//                           <h2 className="text-2xl font-bold mb-4">Advanced Techniques</h2>
 //                           <p className="text-muted-foreground mb-4">
 //                             Once you've mastered the fundamental study techniques, you can incorporate advanced methods to further enhance your learning efficiency and retention. These techniques leverage deeper cognitive processes and can be particularly effective for complex or challenging material.
 //                           </p>
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Memory Enhancement Techniques</h3>
+//                           <h3 className="text-xl font-medium mb-3">Memory Enhancement Techniques</h3>
 //                           <div className="space-y-4 mb-6">
 //                             {[
 //                               {
@@ -979,8 +979,8 @@
 //                                 bestFor: "Conceptual understanding, critical thinking, complex relationships"
 //                               },
 //                             ].map((technique, index) => (
-//                               <div key={index} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-//                                 <h4 className="font-medium text-forest mb-2">{technique.technique}</h4>
+//                               <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm">
+//                                 <h4 className="font-medium mb-2">{technique.technique}</h4>
 //                                 <p className="text-sm text-muted-foreground mb-3">{technique.description}</p>
 //                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                                   <div>
@@ -1002,12 +1002,12 @@
 //                         </motion.div>
 
 //                         <motion.div variants={item}>
-//                           <h3 className="text-xl font-medium text-forest mb-3">Metacognitive Strategies</h3>
-//                           <div className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
+//                           <h3 className="text-xl font-medium mb-3">Metacognitive Strategies</h3>
+//                           <div className="p-5 rounded-lg border border-gray-100 shadow-sm mb-6">
 //                             <p className="text-sm text-muted-foreground mb-4">
 //                               Metacognition—thinking about your own thinking—is a powerful approach to learning. These strategies help you monitor, evaluate, and regulate your learning processes.
 //                             </p>
 
 //                             <div className="space-y-4">
-//                               <div className="bg-gray-50 p-4 rounded-md">
-//                                 <h4 className="font-medium text-forest mb-2">Retrieval Practice Journaling\
+//                               <div className="p-4 rounded-md">
+//                                 <h4 className="font-medium mb-2">Retrieval Practice Journaling\

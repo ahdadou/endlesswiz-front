@@ -151,7 +151,7 @@ const ProfilePage = () => {
       {/* Profile Picture Card */}
       <Card className="md:col-span-1 border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Profile Picture</CardTitle>
+          <CardTitle className="">Profile Picture</CardTitle>
           <CardDescription>Update your profile photo</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center">
@@ -212,7 +212,7 @@ const ProfilePage = () => {
       {/* Personal Information Card */}
       <Card className="md:col-span-1 border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Personal Information</CardTitle>
+          <CardTitle className="">Personal Information</CardTitle>
           <CardDescription>Update your personal details</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -262,7 +262,7 @@ const ProfilePage = () => {
 
       <Card className="border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Password</CardTitle>
+          <CardTitle className="">Password</CardTitle>
           <CardDescription>Update your password</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -326,7 +326,7 @@ const ProfilePage = () => {
 
       <Card className="border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-forest">Account Activity</CardTitle>
+          <CardTitle className="">Account Activity</CardTitle>
           <CardDescription>Recent security events</CardDescription>
         </CardHeader>
         <CardContent>

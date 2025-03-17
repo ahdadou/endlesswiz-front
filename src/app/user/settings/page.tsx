@@ -10,11 +10,11 @@ import { useUserDataZustandState, useUserDataZustandStore } from "@/provider/Zus
 
 export default function SettingsPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <div className="flex">
         <div className="flex-1 p-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-forest">Settings</h1>
+            <h1 className="text-3xl font-bold ">Settings</h1>
             <p className="text-muted-foreground">
               Manage your account settings and preferences
             </p>

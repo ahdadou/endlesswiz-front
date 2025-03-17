@@ -41,7 +41,7 @@ export default function PronouncePage() {
     <div className="flex">
       <div className="flex-1 p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-forest">
+          <h1 className="text-3xl font-bold">
             Pronunciation Practice
           </h1>
           <p className="text-muted-foreground">

@@ -87,7 +87,7 @@ const DecitionaryModal = () => {
       onClick={() => setIsOpen(false)} // Close modal when clicking outside
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-xl w-[90%] md:w-[65%] h-auto max-h-[80%] overflow-auto animate-slide-up relative"
+        className="p-6 rounded-lg shadow-xl w-[90%] md:w-[65%] h-auto max-h-[80%] overflow-auto animate-slide-up relative"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
       >
         {/* Close Button (Top Right) */}

@@ -46,7 +46,7 @@ export default function DeckPage() {
           {deck.cards.map((card) => (
             <li
               key={card.id}
-              className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-2"
+              className="p-4 rounded-lg shadow-md flex flex-col gap-2"
             >
               <div>
                 <span className="font-semibold">Front:</span> {card.front}
@@ -72,7 +72,7 @@ export default function DeckPage() {
             (e.target as any).reset();
           }
         }}
-        className="bg-white p-4 rounded-lg shadow-md space-y-4"
+        className="p-4 rounded-lg shadow-md space-y-4"
       >
         <input
           type="text"

@@ -30,7 +30,7 @@ const WordCard = ({
 }) => {
   const CardContainer = ({ children }: { children: React.ReactNode }) => (
     <motion.div
-      className="bg-white rounded-lg border border-gray-200 hover:border-blue-100 transition-all shadow-sm hover:shadow-md"
+      className="rounded-lg border border-gray-200 hover:border-blue-100 transition-all shadow-sm hover:shadow-md"
       initial={{ opacity: 0, y: viewMode === "detailed" ? 20 : 0 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -82,7 +82,7 @@ const WordCard = ({
         </div>
 
         {word.example && (
-          <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+          <div className="mt-3 p-3 rounded-lg">
             <p className="text-sm text-gray-600 italic">"{word.example}"</p>
           </div>
         )}
@@ -91,7 +91,7 @@ const WordCard = ({
           <Button
             variant="ghost"
             size="sm"
-            className="text-gray-600 hover:bg-gray-50"
+            className="text-gray-600 hover:"
             onClick={() => onEdit(word)}
           >
             <Edit className="w-4 h-4 mr-2" />
@@ -116,12 +116,12 @@ export default function WordsPage() {
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
-    null,
+    null
   );
   const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
-    [],
+    []
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -156,7 +156,7 @@ export default function WordsPage() {
 
   const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
     setFavoriteWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
+      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word))
     );
   };
 
@@ -170,15 +170,15 @@ export default function WordsPage() {
           filter === "all" || word.source === filter.toUpperCase();
         return matchesSearch && matchesFilter;
       }),
-    [favoriteWords, searchQuery, filter],
+    [favoriteWords, searchQuery, filter]
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen p-8">
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Words Library</h1>
+            <h1 className="text-3xl font-bold ">Words Library</h1>
             <p className="text-gray-500 mt-2">
               {filteredWords.length} words displayed of {favoriteWords.length}
             </p>
@@ -209,7 +209,7 @@ export default function WordsPage() {
               variant="outline"
               onClick={() =>
                 setViewMode((prev) =>
-                  prev === "compact" ? "detailed" : "compact",
+                  prev === "compact" ? "detailed" : "compact"
                 )
               }
               className="flex items-center gap-2"
@@ -231,7 +231,7 @@ export default function WordsPage() {
               onChange={(e) =>
                 setFilter(e.target.value as "all" | "video" | "manual")
               }
-              className="rounded-lg border border-gray-200 px-4 py-2 bg-white focus:ring-2 focus:ring-blue-500"
+              className="rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Sources</option>
               <option value="video">From Videos</option>
