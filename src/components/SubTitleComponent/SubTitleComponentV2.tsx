@@ -188,14 +188,14 @@ export function SubTitleComponentV2({
             className="rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="space-y-4 px-6 pb-6 relative overflow-y-auto">
+            <div className="space-y-4 px-6 pb-6 relative overflow-y-auto dark:bg-forest-500 bg-white">
               {isLoading ? (
                 <div className="text-center p-4 flex items-center justify-center h-32">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                 </div>
               ) : selectedWord ? (
                 <>
-                  <div className="flex items-start p-4 justify-between sticky top-0 pb-4 z-20 bg-white">
+                  <div className="flex items-start p-4 justify-between sticky top-0 pb-4 z-20 dark:bg-forest-500 bg-white">
                     <div className="pr-4 ">
                       <div className="flex items-center gap-2 ">
                         <h3 className="text-3xl font-bold text-gray-900">
