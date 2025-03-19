@@ -182,9 +182,7 @@ export default function PuzzlePage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold ">
-          {set.title} - Word Puzzle
-        </h1>
+        <h1 className="text-3xl font-bold ">{set.title} - Word Puzzle</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
 

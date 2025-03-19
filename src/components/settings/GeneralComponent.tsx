@@ -61,7 +61,10 @@ const GeneralPage = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className={cx("h-8 w-8 border-forest", theme==="light" && "bg-forest-200")}
+                  className={cx(
+                    "h-8 w-8 border-forest",
+                    theme === "light" && "bg-forest-200",
+                  )}
                   onClick={() => {
                     setTheme("light");
                   }}
@@ -71,7 +74,10 @@ const GeneralPage = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className={cx("h-8 w-8", theme==="dark" && "border-white bg-white/10")}
+                  className={cx(
+                    "h-8 w-8",
+                    theme === "dark" && "border-white bg-white/10",
+                  )}
                   onClick={() => {
                     setTheme("dark");
                   }}

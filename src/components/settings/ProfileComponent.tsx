@@ -42,7 +42,7 @@ const ProfilePage = () => {
 
   // personal information
   const [profileImage, setProfileImage] = useState<string | null>(
-    userData?.profileImageUrl || null
+    userData?.profileImageUrl || null,
   );
   const [profileImageIsUploading, setProfileImageIsUploading] = useState(false);
 
@@ -393,7 +393,7 @@ const ProfilePage = () => {
                 size="icon"
                 className={cx(
                   "h-8 w-8 border-forest",
-                  theme === "light" && "bg-forest-200"
+                  theme === "light" && "bg-forest-200",
                 )}
                 onClick={() => {
                   setTheme("light");
@@ -406,7 +406,7 @@ const ProfilePage = () => {
                 size="icon"
                 className={cx(
                   "h-8 w-8",
-                  theme === "dark" && "border-white bg-white/10"
+                  theme === "dark" && "border-white bg-white/10",
                 )}
                 onClick={() => {
                   setTheme("dark");
@@ -420,7 +420,10 @@ const ProfilePage = () => {
           <Separator />
           <div className="space-y-2">
             <Label>App Language</Label>
-            <Select defaultValue={Languages.ENGLISH} onValueChange={(e) => setLanguage(e as Languages)}>
+            <Select
+              defaultValue={Languages.ENGLISH}
+              onValueChange={(e) => setLanguage(e as Languages)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select language" />
               </SelectTrigger>
@@ -434,7 +437,10 @@ const ProfilePage = () => {
           </div>
           <div className="space-y-2">
             <Label>Time Zone</Label>
-            <Select defaultValue={TimeZone.UTC} onValueChange={(e) => setTimeZone(e as TimeZone)}>
+            <Select
+              defaultValue={TimeZone.UTC}
+              onValueChange={(e) => setTimeZone(e as TimeZone)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select time zone" />
               </SelectTrigger>

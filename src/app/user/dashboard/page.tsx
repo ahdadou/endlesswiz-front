@@ -151,9 +151,7 @@ export default function Dashboard() {
             transition={{ duration: 0.5 }}
           >
             <div>
-              <h1 className="text-3xl font-bold ">
-                Welcome back, John!
-              </h1>
+              <h1 className="text-3xl font-bold ">Welcome back, John!</h1>
               <p className="text-muted-foreground">
                 Track your progress and continue learning
               </p>
@@ -207,9 +205,7 @@ export default function Dashboard() {
                         <p className="text-sm text-muted-foreground">
                           {stat.title}
                         </p>
-                        <p className="text-3xl font-bold ">
-                          {stat.value}
-                        </p>
+                        <p className="text-3xl font-bold ">{stat.value}</p>
                       </div>
                       <div className="rounded-full bg-forest/10 p-2">
                         {stat.icon}
@@ -393,9 +389,7 @@ export default function Dashboard() {
                         onClick={() => router.push(`/set/${set.id}`)}
                       >
                         <div className="flex-1">
-                          <h3 className="font-medium ">
-                            {set.title}
-                          </h3>
+                          <h3 className="font-medium ">{set.title}</h3>
                           <div className="flex items-center text-sm text-muted-foreground mt-1">
                             <BookOpen className="h-3.5 w-3.5 mr-1" />
                             {set.wordCount} words

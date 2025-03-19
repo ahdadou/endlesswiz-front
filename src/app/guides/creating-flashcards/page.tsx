@@ -453,9 +453,7 @@ export default function CreatingFlashcardsGuidePage() {
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div className="p-4 rounded-lg border border-gray-100 shadow-sm">
-                              <h4 className="font-medium mb-3">
-                                Do's
-                              </h4>
+                              <h4 className="font-medium mb-3">Do's</h4>
                               <div className="space-y-2">
                                 {[
                                   "Be specific and clear in your wording",
@@ -475,9 +473,7 @@ export default function CreatingFlashcardsGuidePage() {
                               </div>
                             </div>
                             <div className="p-4 rounded-lg border border-gray-100 shadow-sm">
-                              <h4 className="font-medium mb-3">
-                                Don'ts
-                              </h4>
+                              <h4 className="font-medium mb-3">Don'ts</h4>
                               <div className="space-y-2">
                                 {[
                                   "Don't copy text verbatim from sources",
@@ -1116,10 +1112,7 @@ export default function CreatingFlashcardsGuidePage() {
                                         "Definitions, Processes, Formulas, Diagrams",
                                     },
                                   ].map((item, index) => (
-                                    <div
-                                      key={index}
-                                      className="p-3 rounded-md"
-                                    >
+                                    <div key={index} className="p-3 rounded-md">
                                       <h5 className="font-medium mb-1">
                                         {item.principle}
                                       </h5>
@@ -1230,10 +1223,7 @@ export default function CreatingFlashcardsGuidePage() {
                                       ],
                                     },
                                   ].map((tag, index) => (
-                                    <div
-                                      key={index}
-                                      className="p-3 rounded-md"
-                                    >
+                                    <div key={index} className="p-3 rounded-md">
                                       <h5 className="font-medium mb-1">
                                         {tag.type}
                                       </h5>
@@ -1302,10 +1292,7 @@ export default function CreatingFlashcardsGuidePage() {
                                         "Testing yourself after initial learning",
                                     },
                                   ].map((method, index) => (
-                                    <div
-                                      key={index}
-                                      className="p-3 rounded-md"
-                                    >
+                                    <div key={index} className="p-3 rounded-md">
                                       <h5 className="font-medium mb-1">
                                         {method.method}
                                       </h5>
@@ -1516,10 +1503,7 @@ export default function CreatingFlashcardsGuidePage() {
                                       "Visualizing antibodies as tiny Y-shaped soldiers attacking bacteria",
                                   },
                                 ].map((technique, index) => (
-                                  <div
-                                    key={index}
-                                    className="p-3 rounded-md"
-                                  >
+                                  <div key={index} className="p-3 rounded-md">
                                     <h4 className="font-medium mb-1">
                                       {technique.technique}
                                     </h4>

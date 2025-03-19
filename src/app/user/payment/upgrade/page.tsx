@@ -43,7 +43,7 @@ export default function UpgradePage() {
   const { userData } = useUserDataZustandState();
   const { toast } = useToast();
   const [selectedPlan, setSelectedPlan] = useState<"annual" | "monthly">(
-    "annual"
+    "annual",
   );
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -56,7 +56,7 @@ export default function UpgradePage() {
 
   // Calculate savings percentage for annual plan compared to monthly
   const annualSavings = Math.round(
-    100 - (plans[1].price / (plans[0].price * 12)) * 100
+    100 - (plans[1].price / (plans[0].price * 12)) * 100,
   );
 
   const handleStartCheckout = () => {

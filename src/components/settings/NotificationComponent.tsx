@@ -77,9 +77,7 @@ const NotificationPage = () => {
     <div className="">
       <Card className="border-forest-100 shadow-sm">
         <CardHeader>
-          <CardTitle className="">
-            Notification Preferences
-          </CardTitle>
+          <CardTitle className="">Notification Preferences</CardTitle>
           <CardDescription>
             Choose how and when you want to be notified
           </CardDescription>

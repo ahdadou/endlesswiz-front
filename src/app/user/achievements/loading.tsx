@@ -12,10 +12,7 @@ export default function AchievementsLoading() {
       {/* Stats Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="rounded-lg shadow-md p-4 flex items-center"
-          >
+          <div key={i} className="rounded-lg shadow-md p-4 flex items-center">
             <Skeleton className="h-12 w-12 rounded-full mr-4" />
             <div className="w-full">
               <Skeleton className="h-4 w-24 mb-2" />
@@ -30,10 +27,7 @@ export default function AchievementsLoading() {
         <Skeleton className="h-8 w-48 mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="rounded-lg shadow-md overflow-hidden"
-            >
+            <div key={i} className="rounded-lg shadow-md overflow-hidden">
               <div className="p-4 flex items-center">
                 <Skeleton className="h-10 w-10 rounded-full mr-4" />
                 <div className="w-full">

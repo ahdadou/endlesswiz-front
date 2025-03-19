@@ -177,9 +177,7 @@ export default function HelpSupportPage() {
                 {faqCategories.map((category, index) => (
                   <Card key={index} className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="">
-                        {category.category}
-                      </CardTitle>
+                      <CardTitle className="">{category.category}</CardTitle>
                       <CardDescription>
                         Frequently asked questions about{" "}
                         {category.category.toLowerCase()}
@@ -226,9 +224,7 @@ export default function HelpSupportPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Card className="md:col-span-2 border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="">
-                      Contact Support
-                    </CardTitle>
+                    <CardTitle className="">Contact Support</CardTitle>
                     <CardDescription>
                       Send us a message and we'll get back to you within 24
                       hours
@@ -332,9 +328,7 @@ export default function HelpSupportPage() {
                 <div className="space-y-6">
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="">
-                        Contact Information
-                      </CardTitle>
+                      <CardTitle className="">Contact Information</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex items-start gap-3">
@@ -367,9 +361,7 @@ export default function HelpSupportPage() {
 
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="">
-                        Support Hours
-                      </CardTitle>
+                      <CardTitle className="">Support Hours</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -470,9 +462,7 @@ export default function HelpSupportPage() {
               </div>
 
               <div className="mt-12 p-6 bg-forest/5 rounded-lg">
-                <h3 className="text-xl font-medium mb-4">
-                  Video Tutorials
-                </h3>
+                <h3 className="text-xl font-medium mb-4">Video Tutorials</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     {

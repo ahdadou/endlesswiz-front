@@ -59,9 +59,7 @@ export default function GettingStartedGuidePage() {
                 <ChevronLeft className="h-4 w-4 mr-1" />
                 Back to Help & Support
               </Link>
-              <h1 className="text-3xl font-bold ">
-                Getting Started Guide
-              </h1>
+              <h1 className="text-3xl font-bold ">Getting Started Guide</h1>
               <p className="text-muted-foreground">
                 Learn the basics of StudyCards and set up your first study set
               </p>
@@ -183,10 +181,7 @@ export default function GettingStartedGuidePage() {
                                   "Access your study materials on any device, anytime",
                               },
                             ].map((feature, index) => (
-                              <div
-                                key={index}
-                                className="p-4 rounded-lg"
-                              >
+                              <div key={index} className="p-4 rounded-lg">
                                 <h4 className="font-medium mb-1">
                                   {feature.title}
                                 </h4>
@@ -746,10 +741,7 @@ export default function GettingStartedGuidePage() {
                                   "For language learning, hear correct pronunciations and practice your speaking skills.",
                               },
                             ].map((feature, index) => (
-                              <div
-                                key={index}
-                                className="p-3 rounded-md"
-                              >
+                              <div key={index} className="p-3 rounded-md">
                                 <h4 className="font-medium mb-1">
                                   {feature.title}
                                 </h4>

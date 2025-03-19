@@ -140,9 +140,7 @@ export default function FlashcardsPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold ">
-          {set.title} - Flashcards
-        </h1>
+        <h1 className="text-3xl font-bold ">{set.title} - Flashcards</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
 

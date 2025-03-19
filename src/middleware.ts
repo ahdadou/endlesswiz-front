@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!validation.isValid) {
+  if (token && !validation.isValid) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 

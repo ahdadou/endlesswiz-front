@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
-
   const router = useRouter();
-
 
   return (
     <div className="min-h-screen ">
@@ -23,16 +21,18 @@ export default function SettingsPage() {
             </p>
           </div>
 
-                    {/* Upgrade Banner */}
+          {/* Upgrade Banner */}
           <Card className="mb-8 overflow-hidden">
             <div className="relative forest-gradient p-6 text-white">
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full -mr-20 -mt-20 blur-3xl"></div>
               <div className="relative z-10 flex justify-between items-center">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Level up with Endlesswiz Premium</h2>
+                  <h2 className="text-2xl font-bold mb-2">
+                    Level up with Endlesswiz Premium
+                  </h2>
                   <p className="text-white/80 max-w-md">
-                    Unlock unlimited study sets, advanced learning modes, and personalized analytics to accelerate your
-                    learning journey.
+                    Unlock unlimited study sets, advanced learning modes, and
+                    personalized analytics to accelerate your learning journey.
                   </p>
                 </div>
                 <Button
@@ -47,8 +47,7 @@ export default function SettingsPage() {
             </div>
           </Card>
 
-
-          <ProfilePage/>
+          <ProfilePage />
           {/* <Tabs defaultValue="profile" className="w-full">
             <TabsList className="grid w-full md:w-auto grid-cols-2 mb-8">
               <TabsTrigger value="profile">Profile</TabsTrigger>

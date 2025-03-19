@@ -420,9 +420,7 @@ export default function SetList() {
         <div className="grid gap-4 md:grid-cols-3">
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 ">
-                Spaced Repetition
-              </h3>
+              <h3 className="font-medium mb-2 ">Spaced Repetition</h3>
               <p className="text-sm text-muted-foreground">
                 Study at increasing intervals to improve long-term retention.
                 Review cards you find difficult more frequently.
@@ -440,9 +438,7 @@ export default function SetList() {
           </Card>
           <Card className="card-hover border-forest-100 shadow-sm">
             <CardContent className="pt-6">
-              <h3 className="font-medium mb-2 ">
-                Mix Practice Types
-              </h3>
+              <h3 className="font-medium mb-2 ">Mix Practice Types</h3>
               <p className="text-sm text-muted-foreground">
                 Alternate between different study modes to engage different
                 parts of your brain and improve memory.

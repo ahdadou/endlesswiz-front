@@ -250,9 +250,7 @@ export default function HangmanPage() {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-3xl font-bold ">
-          {set.title} - Hangman
-        </h1>
+        <h1 className="text-3xl font-bold ">{set.title} - Hangman</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
 

@@ -217,9 +217,7 @@ export default function AchievementsPage() {
         transition={{ duration: 0.5 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold mb-2">
-          Your Achievements
-        </h1>
+        <h1 className="text-3xl font-bold mb-2">Your Achievements</h1>
         <p className="text-gray-600">
           Track your progress and earn rewards as you learn
         </p>
@@ -257,9 +255,7 @@ export default function AchievementsPage() {
         transition={{ delay: 0.3, duration: 0.5 }}
         className="mb-10"
       >
-        <h2 className="text-2xl font-bold mb-4">
-          Recent Achievements
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Recent Achievements</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {achievementData.recentAchievements.map((achievement) => (
             <motion.div
@@ -270,9 +266,7 @@ export default function AchievementsPage() {
               <div className="p-4 flex items-center">
                 <div className="mr-4">{achievement.icon}</div>
                 <div>
-                  <h3 className="font-bold text-lg ">
-                    {achievement.title}
-                  </h3>
+                  <h3 className="font-bold text-lg ">{achievement.title}</h3>
                   <p className="text-gray-600 text-sm">
                     {achievement.description}
                   </p>
@@ -330,9 +324,7 @@ export default function AchievementsPage() {
               className="rounded-lg shadow-md p-6 flex flex-col items-center text-center"
             >
               <div className="mb-4">{badge.icon}</div>
-              <h3 className="font-bold text-lg mb-1">
-                {badge.title}
-              </h3>
+              <h3 className="font-bold text-lg mb-1">{badge.title}</h3>
               <p className="text-gray-600 text-sm mb-4">{badge.description}</p>
               <div className="w-full mb-2">
                 <Progress value={badge.progress} className="h-2" />
@@ -371,9 +363,7 @@ export default function AchievementsPage() {
                     {milestone.icon}
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg ">
-                      {milestone.title}
-                    </h3>
+                    <h3 className="font-bold text-lg ">{milestone.title}</h3>
                     <p className="text-gray-600 text-sm">
                       {milestone.description}
                     </p>

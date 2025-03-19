@@ -21,6 +21,7 @@ export interface UserData {
 export interface UserDataStoreState {
   userData: UserData | null;
   fetchUserData: () => Promise<void>;
+  setUserData: (userData: UserData) => void;
 }
 
 const generateSessionId = () => {
@@ -32,6 +33,9 @@ const generateSessionId = () => {
 
 export const createUserDataSlice = (set: any): UserDataStoreState => ({
   userData: null,
+  setUserData: (userData: UserData) => {
+    set({ userData });
+  },
   fetchUserData: async () => {
     try {
       const response = await api.loginState(); // Call API to get user data

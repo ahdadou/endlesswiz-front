@@ -9,13 +9,13 @@ export async function POST(request: Request) {
 
     const response = await axios.post(
       `${getBaseUrl()}/auth/authenticate`,
-      { email, password } // Send as a JavaScript object (no need to stringify)
+      { email, password }, // Send as a JavaScript object (no need to stringify)
     );
 
     if (response.status !== 200) {
       return NextResponse.json(
         { error: "Invalid credentials" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 

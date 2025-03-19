@@ -213,8 +213,6 @@ export interface UpdateUserSettingsRequest {
   timeZone: TimeZone;
 }
 
-
-
 export interface LemonSqueezyCheckoutRequest {
   variantId: string;
   customerEmail: string;
