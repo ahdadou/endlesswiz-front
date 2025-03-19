@@ -20,6 +20,8 @@ import {
   UpdateUserRequest,
   ChangePasswordRequest,
   UpdateUserSettingsRequest,
+  LemonSqueezyCheckoutRequest,
+  LemonSqueezyCheckoutResponse,
 } from "../types/apiTypes";
 
 const api = {
@@ -415,6 +417,22 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
+
+  // Payment
+  lemonSqueezyCheckout: async (req: LemonSqueezyCheckoutRequest) => {
+    try {
+      console.log("Starting checkout...", req);
+
+      const response = await axiosClient.post<LemonSqueezyCheckoutResponse>(
+        `${getBaseUrl()}/payment/checkout`,
+       req
+      );
+      return response;
+    } catch (error) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  }
 };
 
 export default api;

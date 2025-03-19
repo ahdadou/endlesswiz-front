@@ -18,6 +18,7 @@ import {
   HelpCircle,
   Dumbbell,
   Menu,
+  Crown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -100,7 +101,7 @@ export default function DashboardSidebar() {
       <div
         className={cn(
           "mb-8",
-          collapsed && !isMobileView ? "flex justify-center" : "px-2",
+          collapsed && !isMobileView ? "flex justify-center" : "px-2"
         )}
       >
         <DropdownMenu>
@@ -162,6 +163,13 @@ export default function DashboardSidebar() {
               <span>Help & Support</span>
             </DropdownMenuItem>
             <DropdownMenuItem
+              onClick={() => router.push("/checkout")}
+              className="py-2.5 my-1 cursor-pointer"
+            >
+              <Crown className="mr-2 h-4 w-4" />
+              <span>Upgrade</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
               className="py-2.5 my-1 cursor-pointer"
               onClick={() => router.push("/user/settings")}
             >
@@ -193,7 +201,7 @@ export default function DashboardSidebar() {
                   isActive
                     ? "bg-forest text-cream"
                     : "hover:text-forest hover:bg-gray-100",
-                  collapsed && !isMobileView && "justify-center px-2",
+                  collapsed && !isMobileView && "justify-center px-2"
                 )}
               >
                 <span
@@ -239,7 +247,7 @@ export default function DashboardSidebar() {
     <div
       className={cn(
         "h-screen  border-gray-200 transition-all duration-300 relative hidden md:block",
-        collapsed ? "w-20" : "w-64",
+        collapsed ? "w-20" : "w-64"
       )}
     >
       {/* Toggle button */}

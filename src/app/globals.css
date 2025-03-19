@@ -92,6 +92,10 @@
   }
 }
 
+.forest-gradient {
+  background: linear-gradient(135deg, #14281d 0%, #3d7d5a 100%);
+}
+
 /* Custom styles for flashcards */
 .perspective-1000 {
   perspective: 1000px;

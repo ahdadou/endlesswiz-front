@@ -1,4 +1,5 @@
 import { REFRESH_TOKEN, TOKEN } from "@/middleware";
+import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -7,14 +8,14 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     const response = await axios.post(
-      "http://localhost:8099/api/v1/auth/authenticate",
-      { email, password }, // Send as a JavaScript object (no need to stringify)
+      `${getBaseUrl()}/auth/authenticate`,
+      { email, password } // Send as a JavaScript object (no need to stringify)
     );
 
     if (response.status !== 200) {
       return NextResponse.json(
         { error: "Invalid credentials" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 

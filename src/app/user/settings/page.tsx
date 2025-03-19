@@ -1,14 +1,17 @@
 "use client";
 
 import type React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfilePage from "../../../components/settings/ProfileComponent";
-import GeneralPage from "@/components/settings/GeneralComponent";
-import SubscriptionPage from "@/components/settings/SubscriptionComponent";
-import NotificationPage from "@/components/settings/NotificationComponent";
-import { useUserDataZustandState, useUserDataZustandStore } from "@/provider/ZustandUserDataProvider";
+import { Card, CardContent } from "@/components/ui/card";
+import { Crown, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function SettingsPage() {
+
+  const router = useRouter();
+
+
   return (
     <div className="min-h-screen ">
       <div className="flex">
@@ -20,30 +23,56 @@ export default function SettingsPage() {
             </p>
           </div>
 
-          <Tabs defaultValue="profile" className="w-full">
+                    {/* Upgrade Banner */}
+          <Card className="mb-8 overflow-hidden">
+            <div className="relative forest-gradient p-6 text-white">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+              <div className="relative z-10 flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Level up with Endlesswiz Premium</h2>
+                  <p className="text-white/80 max-w-md">
+                    Unlock unlimited study sets, advanced learning modes, and personalized analytics to accelerate your
+                    learning journey.
+                  </p>
+                </div>
+                <Button
+                  className="bg-accent hover:bg-accent/90 text-white border-none shadow-lg"
+                  size="lg"
+                  onClick={() => router.push("/user/payment/upgrade")}
+                >
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Upgrade now
+                </Button>
+              </div>
+            </div>
+          </Card>
+
+
+          <ProfilePage/>
+          {/* <Tabs defaultValue="profile" className="w-full">
             <TabsList className="grid w-full md:w-auto grid-cols-2 mb-8">
               <TabsTrigger value="profile">Profile</TabsTrigger>
-              {/* <TabsTrigger value="general">General</TabsTrigger> */}
+              <TabsTrigger value="general">General</TabsTrigger>
               <TabsTrigger value="subscription">Subscription</TabsTrigger>
-              {/* <TabsTrigger value="notifications">Notifications</TabsTrigger> */}
+              <TabsTrigger value="notifications">Notifications</TabsTrigger>
             </TabsList>
 
             <TabsContent value="profile">
               <ProfilePage/>
             </TabsContent>
 
-            {/* <TabsContent value="general">
+            <TabsContent value="general">
               <GeneralPage />
-            </TabsContent> */}
+            </TabsContent>
 
             <TabsContent value="subscription">
               <SubscriptionPage />
             </TabsContent>
 
-            {/* <TabsContent value="notifications">
+            <TabsContent value="notifications">
               <NotificationPage />
-            </TabsContent> */}
-          </Tabs>
+            </TabsContent>
+          </Tabs> */}
         </div>
       </div>
     </div>

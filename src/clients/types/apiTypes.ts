@@ -212,3 +212,15 @@ export interface UpdateUserSettingsRequest {
   language: Languages;
   timeZone: TimeZone;
 }
+
+
+
+export interface LemonSqueezyCheckoutRequest {
+  variantId: string;
+  customerEmail: string;
+}
+
+export interface LemonSqueezyCheckoutResponse {
+  id: string;
+  checkoutUrl: string;
+}
