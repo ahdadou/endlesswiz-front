@@ -16,7 +16,6 @@ export async function middleware(request: NextRequest) {
   const refresh_token = request.cookies.get(REFRESH_TOKEN);
 
   const validation = await validateToken(token?.value, process.env.JWT_SECRET);
-
   if (isPublic) {
     if (token && validation.isValid) {
       const response = NextResponse.redirect(
@@ -28,7 +27,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (token && !validation.isValid) {
+  if (!token && !validation.isValid) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
