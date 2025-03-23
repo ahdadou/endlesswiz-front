@@ -37,7 +37,7 @@ export const axiosInstance = applyCaseMiddleware(
   axios.create({
     timeout: 60_000,
     withCredentials: true,
-    // httpsAgent: new https.Agent({ rejectUnauthorized: false }), // Disable SSL check in dev
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }), // Disable SSL check in dev
     // process.env.NODE_ENV === 'production'
     //   ? new https.Agent({ ca: cert }) // Trust cert in production
     //   : new https.Agent({ rejectUnauthorized: false }), // Disable SSL check in dev
