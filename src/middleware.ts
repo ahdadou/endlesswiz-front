@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import api from "./clients/api/api";
 import { publicRoutes } from "./routes";
+import { validateToken } from "./components/utils/validateToken";
 
 export const TOKEN = "_token";
 export const REFRESH_TOKEN = "_refresh_token";
@@ -15,12 +15,11 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(TOKEN);
   const refresh_token = request.cookies.get(REFRESH_TOKEN);
 
-  console.log("isPublic   :", isPublic);
-
+  const validation = await validateToken(token?.value, process.env.JWT_SECRET);
   if (isPublic) {
-    if (token && (await api.loginState(token.value))) {
+    if (token && validation.isValid) {
       const response = NextResponse.redirect(
-        new URL("/dashboard", request.url),
+        new URL("/user/dashboard", request.url),
       );
       response.headers.set("x-jwt", token.value);
       return response;
@@ -28,7 +27,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (!token || !(await api.loginState(token.value))) {
+  if (!token && !validation.isValid) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
@@ -39,9 +38,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    // "/dashboard",
-    // "/dashboard/settings",
+    "/user/:path*",
     "/auth/login",
     "/auth/register",
     "/auth/forgot_password",

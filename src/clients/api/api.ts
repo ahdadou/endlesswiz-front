@@ -17,7 +17,15 @@ import {
   PracticeWordResponse,
   GetPracticeSetDetailsResponse,
   PutPracticeSetDetailsRequest,
+  UpdateUserRequest,
+  ChangePasswordRequest,
+  UpdateUserSettingsRequest,
+  LemonSqueezyCheckoutRequest,
+  LemonSqueezyCheckoutResponse,
+  LoginState,
+  ELoginState,
 } from "../types/apiTypes";
+import { stat } from "fs";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
@@ -47,6 +55,8 @@ const api = {
       console.error("### Error", error);
     }
   },
+
+  // USER
   register: async (req: RegisterRequest) => {
     try {
       const response = await axios.post(`${getBaseUrl()}/auth/register`, req);
@@ -57,16 +67,21 @@ const api = {
   },
   loginState: async (token?: string | undefined) => {
     try {
-      const response = await axiosClient.get<GetWordResponse>(
+      const response = await axiosClient.get<LoginState>(
         `${getBaseUrl()}/users/login-state`,
         {
           headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         },
       );
-      return response;
+      return {
+        ...response,
+        state: ELoginState.LOGGED_IN,
+      };
     } catch (error) {
-      console.error("Token validation failed:", error);
-      return false;
+      console.log('----loginState error :', error)
+      return {
+        state: ELoginState.NOT_LOGGED_IN,
+      };
     }
   },
   registrationConfirmation: async (token: string | undefined) => {
@@ -103,6 +118,73 @@ const api = {
       return false;
     }
   },
+  uploadUserImage: async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axiosClient.patch<string>(
+        `${getBaseUrl()}/users/upload-image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      return response;
+    } catch (error) {
+      console.error("upload user image failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updateUserProfile: async (req: UpdateUserRequest) => {
+    try {
+      const response = await axiosClient.put<string>(
+        `${getBaseUrl()}/users`,
+        req,
+      );
+      return response;
+    } catch (error) {
+      console.error("update user profile failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  updateUserSettings: async (req: UpdateUserSettingsRequest) => {
+    try {
+      const response = await axiosClient.post<string>(
+        `${getBaseUrl()}/settings`,
+        req,
+      );
+      return response;
+    } catch (error) {
+      console.error("update user settings failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  deleteUserProfile: async () => {
+    try {
+      const response = await axiosClient.delete<string>(
+        `${getBaseUrl()}/users/upload-image`,
+      );
+      return response;
+    } catch (error) {
+      console.error("delete user profile failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  changePassword: async (req: ChangePasswordRequest) => {
+    try {
+      const response = await axiosClient.patch<string>(
+        `${getBaseUrl()}/users/change-password`,
+        req,
+      );
+      return response;
+    } catch (error) {
+      console.error("change password failed:", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  // VIDEO
   getVideosByUser: async (
     word?: string,
     page?: number,
@@ -339,6 +421,22 @@ const api = {
       );
       return response;
     } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+
+  // Payment
+  lemonSqueezyCheckout: async (req: LemonSqueezyCheckoutRequest) => {
+    try {
+      console.log("Starting checkout...", req);
+
+      const response = await axiosClient.post<LemonSqueezyCheckoutResponse>(
+        `${getBaseUrl()}/payment/checkout`,
+        req,
+      );
+      return response;
+    } catch (error) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
     }

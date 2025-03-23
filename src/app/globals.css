@@ -1,11 +1,14 @@
+/* Remove the problematic import */
+/* @import url('https://fonts.cdnfonts.com/css/quadraat'); */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 60 100% 97%;
-    --foreground: 160 35% 12%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
     --card-foreground: 160 35% 12%;
@@ -64,15 +67,33 @@
     --input: 160 35% 20%;
     --ring: 60 100% 97%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
+  html {
+    font-family: Georgia, "Times New Roman", Times, serif;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: Georgia, "Times New Roman", Times, serif;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: 700;
+  }
+}
+
+.forest-gradient {
+  background: linear-gradient(135deg, #14281d 0%, #3d7d5a 100%);
 }
 
 /* Custom styles for flashcards */
@@ -97,28 +118,29 @@
 
 .card-hover:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px -10px rgba(20, 40, 29, 0.25);
+  box-shadow: 0 15px 30px -10px rgba(181, 178, 92, 0.25);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #14281d 0%, #3d7d5a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
+  @apply dark:text-white text-black;
 }
 
-.forest-gradient {
-  background: linear-gradient(135deg, #14281d 0%, #3d7d5a 100%);
+.olive-gradient {
+  background: linear-gradient(135deg, #3d7d5a 0%, #3d7d5a 100%);
 }
 
-.cream-gradient {
-  background: linear-gradient(135deg, #fffcdc 0%, #fff8b0 100%);
+.light-gradient {
+  background: linear-gradient(135deg, #f9f9f9 0%, #e9e9e9 100%);
 }
 
 .pattern-bg {
-  background-color: #fffcdc;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2314281d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-color: #f9f9f9;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B5B25C' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .pattern-bg {
+  background-color: #1a1a1a;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B5B25C' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -127,14 +149,110 @@
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background: #f1f1f1;
+  @apply dark:bg-gray-800;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #14281d;
+  background: #3d7d5a;
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #3d7d5a;
+}
+
+/* Grid for GitHub-like activity calendar */
+.grid-cols-53 {
+  grid-template-columns: repeat(53, minmax(0, 1fr));
+}
+
+.grid-rows-7 {
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+}
+
+/* YouTube player styles */
+.youtube-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.youtube-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Subtitle styles */
+.subtitle-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.subtitle-line {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.subtitle-line:hover {
+  background-color: rgba(181, 178, 92, 0.1);
+}
+
+.subtitle-line.active {
+  background-color: rgba(181, 178, 92, 0.2);
+  font-weight: 500;
+}
+
+.subtitle-word {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+.subtitle-word:hover {
+  background-color: rgba(181, 178, 92, 0.3);
+}
+
+/* Payment card styles */
+.payment-card {
+  background: linear-gradient(135deg, #434343 0%, #000000 100%);
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-card::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.payment-card::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.05);
 }

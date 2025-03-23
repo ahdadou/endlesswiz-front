@@ -1,8 +1,10 @@
 import { TOKEN } from "@/middleware";
+import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const cookiesStore = await cookies();
     const jwtCookieValue = cookiesStore.get(TOKEN)?.value;
@@ -12,18 +14,15 @@ export async function GET(request: Request) {
       return false;
     }
 
-    const response = await axios.get(
-      "http://localhost:8099/api/v1/auth/logout",
-      {
-        headers: { Authorization: `Bearer ${jwtCookieValue}` },
-        withCredentials: true,
-      },
-    );
+    const response = await axios.get(`${getBaseUrl()}/auth/logout`, {
+      headers: { Authorization: `Bearer ${jwtCookieValue}` },
+      withCredentials: true,
+    });
 
     cookiesStore.delete(TOKEN);
-    return response.status === 200;
+    return NextResponse.json({ success: response.status === 200 });
   } catch (error) {
-    console.error("Logout failed:", error);
-    return false;
+    console.error("### Logout failed:", error);
+    return NextResponse.json({ error });
   }
 }

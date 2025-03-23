@@ -26,7 +26,7 @@ interface VideoButtonsBarProps {
 
 const SPEED_OPTIONS = [0.5, 1, 1.5, 2];
 const NAV_BUTTON_CLASSES =
-  "hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 bg-white cursor-pointer w-11";
+  "hover:bg-gray-100 rounded-lg transition-colors disabled:opacity-50 cursor-pointer w-11";
 
 const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
   seekBackward,
@@ -104,7 +104,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
     <div
       className={cx(
         style,
-        "w-full p-2 bg-white rounded-t-sm shadow-sm border border-gray-100",
+        "w-full p-2 rounded-t-sm shadow-sm border border-gray-100",
       )}
     >
       <div className="flex items-center justify-between">
@@ -206,13 +206,13 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
             </Button>
 
             {showSpeedDropdown && (
-              <div className="absolute bottom-full left-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 w-32">
+              <div className="absolute bottom-full left-0 mb-2 border border-gray-200 rounded-lg shadow-lg z-10 w-32">
                 {SPEED_OPTIONS.map((speed) => (
                   <button
                     key={speed}
                     onClick={() => handleSpeedChange(speed)}
                     className={cx(
-                      "w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2",
+                      "w-full px-4 py-2 text-sm text-gray-700 hover:flex items-center gap-2",
                       currentSpeed === speed && "bg-blue-50 text-blue-600",
                     )}
                   >

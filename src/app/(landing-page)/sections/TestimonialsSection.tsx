@@ -176,7 +176,7 @@ const TestimonialsSection = () => {
                 </span>
               </div>
             </div>
-            <div className="absolute -right-5 top-1/4 bg-white p-3 rounded-full shadow-lg hidden lg:flex items-center justify-center">
+            <div className="absolute -right-5 top-1/4 p-3 rounded-full shadow-lg hidden lg:flex items-center justify-center">
               <motion.div
                 animate={{
                   scale: [1, 1.1, 1],

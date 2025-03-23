@@ -33,7 +33,7 @@ const LoginPage = () => {
           title: "Success",
           description: "You have been logged in successfully",
         });
-        router.push("/dashboard");
+        router.push(DEFAULT_LOGIN_REDIRECT);
       })
       .catch((error) => {
         toast({
@@ -49,7 +49,7 @@ const LoginPage = () => {
     provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
   ) => {
     signIn(provider, {
-      callbackUrl: "/dashboard",
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
   };
 

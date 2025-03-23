@@ -65,7 +65,7 @@ const AddWordModal = ({ setShowAddModal, onWordAdded }: AddWordModalProps) => {
       <motion.div
         initial={{ y: 20 }}
         animate={{ y: 0 }}
-        className="bg-white rounded-xl w-full max-w-md shadow-xl"
+        className="rounded-xl w-full max-w-md shadow-xl"
       >
         <div className="p-6 border-b border-gray-200 flex justify-between items-center">
           <div className="flex items-center gap-3">

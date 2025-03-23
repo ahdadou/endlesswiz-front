@@ -32,7 +32,7 @@ const TranscriptSection = () => {
   return (
     <section
       id="search-section"
-      className="min-h-screen py-12 px-4 bg-white pt-32 relative"
+      className="min-h-screen py-12 px-4 pt-32 relative"
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -71,7 +71,7 @@ const TranscriptSection = () => {
         {/* Split Content Section */}
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 h-[50vh]">
           {/* Video Section */}
-          <div className="bg-gray-50 rounded-2xl shadow-lg p-6 h-full">
+          <div className="rounded-2xl shadow-lg p-6 h-full">
             {videos?.videosDetailResponse.length > 0 ? (
               <YouTubePlayerComponent />
             ) : (

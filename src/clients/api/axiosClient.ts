@@ -3,6 +3,7 @@ import { HttpClientError } from "@/utils/HttpClientError";
 import axios, {
   AxiosError,
   AxiosHeaders,
+  AxiosInstance,
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
@@ -11,6 +12,7 @@ import axiosRetry from "axios-retry";
 
 import http from "http";
 import https from "https";
+import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { cookies } from "next/headers";
 
@@ -23,24 +25,33 @@ type CustomAxiosConfig = AxiosRequestConfig & {
 // const httpAgent = new http.Agent(httpAgentParams)
 // const httpsAgent = new https.Agent(httpAgentParams)
 
+// Check if running in Edge runtime
+// Only load `fs` and cert in Node.js (not Edge)
+let cert: Buffer | undefined;
+if (process.env.NODE_ENV === "development" && typeof window === "undefined") {
+  const fs = await import("fs");
+  cert = fs.readFileSync("certs/cert.pem");
+}
+
 export const axiosInstance = applyCaseMiddleware(
   axios.create({
     timeout: 60_000,
     withCredentials: true,
-    // httpsAgent: httpsAgent,
-    // httpAgent: httpAgent,
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }), // Disable SSL check in dev
+    // process.env.NODE_ENV === 'production'
+    //   ? new https.Agent({ ca: cert }) // Trust cert in production
+    //   : new https.Agent({ rejectUnauthorized: false }), // Disable SSL check in dev
   }),
-  {
-    ignoreHeaders: true,
-    ignoreParams: true,
-  },
+  { ignoreHeaders: true, ignoreParams: true },
 );
 
 axiosRetry(axiosInstance, {
   retryDelay: axiosRetry.exponentialDelay,
   onRetry: async (retryCount, error, requestConfig) => {
     console.log(
-      `Retry attempt ${retryCount}: ${requestConfig.method?.toUpperCase()} ${requestConfig.url}`,
+      `Retry attempt ${retryCount}: ${requestConfig.method?.toUpperCase()} ${
+        requestConfig.url
+      }`,
       {
         error,
       },
@@ -104,7 +115,24 @@ const axiosClient = {
       throw new HttpClientError(error as Error, "POST", url, config.traceId);
     }
   },
-
+  patch: async <T, D = unknown>(
+    url: string,
+    data: D,
+    config: CustomAxiosConfig = {},
+  ): Promise<T> => {
+    try {
+      const headers = await resolveHeaders(config);
+      const requestConfig = { ...config, headers };
+      const resp: AxiosResponse<T> = await axiosInstance.patch(
+        url,
+        data,
+        requestConfig,
+      );
+      return resp.data;
+    } catch (error) {
+      throw new HttpClientError(error as Error, "POST", url, config.traceId);
+    }
+  },
   delete: async <T>(
     url: string,
     config: CustomAxiosConfig = {},

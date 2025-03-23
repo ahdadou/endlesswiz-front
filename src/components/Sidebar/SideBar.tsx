@@ -1,42 +1,89 @@
-import Link from "next/link";
-import { useState } from "react";
+"use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import {
-  BookOpen,
-  Gamepad,
+  LayoutDashboard,
   Video,
-  Trophy,
-  Clock,
-  Star,
-  User,
   Settings,
   LogOut,
-  X,
-  Menu,
+  ChevronLeft,
+  ChevronRight,
   Mic,
+  Library,
+  ChevronDown,
+  Bell,
+  MessageSquare,
+  HelpCircle,
+  Dumbbell,
+  Menu,
+  Crown,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
 
-const SideBar = () => {
-  const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
+const navItems = [
+  {
+    title: "Dashboard",
+    icon: <LayoutDashboard className="h-5 w-5" />,
+    href: "/user/dashboard",
+  },
+  {
+    title: "Pronounce",
+    icon: <Mic className="h-5 w-5" />,
+    href: "/user/pronounce",
+  },
+  {
+    title: "Words Library",
+    icon: <Library className="h-5 w-5" />,
+    href: "/user/words",
+  },
+  {
+    title: "Videos Library",
+    icon: <Video className="h-5 w-5" />,
+    href: "/user/videos",
+  },
+  {
+    title: "Practice",
+    icon: <Dumbbell className="h-5 w-5" />,
+    href: "/user/practice",
+  },
+];
+
+export default function DashboardSidebar() {
   const { userData } = useUserDataZustandState();
+  const [collapsed, setCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
   const router = useRouter();
 
-  const navItems = [
-    { icon: <Trophy />, label: "Dashboard", href: "/dashboard" },
-    { icon: <Mic />, label: "Pronounce Word", href: "/dashboard/pronounce" }, // New button
-    { icon: <BookOpen />, label: "My Words", href: "/dashboard/mywords" },
-    {
-      icon: <Video />,
-      label: "Video Library",
-      href: "/dashboard/videoslibrary",
-    },
-    { icon: <Gamepad />, label: "Practice", href: "/dashboard/practice" },
-    { icon: <Clock />, label: "Study Time", href: "/dashboard/studytime" },
-    { icon: <Settings />, label: "Settings", href: "/dashboard/settings" },
-  ];
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkIfMobile();
+
+    // Add event listener
+    window.addEventListener("resize", checkIfMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -48,90 +95,176 @@ const SideBar = () => {
     }
   };
 
-  return (
-    <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 right-4 p-2 z-50 bg-white rounded-lg shadow-md"
+  const SidebarContent = ({ isMobileView = false }) => (
+    <div className="flex flex-col h-full p-4">
+      {/* User profile with dropdown */}
+      <div
+        className={cn(
+          "mb-8",
+          collapsed && !isMobileView ? "flex justify-center" : "px-2",
+        )}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="p-0 h-auto w-auto flex items-center gap-2"
+            >
+              <Avatar className="h-10 w-10">
+                <AvatarImage
+                  src={userData?.profileImageUrl ?? "/placeholder.svg"}
+                />
+                <AvatarFallback className="bg-forest text-cream">
+                  {userData?.firstName?.charAt(0)}
+                  {userData?.lastName?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+              {(!collapsed || isMobileView) && (
+                <div className="flex items-center justify-between w-full">
+                  <div className="text-left">
+                    <p className="font-medium ">
+                      {userData?.firstName} {userData?.lastName}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Premium Member
+                    </p>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </div>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align={collapsed && !isMobileView ? "center" : "start"}
+            className="w-56 rounded-xl shadow-lg border-0"
+          >
+            <div className="px-4 py-3 border-b">
+              <p className="font-medium ">
+                {userData?.firstName} {userData?.lastName}
+              </p>
+              <p className="text-xs text-muted-foreground">Premium Member</p>
+            </div>
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => console.log("Notifications")}
+            >
+              <Bell className="mr-2 h-4 w-4" />
+              <span>Notifications</span>
+            </DropdownMenuItem>
+            {/* <DropdownMenuItem className="py-2.5 my-1 cursor-pointer" onClick={() => console.log("Messages")}>
+              <MessageSquare className="mr-2 h-4 w-4" />
+              <span>Messages</span>
+            </DropdownMenuItem> */}
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => router.push("/help-support")}
+            >
+              <HelpCircle className="mr-2 h-4 w-4" />
+              <span>Help & Support</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push("/user/payment/upgrade")}
+              className="py-2.5 my-1 cursor-pointer"
+            >
+              <Crown className="mr-2 h-4 w-4" />
+              <span>Upgrade</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => router.push("/user/settings")}
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="my-1" />
+            <DropdownMenuItem
+              className="py-2.5 my-1 text-red-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
 
-      {/* Sidebar */}
-      <aside
-        className={`w-64 bg-white p-4 border-r border-gray-200 fixed lg:sticky top-0 h-screen transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 transition-transform duration-200 z-40`}
-      >
-        {/* Close Button for Mobile */}
-        <button
-          onClick={() => setIsOpen(false)}
-          className="lg:hidden absolute top-4 right-4 p-1"
-        >
-          <X className="w-5 h-5 text-gray-500" />
-        </button>
+      {/* Navigation */}
+      <nav className="space-y-1 flex-1">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
 
-        {/* User Profile */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h2 className="font-semibold">
-              {userData?.firstName} {userData?.lastName}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {userData?.level ?? "Beginner"}
-            </p>
-          </div>
-        </div>
-
-        <nav className="space-y-2 h-[calc(100vh-160px)] overflow-y-auto">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                href={item.href}
-                key={item.href} // Changed key to href for better uniqueness
-                className="block hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
+          return (
+            <Link key={item.href} href={item.href}>
+              <div
+                className={cn(
+                  "flex items-center py-2 px-3 rounded-md transition-colors",
+                  isActive
+                    ? "bg-forest text-cream"
+                    : "hover:text-forest hover:bg-gray-100",
+                  collapsed && !isMobileView && "justify-center px-2",
+                )}
               >
-                <button
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-blue-50 text-blue-600"
-                      : "hover:bg-gray-100 text-gray-700"
-                  }`}
+                <span
+                  className={cn(collapsed && !isMobileView ? "mr-0" : "mr-3")}
                 >
                   {item.icon}
-                  <span className="text-gray-700">{item.label}</span>
-                </button>
-              </Link>
-            );
-          })}
-        </nav>
-        {/* Logout Button */}
-        <div className="mt-auto pt-4 border-t border-gray-200">
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-red-500"
-          >
-            <LogOut className="w-5 h-5" />
-            <span>Log Out</span>
-          </button>
-        </div>
-      </aside>
+                </span>
+                {(!collapsed || isMobileView) && <span>{item.title}</span>}
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
 
-      {/* Backdrop for Mobile */}
-      {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-    </>
+      <Separator className="my-4" />
+    </div>
   );
-};
 
-export default SideBar;
+  // For mobile: render a Sheet with hamburger button
+  if (isMobile) {
+    return (
+      <>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden fixed top-4 left-4 z-50"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-64">
+            <SidebarContent isMobileView={true} />
+          </SheetContent>
+        </Sheet>
+      </>
+    );
+  }
+
+  // For desktop: render the normal sidebar
+  return (
+    <div
+      className={cn(
+        "h-screen  border-gray-200 transition-all duration-300 relative hidden md:block",
+        collapsed ? "w-20" : "w-64",
+      )}
+    >
+      {/* Toggle button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute -right-3 top-20 h-6 w-6 rounded-full border border-gray-200 shadow-sm z-10"
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        {collapsed ? (
+          <ChevronRight className="h-3 w-3" />
+        ) : (
+          <ChevronLeft className="h-3 w-3" />
+        )}
+      </Button>
+
+      <SidebarContent />
+    </div>
+  );
+}

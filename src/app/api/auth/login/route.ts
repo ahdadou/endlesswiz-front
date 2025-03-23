@@ -1,4 +1,5 @@
 import { REFRESH_TOKEN, TOKEN } from "@/middleware";
+import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -7,7 +8,7 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     const response = await axios.post(
-      "http://localhost:8099/api/v1/auth/authenticate",
+      `${getBaseUrl()}/auth/authenticate`,
       { email, password }, // Send as a JavaScript object (no need to stringify)
     );
 
@@ -20,6 +21,7 @@ export async function POST(request: Request) {
 
     const { access_token, refresh_token } = response.data; // Access the token from the response data
 
+    console.log('----- access_token  ', access_token)
     // Set JWT in HttpOnly cookie
     const res = NextResponse.json({ success: true });
     res.cookies.set(TOKEN, access_token, {

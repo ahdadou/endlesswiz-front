@@ -80,7 +80,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async redirect({ url, baseUrl }) {
       if (url === baseUrl || url === `${baseUrl}/`) {
-        return `${baseUrl}/dashboard`;
+        return `${baseUrl}/user/dashboard`;
       }
       return url;
     },
