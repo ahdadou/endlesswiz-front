@@ -65,14 +65,14 @@ const api = {
       console.error("### Error", error);
     }
   },
-  loginState: async (token?: string | undefined) => {
+  loginState: async () => {
     try {
+      console.log('### ------ loginState > ')
       const response = await axiosClient.get<LoginState>(
         `${getBaseUrl()}/users/login-state`,
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-        },
       );
+      console.log('### ------ loginState > res :', response)
+
       return {
         ...response,
         state: ELoginState.LOGGED_IN,
