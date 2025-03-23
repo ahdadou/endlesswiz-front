@@ -5,7 +5,6 @@ import HeroSection from "./sections/HeroSection";
 import FeatureSection from "./sections/FeatureSection";
 import TestimonialsSection from "./sections/TestimonialsSection";
 import CtaSection from "./sections/CtaSection";
-import HowItWorks from "./sections/HowItWorks";
 import TranscriptSection from "./sections/TranscriptSection";
 import { ZustandStoreProvider } from "@/provider/ZustandStoreProvider";
 import Navbar from "@/components/navbar/Navbar";
