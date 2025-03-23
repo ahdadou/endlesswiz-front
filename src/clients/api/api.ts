@@ -68,7 +68,7 @@ const api = {
   loginState: async () => {
     try {
       console.log('### ------ loginState > ')
-      const response = await axiosClient.get<LoginState>(
+      const response = await axios.get<LoginState>(
         `${getBaseUrl()}/users/login-state`,
       );
       console.log('### ------ loginState > res :', response)
