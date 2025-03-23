@@ -58,6 +58,7 @@ export const signInRequest = async (email: string, password: string) => {
     return;
   }
 
+  console.log('REMOVE  signInRequest ', email)
   try {
     const response = await axios.post(
       `${USER_API_BASE_URL}/auth/authenticate`,
@@ -66,6 +67,7 @@ export const signInRequest = async (email: string, password: string) => {
         password: password,
       },
     );
+    console.log('REMOVE  signInRequest response ', response)
 
     const { access_token, refresh_token } = response.data;
 
