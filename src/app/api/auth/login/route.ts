@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     const { access_token, refresh_token } = response.data; // Access the token from the response data
 
+    console.log('----- access_token  ', access_token)
     // Set JWT in HttpOnly cookie
     const res = NextResponse.json({ success: true });
     res.cookies.set(TOKEN, access_token, {

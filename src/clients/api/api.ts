@@ -78,6 +78,7 @@ const api = {
         state: ELoginState.LOGGED_IN,
       };
     } catch (error) {
+      console.log('----loginState error :', error)
       return {
         state: ELoginState.NOT_LOGGED_IN,
       };
