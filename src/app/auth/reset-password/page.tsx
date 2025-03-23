@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -13,8 +12,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { resetPasswordRequest } from "@/clients/AuthService";
 
 const ResetPassword = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const params = useParams();
+  const token = params.token as string;
   const router = useRouter();
   const { toast } = useToast();
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Book, Search, PlayCircle, Menu, X } from "lucide-react";
@@ -6,6 +8,7 @@ import TrueFocus from "../animations/TrueFocus/TrueFocus";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +28,7 @@ const Navbar = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return pathname === path;
   };
 
   return (

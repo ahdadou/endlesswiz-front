@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,8 +14,8 @@ export default function ConfirmEmailPage() {
   const [loading, setLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const email = searchParams.get("email");
+  const params = useParams();
+  const email = params?.email as string
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
