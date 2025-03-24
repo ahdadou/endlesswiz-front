@@ -59,10 +59,11 @@ export const signInRequest = async (email: string, password: string) => {
   }
 
   console.log('REMOVE  signInRequest ', email)
+  console.log('REMOVE  url ',  `${USER_API_BASE_URL}/auth/authenticate`)
   
   try {
     const response = await axios.post(
-      `${USER_API_BASE_URL}/auth/authenticate`,
+      `https://www.api.endlesswiz.com/api/v1/auth/authenticate`,
       {
         email: email,
         password: password,
