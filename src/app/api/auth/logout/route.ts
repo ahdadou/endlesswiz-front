@@ -10,6 +10,8 @@ export async function GET() {
     const cookiesStore = await cookies();
     const jwtCookieValue = cookiesStore.get(TOKEN)?.value;
 
+    console.log("jwtCookieValue  found", jwtCookieValue);
+
     if (!jwtCookieValue) {
       console.log("No JWT token found");
       return NextResponse.json(
@@ -18,10 +20,12 @@ export async function GET() {
       );
     }
 
-    const response = await axios.get(`${getBaseUrl()}/auth/logout`, {
+    const res = await axios.get(`${getBaseUrl()}/auth/logout`, {
       headers: { Authorization: `Bearer ${jwtCookieValue}` },
       withCredentials: true,
     });
+
+    console.error("### Logout res:", res);
 
     cookiesStore.delete(TOKEN);
     return NextResponse.json({ success: true, error: null });
