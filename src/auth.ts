@@ -78,6 +78,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async redirect({ url, baseUrl }) {
+      console.log('Redirect triggered:', { url, baseUrl });
+
       // Handle Google OAuth2 callback URL
       if (url.startsWith("/api/auth")) {
         return `${baseUrl}/user/dashboard`;
