@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const AuthError = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error"); // Get error from query params
+  const params = useParams();
+  const error = params.error as string;
 
   const errorMessage = error
     ? {
