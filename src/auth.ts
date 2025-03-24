@@ -84,6 +84,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (url.startsWith("/api/auth")) {
         return `${baseUrl}/user/dashboard`;
       }
+
+      // Allow API/auth routes and dashboard
+      if (url.startsWith(baseUrl)) {
+        return url.includes("/user/dashboard") 
+          ? url 
+          : `${baseUrl}/user/dashboard`;
+      }
+
       return url.startsWith(baseUrl) ? url : baseUrl;
     }
   },
