@@ -5,8 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 export default {
   providers: [
     GoogleProvider({
-      clientId: '336755466816-pcblua1l0g6d4sel1t8ptk2d6971f9r8.apps.googleusercontent.com',
-      clientSecret: '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',
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
       authorization: {
         params: {
           scope: "openid email profile",
