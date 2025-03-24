@@ -29,7 +29,7 @@ export const registerRequest = async (req: RegisterRequest) => {
     });
     return;
   }
-  
+
   try {
     const response = await axiosClient.post(
       `${getBaseUrl()}/auth/register`,
@@ -69,6 +69,8 @@ export const signInRequest = async (email: string, password: string) => {
         password: password,
       },
     );
+
+    console.log('TEMPORARY: ### signInRequest response ------->>> ', response)
 
     const { access_token, refresh_token } = response;
 
