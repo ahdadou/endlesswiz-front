@@ -7,10 +7,13 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
+    console.log('### LOGIN url ------>  ',`${getBaseUrl()}/auth/authenticate` )
     const response = await axios.post(
       `${getBaseUrl()}/auth/authenticate`,
       { email, password }, // Send as a JavaScript object (no need to stringify)
     );
+
+    console.log('### LOGIN res   ---> ', response)
 
     if (response.status !== 200) {
       return NextResponse.json(
