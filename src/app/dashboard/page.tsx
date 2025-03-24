@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   BookOpen,
   Brain,
@@ -20,11 +20,17 @@ import {
   Heart,
   BookMarked,
   Mic,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import {
   BarChart,
   Bar,
@@ -37,8 +43,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts"
-import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar"
+} from "recharts";
+import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar";
 
 // Mock data for the dashboard
 const studyStats = {
@@ -52,7 +58,7 @@ const studyStats = {
   lastActivity: "2 hours ago",
   totalPractices: 42,
   completedTests: 15,
-}
+};
 
 const recentSets = [
   {
@@ -76,35 +82,35 @@ const recentSets = [
     wordCount: 28,
     lastPracticed: "1 week ago",
   },
-]
+];
 
 const categories = [
   { name: "Languages", count: 5, icon: <BookOpen className="h-4 w-4" /> },
   { name: "Science", count: 3, icon: <Brain className="h-4 w-4" /> },
   { name: "Technology", count: 2, icon: <Zap className="h-4 w-4" /> },
   { name: "Business", count: 2, icon: <TrendingUp className="h-4 w-4" /> },
-]
+];
 
 // Mock activity data for the calendar (similar to GitHub contributions)
 const generateActivityData = () => {
-  const today = new Date()
-  const data = {}
+  const today = new Date();
+  const data = {};
 
   // Generate data for the last 365 days
   for (let i = 0; i < 365; i++) {
-    const date = new Date(today)
-    date.setDate(today.getDate() - i)
-    const dateStr = date.toISOString().split("T")[0]
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    const dateStr = date.toISOString().split("T")[0];
 
     // Random activity level (0-4)
     // 0: no activity, 1-4: increasing levels of activity
-    const activityLevel = Math.floor(Math.random() * 5)
+    const activityLevel = Math.floor(Math.random() * 5);
 
-    data[dateStr] = activityLevel
+    data[dateStr] = activityLevel;
   }
 
-  return data
-}
+  return data;
+};
 
 // Mock data for charts
 const weeklyProgressData = [
@@ -115,7 +121,7 @@ const weeklyProgressData = [
   { name: "Fri", words: 15, time: 1.0 },
   { name: "Sat", words: 32, time: 2.1 },
   { name: "Sun", words: 21, time: 1.4 },
-]
+];
 
 const categoryDistributionData = [
   { name: "Languages", value: 45 },
@@ -123,13 +129,13 @@ const categoryDistributionData = [
   { name: "Technology", value: 15 },
   { name: "Business", value: 10 },
   { name: "Other", value: 10 },
-]
+];
 
-const COLORS = ["#14281d", "#3d7d5a", "#5f9477", "#81ab94", "#a3c2b1"]
+const COLORS = ["#14281d", "#3d7d5a", "#5f9477", "#81ab94", "#a3c2b1"];
 
 export default function Dashboard() {
-  const router = useRouter()
-  const [activityData] = useState(generateActivityData())
+  const router = useRouter();
+  const [activityData] = useState(generateActivityData());
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -139,10 +145,17 @@ export default function Dashboard() {
           {/* Welcome Section */}
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-forest">Welcome back, John!</h1>
-              <p className="text-muted-foreground">Track your progress and continue learning</p>
+              <h1 className="text-3xl font-bold text-forest">
+                Welcome back, John!
+              </h1>
+              <p className="text-muted-foreground">
+                Track your progress and continue learning
+              </p>
             </div>
-            <Button onClick={() => router.push("/create-set")} className="bg-forest hover:bg-forest-700 text-cream">
+            <Button
+              onClick={() => router.push("/create-set")}
+              className="bg-forest hover:bg-forest-700 text-cream"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Create New Set
             </Button>
@@ -150,13 +163,21 @@ export default function Dashboard() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <Card className="border-forest-100 shadow-sm">
                 <CardContent className="pt-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-sm text-muted-foreground">Words Learned</p>
-                      <p className="text-3xl font-bold text-forest">{studyStats.wordsLearned}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Words Learned
+                      </p>
+                      <p className="text-3xl font-bold text-forest">
+                        {studyStats.wordsLearned}
+                      </p>
                     </div>
                     <div className="rounded-full bg-forest/10 p-2">
                       <BookOpen className="h-5 w-5 text-forest" />
@@ -175,8 +196,12 @@ export default function Dashboard() {
                 <CardContent className="pt-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-sm text-muted-foreground">Favorite Words</p>
-                      <p className="text-3xl font-bold text-forest">{studyStats.favoriteWords}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Favorite Words
+                      </p>
+                      <p className="text-3xl font-bold text-forest">
+                        {studyStats.favoriteWords}
+                      </p>
                     </div>
                     <div className="rounded-full bg-forest/10 p-2">
                       <Heart className="h-5 w-5 text-forest" />
@@ -195,8 +220,12 @@ export default function Dashboard() {
                 <CardContent className="pt-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-sm text-muted-foreground">Videos Watched</p>
-                      <p className="text-3xl font-bold text-forest">{studyStats.videosWatched}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Videos Watched
+                      </p>
+                      <p className="text-3xl font-bold text-forest">
+                        {studyStats.videosWatched}
+                      </p>
                     </div>
                     <div className="rounded-full bg-forest/10 p-2">
                       <Video className="h-5 w-5 text-forest" />
@@ -215,8 +244,12 @@ export default function Dashboard() {
                 <CardContent className="pt-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-sm text-muted-foreground">Study Time</p>
-                      <p className="text-3xl font-bold text-forest">{studyStats.studyTime}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Study Time
+                      </p>
+                      <p className="text-3xl font-bold text-forest">
+                        {studyStats.studyTime}
+                      </p>
                     </div>
                     <div className="rounded-full bg-forest/10 p-2">
                       <Clock className="h-5 w-5 text-forest" />
@@ -236,20 +269,45 @@ export default function Dashboard() {
                   <BarChart2 className="h-5 w-5 mr-2" />
                   Weekly Learning Progress
                 </CardTitle>
-                <CardDescription>Words learned and study time per day</CardDescription>
+                <CardDescription>
+                  Words learned and study time per day
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={weeklyProgressData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <BarChart
+                      data={weeklyProgressData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
-                      <YAxis yAxisId="left" orientation="left" stroke="#14281d" />
-                      <YAxis yAxisId="right" orientation="right" stroke="#3d7d5a" />
+                      <YAxis
+                        yAxisId="left"
+                        orientation="left"
+                        stroke="#14281d"
+                      />
+                      <YAxis
+                        yAxisId="right"
+                        orientation="right"
+                        stroke="#3d7d5a"
+                      />
                       <Tooltip />
                       <Legend />
-                      <Bar yAxisId="left" dataKey="words" name="Words Learned" fill="#14281d" radius={[4, 4, 0, 0]} />
-                      <Bar yAxisId="right" dataKey="time" name="Study Hours" fill="#3d7d5a" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        yAxisId="left"
+                        dataKey="words"
+                        name="Words Learned"
+                        fill="#14281d"
+                        radius={[4, 4, 0, 0]}
+                      />
+                      <Bar
+                        yAxisId="right"
+                        dataKey="time"
+                        name="Study Hours"
+                        fill="#3d7d5a"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -263,7 +321,9 @@ export default function Dashboard() {
                   <PieChart className="h-5 w-5 mr-2" />
                   Category Distribution
                 </CardTitle>
-                <CardDescription>Breakdown of your study materials by category</CardDescription>
+                <CardDescription>
+                  Breakdown of your study materials by category
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
@@ -277,10 +337,15 @@ export default function Dashboard() {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        label={({ name, percent }) =>
+                          `${name} ${(percent * 100).toFixed(0)}%`
+                        }
                       >
                         {categoryDistributionData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
                         ))}
                       </Pie>
                       <Tooltip />
@@ -299,7 +364,9 @@ export default function Dashboard() {
                 <Calendar className="h-5 w-5 mr-2" />
                 Your Activity
               </CardTitle>
-              <CardDescription>Track your daily learning consistency</CardDescription>
+              <CardDescription>
+                Track your daily learning consistency
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ActivityCalendar data={activityData} />
@@ -356,7 +423,9 @@ export default function Dashboard() {
                         onClick={() => router.push(`/set/${set.id}`)}
                       >
                         <div className="flex-1">
-                          <h3 className="font-medium text-forest">{set.title}</h3>
+                          <h3 className="font-medium text-forest">
+                            {set.title}
+                          </h3>
                           <div className="flex items-center text-sm text-muted-foreground mt-1">
                             <BookOpen className="h-3.5 w-3.5 mr-1" />
                             {set.wordCount} words
@@ -503,6 +572,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

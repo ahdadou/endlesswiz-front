@@ -8,7 +8,8 @@ import TrueFocus from "../animations/TrueFocus/TrueFocus";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "/";
 
   useEffect(() => {
     const handleScroll = () => {

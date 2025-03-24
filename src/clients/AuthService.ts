@@ -60,7 +60,7 @@ export const signInRequest = async (email: string, password: string) => {
     });
     return;
   }
-  
+
   try {
     const response = await axiosClient.post<SignInResponse>(
       `${getBaseUrl()}/auth/authenticate`,

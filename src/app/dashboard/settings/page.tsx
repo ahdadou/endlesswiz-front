@@ -1,19 +1,42 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Moon, Sun, Check, X, Info, AlertTriangle, Save, CreditCardIcon, Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/components/ui/use-toast"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Moon,
+  Sun,
+  Check,
+  X,
+  Info,
+  AlertTriangle,
+  Save,
+  CreditCardIcon,
+  Plus,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
 
 // Custom PayPal icon since it's not in Lucide
 const PayPal = () => (
@@ -32,18 +55,18 @@ const PayPal = () => (
     <path d="M3.5 11C2.57003 11 1.94661 10.0301 2.30863 9.13978C2.97179 7.50487 4.71161 5 8.5 5" />
     <path d="M3 15.5C3 16.8807 4.11929 18 5.5 18H7.5C8.88071 18 10 19.1193 10 20.5C10 20.7761 9.77614 21 9.5 21H5C3.89543 21 3 20.1046 3 19V15.5Z" />
   </svg>
-)
+);
 
 export default function SettingsPage() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isSaving, setIsSaving] = useState(false)
-  const [showCardDetails, setShowCardDetails] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState("credit-card")
-  const [cardNumber, setCardNumber] = useState("•••• •••• •••• 4242")
-  const [expiryDate, setExpiryDate] = useState("12/25")
-  const [cvv, setCvv] = useState("•••")
-  const [isAddingCard, setIsAddingCard] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
+  const [showCardDetails, setShowCardDetails] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("credit-card");
+  const [cardNumber, setCardNumber] = useState("•••• •••• •••• 4242");
+  const [expiryDate, setExpiryDate] = useState("12/25");
+  const [cvv, setCvv] = useState("•••");
+  const [isAddingCard, setIsAddingCard] = useState(false);
 
   // Mock subscription data
   const [subscription, setSubscription] = useState({
@@ -52,20 +75,20 @@ export default function SettingsPage() {
     nextBillingDate: "January 15, 2024",
     amount: "$9.99",
     interval: "monthly",
-  })
+  });
 
   const handleSaveSettings = () => {
-    setIsSaving(true)
+    setIsSaving(true);
 
     // Simulate API call
     setTimeout(() => {
-      setIsSaving(false)
+      setIsSaving(false);
       toast({
         title: "Settings saved",
         description: "Your settings have been updated successfully.",
-      })
-    }, 1000)
-  }
+      });
+    }, 1000);
+  };
 
   const handleCancelSubscription = () => {
     // Simulate API call
@@ -74,30 +97,30 @@ export default function SettingsPage() {
         ...subscription,
         status: "canceled",
         nextBillingDate: "N/A",
-      })
+      });
 
       toast({
         title: "Subscription canceled",
         description:
           "Your subscription has been canceled. Premium features will remain active until the end of your current billing period.",
-      })
-    }, 1000)
-  }
+      });
+    }, 1000);
+  };
 
   const handleAddCard = () => {
-    setIsAddingCard(true)
-  }
+    setIsAddingCard(true);
+  };
 
   const handleSaveCard = () => {
     // Simulate API call
     setTimeout(() => {
-      setIsAddingCard(false)
+      setIsAddingCard(false);
       toast({
         title: "Payment method added",
         description: "Your new payment method has been added successfully.",
-      })
-    }, 1000)
-  }
+      });
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,7 +128,9 @@ export default function SettingsPage() {
         <div className="flex-1 p-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-forest">Settings</h1>
-            <p className="text-muted-foreground">Manage your account settings and preferences</p>
+            <p className="text-muted-foreground">
+              Manage your account settings and preferences
+            </p>
           </div>
 
           <Tabs defaultValue="general" className="w-full">
@@ -121,22 +146,38 @@ export default function SettingsPage() {
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
                     <CardTitle className="text-forest">Appearance</CardTitle>
-                    <CardDescription>Customize how StudyCards looks</CardDescription>
+                    <CardDescription>
+                      Customize how StudyCards looks
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">Theme</Label>
-                        <p className="text-sm text-muted-foreground">Select your preferred theme</p>
+                        <p className="text-sm text-muted-foreground">
+                          Select your preferred theme
+                        </p>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button variant="outline" size="icon" className="h-8 w-8 border-forest text-forest">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8 border-forest text-forest"
+                        >
                           <Sun className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="icon" className="h-8 w-8">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                        >
                           <Moon className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="icon" className="h-8 w-8">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                        >
                           <div className="h-4 w-4 rounded-full bg-gradient-to-br from-forest to-forest-300" />
                         </Button>
                       </div>
@@ -147,7 +188,9 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">Font Size</Label>
-                        <p className="text-sm text-muted-foreground">Adjust the text size</p>
+                        <p className="text-sm text-muted-foreground">
+                          Adjust the text size
+                        </p>
                       </div>
                       <Select defaultValue="medium">
                         <SelectTrigger className="w-32">
@@ -166,7 +209,9 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">Animations</Label>
-                        <p className="text-sm text-muted-foreground">Enable or disable animations</p>
+                        <p className="text-sm text-muted-foreground">
+                          Enable or disable animations
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
@@ -175,8 +220,12 @@ export default function SettingsPage() {
 
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Language & Region</CardTitle>
-                    <CardDescription>Set your language and regional preferences</CardDescription>
+                    <CardTitle className="text-forest">
+                      Language & Region
+                    </CardTitle>
+                    <CardDescription>
+                      Set your language and regional preferences
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="space-y-2">
@@ -205,9 +254,13 @@ export default function SettingsPage() {
                         <SelectContent>
                           <SelectItem value="est">Eastern Time (ET)</SelectItem>
                           <SelectItem value="cst">Central Time (CT)</SelectItem>
-                          <SelectItem value="mst">Mountain Time (MT)</SelectItem>
+                          <SelectItem value="mst">
+                            Mountain Time (MT)
+                          </SelectItem>
                           <SelectItem value="pst">Pacific Time (PT)</SelectItem>
-                          <SelectItem value="utc">Coordinated Universal Time (UTC)</SelectItem>
+                          <SelectItem value="utc">
+                            Coordinated Universal Time (UTC)
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -230,14 +283,22 @@ export default function SettingsPage() {
 
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Learning Preferences</CardTitle>
-                    <CardDescription>Customize your learning experience</CardDescription>
+                    <CardTitle className="text-forest">
+                      Learning Preferences
+                    </CardTitle>
+                    <CardDescription>
+                      Customize your learning experience
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label className="text-base">Auto-Play Pronunciation</Label>
-                        <p className="text-sm text-muted-foreground">Automatically play word pronunciations</p>
+                        <Label className="text-base">
+                          Auto-Play Pronunciation
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          Automatically play word pronunciations
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
@@ -247,7 +308,9 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">Show Hints</Label>
-                        <p className="text-sm text-muted-foreground">Display hints during practice sessions</p>
+                        <p className="text-sm text-muted-foreground">
+                          Display hints during practice sessions
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
@@ -290,13 +353,19 @@ export default function SettingsPage() {
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
                     <CardTitle className="text-forest">Accessibility</CardTitle>
-                    <CardDescription>Adjust accessibility settings</CardDescription>
+                    <CardDescription>
+                      Adjust accessibility settings
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label className="text-base">Screen Reader Support</Label>
-                        <p className="text-sm text-muted-foreground">Optimize for screen readers</p>
+                        <Label className="text-base">
+                          Screen Reader Support
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          Optimize for screen readers
+                        </p>
                       </div>
                       <Switch defaultChecked />
                     </div>
@@ -306,7 +375,9 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">High Contrast Mode</Label>
-                        <p className="text-sm text-muted-foreground">Increase contrast for better visibility</p>
+                        <p className="text-sm text-muted-foreground">
+                          Increase contrast for better visibility
+                        </p>
                       </div>
                       <Switch />
                     </div>
@@ -316,7 +387,9 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
                         <Label className="text-base">Reduce Motion</Label>
-                        <p className="text-sm text-muted-foreground">Minimize animations and transitions</p>
+                        <p className="text-sm text-muted-foreground">
+                          Minimize animations and transitions
+                        </p>
                       </div>
                       <Switch />
                     </div>
@@ -349,8 +422,12 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Card className="md:col-span-2 border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Subscription Plan</CardTitle>
-                    <CardDescription>Manage your subscription and billing</CardDescription>
+                    <CardTitle className="text-forest">
+                      Subscription Plan
+                    </CardTitle>
+                    <CardDescription>
+                      Manage your subscription and billing
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="mb-6">
@@ -358,18 +435,28 @@ export default function SettingsPage() {
                         <div>
                           <h3 className="text-lg font-medium">
                             Premium Plan
-                            <Badge className="ml-2 bg-forest text-cream">Active</Badge>
+                            <Badge className="ml-2 bg-forest text-cream">
+                              Active
+                            </Badge>
                           </h3>
-                          <p className="text-sm text-muted-foreground">Billed {subscription.interval}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Billed {subscription.interval}
+                          </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xl font-bold">{subscription.amount}</p>
-                          <p className="text-sm text-muted-foreground">Next billing: {subscription.nextBillingDate}</p>
+                          <p className="text-xl font-bold">
+                            {subscription.amount}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Next billing: {subscription.nextBillingDate}
+                          </p>
                         </div>
                       </div>
 
                       <div className="bg-forest/5 rounded-lg p-4">
-                        <h4 className="font-medium mb-2">Your Premium Benefits:</h4>
+                        <h4 className="font-medium mb-2">
+                          Your Premium Benefits:
+                        </h4>
                         <ul className="space-y-2">
                           <li className="flex items-center">
                             <Check className="h-4 w-4 text-green-500 mr-2" />
@@ -381,7 +468,9 @@ export default function SettingsPage() {
                           </li>
                           <li className="flex items-center">
                             <Check className="h-4 w-4 text-green-500 mr-2" />
-                            <span>Advanced analytics and progress tracking</span>
+                            <span>
+                              Advanced analytics and progress tracking
+                            </span>
                           </li>
                           <li className="flex items-center">
                             <Check className="h-4 w-4 text-green-500 mr-2" />
@@ -398,26 +487,47 @@ export default function SettingsPage() {
                     <Separator className="my-6" />
 
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Available Plans</h3>
-                      <RadioGroup defaultValue="premium-monthly" className="space-y-4">
+                      <h3 className="text-lg font-medium mb-4">
+                        Available Plans
+                      </h3>
+                      <RadioGroup
+                        defaultValue="premium-monthly"
+                        className="space-y-4"
+                      >
                         <div className="flex items-center space-x-2 rounded-lg border p-4">
-                          <RadioGroupItem value="premium-monthly" id="premium-monthly" />
+                          <RadioGroupItem
+                            value="premium-monthly"
+                            id="premium-monthly"
+                          />
                           <div className="flex-1">
-                            <Label htmlFor="premium-monthly" className="font-medium">
+                            <Label
+                              htmlFor="premium-monthly"
+                              className="font-medium"
+                            >
                               Premium Monthly
                             </Label>
-                            <p className="text-sm text-muted-foreground">$9.99 per month</p>
+                            <p className="text-sm text-muted-foreground">
+                              $9.99 per month
+                            </p>
                           </div>
                           <Badge>Current Plan</Badge>
                         </div>
 
                         <div className="flex items-center space-x-2 rounded-lg border p-4">
-                          <RadioGroupItem value="premium-annual" id="premium-annual" />
+                          <RadioGroupItem
+                            value="premium-annual"
+                            id="premium-annual"
+                          />
                           <div className="flex-1">
-                            <Label htmlFor="premium-annual" className="font-medium">
+                            <Label
+                              htmlFor="premium-annual"
+                              className="font-medium"
+                            >
                               Premium Annual
                             </Label>
-                            <p className="text-sm text-muted-foreground">$99.99 per year (Save 17%)</p>
+                            <p className="text-sm text-muted-foreground">
+                              $99.99 per year (Save 17%)
+                            </p>
                           </div>
                           <Badge variant="outline">Best Value</Badge>
                         </div>
@@ -428,7 +538,9 @@ export default function SettingsPage() {
                             <Label htmlFor="free" className="font-medium">
                               Free Plan
                             </Label>
-                            <p className="text-sm text-muted-foreground">Limited features</p>
+                            <p className="text-sm text-muted-foreground">
+                              Limited features
+                            </p>
                           </div>
                         </div>
                       </RadioGroup>
@@ -441,17 +553,25 @@ export default function SettingsPage() {
                       onClick={handleCancelSubscription}
                       disabled={subscription.status === "canceled"}
                     >
-                      {subscription.status === "canceled" ? "Subscription Canceled" : "Cancel Subscription"}
+                      {subscription.status === "canceled"
+                        ? "Subscription Canceled"
+                        : "Cancel Subscription"}
                     </Button>
-                    <Button className="bg-forest hover:bg-forest-700 text-cream">Change Plan</Button>
+                    <Button className="bg-forest hover:bg-forest-700 text-cream">
+                      Change Plan
+                    </Button>
                   </CardFooter>
                 </Card>
 
                 <div className="space-y-6">
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-forest">Payment Methods</CardTitle>
-                      <CardDescription>Manage your payment information</CardDescription>
+                      <CardTitle className="text-forest">
+                        Payment Methods
+                      </CardTitle>
+                      <CardDescription>
+                        Manage your payment information
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {!isAddingCard ? (
@@ -462,14 +582,22 @@ export default function SettingsPage() {
                                 <CreditCardIcon className="h-4 w-4" />
                               </div>
                               <div>
-                                <p className="font-medium">Visa ending in 4242</p>
-                                <p className="text-xs text-muted-foreground">Expires {expiryDate}</p>
+                                <p className="font-medium">
+                                  Visa ending in 4242
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  Expires {expiryDate}
+                                </p>
                               </div>
                             </div>
                             <Badge>Default</Badge>
                           </div>
 
-                          <Button variant="outline" className="w-full" onClick={handleAddCard}>
+                          <Button
+                            variant="outline"
+                            className="w-full"
+                            onClick={handleAddCard}
+                          >
                             <Plus className="h-4 w-4 mr-2" />
                             Add Payment Method
                           </Button>
@@ -484,15 +612,24 @@ export default function SettingsPage() {
                               className="flex flex-col space-y-1"
                             >
                               <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="credit-card" id="credit-card" />
-                                <Label htmlFor="credit-card" className="flex items-center gap-2">
+                                <RadioGroupItem
+                                  value="credit-card"
+                                  id="credit-card"
+                                />
+                                <Label
+                                  htmlFor="credit-card"
+                                  className="flex items-center gap-2"
+                                >
                                   <CreditCardIcon className="h-4 w-4" />
                                   Credit / Debit Card
                                 </Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="paypal" id="paypal" />
-                                <Label htmlFor="paypal" className="flex items-center gap-2">
+                                <Label
+                                  htmlFor="paypal"
+                                  className="flex items-center gap-2"
+                                >
                                   <PayPal />
                                   PayPal
                                 </Label>
@@ -532,10 +669,16 @@ export default function SettingsPage() {
                           )}
 
                           <div className="flex items-center gap-2 pt-2">
-                            <Button variant="outline" onClick={() => setIsAddingCard(false)}>
+                            <Button
+                              variant="outline"
+                              onClick={() => setIsAddingCard(false)}
+                            >
                               Cancel
                             </Button>
-                            <Button className="bg-forest hover:bg-forest-700 text-cream" onClick={handleSaveCard}>
+                            <Button
+                              className="bg-forest hover:bg-forest-700 text-cream"
+                              onClick={handleSaveCard}
+                            >
                               Save Payment Method
                             </Button>
                           </div>
@@ -546,18 +689,26 @@ export default function SettingsPage() {
 
                   <Card className="border-forest-100 shadow-sm">
                     <CardHeader>
-                      <CardTitle className="text-forest">Billing History</CardTitle>
+                      <CardTitle className="text-forest">
+                        Billing History
+                      </CardTitle>
                       <CardDescription>View your past invoices</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-medium">Premium Monthly</p>
-                          <p className="text-xs text-muted-foreground">Dec 15, 2023</p>
+                          <p className="text-xs text-muted-foreground">
+                            Dec 15, 2023
+                          </p>
                         </div>
                         <div className="text-right">
                           <p className="font-medium">$9.99</p>
-                          <Button variant="link" size="sm" className="h-auto p-0 text-xs">
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-auto p-0 text-xs"
+                          >
                             Download
                           </Button>
                         </div>
@@ -568,11 +719,17 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-medium">Premium Monthly</p>
-                          <p className="text-xs text-muted-foreground">Nov 15, 2023</p>
+                          <p className="text-xs text-muted-foreground">
+                            Nov 15, 2023
+                          </p>
                         </div>
                         <div className="text-right">
                           <p className="font-medium">$9.99</p>
-                          <Button variant="link" size="sm" className="h-auto p-0 text-xs">
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-auto p-0 text-xs"
+                          >
                             Download
                           </Button>
                         </div>
@@ -583,11 +740,17 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-medium">Premium Monthly</p>
-                          <p className="text-xs text-muted-foreground">Oct 15, 2023</p>
+                          <p className="text-xs text-muted-foreground">
+                            Oct 15, 2023
+                          </p>
                         </div>
                         <div className="text-right">
                           <p className="font-medium">$9.99</p>
-                          <Button variant="link" size="sm" className="h-auto p-0 text-xs">
+                          <Button
+                            variant="link"
+                            size="sm"
+                            className="h-auto p-0 text-xs"
+                          >
                             Download
                           </Button>
                         </div>
@@ -606,26 +769,40 @@ export default function SettingsPage() {
             <TabsContent value="notifications">
               <Card className="border-forest-100 shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-forest">Notification Preferences</CardTitle>
-                  <CardDescription>Choose how and when you want to be notified</CardDescription>
+                  <CardTitle className="text-forest">
+                    Notification Preferences
+                  </CardTitle>
+                  <CardDescription>
+                    Choose how and when you want to be notified
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Study Reminders</h3>
+                      <h3 className="text-lg font-medium mb-4">
+                        Study Reminders
+                      </h3>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
-                            <Label className="text-base">Daily Study Reminder</Label>
-                            <p className="text-sm text-muted-foreground">Receive a daily reminder to study</p>
+                            <Label className="text-base">
+                              Daily Study Reminder
+                            </Label>
+                            <p className="text-sm text-muted-foreground">
+                              Receive a daily reminder to study
+                            </p>
                           </div>
                           <Switch defaultChecked />
                         </div>
 
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
-                            <Label className="text-base">Streak Notifications</Label>
-                            <p className="text-sm text-muted-foreground">Get notified about your learning streak</p>
+                            <Label className="text-base">
+                              Streak Notifications
+                            </Label>
+                            <p className="text-sm text-muted-foreground">
+                              Get notified about your learning streak
+                            </p>
                           </div>
                           <Switch defaultChecked />
                         </div>
@@ -645,19 +822,25 @@ export default function SettingsPage() {
                     <Separator />
 
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Content Updates</h3>
+                      <h3 className="text-lg font-medium mb-4">
+                        Content Updates
+                      </h3>
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
                             <Label className="text-base">New Features</Label>
-                            <p className="text-sm text-muted-foreground">Get notified about new app features</p>
+                            <p className="text-sm text-muted-foreground">
+                              Get notified about new app features
+                            </p>
                           </div>
                           <Switch defaultChecked />
                         </div>
 
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
-                            <Label className="text-base">Content Recommendations</Label>
+                            <Label className="text-base">
+                              Content Recommendations
+                            </Label>
                             <p className="text-sm text-muted-foreground">
                               Receive personalized content recommendations
                             </p>
@@ -668,7 +851,9 @@ export default function SettingsPage() {
                         <div className="flex items-center justify-between">
                           <div className="space-y-0.5">
                             <Label className="text-base">Tips & Tricks</Label>
-                            <p className="text-sm text-muted-foreground">Learning tips to improve your study habits</p>
+                            <p className="text-sm text-muted-foreground">
+                              Learning tips to improve your study habits
+                            </p>
                           </div>
                           <Switch />
                         </div>
@@ -678,12 +863,18 @@ export default function SettingsPage() {
                     <Separator />
 
                     <div>
-                      <h3 className="text-lg font-medium mb-4">Notification Channels</h3>
+                      <h3 className="text-lg font-medium mb-4">
+                        Notification Channels
+                      </h3>
                       <div className="space-y-4">
                         <div className="grid grid-cols-3 gap-4">
                           <div className="col-span-1 font-medium">Type</div>
-                          <div className="col-span-1 font-medium text-center">Email</div>
-                          <div className="col-span-1 font-medium text-center">Push</div>
+                          <div className="col-span-1 font-medium text-center">
+                            Email
+                          </div>
+                          <div className="col-span-1 font-medium text-center">
+                            Push
+                          </div>
                         </div>
 
                         <Separator />
@@ -719,7 +910,9 @@ export default function SettingsPage() {
                         </div>
 
                         <div className="grid grid-cols-3 gap-4 items-center">
-                          <div className="col-span-1">Marketing & Promotions</div>
+                          <div className="col-span-1">
+                            Marketing & Promotions
+                          </div>
                           <div className="col-span-1 flex justify-center">
                             <Switch />
                           </div>
@@ -732,7 +925,10 @@ export default function SettingsPage() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                  <Button className="bg-forest hover:bg-forest-700 text-cream" onClick={handleSaveSettings}>
+                  <Button
+                    className="bg-forest hover:bg-forest-700 text-cream"
+                    onClick={handleSaveSettings}
+                  >
                     Save Preferences
                   </Button>
                 </CardFooter>
@@ -763,20 +959,30 @@ export default function SettingsPage() {
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button className="bg-forest hover:bg-forest-700 text-cream">Update Password</Button>
+                    <Button className="bg-forest hover:bg-forest-700 text-cream">
+                      Update Password
+                    </Button>
                   </CardFooter>
                 </Card>
 
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Two-Factor Authentication</CardTitle>
-                    <CardDescription>Add an extra layer of security to your account</CardDescription>
+                    <CardTitle className="text-forest">
+                      Two-Factor Authentication
+                    </CardTitle>
+                    <CardDescription>
+                      Add an extra layer of security to your account
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <Label className="text-base">Two-Factor Authentication</Label>
-                        <p className="text-sm text-muted-foreground">Require a verification code when logging in</p>
+                        <Label className="text-base">
+                          Two-Factor Authentication
+                        </Label>
+                        <p className="text-sm text-muted-foreground">
+                          Require a verification code when logging in
+                        </p>
                       </div>
                       <Switch />
                     </div>
@@ -785,32 +991,45 @@ export default function SettingsPage() {
                       <div className="flex items-start gap-3">
                         <Info className="h-5 w-5 text-forest mt-0.5" />
                         <div>
-                          <p className="text-sm font-medium">Enhance your account security</p>
+                          <p className="text-sm font-medium">
+                            Enhance your account security
+                          </p>
                           <p className="text-xs text-muted-foreground mt-1">
-                            Two-factor authentication adds an additional layer of security to your account by requiring
-                            access to your phone in addition to your password.
+                            Two-factor authentication adds an additional layer
+                            of security to your account by requiring access to
+                            your phone in addition to your password.
                           </p>
                         </div>
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline">Set Up Two-Factor Authentication</Button>
+                    <Button variant="outline">
+                      Set Up Two-Factor Authentication
+                    </Button>
                   </CardFooter>
                 </Card>
 
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Login Sessions</CardTitle>
-                    <CardDescription>Manage your active sessions</CardDescription>
+                    <CardTitle className="text-forest">
+                      Login Sessions
+                    </CardTitle>
+                    <CardDescription>
+                      Manage your active sessions
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-4">
                       <div className="flex justify-between items-start p-3 bg-forest/5 rounded-lg">
                         <div>
                           <p className="font-medium">Current Session</p>
-                          <p className="text-xs text-muted-foreground">Chrome on Windows • New York, USA</p>
-                          <p className="text-xs text-muted-foreground">IP: 192.168.1.1</p>
+                          <p className="text-xs text-muted-foreground">
+                            Chrome on Windows • New York, USA
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            IP: 192.168.1.1
+                          </p>
                         </div>
                         <Badge>Active Now</Badge>
                       </div>
@@ -818,10 +1037,18 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-start p-3 border rounded-lg">
                         <div>
                           <p className="font-medium">Safari on iPhone</p>
-                          <p className="text-xs text-muted-foreground">New York, USA • Last active: 2 hours ago</p>
-                          <p className="text-xs text-muted-foreground">IP: 192.168.1.2</p>
+                          <p className="text-xs text-muted-foreground">
+                            New York, USA • Last active: 2 hours ago
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            IP: 192.168.1.2
+                          </p>
                         </div>
-                        <Button variant="ghost" size="sm" className="h-8 text-destructive hover:text-destructive">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 text-destructive hover:text-destructive"
+                        >
                           <X className="h-4 w-4 mr-1" />
                           End
                         </Button>
@@ -830,10 +1057,18 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-start p-3 border rounded-lg">
                         <div>
                           <p className="font-medium">Firefox on macOS</p>
-                          <p className="text-xs text-muted-foreground">San Francisco, USA • Last active: Yesterday</p>
-                          <p className="text-xs text-muted-foreground">IP: 192.168.1.3</p>
+                          <p className="text-xs text-muted-foreground">
+                            San Francisco, USA • Last active: Yesterday
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            IP: 192.168.1.3
+                          </p>
                         </div>
-                        <Button variant="ghost" size="sm" className="h-8 text-destructive hover:text-destructive">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 text-destructive hover:text-destructive"
+                        >
                           <X className="h-4 w-4 mr-1" />
                           End
                         </Button>
@@ -852,7 +1087,9 @@ export default function SettingsPage() {
 
                 <Card className="border-forest-100 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-forest">Account Activity</CardTitle>
+                    <CardTitle className="text-forest">
+                      Account Activity
+                    </CardTitle>
                     <CardDescription>Recent security events</CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -860,9 +1097,13 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <p className="font-medium">Password Changed</p>
-                          <p className="text-xs text-muted-foreground">From Chrome on Windows • New York, USA</p>
+                          <p className="text-xs text-muted-foreground">
+                            From Chrome on Windows • New York, USA
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">Today, 10:30 AM</p>
+                        <p className="text-xs text-muted-foreground">
+                          Today, 10:30 AM
+                        </p>
                       </div>
 
                       <Separator />
@@ -870,9 +1111,13 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <p className="font-medium">New Login</p>
-                          <p className="text-xs text-muted-foreground">From Safari on iPhone • New York, USA</p>
+                          <p className="text-xs text-muted-foreground">
+                            From Safari on iPhone • New York, USA
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">Yesterday, 8:15 PM</p>
+                        <p className="text-xs text-muted-foreground">
+                          Yesterday, 8:15 PM
+                        </p>
                       </div>
 
                       <Separator />
@@ -880,9 +1125,13 @@ export default function SettingsPage() {
                       <div className="flex justify-between items-start">
                         <div>
                           <p className="font-medium">Payment Method Added</p>
-                          <p className="text-xs text-muted-foreground">From Chrome on Windows • New York, USA</p>
+                          <p className="text-xs text-muted-foreground">
+                            From Chrome on Windows • New York, USA
+                          </p>
                         </div>
-                        <p className="text-xs text-muted-foreground">Dec 1, 2023, 3:45 PM</p>
+                        <p className="text-xs text-muted-foreground">
+                          Dec 1, 2023, 3:45 PM
+                        </p>
                       </div>
 
                       <Separator />
@@ -892,10 +1141,14 @@ export default function SettingsPage() {
                           <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
                           <div>
                             <p className="font-medium">Failed Login Attempt</p>
-                            <p className="text-xs text-muted-foreground">From unknown device • London, UK</p>
+                            <p className="text-xs text-muted-foreground">
+                              From unknown device • London, UK
+                            </p>
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground">Nov 28, 2023, 2:12 AM</p>
+                        <p className="text-xs text-muted-foreground">
+                          Nov 28, 2023, 2:12 AM
+                        </p>
                       </div>
                     </div>
                   </CardContent>
@@ -911,6 +1164,5 @@ export default function SettingsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

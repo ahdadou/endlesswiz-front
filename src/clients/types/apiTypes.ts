@@ -224,6 +224,6 @@ export interface LemonSqueezyCheckoutResponse {
 }
 
 export interface SignInResponse {
-  accessToken:string,
-  refreshToken: string
+  accessToken: string;
+  refreshToken: string;
 }

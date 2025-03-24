@@ -19,7 +19,6 @@ const ForgotPassword = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("### handle submite");
     if (!email) {
       toast({
         title: "Error",

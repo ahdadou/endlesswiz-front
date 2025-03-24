@@ -13,7 +13,7 @@ export async function GET() {
       console.warn("No JWT token found");
       return NextResponse.json(
         { success: false, error: "No token found" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -35,7 +35,7 @@ export async function GET() {
     console.error("### Logout failed:", error);
     return NextResponse.json(
       { success: false, error: error || "Logout failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

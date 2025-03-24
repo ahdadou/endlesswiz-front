@@ -25,8 +25,6 @@ const LoginPage = () => {
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log('REMOVE  handleSubmit ', email)
-
     e.preventDefault();
     setIsLoading(true);
     await signInRequest(email, password)

@@ -32,7 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             console.error("Google sign-in failed: No access token");
             return false;
           }
-          
+
           // Store token in user object for JWT callback
           user.accessToken = res.accessToken;
           user.refreshToken = res.refreshToken;
@@ -56,9 +56,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           sameSite: "lax", // Changed to lax for cross-domain
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
-          domain: process.env.NODE_ENV !== "test" 
-            ? ".endlesswiz.com" 
-            : "localhost",
+          domain:
+            process.env.NODE_ENV !== "test" ? ".endlesswiz.com" : "localhost",
         });
       }
       return token;
@@ -78,22 +77,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async redirect({ url, baseUrl }) {
-      console.log('Redirect triggered:', { url, baseUrl });
-
-      // Handle Google OAuth2 callback URL
       if (url.startsWith("/api/auth")) {
         return `${baseUrl}/user/dashboard`;
       }
 
-      // Allow API/auth routes and dashboard
       if (url.startsWith(baseUrl)) {
-        return url.includes("/user/dashboard") 
-          ? url 
+        return url.includes("/user/dashboard")
+          ? url
           : `${baseUrl}/user/dashboard`;
       }
 
       return url.startsWith(baseUrl) ? url : baseUrl;
-    }
+    },
   },
   session: {
     strategy: "jwt",

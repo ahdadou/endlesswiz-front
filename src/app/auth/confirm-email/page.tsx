@@ -15,7 +15,7 @@ export default function ConfirmEmailPage() {
   const [isVerified, setIsVerified] = useState(false);
   const { toast } = useToast();
   const params = useParams();
-  const email = params?.email as string
+  const email = params?.email as string;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

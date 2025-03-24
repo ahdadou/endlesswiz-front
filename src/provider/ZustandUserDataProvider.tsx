@@ -25,7 +25,6 @@ export const ZustandUserDataProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("### fetching user data");
     const fetchData = async () => {
       const response = await api.loginState();
       if (response.state === ELoginState.NOT_LOGGED_IN) {
