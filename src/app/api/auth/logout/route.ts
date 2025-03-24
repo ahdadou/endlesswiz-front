@@ -1,7 +1,6 @@
 import { TOKEN } from "@/middleware";
 import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
-import { error } from "console";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -27,8 +26,13 @@ export async function GET() {
 
     console.info("### Logout res:", res);
 
-    cookieStore.delete(TOKEN, { domain: ".endlesswiz.com", path: "/" });
-
+    cookieStore.set({
+      name: TOKEN,
+      value: "",
+      domain: ".endlesswiz.com",
+      path: "/",
+      expires: new Date(0),
+    });
     console.info("### Logout done:");
 
 

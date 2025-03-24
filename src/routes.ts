@@ -2,7 +2,7 @@
  *  AN array of public routes
  */
 export const publicRoutes = [
-  "/",
+  "/auth/*",
   "/auth/verify-email",
   "/auth/login",
   "/auth/register",
