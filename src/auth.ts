@@ -56,7 +56,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      console.log(`### ----token : ${token}`)
+      console.log(`### ----user : ${user}`)
+      console.log(`### ----trigger : ${trigger}`)
+
       if (user?.accessToken) {
         const cookieStore = await cookies();
         cookieStore.set(TOKEN, user.accessToken, {
@@ -77,6 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
+      console.log('### ----> ${baseUrl}${url} ',`${baseUrl}${url}`)
       // Handle relative URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       
