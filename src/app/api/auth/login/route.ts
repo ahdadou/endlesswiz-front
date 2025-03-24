@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     console.log('### LOGIN url ------>  ',`${getBaseUrl()}/auth/authenticate` )
     const response = await axios.post(
-      `${getBaseUrl()}/auth/authenticate`,
+      `https://www.api.endlesswiz.com/api/v1/auth/authenticate`,
       { email, password }, // Send as a JavaScript object (no need to stringify)
     );
 
