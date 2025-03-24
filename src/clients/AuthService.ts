@@ -91,7 +91,7 @@ export const signInGoogleRequest = async (idToken: string) => {
       `${getBaseUrl()}/auth/google/authenticate`,
       {
         params: {
-          idToken: idToken,
+          id_token: idToken,
         },
       },
     );
