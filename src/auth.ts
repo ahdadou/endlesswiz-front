@@ -3,7 +3,6 @@ import authConfig from "./auth.config";
 import { cookies } from "next/headers";
 import { TOKEN } from "./middleware";
 import { signInGoogleRequest } from "./clients/AuthService";
-import { stringify } from "querystring";
 
 declare module "next-auth" {
   interface Session {
@@ -11,101 +10,84 @@ declare module "next-auth" {
       id: string;
       role: "ADMIN" | "USER";
     } & DefaultSession["user"];
-    sessionToken?: string;
+    sessionToken: string;
   }
   interface User {
-    refreshToken?: string;
     accessToken: string;
+    refreshToken?: string;
   }
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/auth/signin",
-    signOut: "/auth/logout",
     error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
-    newUser: "/auth/register",
   },
   callbacks: {
     async signIn({ account, user }) {
       if (account?.provider === "google") {
-        const googleToken = account.id_token;
-        if (googleToken) {
-          try {
-            const res = await signInGoogleRequest(googleToken);
-            if (res?.accessToken) {
-              const cookieStore = await cookies();
-
-              cookieStore.set(TOKEN, res.accessToken, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "strict",
-                maxAge: 7 * 24 * 60 * 60, // 7 days
-                path: "/",
-                domain: ".endlesswiz.com", // Share across subdomains
-              });
-
-              // Store token in user object for JWT callback
-               user.accessToken = res.accessToken;
-            } else {
-              console.error("Failed to retrieve access_token");
-              return false;
-            }
-          } catch (error) {
-            console.error("Authentication failed:", error);
+        try {
+          const res = await signInGoogleRequest(account.id_token!);
+          if (!res?.accessToken) {
+            console.error("Google sign-in failed: No access token");
             return false;
           }
+          
+          // Store token in user object for JWT callback
+          user.accessToken = res.accessToken;
+          user.refreshToken = res.refreshToken;
+          return true;
+        } catch (error) {
+          console.error("Google authentication failed:", error);
+          return false;
         }
       }
       return true;
     },
-    async jwt({ token, user, trigger }) {
-      console.log(`### ----token : ${JSON.stringify(token)}`)
-      console.log(`### ----user : ${JSON.stringify(user)}`)
-      console.log(`### ----trigger : ${trigger}`)
 
+    async jwt({ token, user, trigger }) {
+      // Initial token population
       if (user?.accessToken) {
+        token.accessToken = user.accessToken;
         const cookieStore = await cookies();
         cookieStore.set(TOKEN, user.accessToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          secure: process.env.NODE_ENV !== "test",
+          sameSite: "lax", // Changed to lax for cross-domain
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
-          domain: ".endlesswiz.com", // Share across subdomains
+          domain: process.env.NODE_ENV !== "test" 
+            ? ".endlesswiz.com" 
+            : "localhost",
         });
-      } else {
-        console.warn("### No accessToken found in jwt callback");
       }
       return token;
     },
+
     async session({ session, token }) {
-      session.sessionToken = token.accessToken as string;
+      // Ensure session token is always populated
+      if (token.accessToken) {
+        session.sessionToken = token.accessToken as string;
+        session.user = {
+          ...session.user,
+          id: token.sub!,
+          role: token.role as "ADMIN" | "USER",
+        };
+      }
       return session;
     },
+
     async redirect({ url, baseUrl }) {
-      console.log('### ----> ${baseUrl}${url} ',`${baseUrl}${url}`)
-
-      return "https://www.development.endlesswiz.com"
-
-      // // Handle relative URLs
-      // if (url.startsWith("/")) return `${baseUrl}${url}`;
-      
-      // // Allow API/auth routes and dashboard
-      // if (url.startsWith(baseUrl)) {
-      //   return url.includes("/user/dashboard") 
-      //     ? url 
-      //     : `${baseUrl}/user/dashboard`;
-      // }
-      
-      // // Prevent external redirects
-      // return `${baseUrl}/user/dashboard`;
+      // Handle Google OAuth2 callback URL
+      if (url.startsWith("/api/auth")) {
+        return `${baseUrl}/user/dashboard`;
+      }
+      return url.startsWith(baseUrl) ? url : baseUrl;
     }
   },
   session: {
     strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60, // 7 days (matches cookie maxAge)
+    maxAge: 7 * 24 * 60 * 60,
   },
   ...authConfig,
 });
