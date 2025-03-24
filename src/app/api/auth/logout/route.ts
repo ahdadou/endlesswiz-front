@@ -7,8 +7,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const cookiesStore = await cookies();
-    const jwtCookieValue = cookiesStore.get(TOKEN)?.value;
+    const cookieStore = await cookies();
+    const jwtCookieValue = cookieStore.get(TOKEN)?.value;
 
     console.log("jwtCookieValue  found", jwtCookieValue);
 
@@ -27,9 +27,9 @@ export async function GET() {
 
     console.error("### Logout res:", res);
 
-    cookiesStore.delete(TOKEN);
-    return NextResponse.json({ success: true, error: null });
+    cookieStore.delete(TOKEN, { domain: ".example.com", path: "/" });
 
+    return NextResponse.json({ success: true, error: null });
   } catch (error) {
     console.error("### Logout failed:", error);
     return NextResponse.json(
