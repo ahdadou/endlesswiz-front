@@ -9,22 +9,18 @@ export async function GET() {
     const cookieStore = await cookies();
     const jwtCookieValue = cookieStore.get(TOKEN)?.value;
 
-    console.log("jwtCookieValue  found", jwtCookieValue);
-
     if (!jwtCookieValue) {
-      console.log("No JWT token found");
+      console.warn("No JWT token found");
       return NextResponse.json(
         { success: false, error: "No token found" },
         { status: 401 }
       );
     }
 
-    const res = await axios.get(`${getBaseUrl()}/auth/logout`, {
+    await axios.get(`${getBaseUrl()}/auth/logout`, {
       headers: { Authorization: `Bearer ${jwtCookieValue}` },
       withCredentials: true,
     });
-
-    console.info("### Logout res:", res);
 
     cookieStore.set({
       name: TOKEN,
@@ -33,8 +29,6 @@ export async function GET() {
       path: "/",
       expires: new Date(0),
     });
-    console.info("### Logout done:");
-
 
     return NextResponse.json({ success: true, error: null });
   } catch (error) {

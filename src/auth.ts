@@ -28,7 +28,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account }) {
-      console.log("### ------ SignIn", account)
       if (account?.provider === "google") {
         const googleToken = account.id_token;
         if (googleToken) {
@@ -78,13 +77,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
     async redirect({ url, baseUrl }) {
-      console.log('### url ---> ', url)
-      console.log('### baseUrl ---> ', baseUrl)
-      if (url === baseUrl || url === `${baseUrl}/`) {
-        return `${baseUrl}/user/dashboard`;
+      // Handle relative URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      
+      // Allow API/auth routes and dashboard
+      if (url.startsWith(baseUrl)) {
+        return url.includes("/user/dashboard") 
+          ? url 
+          : `${baseUrl}/user/dashboard`;
       }
-      return url;
-    },
+      
+      // Prevent external redirects
+      return `${baseUrl}/user/dashboard`;
+    }
   },
   session: {
     strategy: "jwt",
