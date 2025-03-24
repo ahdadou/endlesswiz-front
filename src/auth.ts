@@ -39,8 +39,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               cookieStore.set(TOKEN, res.access_token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                sameSite: "lax", // More compatible than 'strict'
-                maxAge: 7 * 24 * 60 * 60,
+                sameSite: "strict",
+                maxAge: 7 * 24 * 60 * 60, // 7 days
                 path: "/",
                 // priority: "high",
                 // Consider adding domain if using cross-origin
@@ -61,13 +61,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user?.accessToken) {
         const cookieStore = await cookies();
-        token.accessToken = user.accessToken;
         cookieStore.set(TOKEN, user.accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "strict",
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
+          domain: ".endlesswiz.com", // Share across subdomains
         });
       } else {
         console.warn("### No accessToken found in jwt callback");

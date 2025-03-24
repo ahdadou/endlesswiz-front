@@ -8,6 +8,7 @@ import {
   ResetpasswordRequest,
 } from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
+import getBaseUrl from "@/utils/getBaseUrl";
 const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const registerRequest = async (req: RegisterRequest) => {
@@ -60,10 +61,11 @@ export const signInRequest = async (email: string, password: string) => {
 
   console.log('REMOVE  signInRequest ', email)
   console.log('REMOVE  url ',  `${USER_API_BASE_URL}/auth/authenticate`)
+  console.log('REMOVE  getBaseUrl ',  `${getBaseUrl()}/auth/authenticate`)
   
   try {
     const response = await axios.post(
-      `https://www.api.endlesswiz.com/api/v1/auth/authenticate`,
+      `${getBaseUrl()}/auth/authenticate`,
       {
         email: email,
         password: password,
