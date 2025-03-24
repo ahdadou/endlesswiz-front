@@ -42,9 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 sameSite: "strict",
                 maxAge: 7 * 24 * 60 * 60, // 7 days
                 path: "/",
-                // priority: "high",
-                // Consider adding domain if using cross-origin
-                // domain: '.yourdomain.com',
+                domain: ".endlesswiz.com", // Share across subdomains
               });
             } else {
               console.error("Failed to retrieve access_token");

@@ -70,14 +70,12 @@ export const signInRequest = async (email: string, password: string) => {
       },
     );
 
-    console.log('TEMPORARY: ### signInRequest response ------->>> ', response)
-
-    const { access_token, refresh_token } = response;
+    const { accessToken, refreshToken } = response;
 
     await signIn("credentials", {
       redirect: false,
-      access_token: access_token,
-      refresh_token: refresh_token,
+      access_token: accessToken,
+      refresh_token: refreshToken,
     });
 
     return response;
@@ -97,10 +95,10 @@ export const signInGoogleRequest = async (idToken: string) => {
         },
       },
     );
-    const { access_token, refresh_token } = response;
+    const { accessToken, refreshToken } = response;
     return {
-      access_token,
-      refresh_token,
+      accessToken,
+      refreshToken,
     };
   } catch (error) {
     console.error("### Error signInRequest ", error);
