@@ -1,3 +1,0 @@
-{
-    "rewrites": [{ "source": "/api/(.*)", "destination": "https://www.api.endlesswiz.com/api/$1" }]
-}
