@@ -25,9 +25,12 @@ export async function GET() {
       withCredentials: true,
     });
 
-    console.error("### Logout res:", res);
+    console.info("### Logout res:", res);
 
-    cookieStore.delete(TOKEN, { domain: ".example.com", path: "/" });
+    cookieStore.delete(TOKEN, { domain: ".endlesswiz.com", path: "/" });
+
+    console.info("### Logout done:");
+
 
     return NextResponse.json({ success: true, error: null });
   } catch (error) {
