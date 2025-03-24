@@ -1,15 +1,15 @@
 "use server";
 
 import { signIn } from "@/auth";
-import axios from "axios";
 import {
   RegisterRequest,
   ResetlinkRequest,
   ResetpasswordRequest,
+  SignInResponse,
 } from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
 import getBaseUrl from "@/utils/getBaseUrl";
-const USER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import axiosClient from "./api/axiosClient";
 
 export const registerRequest = async (req: RegisterRequest) => {
   if (!req.firstname || !req.lastname || !req.email || !req.password) {
@@ -20,6 +20,7 @@ export const registerRequest = async (req: RegisterRequest) => {
     });
     return;
   }
+
   if (req.password.length < 8) {
     toast({
       title: "Error",
@@ -28,12 +29,13 @@ export const registerRequest = async (req: RegisterRequest) => {
     });
     return;
   }
+  
   try {
-    const response = await axios.post(
-      `${USER_API_BASE_URL}/auth/register`,
+    const response = await axiosClient.post(
+      `${getBaseUrl()}/auth/register`,
       req,
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error("### Error register ", error);
     return Promise.reject(error);
@@ -58,22 +60,17 @@ export const signInRequest = async (email: string, password: string) => {
     });
     return;
   }
-
-  console.log('REMOVE  signInRequest ', email)
-  console.log('REMOVE  url ',  `${USER_API_BASE_URL}/auth/authenticate`)
-  console.log('REMOVE  getBaseUrl ',  `${getBaseUrl()}/auth/authenticate`)
   
   try {
-    const response = await axios.post(
+    const response = await axiosClient.post<SignInResponse>(
       `${getBaseUrl()}/auth/authenticate`,
       {
         email: email,
         password: password,
       },
     );
-    console.log('REMOVE  signInRequest response ', response)
 
-    const { access_token, refresh_token } = response.data;
+    const { access_token, refresh_token } = response;
 
     await signIn("credentials", {
       redirect: false,
@@ -81,7 +78,7 @@ export const signInRequest = async (email: string, password: string) => {
       refresh_token: refresh_token,
     });
 
-    return response.data;
+    return response;
   } catch (error) {
     console.error("### Error signInRequest ", error);
     return Promise.reject(error);
@@ -90,15 +87,15 @@ export const signInRequest = async (email: string, password: string) => {
 
 export const signInGoogleRequest = async (idToken: string) => {
   try {
-    const response = await axios.get(
-      `${USER_API_BASE_URL}/auth/google/authenticate`,
+    const response = await axiosClient.get<SignInResponse>(
+      `${getBaseUrl()}/auth/google/authenticate`,
       {
         params: {
           idToken: idToken,
         },
       },
     );
-    const { access_token, refresh_token } = response.data;
+    const { access_token, refresh_token } = response;
     return {
       access_token,
       refresh_token,
@@ -110,11 +107,6 @@ export const signInGoogleRequest = async (idToken: string) => {
 };
 
 export const resetlinkRequest = async (req: ResetlinkRequest) => {
-  console.log(
-    "### handle submite -->",
-    `${USER_API_BASE_URL}/password/resetlink`,
-  );
-
   if (!req.email) {
     toast({
       title: "Error",
@@ -124,11 +116,11 @@ export const resetlinkRequest = async (req: ResetlinkRequest) => {
     return;
   }
   try {
-    const response = await axios.post(
-      `${USER_API_BASE_URL}/auth/password/resetlink`,
+    const response = await axiosClient.post(
+      `${getBaseUrl()}/auth/password/resetlink`,
       req,
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error("### Error password resetlink ", error);
     return Promise.reject(error);
@@ -137,11 +129,11 @@ export const resetlinkRequest = async (req: ResetlinkRequest) => {
 
 export const resetPasswordRequest = async (req: ResetpasswordRequest) => {
   try {
-    const response = await axios.post(
-      `${USER_API_BASE_URL}/auth/password/reset`,
+    const response = await axiosClient.post(
+      `${getBaseUrl()}/auth/password/reset`,
       req,
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error("### Error password reset ", error);
     return Promise.reject(error);

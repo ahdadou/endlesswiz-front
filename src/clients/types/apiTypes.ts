@@ -222,3 +222,8 @@ export interface LemonSqueezyCheckoutResponse {
   id: string;
   checkoutUrl: string;
 }
+
+export interface SignInResponse {
+  access_token:string,
+  refresh_token: string
+}
