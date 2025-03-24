@@ -3,6 +3,7 @@ import authConfig from "./auth.config";
 import { cookies } from "next/headers";
 import { TOKEN } from "./middleware";
 import { signInGoogleRequest } from "./clients/AuthService";
+import { stringify } from "querystring";
 
 declare module "next-auth" {
   interface Session {
@@ -27,7 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     newUser: "/auth/register",
   },
   callbacks: {
-    async signIn({ account }) {
+    async signIn({ account, user }) {
       if (account?.provider === "google") {
         const googleToken = account.id_token;
         if (googleToken) {
@@ -44,6 +45,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 path: "/",
                 domain: ".endlesswiz.com", // Share across subdomains
               });
+
+              // Store token in user object for JWT callback
+               user.accessToken = res.accessToken;
             } else {
               console.error("Failed to retrieve access_token");
               return false;
@@ -57,8 +61,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true;
     },
     async jwt({ token, user, trigger }) {
-      console.log(`### ----token : ${token}`)
-      console.log(`### ----user : ${user}`)
+      console.log(`### ----token : ${JSON.stringify(token)}`)
+      console.log(`### ----user : ${JSON.stringify(user)}`)
       console.log(`### ----trigger : ${trigger}`)
 
       if (user?.accessToken) {
@@ -82,18 +86,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     async redirect({ url, baseUrl }) {
       console.log('### ----> ${baseUrl}${url} ',`${baseUrl}${url}`)
-      // Handle relative URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
+
+      return "https://www.development.endlesswiz.com"
+
+      // // Handle relative URLs
+      // if (url.startsWith("/")) return `${baseUrl}${url}`;
       
-      // Allow API/auth routes and dashboard
-      if (url.startsWith(baseUrl)) {
-        return url.includes("/user/dashboard") 
-          ? url 
-          : `${baseUrl}/user/dashboard`;
-      }
+      // // Allow API/auth routes and dashboard
+      // if (url.startsWith(baseUrl)) {
+      //   return url.includes("/user/dashboard") 
+      //     ? url 
+      //     : `${baseUrl}/user/dashboard`;
+      // }
       
-      // Prevent external redirects
-      return `${baseUrl}/user/dashboard`;
+      // // Prevent external redirects
+      // return `${baseUrl}/user/dashboard`;
     }
   },
   session: {
