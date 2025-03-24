@@ -28,15 +28,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ account }) {
+      console.log("### ------ SignIn", account)
       if (account?.provider === "google") {
         const googleToken = account.id_token;
         if (googleToken) {
           try {
             const res = await signInGoogleRequest(googleToken);
-            if (res?.access_token) {
+            if (res?.accessToken) {
               const cookieStore = await cookies();
 
-              cookieStore.set(TOKEN, res.access_token, {
+              cookieStore.set(TOKEN, res.accessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "strict",
