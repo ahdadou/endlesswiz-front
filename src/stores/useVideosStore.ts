@@ -18,12 +18,12 @@ export const createVideoSlice = (set: any) => ({
     position: 0,
   },
 
-  setVideos: (videos: GetWordResponse) =>
+  setVideos: (videos: GetWordResponse, position?: number) =>
     set({
       videos,
       currentVideo: {
-        video: videos.videosDetailResponse[0],
-        position: 0,
+        video: videos.videosDetailResponse[position || 0],
+        position: position || 0,
       },
     }),
 
