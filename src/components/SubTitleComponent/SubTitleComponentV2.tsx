@@ -34,7 +34,7 @@ export function SubTitleComponentV2({
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle",
+    "idle"
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -136,16 +136,16 @@ export function SubTitleComponentV2({
 
   return (
     <>
-      <Card className="border-forest-100 shadow-sm h-full">
+      <Card className="border-forest-100 shadow-sm h-full flex flex-col">
         <CardHeader>
           <CardTitle className="">Subtitles</CardTitle>
           <CardDescription>
             Click on any word to see its definition
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-1 overflow-hidden">
           <div
-            className="h-[300px] overflow-y-auto pr-2 custom-scrollbar"
+            className="h-full overflow-y-auto custom-scrollbar"
             ref={subtitlesRef}
           >
             {transcript ? (
@@ -176,7 +176,6 @@ export function SubTitleComponentV2({
           </div>
         </CardContent>
       </Card>
-
       {showWordModal && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
@@ -271,7 +270,7 @@ export function SubTitleComponentV2({
                                               "{example}"
                                             </p>
                                           </div>
-                                        ),
+                                        )
                                       )}
                                     </div>
                                   )}
