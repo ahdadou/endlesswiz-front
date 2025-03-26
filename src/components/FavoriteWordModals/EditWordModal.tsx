@@ -9,7 +9,14 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
-import { X, Save } from "lucide-react";
+import {
+  X,
+  Save,
+  Edit,
+  TextCursorInput,
+  BookType,
+  ClipboardEdit,
+} from "lucide-react";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 
 interface EditWordModalProps {
@@ -55,7 +62,7 @@ const EditWordModal = ({
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 flex items-center justify-center p-4 z-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -63,10 +70,11 @@ const EditWordModal = ({
       <motion.div
         initial={{ y: 20 }}
         animate={{ y: 0 }}
-        className="rounded-xl w-full max-w-md shadow-xl"
+        className="rounded-xl w-full max-w-md shadow-xl bg-white dark:bg-forest text-forest-700 dark:text-white"
       >
         <div className="p-6 border-b border-gray-200 flex justify-between items-center">
           <div className="flex items-center gap-3">
+            <Edit className="w-6 h-6" />
             <span className="text-xl font-bold">Edit Word</span>
           </div>
           <button
@@ -80,46 +88,59 @@ const EditWordModal = ({
         <form className="p-6 space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="space-y-4">
-              <div>
-                <Label className="block text-sm font-medium mb-1">Word</Label>
-                <Input
-                  value={formData.word}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, word: e.target.value }))
-                  }
-                  className="w-full"
-                  required
-                />
+              <div className="flex items-center gap-3">
+                <ClipboardEdit className="w-5 h-5" />
+                <div className="flex-1">
+                  <Label className="block text-sm font-medium mb-1">Word</Label>
+                  <Input
+                    value={formData.word}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, word: e.target.value }))
+                    }
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200"
+                    required
+                  />
+                </div>
               </div>
-              <div>
-                <Label className="block text-sm font-medium mb-1">
-                  description
-                </Label>
-                <Textarea
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                  rows={3}
-                />
+
+              <div className="flex items-center gap-3">
+                <BookType className="w-5 h-5 " />
+                <div className="flex-1">
+                  <Label className="block text-sm font-medium mb-1">
+                    Description
+                  </Label>
+                  <Textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
+                    rows={3}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200"
+                  />
+                </div>
               </div>
-              <div>
-                <Label className="block text-sm font-medium mb-1">
-                  Example
-                </Label>
-                <Textarea
-                  value={formData.example}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      example: e.target.value,
-                    }))
-                  }
-                  rows={2}
-                />
+
+              <div className="flex items-center gap-3">
+                <TextCursorInput className="w-5 h-5" />
+                <div className="flex-1">
+                  <Label className="block text-sm font-medium mb-1">
+                    Example
+                  </Label>
+                  <Textarea
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200"
+                    value={formData.example}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        example: e.target.value,
+                      }))
+                    }
+                    rows={2}
+                  />
+                </div>
               </div>
             </div>
 
@@ -131,10 +152,7 @@ const EditWordModal = ({
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
-              >
+              <Button type="submit" className="flex items-center gap-2">
                 <Save className="w-4 h-4" />
                 Save Changes
               </Button>

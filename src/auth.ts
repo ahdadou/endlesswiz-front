@@ -57,7 +57,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           maxAge: 7 * 24 * 60 * 60,
           path: "/",
           domain:
-            process.env.ENVIRONMENT !== "local" ? ".endlesswiz.com" : "localhost",
+            process.env.ENVIRONMENT !== "local"
+              ? ".endlesswiz.com"
+              : "localhost",
         });
       }
       return token;

@@ -61,7 +61,8 @@ const YouTubePlayerComponentV2 = () => {
   const currentPosition = currentVideo.position;
   const currentVideoData = currentVideo.video;
 
-  const hasNext = currentPosition < pageSize - 1 || currentPage < totalPages - 1
+  const hasNext =
+    currentPosition < pageSize - 1 || currentPage < totalPages - 1;
   const hasPrevious = currentPosition > 0 || currentPage > 0;
 
   const toggleFavorite = useCallback(async () => {
@@ -81,14 +82,14 @@ const YouTubePlayerComponentV2 = () => {
       const totalPagesMinusOne = totalPages - 1;
       const isLastItem = currentPosition >= pageSizeMinusOne;
       const isLastPage = currentPage >= totalPagesMinusOne;
-  
+
       const loadNewPage = async (newPage: number, newPosition: number) => {
         const response = await api.getVideosByUser(highlitedWord, newPage);
         if (response) {
           setVideos(response, newPosition);
         }
       };
-  
+
       if (direction === "next") {
         if (!isLastItem) {
           setCurrentVideo(currentPosition + 1);
@@ -99,7 +100,7 @@ const YouTubePlayerComponentV2 = () => {
         }
         return;
       }
-  
+
       // Previous direction
       if (currentPosition > 0) {
         setCurrentVideo(currentPosition - 1);
@@ -117,7 +118,7 @@ const YouTubePlayerComponentV2 = () => {
       totalPages,
       setVideos,
       setCurrentVideo,
-    ]
+    ],
   );
   const handlePlaybackSpeedChange = (speed: number) => {
     setPlaybackRate(speed);
@@ -127,7 +128,7 @@ const YouTubePlayerComponentV2 = () => {
     if (playerRef.current) {
       if (currentVideo.video?.transcriptResponse?.startTime) {
         playerRef.current.seekTo(
-          currentVideo.video.transcriptResponse.startTime
+          currentVideo.video.transcriptResponse.startTime,
         );
         setCurrentTranscript(currentVideo.video.transcriptResponse);
       } else {
@@ -139,7 +140,7 @@ const YouTubePlayerComponentV2 = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video?.videoId) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId
+        currentVideo.video?.videoId,
       );
       response && setTranscript(response);
       setVid(currentVideo.video?.vid);
@@ -157,7 +158,7 @@ const YouTubePlayerComponentV2 = () => {
       setCurrentTranscript(currentVideo.video.transcriptResponse);
       if (playerRef.current) {
         playerRef.current.seekTo(
-          currentVideo.video?.transcriptResponse?.startTime
+          currentVideo.video?.transcriptResponse?.startTime,
         );
       }
     }
@@ -189,7 +190,7 @@ const YouTubePlayerComponentV2 = () => {
     <div
       className={cx(
         "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4 pointer-events-none cursor-pointer",
-        isVisible ? "opacity-100" : "opacity-0"
+        isVisible ? "opacity-100" : "opacity-0",
       )}
     >
       {/* Slider and Time Display */}
@@ -369,7 +370,7 @@ const YouTubePlayerComponentV2 = () => {
             youtube: {
               playerVars: {
                 start: Math.floor(
-                  currentVideo.video?.transcriptResponse?.startTime || 0
+                  currentVideo.video?.transcriptResponse?.startTime || 0,
                 ),
               },
             },

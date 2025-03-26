@@ -16,6 +16,7 @@ import api from "@/clients/api/api";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 import AddWordModal from "@/components/FavoriteWordModals/AddWordModal";
 import EditWordModal from "@/components/FavoriteWordModals/EditWordModal";
+import { toast } from "@/hooks/use-toast";
 
 const WordCard = ({
   word,
@@ -30,7 +31,7 @@ const WordCard = ({
 }) => {
   const CardContainer = ({ children }: { children: React.ReactNode }) => (
     <motion.div
-      className="rounded-lg border border-gray-200 hover:border-blue-100 transition-all shadow-sm hover:shadow-md"
+      className="rounded-lg border border-gray-200 transition-all shadow-sm hover:shadow-md"
       initial={{ opacity: 0, y: viewMode === "detailed" ? 20 : 0 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -43,8 +44,8 @@ const WordCard = ({
       <CardContainer>
         <div className="p-3 flex items-center justify-between">
           <div>
-            <h3 className="font-medium text-gray-800">{word.word}</h3>
-            <p className="text-sm text-gray-500 mt-1">
+            <h3 className="font-medium">{word.word}</h3>
+            <p className="text-sm mt-1">
               {word.source === "VIDEO" ? "Video" : "Manual"}
             </p>
           </div>
@@ -62,18 +63,16 @@ const WordCard = ({
         <div className="flex justify-between items-start mb-3">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
                 {word.word}
-                <span className="text-sm font-medium text-blue-600 px-2 py-1 bg-blue-50 rounded-full">
+                <span className="text-sm font-medium text-forest-700 px-2 py-1 bg-blue-50 rounded-full">
                   {word.source === "VIDEO" ? "🎥 Video" : "✍️ Manual"}
                 </span>
               </h3>
             </div>
 
             {word.description && (
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {word.description}
-              </p>
+              <p className="text-sm leading-relaxed">{word.description}</p>
             )}
           </div>
           {word.mastered && (
@@ -81,26 +80,21 @@ const WordCard = ({
           )}
         </div>
 
-        {word.example && (
-          <div className="mt-3 p-3 rounded-lg">
-            <p className="text-sm text-gray-600 italic">"{word.example}"</p>
-          </div>
-        )}
+        <div className="mt-3 p-3 rounded-lg">
+          <p className="text-sm text-gray-600 dark:text-gray-400 italic">
+            {word.example ? `" ${word.example}"` : ` `}
+          </p>
+        </div>
 
         <div className="flex justify-end gap-2 mt-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-600 hover:"
-            onClick={() => onEdit(word)}
-          >
+          <Button variant="ghost" size="sm" onClick={() => onEdit(word)}>
             <Edit className="w-4 h-4 mr-2" />
             Edit
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="text-red-600 hover:bg-red-50"
+            className="text-red-600 "
             onClick={() => onDelete(word.id)}
           >
             <Trash className="w-4 h-4 mr-2" />
@@ -143,8 +137,20 @@ export default function WordsPage() {
 
   const handleDeleteWord = async (wordId: string) => {
     try {
-      await api.deleteWordIntoFavorite(wordId);
-      setFavoriteWords((prev) => prev.filter((word) => word.id !== wordId));
+      const response = await api.deleteWordIntoFavorite(wordId);
+      if (response) {
+        setFavoriteWords((prev) => prev.filter((word) => word.id !== wordId));
+        toast({
+          title: "Word deleted!",
+          description: "Your word has been successfully deleted.",
+        });
+      } else {
+        toast({
+          title: "Something Wrong!",
+          description: "this word can not deleted.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       setError("Failed to delete word");
     }
@@ -179,13 +185,13 @@ export default function WordsPage() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold ">Words Library</h1>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-300 mt-2">
               {filteredWords.length} words displayed of {favoriteWords.length}
             </p>
           </div>
           <Button
             onClick={() => setShowAddModal(true)}
-            className="bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
+            className="flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Add Word
@@ -200,7 +206,7 @@ export default function WordsPage() {
               placeholder="Search words..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200"
             />
           </div>
 
@@ -231,7 +237,7 @@ export default function WordsPage() {
               onChange={(e) =>
                 setFilter(e.target.value as "all" | "video" | "manual")
               }
-              className="rounded-lg border border-gray-200 px-4 py-2 focus:ring-2 focus:ring-blue-500"
+              className="rounded-lg border border-gray-200 px-4 py-2"
             >
               <option value="all">All Sources</option>
               <option value="video">From Videos</option>

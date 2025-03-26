@@ -25,7 +25,8 @@ export async function GET() {
     cookieStore.set({
       name: TOKEN,
       value: "",
-      domain: process.env.ENVIRONMENT !== "local" ? ".endlesswiz.com" : "localhost",
+      domain:
+        process.env.ENVIRONMENT !== "local" ? ".endlesswiz.com" : "localhost",
       path: "/",
       expires: new Date(0),
     });

@@ -80,11 +80,14 @@ export default function PronouncePage() {
             <YouTubePlayerComponentV2 />
           </div>
           <div className="relative rounded-md aspect-video h-[50vh] lg:h-[60vh] w-full lg:w-[35%]">
-            <SubTitleComponentV2 isAuthenticated={true} showCurrentTranscriptInTheMiddle={!isMobile}/>
+            <SubTitleComponentV2
+              isAuthenticated={true}
+              showCurrentTranscriptInTheMiddle={!isMobile}
+            />
           </div>
         </div>
       </div>
-      
+
       <PronounciationTips />
     </div>
   );

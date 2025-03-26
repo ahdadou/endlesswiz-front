@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Bookmark, CheckCircle } from "lucide-react";
+import { Bookmark, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
@@ -25,8 +25,7 @@ export function SubTitleComponentV2({
   isAuthenticated = false,
   showCurrentTranscriptInTheMiddle = true,
 }: SubTitleComponentProps) {
-  const { currentTranscript, transcript, currentVideo, highlitedWord } =
-    useZustandState();
+  const { currentTranscript, transcript, highlitedWord } = useZustandState();
   const subtitlesRef = useRef<HTMLDivElement | null>(null); // Properly typed ref
   const [selectedWord, setSelectedWord] = useState<{
     word: string;
@@ -34,7 +33,7 @@ export function SubTitleComponentV2({
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle"
+    "idle",
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -149,7 +148,7 @@ export function SubTitleComponentV2({
             ref={subtitlesRef}
           >
             {transcript ? (
-              transcript.map((subtitle, index) => (
+              transcript.map((subtitle) => (
                 <div
                   key={subtitle.transcriptId}
                   data-subtitle={subtitle.transcriptId}
@@ -270,7 +269,7 @@ export function SubTitleComponentV2({
                                               "{example}"
                                             </p>
                                           </div>
-                                        )
+                                        ),
                                       )}
                                     </div>
                                   )}
