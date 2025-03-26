@@ -229,7 +229,7 @@ export default function DashboardSidebar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden fixed top-4 left-4 z-50"
+              className="md:hidden fixed top-4 left-4 z-50 bg-white"
             >
               <Menu className="h-5 w-5" />
             </Button>
