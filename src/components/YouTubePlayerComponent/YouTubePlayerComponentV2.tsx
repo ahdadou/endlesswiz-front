@@ -41,7 +41,7 @@ const YouTubePlayerComponentV2 = () => {
     setCurrentVideo,
     highlitedWord,
     setCurrentVideoIsFavorite,
-    setVideos,
+    setVideosWithPosition,
   } = useZustandState();
 
   const playerRef = useRef<ReactPlayer | null>(null);
@@ -86,7 +86,7 @@ const YouTubePlayerComponentV2 = () => {
       const loadNewPage = async (newPage: number, newPosition: number) => {
         const response = await api.getVideosByUser(highlitedWord, newPage);
         if (response) {
-          setVideos(response, newPosition);
+          setVideosWithPosition(response, newPosition);
         }
       };
 
@@ -116,7 +116,7 @@ const YouTubePlayerComponentV2 = () => {
       highlitedWord,
       pageSize,
       totalPages,
-      setVideos,
+      setVideosWithPosition,
       setCurrentVideo,
     ],
   );

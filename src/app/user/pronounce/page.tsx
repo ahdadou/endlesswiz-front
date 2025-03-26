@@ -13,7 +13,7 @@ import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTub
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function PronouncePage() {
-  const { setVideos, setHighlitedWord } = useZustandState();
+  const { setVideosWithPosition, setHighlitedWord } = useZustandState();
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,7 +26,7 @@ export default function PronouncePage() {
     try {
       const response = await api.getVideosByUser(query);
       setHighlitedWord(query);
-      response && setVideos(response);
+      response && setVideosWithPosition(response);
     } catch {
       setError("Failed to connect to the server");
     } finally {

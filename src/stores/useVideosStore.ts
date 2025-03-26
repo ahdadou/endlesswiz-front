@@ -18,13 +18,18 @@ export const createVideoSlice = (set: any) => ({
     position: 0,
   },
 
-  setVideos: (videos: GetWordResponse, position?: number) =>
+  setVideosWithPosition: (videos: GetWordResponse, position?: number) =>
     set({
       videos,
       currentVideo: {
         video: videos.videosDetailResponse[position || 0],
         position: position || 0,
       },
+    }),
+
+  setVideos: (videos: GetWordResponse) =>
+    set({
+      videos,
     }),
 
   setHighlitedWord: (highlitedWord: string) => set({ highlitedWord }),
@@ -46,7 +51,7 @@ export const createVideoSlice = (set: any) => ({
       // Update all videos that share the same videoId
       const updatedVideos = state.videos.videosDetailResponse.map(
         (v: VideosDetailResponse) =>
-          v.videoId === videoId ? { ...v, isFavorite } : v,
+          v.videoId === videoId ? { ...v, isFavorite } : v
       );
 
       // Ensure the current video is also updated

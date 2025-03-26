@@ -47,7 +47,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
     setCurrentVideo,
     highlitedWord,
     setCurrentVideoIsFavorite,
-    setVideos,
+    setVideosWithPosition,
   } = useZustandState();
 
   const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
@@ -80,7 +80,7 @@ const VideoButtonsBar: React.FC<VideoButtonsBarProps> = ({
         } else if (!isLastPage) {
           const nextPage = currentPage + 1;
           const response = await api.getVideosByUser(highlitedWord, nextPage);
-          response && setVideos(response);
+          response && setVideosWithPosition(response);
         }
       } else {
         if (currentPosition > 0) {

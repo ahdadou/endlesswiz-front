@@ -1,32 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Captions,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
-  Settings,
-} from "lucide-react";
 import YouTube from "react-youtube";
 import api from "@/clients/api/api";
-import ShinyText from "@/components/animations/ShinyText/ShinyText";
-import { Button } from "@/components/Button";
 import { SubTitleComponent } from "@/components/SubTitleComponent/SubTitleComponent";
 import YouTubePlayerComponent from "@/components/YouTubePlayerComponent/YouTubePlayerComponent";
 import { useCallback, useState } from "react";
-import VideoButtonsBar from "@/components/YouTubePlayerComponent/VideoButtonsBar";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 
 const TranscriptSection = () => {
   const [wordSearch, setWordSearch] = useState<string>("");
-  const { videos, setVideos, setHighlitedWord, currentTranscript } =
+  const { videos, setVideosWithPosition, setHighlitedWord, currentTranscript } =
     useZustandState();
 
   const fetchVideos = useCallback(async () => {
     const response = await api.searchVideosByWord(wordSearch);
     setHighlitedWord(wordSearch);
-    response && setVideos(response);
+    response && setVideosWithPosition(response);
   }, [wordSearch]);
 
   return (
