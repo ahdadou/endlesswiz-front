@@ -38,7 +38,7 @@ export default function PronouncePage() {
   };
 
   return (
-    <div className="flex flex-col p-8 gap-7">
+    <div className="flex flex-col lg:p-8 gap-7">
       <div>
         <h1 className="text-3xl font-bold">Pronunciation Practice</h1>
         <p className="text-muted-foreground">
