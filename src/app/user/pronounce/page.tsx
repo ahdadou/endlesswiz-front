@@ -10,12 +10,14 @@ import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComp
 import PronounciationTips from "@/components/pronunciationTips/PronunciationTips";
 import { Search } from "lucide-react";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function PronouncePage() {
   const { setVideos, setHighlitedWord } = useZustandState();
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const isMobile = useIsMobile();
 
   const fetchVideos = useCallback(async (query: string) => {
     if (!query.trim()) return;
@@ -78,7 +80,7 @@ export default function PronouncePage() {
             <YouTubePlayerComponentV2 />
           </div>
           <div className="relative rounded-md aspect-video h-[50vh] lg:h-[60vh] w-full lg:w-[35%]">
-            <SubTitleComponentV2 isAuthenticated={true} />
+            <SubTitleComponentV2 isAuthenticated={true} showCurrentTranscriptInTheMiddle={!isMobile}/>
           </div>
         </div>
       </div>
