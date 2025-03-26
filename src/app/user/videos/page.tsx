@@ -59,6 +59,18 @@ const VideoLibraryPage = () => {
     }
   };
 
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    if (isExtraSmall && listRef.current) {
+      setTimeout(() => {
+        listRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 100);
+    }
+  }
+
   const handleCategoryScroll = (direction: "left" | "right") => {
     if (categoriesRef.current) {
       const scrollAmount = direction === "right" ? 200 : -200;
@@ -178,7 +190,7 @@ const VideoLibraryPage = () => {
             {categories.map((category) => (
               <motion.button
                 key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={()=> handleCategorySelect(category.id)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === category.id
                     ? "bg-[#2d5a3d] text-white shadow-lg"
