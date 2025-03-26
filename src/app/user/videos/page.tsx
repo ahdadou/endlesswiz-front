@@ -53,8 +53,9 @@ const VideoLibraryPage = () => {
   const checkScroll = () => {
     if (categoriesRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
+      const tolerance = 1; // Adjust this value if needed (e.g., 2 or 5 pixels)
       setShowLeftArrow(scrollLeft > 0);
-      setShowRightArrow(scrollLeft + clientWidth < scrollWidth);
+      setShowRightArrow(scrollLeft + clientWidth < scrollWidth - tolerance);
     }
   };
 
@@ -212,7 +213,7 @@ const VideoLibraryPage = () => {
         {/* Video List */}
         <div
           ref={listRef}
-          className="w-[100%] md:w-[40%] flex flex-col gap-4 no-scrollbar overflow-y-auto h-[120vh] p-2 relative"
+          className="w-[100%] md:w-[40%] flex flex-col gap-4 no-scrollbar overflow-y-auto h-[60vh] md:h-[120vh] p-2 relative"
         >
           <div className="space-y-3">
             {videos.videosDetailResponse.map((video, index) => (
