@@ -89,7 +89,8 @@ export function SubTitleComponentV2({
     return text.split(/\s+/).map((word, index, array) => {
       const cleanedWord = word.replace(/[.,!?;:'"()]/g, "");
 
-      const isHighlighted = cleanedWord === highlitedWord;
+      const isHighlighted =
+        cleanedWord.toLowerCase() === highlitedWord.toLocaleLowerCase();
 
       return (
         <span key={index}>

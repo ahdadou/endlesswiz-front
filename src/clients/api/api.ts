@@ -184,6 +184,7 @@ const api = {
   getVideosByUser: async (
     word?: string,
     page?: number,
+    size?: number,
     category?: string,
     favorites?: boolean,
   ) => {
@@ -193,7 +194,7 @@ const api = {
         {
           params: {
             word: word,
-            size: 3,
+            size: size || 3,
             page: page ?? 0,
             category: category?.toUpperCase(),
             isFavorite: favorites,
