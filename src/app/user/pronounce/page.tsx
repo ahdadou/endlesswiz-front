@@ -11,8 +11,13 @@ import PronounciationTips from "@/components/pronunciationTips/PronunciationTips
 import { AlignVerticalSpaceAround, Layout, Search } from "lucide-react";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function PronouncePage() {
   const { setVideosWithPosition, setHighlitedWord } = useZustandState();
@@ -21,36 +26,40 @@ export default function PronouncePage() {
   const [error, setError] = useState("");
   const isMobile = useIsMobile();
 
-  // State for layout mode (web only), default to 'side'
-  const [layoutMode, setLayoutMode] = useState(() => {
-    const saved = localStorage.getItem("layoutMode");
-    return saved ? saved : "side";
-  });
+  const [layoutMode, setLayoutMode] = useState("side");
+  const [playerHeight, setPlayerHeight] = useState("100");
 
-  // State for player height percentage, default to '50'
-  const [playerHeight, setPlayerHeight] = useState<string>(() => {
-    const saved = localStorage.getItem("playerHeight");
-    return saved ? saved : "50";
-  });
+  // Load and save layoutMode and playerHeight client-side
+  useEffect(() => {
+    // Only run on the client
+    if (typeof window !== "undefined") {
+      const savedLayoutMode = localStorage.getItem("layoutMode");
+      const savedPlayerHeight = localStorage.getItem("playerHeight");
+      if (savedLayoutMode && !isMobile) setLayoutMode(savedLayoutMode);
+      if (savedPlayerHeight) setPlayerHeight(savedPlayerHeight);
+    }
+  }, [isMobile]); // Run once on mount and when isMobile changes
 
   // Save layoutMode to local storage (web only)
   useEffect(() => {
-    if (!isMobile) {
+    if (typeof window !== "undefined" && !isMobile) {
       localStorage.setItem("layoutMode", layoutMode);
     }
   }, [layoutMode, isMobile]);
 
   // Save playerHeight to local storage
   useEffect(() => {
-    localStorage.setItem("playerHeight", playerHeight);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("playerHeight", playerHeight);
+    }
   }, [playerHeight]);
 
   // Map percentage to height, with 100% as h-[25vh] lg:h-[60vh]
   const heightMap = {
-    "25": "h-[6.25vh] lg:h-[15vh]",  // 25% of 25vh/60vh
-    "50": "h-[12.5vh] lg:h-[30vh]",  // 50% of 25vh/60vh
+    "25": "h-[6.25vh] lg:h-[15vh]", // 25% of 25vh/60vh
+    "50": "h-[12.5vh] lg:h-[30vh]", // 50% of 25vh/60vh
     "75": "h-[18.75vh] lg:h-[45vh]", // 75% of 25vh/60vh
-    "100": "h-[25vh] lg:h-[60vh]",   // 100% matches normal version
+    "100": "h-[25vh] lg:h-[60vh]", // 100% matches normal version
   };
 
   const fetchVideos = useCallback(
@@ -156,13 +165,23 @@ export default function PronouncePage() {
           <div
             className={
               isMobile
-              ? `w-full ${heightMap[playerHeight as keyof typeof heightMap]} bg-black rounded-md overflow-hidden`
-              : layoutMode === "side"
-              ? "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden"
-              : `w-full max-w-[1280px] ${heightMap[playerHeight as keyof typeof heightMap]} bg-black rounded-md overflow-hidden`
+                ? `w-full ${
+                    heightMap[playerHeight as keyof typeof heightMap]
+                  } bg-black rounded-md overflow-hidden`
+                : layoutMode === "side"
+                ? "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden"
+                : `w-full max-w-[1280px] ${
+                    heightMap[playerHeight as keyof typeof heightMap]
+                  } bg-black rounded-md overflow-hidden`
             }
           >
-            <YouTubePlayerComponentV2 style={`w-full ${heightMap[playerHeight as keyof typeof heightMap]}`}/>
+            <YouTubePlayerComponentV2
+              style={`w-full ${
+                layoutMode === "bottom"
+                  ? heightMap[playerHeight as keyof typeof heightMap]
+                  : heightMap["100"]
+              }`}
+            />
           </div>
 
           {/* Subtitle Container */}
@@ -177,7 +196,9 @@ export default function PronouncePage() {
           >
             <SubTitleComponentV2
               isAuthenticated={true}
-              showCurrentTranscriptInTheMiddle={layoutMode !== "bottom" && !isMobile}
+              showCurrentTranscriptInTheMiddle={
+                layoutMode !== "bottom" && !isMobile
+              }
             />
           </div>
         </div>
