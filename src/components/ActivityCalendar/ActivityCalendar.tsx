@@ -1,7 +1,7 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef, useEffect } from "react"
+import { motion } from "framer-motion"
 import {
   format,
   subYears,
@@ -17,111 +17,91 @@ import {
   addDays,
   getMonth,
   isFirstDayOfMonth,
-} from "date-fns";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "date-fns"
+import { ChevronLeft, ChevronRight, Info } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface ActivityCalendarProps {
-  data: Record<string, number>;
+  data: Record<string, number>
 }
 
 export default function ActivityCalendar({ data }: ActivityCalendarProps) {
-  const [currentYear, setCurrentYear] = useState(new Date());
-  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [needsScroll, setNeedsScroll] = useState(false);
+  const [currentYear, setCurrentYear] = useState(new Date())
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [needsScroll, setNeedsScroll] = useState(false)
 
   // Get start and end of the current year
-  const yearStart = startOfYear(currentYear);
-  const yearEnd = endOfYear(currentYear);
+  const yearStart = startOfYear(currentYear)
+  const yearEnd = endOfYear(currentYear)
 
   // Get all weeks in the year
   const weeks = eachWeekOfInterval(
     { start: yearStart, end: yearEnd },
     { weekStartsOn: 0 }, // 0 = Sunday
-  );
+  )
 
   // Check if horizontal scrolling is needed
   useEffect(() => {
     const checkForScroll = () => {
       if (scrollContainerRef.current) {
-        const { scrollWidth, clientWidth } = scrollContainerRef.current;
-        setNeedsScroll(scrollWidth > clientWidth);
+        const { scrollWidth, clientWidth } = scrollContainerRef.current
+        setNeedsScroll(scrollWidth > clientWidth)
       }
-    };
+    }
 
-    checkForScroll();
-    window.addEventListener("resize", checkForScroll);
+    checkForScroll()
+    window.addEventListener("resize", checkForScroll)
 
     return () => {
-      window.removeEventListener("resize", checkForScroll);
-    };
-  }, []);
+      window.removeEventListener("resize", checkForScroll)
+    }
+  }, [])
 
   const previousYear = () => {
-    setCurrentYear(subYears(currentYear, 1));
-  };
+    setCurrentYear(subYears(currentYear, 1))
+  }
 
   const nextYear = () => {
-    setCurrentYear(addYears(currentYear, 1));
-  };
+    setCurrentYear(addYears(currentYear, 1))
+  }
 
   const getActivityLevel = (date: Date) => {
-    const dateStr = format(date, "yyyy-MM-dd");
-    return data[dateStr] || 0;
-  };
+    const dateStr = format(date, "yyyy-MM-dd")
+    return data[dateStr] || 0
+  }
 
   const getActivityColor = (level: number) => {
-    if (level === 0) return "bg-gray-200 hover:bg-gray-300";
-    if (level === 1) return "bg-forest-100 hover:bg-forest-200";
-    if (level === 2) return "bg-forest-300 hover:bg-forest-400";
-    if (level === 3) return "bg-forest-500 hover:bg-forest-600";
-    return "bg-forest hover:bg-forest-800";
-  };
+    if (level === 0) return "bg-gray-200 hover:bg-gray-300"
+    if (level === 1) return "bg-forest-100 hover:bg-forest-200"
+    if (level === 2) return "bg-forest-300 hover:bg-forest-400"
+    if (level === 3) return "bg-forest-500 hover:bg-forest-600"
+    return "bg-forest hover:bg-forest-800"
+  }
 
   // Check if this week contains the first day of a month
   const isMonthBoundaryWeek = (week: Date) => {
     const days = eachDayOfInterval({
       start: startOfWeek(week, { weekStartsOn: 0 }),
       end: endOfWeek(week, { weekStartsOn: 0 }),
-    });
+    })
 
-    return days.some((day) => isFirstDayOfMonth(day));
-  };
+    return days.some((day) => isFirstDayOfMonth(day))
+  }
 
   // Generate month labels
   const monthLabels = () => {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const labels = [];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    const labels = []
 
     for (let i = 0; i < 12; i++) {
       // Calculate position based on weeks
-      const monthStart = new Date(currentYear.getFullYear(), i, 1);
-      const weekIndex = weeks.findIndex((week) =>
-        isWithinInterval(monthStart, { start: week, end: addDays(week, 6) }),
-      );
+      const monthStart = new Date(currentYear.getFullYear(), i, 1)
+      const weekIndex = weeks.findIndex((week) => isWithinInterval(monthStart, { start: week, end: addDays(week, 6) }))
 
       // Calculate position percentage
-      const weekOfMonth = Math.floor((weekIndex / weeks.length) * 100);
+      const weekOfMonth = Math.floor((weekIndex / weeks.length) * 100)
 
       labels.push(
         <div
@@ -135,20 +115,18 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
         >
           {months[i]}
         </div>,
-      );
+      )
     }
 
-    return labels;
-  };
+    return labels
+  }
 
   return (
     <TooltipProvider>
       <div className="w-full">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
-            <h3 className="font-medium text-lg">
-              {format(currentYear, "yyyy")} Activity
-            </h3>
+            <h3 className="font-medium text-lg">{format(currentYear, "yyyy")} Activity</h3>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="icon" className="ml-2">
@@ -157,8 +135,8 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="max-w-xs">
-                  This calendar shows your daily learning activity throughout
-                  the year. Darker colors indicate more activity on that day.
+                  This calendar shows your daily learning activity throughout the year. Darker colors indicate more
+                  activity on that day.
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -175,26 +153,22 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative w-[700px]">
           {/* Month labels */}
-          <div className="relative h-5 mb-1 sticky left-0 bg-background z-10">
-            {monthLabels()}
-          </div>
+          <div className="relative h-5 mb-1 sticky left-0 bg-background z-10">{monthLabels()}</div>
 
           <div className="flex">
             {/* Day labels */}
             <div className="flex flex-col mr-2 pt-2 sticky left-0 bg-background z-10">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                (day, index) => (
-                  <div
-                    key={day}
-                    className="text-xs text-muted-foreground h-3 flex items-center justify-end pr-1"
-                    style={{ height: "10px", marginBottom: "2px" }}
-                  >
-                    {index % 2 === 0 ? day : ""}
-                  </div>
-                ),
-              )}
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, index) => (
+                <div
+                  key={day}
+                  className="text-xs text-muted-foreground h-3 flex items-center justify-end pr-1"
+                  style={{ height: "10px", marginBottom: "2px" }}
+                >
+                  {index % 2 === 0 ? day : ""}
+                </div>
+              ))}
             </div>
 
             {/* Calendar grid */}
@@ -211,38 +185,32 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
                   const days = eachDayOfInterval({
                     start: startOfWeek(week, { weekStartsOn: 0 }),
                     end: endOfWeek(week, { weekStartsOn: 0 }),
-                  });
+                  })
 
                   // Check if this week contains the first day of a month
-                  const isMonthBoundary = isMonthBoundaryWeek(week);
+                  const isMonthBoundary = isMonthBoundaryWeek(week)
 
                   // Get the month of the first day of the week
-                  const weekMonth = getMonth(days[0]);
+                  const weekMonth = getMonth(days[0])
 
                   return (
                     <div
                       key={week.toString()}
                       className={`flex flex-col gap-1 ${
-                        isMonthBoundary
-                          ? "border-l border-gray-200 dark:border-gray-700 pl-1 ml-1"
-                          : ""
+                        isMonthBoundary ? "border-l border-gray-200 dark:border-gray-700 pl-1 ml-1" : ""
                       }`}
                     >
                       {days.map((day) => {
-                        const activityLevel = getActivityLevel(day);
-                        const isToday = isSameDay(day, new Date());
-                        const isCurrentYear =
-                          day.getFullYear() === currentYear.getFullYear();
+                        const activityLevel = getActivityLevel(day)
+                        const isToday = isSameDay(day, new Date())
+                        const isCurrentYear = day.getFullYear() === currentYear.getFullYear()
 
                         return (
                           <Tooltip key={day.toString()}>
                             <TooltipTrigger asChild>
                               <motion.div
                                 initial={{ scale: 0.8, opacity: 0 }}
-                                animate={{
-                                  scale: 1,
-                                  opacity: isCurrentYear ? 1 : 0.5,
-                                }}
+                                animate={{ scale: 1, opacity: isCurrentYear ? 1 : 0.5 }}
                                 transition={{ duration: 0.2 }}
                                 className="relative"
                                 onMouseEnter={() => setHoveredDate(day)}
@@ -260,9 +228,7 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
                             </TooltipTrigger>
                             <TooltipContent>
                               <div className="text-xs">
-                                <p className="font-medium">
-                                  {format(day, "MMMM d, yyyy")}
-                                </p>
+                                <p className="font-medium">{format(day, "MMMM d, yyyy")}</p>
                                 <p>
                                   {activityLevel === 0
                                     ? "No activity"
@@ -271,10 +237,10 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
                               </div>
                             </TooltipContent>
                           </Tooltip>
-                        );
+                        )
                       })}
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -308,5 +274,6 @@ export default function ActivityCalendar({ data }: ActivityCalendarProps) {
         </div>
       </div>
     </TooltipProvider>
-  );
+  )
 }
+

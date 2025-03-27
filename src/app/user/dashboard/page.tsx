@@ -1,194 +1,222 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 import {
   BookOpen,
-  Brain,
-  Gamepad2,
-  PenTool,
   BarChart2,
-  Clock,
   TrendingUp,
   Calendar,
-  Award,
-  Zap,
-  Video,
-  ChevronRight,
-  Plus,
   Heart,
-  BookMarked,
-  Mic,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+  BookText,
+  Flame,
+  Search,
+  Star,
+  Trophy,
+  Sparkles,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import {
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
-import DashboardSidebar from "@/components/Sidebar/SideBar";
-import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar";
+  AreaChart,
+  Area,
+} from "recharts"
+import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar"
 
-// Mock data for the dashboard
-const studyStats = {
-  totalSets: 12,
-  wordsLearned: 347,
-  favoriteWords: 58,
-  videosWatched: 24,
-  studyTime: "5.2h",
-  avgAccuracy: "86%",
-  streak: 7,
-  lastActivity: "2 hours ago",
-  totalPractices: 42,
-  completedTests: 15,
-};
-
-const recentSets = [
-  {
-    id: "1",
-    title: "English Vocabulary - Beginner",
-    progress: 68,
-    wordCount: 42,
-    lastPracticed: "2 days ago",
+// Consolidated mock data object (simulating backend data)
+const dashboardData = {
+  user: {
+    name: "John",
+    avatar: "/placeholder.svg?height=40&width=40",
+    isPremium: false,
+    streak: 5, // Changed to 5 for testing the middle streak range
+    lastActivity: "2 hours ago",
   },
-  {
-    id: "2",
-    title: "Business English Terms",
-    progress: 45,
-    wordCount: 35,
-    lastPracticed: "3 days ago",
+  stats: {
+    wordsLearned: 347,
+    favoriteWords: 58,
+    storiesRead: 24,
+    daysActive: 42,
+    studyTime: "5.2h",
+    avgAccuracy: "86%",
+    totalSets: 12,
+    totalPractices: 42,
+    completedTests: 15,
   },
-  {
-    id: "3",
-    title: "English Idioms and Phrases",
-    progress: 92,
-    wordCount: 28,
-    lastPracticed: "1 week ago",
-  },
-];
+  activityData: {}, // Will be generated dynamically
+  weeklyProgressData: [
+    { name: "Mon", words: 12, time: 0.8 },
+    { name: "Tue", words: 19, time: 1.2 },
+    { name: "Wed", words: 8, time: 0.5 },
+    { name: "Thu", words: 24, time: 1.5 },
+    { name: "Fri", words: 15, time: 1.0 },
+    { name: "Sat", words: 32, time: 2.1 },
+    { name: "Sun", words: 21, time: 1.4 },
+  ],
+  learningPathData: [
+    { name: "Jan", progress: 30 },
+    { name: "Feb", progress: 45 },
+    { name: "Mar", progress: 35 },
+    { name: "Apr", progress: 50 },
+    { name: "May", progress: 65 },
+    { name: "Jun", progress: 75 },
+    { name: "Jul", progress: 90 },
+  ],
+}
 
-const categories = [
-  { name: "Languages", count: 5, icon: <BookOpen className="h-4 w-4" /> },
-  { name: "Science", count: 3, icon: <Brain className="h-4 w-4" /> },
-  { name: "Technology", count: 2, icon: <Zap className="h-4 w-4" /> },
-  { name: "Business", count: 2, icon: <TrendingUp className="h-4 w-4" /> },
-];
-
-// Mock activity data for the calendar (similar to GitHub contributions)
+// Generate activity data for the calendar (similar to GitHub contributions)
 const generateActivityData = () => {
-  const today = new Date();
-  const data = {};
+  const today = new Date()
+  const data = {}
 
   // Generate data for the last 365 days
   for (let i = 0; i < 365; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    const dateStr = date.toISOString().split("T")[0];
+    const date = new Date(today)
+    date.setDate(today.getDate() - i)
+    const dateStr = date.toISOString().split("T")[0]
 
     // Random activity level (0-4)
     // 0: no activity, 1-4: increasing levels of activity
-    const activityLevel = Math.floor(Math.random() * 5);
+    const activityLevel = Math.floor(Math.random() * 5)
 
-    data[dateStr] = activityLevel;
+    data[dateStr] = activityLevel
   }
 
-  return data;
-};
+  return data
+}
 
-// Mock data for charts
-const weeklyProgressData = [
-  { name: "Mon", words: 12, time: 0.8 },
-  { name: "Tue", words: 19, time: 1.2 },
-  { name: "Wed", words: 8, time: 0.5 },
-  { name: "Thu", words: 24, time: 1.5 },
-  { name: "Fri", words: 15, time: 1.0 },
-  { name: "Sat", words: 32, time: 2.1 },
-  { name: "Sun", words: 21, time: 1.4 },
-];
-
-const categoryDistributionData = [
-  { name: "Languages", value: 45 },
-  { name: "Science", value: 20 },
-  { name: "Technology", value: 15 },
-  { name: "Business", value: 10 },
-  { name: "Other", value: 10 },
-];
-
-const COLORS = ["#14281d", "#3d7d5a", "#5f9477", "#81ab94", "#a3c2b1"];
+// Helper function to get streak icon and message based on streak length
+const getStreakInfo = (streak) => {
+  if (streak >= 1 && streak <= 3) {
+    return {
+      icon: <Flame className="h-5 w-5 text-white" />,
+      color: "bg-orange-500",
+      message: "Just starting!",
+    }
+  } else if (streak >= 4 && streak <= 7) {
+    return {
+      icon: <Sparkles className="h-5 w-5 text-white" />,
+      color: "bg-amber-500",
+      message: "Getting there!",
+    }
+  } else {
+    return {
+      icon: <Trophy className="h-5 w-5 text-white" />,
+      color: "bg-green-500",
+      message: "Impressive!",
+    }
+  }
+}
 
 export default function Dashboard() {
-  const router = useRouter();
-  const [activityData] = useState(generateActivityData());
+  const router = useRouter()
+  const [activityData, setActivityData] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
+  const [dashboardStats, setDashboardStats] = useState(dashboardData)
+
+  // Simulate fetching data from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true)
+      try {
+        // In a real app, this would be an API call
+        // const response = await fetch('/api/dashboard');
+        // const data = await response.json();
+
+        // For now, we'll use our mock data and add the activity data
+        const generatedActivityData = generateActivityData()
+        setActivityData(generatedActivityData)
+        setDashboardStats({
+          ...dashboardData,
+          activityData: generatedActivityData,
+        })
+
+        // Simulate network delay
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 500)
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error)
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Get streak info based on current streak
+  const streakInfo = getStreakInfo(dashboardStats.user.streak)
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-4 border-forest border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-forest font-medium">Loading your dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="flex">
         {/* Main Content */}
-        <div className="flex-1 p-8 overflow-auto">
+        <div className="flex-1 p-6 lg:p-8 overflow-auto">
           {/* Welcome Section */}
           <motion.div
-            className="flex justify-between items-center mb-8"
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             <div>
-              <h1 className="text-3xl font-bold ">Welcome back, John!</h1>
-              <p className="text-muted-foreground">
-                Track your progress and continue learning
-              </p>
+              <h1 className="text-3xl font-bold text-forest">Welcome back, {dashboardStats.user.name}!</h1>
+              <p className="text-muted-foreground">Your learning journey continues. Here's your progress so far.</p>
             </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                onClick={() => router.push("/create-set")}
-                className="bg-forest hover:bg-forest-700 text-cream"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Create New Set
-              </Button>
-            </motion.div>
           </motion.div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Key Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {[
               {
                 title: "Words Learned",
-                value: studyStats.wordsLearned,
-                icon: <BookOpen className="h-5 w-5 " />,
+                value: dashboardStats.stats.wordsLearned,
+                icon: <BookOpen className="h-5 w-5 text-white" />,
+                color: "bg-forest",
+                increase: "+24 this week",
               },
               {
                 title: "Favorite Words",
-                value: studyStats.favoriteWords,
-                icon: <Heart className="h-5 w-5 " />,
+                value: dashboardStats.stats.favoriteWords,
+                icon: <Heart className="h-5 w-5 text-white" />,
+                color: "bg-rose-500",
+                increase: "+7 this week",
               },
               {
-                title: "Videos Watched",
-                value: studyStats.videosWatched,
-                icon: <Video className="h-5 w-5 " />,
+                title: "Stories Read",
+                value: dashboardStats.stats.storiesRead,
+                icon: <BookText className="h-5 w-5 text-white" />,
+                color: "bg-amber-500",
+                increase: "+3 this week",
               },
               {
-                title: "Study Time",
-                value: studyStats.studyTime,
-                icon: <Clock className="h-5 w-5 " />,
+                title: "Day Streak",
+                value: dashboardStats.user.streak,
+                icon: streakInfo.icon,
+                color: streakInfo.color,
+                increase: streakInfo.message,
               },
             ].map((stat, index) => (
               <motion.div
@@ -198,18 +226,16 @@ export default function Dashboard() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
               >
-                <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
+                <Card className="border-0 shadow-md hover:shadow-lg transition-all overflow-hidden">
+                  <div className={`h-1 ${stat.color}`}></div>
                   <CardContent className="pt-6">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-sm text-muted-foreground">
-                          {stat.title}
-                        </p>
-                        <p className="text-3xl font-bold ">{stat.value}</p>
+                        <p className="text-sm text-muted-foreground">{stat.title}</p>
+                        <p className="text-3xl font-bold text-forest mt-1">{stat.value}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{stat.increase}</p>
                       </div>
-                      <div className="rounded-full bg-forest/10 p-2">
-                        {stat.icon}
-                      </div>
+                      <div className={`rounded-full ${stat.color} p-3`}>{stat.icon}</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -218,58 +244,43 @@ export default function Dashboard() {
           </div>
 
           {/* Charts Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Weekly Progress Chart */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
+              <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-forest flex items-center text-lg">
                     <BarChart2 className="h-5 w-5 mr-2" />
                     Weekly Learning Progress
                   </CardTitle>
-                  <CardDescription>
-                    Words learned and study time per day
-                  </CardDescription>
+                  <CardDescription>Words learned and study time per day</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80">
+                  <div className="h-72">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
-                        data={weeklyProgressData}
+                        data={dashboardStats.weeklyProgressData}
                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                         <XAxis dataKey="name" />
-                        <YAxis
-                          yAxisId="left"
-                          orientation="left"
-                          stroke="#14281d"
+                        <YAxis yAxisId="left" orientation="left" stroke="#14281d" />
+                        <YAxis yAxisId="right" orientation="right" stroke="#3d7d5a" />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                          }}
                         />
-                        <YAxis
-                          yAxisId="right"
-                          orientation="right"
-                          stroke="#3d7d5a"
-                        />
-                        <Tooltip />
                         <Legend />
-                        <Bar
-                          yAxisId="left"
-                          dataKey="words"
-                          name="Words Learned"
-                          fill="#14281d"
-                          radius={[4, 4, 0, 0]}
-                        />
-                        <Bar
-                          yAxisId="right"
-                          dataKey="time"
-                          name="Study Hours"
-                          fill="#3d7d5a"
-                          radius={[4, 4, 0, 0]}
-                        />
+                        <Bar yAxisId="left" dataKey="words" name="Words Learned" fill="#14281d" radius={[4, 4, 0, 0]} />
+                        <Bar yAxisId="right" dataKey="time" name="Study Hours" fill="#3d7d5a" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -277,48 +288,49 @@ export default function Dashboard() {
               </Card>
             </motion.div>
 
-            {/* Category Distribution Chart */}
+            {/* Learning Path Chart */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <PieChart className="h-5 w-5 mr-2" />
-                    Category Distribution
+              <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-forest flex items-center text-lg">
+                    <TrendingUp className="h-5 w-5 mr-2" />
+                    Your Learning Path
                   </CardTitle>
-                  <CardDescription>
-                    Breakdown of your study materials by category
-                  </CardDescription>
+                  <CardDescription>Overall progress over time</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80">
+                  <div className="h-72">
                     <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={categoryDistributionData}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, percent }) =>
-                            `${name} ${(percent * 100).toFixed(0)}%`
-                          }
-                        >
-                          {categoryDistributionData.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[index % COLORS.length]}
-                            />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
+                      <AreaChart data={dashboardStats.learningPathData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "white",
+                            borderRadius: "8px",
+                            border: "none",
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="progress"
+                          stroke="#14281d"
+                          fill="url(#colorProgress)"
+                          strokeWidth={2}
+                        />
+                        <defs>
+                          <linearGradient id="colorProgress" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#14281d" stopOpacity={0.8} />
+                            <stop offset="95%" stopColor="#14281d" stopOpacity={0.1} />
+                          </linearGradient>
+                        </defs>
+                      </AreaChart>
                     </ResponsiveContainer>
                   </div>
                 </CardContent>
@@ -331,218 +343,56 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            className="mb-8"
           >
-            <Card className="mb-8 border-forest-100 shadow-sm hover:shadow-md transition-all">
-              <CardHeader>
-                <CardTitle className="flex items-center">
+            <Card className="border-0 shadow-md hover:shadow-lg transition-all">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-forest flex items-center text-lg">
                   <Calendar className="h-5 w-5 mr-2" />
                   Your Activity
                 </CardTitle>
-                <CardDescription>
-                  Track your daily learning consistency throughout the year
-                </CardDescription>
+                <CardDescription>Track your daily learning consistency throughout the year</CardDescription>
               </CardHeader>
-              <CardContent className="overflow-x-auto">
+              <CardContent className="overflow-x-auto flex justify-center items-center">
                 <ActivityCalendar data={activityData} />
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Recent Sets and Learning Stats */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Recent Sets */}
-            <motion.div
-              className="lg:col-span-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="flex items-center">
-                    <Clock className="h-5 w-5 mr-2" />
-                    Recent Sets
-                  </CardTitle>
-                  <Button
-                    variant="ghost"
-                    className="hover:text-forest-700"
-                    onClick={() => router.push("/sets")}
-                  >
-                    View All
-                    <ChevronRight className="h-4 w-4 ml-1" />
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {recentSets.map((set, index) => (
-                      <motion.div
-                        key={set.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 * index }}
-                        whileHover={{
-                          scale: 1.02,
-                          backgroundColor: "rgba(20, 40, 29, 0.05)",
-                          transition: { duration: 0.2 },
-                        }}
-                        className="flex items-center p-3 rounded-lg cursor-pointer transition-colors"
-                        onClick={() => router.push(`/set/${set.id}`)}
-                      >
-                        <div className="flex-1">
-                          <h3 className="font-medium ">{set.title}</h3>
-                          <div className="flex items-center text-sm text-muted-foreground mt-1">
-                            <BookOpen className="h-3.5 w-3.5 mr-1" />
-                            {set.wordCount} words
-                            <span className="mx-2">•</span>
-                            <Clock className="h-3.5 w-3.5 mr-1" />
-                            {set.lastPracticed}
-                          </div>
-                        </div>
-                        <div className="w-32">
-                          <div className="flex justify-between text-xs mb-1">
-                            <span>Progress</span>
-                            <span>{set.progress}%</span>
-                          </div>
-                          <Progress value={set.progress} className="h-2" />
-                        </div>
-                      </motion.div>
-                    ))}
+          {/* Upgrade Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <Card className="border-0 shadow-md overflow-hidden bg-gradient-to-r from-forest to-forest-700">
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                  <div className="text-white">
+                    <h3 className="text-xl font-bold flex items-center">
+                      <Star className="h-5 w-5 mr-2 text-yellow-300" />
+                      Upgrade to Premium
+                    </h3>
+                    <p className="mt-2 text-cream/90 max-w-md">
+                      Unlock unlimited sets, advanced practice modes, and detailed analytics to accelerate your learning
+                      journey.
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Learning Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Award className="h-5 w-5 mr-2" />
-                    Learning Stats
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {[
-                      {
-                        icon: <Zap className="h-4 w-4 " />,
-                        label: "Current Streak",
-                        value: `${studyStats.streak} days`,
-                      },
-                      {
-                        icon: <BookMarked className="h-4 w-4 " />,
-                        label: "Total Sets",
-                        value: studyStats.totalSets,
-                      },
-                      {
-                        icon: <PenTool className="h-4 w-4 " />,
-                        label: "Completed Tests",
-                        value: studyStats.completedTests,
-                      },
-                      {
-                        icon: <Gamepad2 className="h-4 w-4 " />,
-                        label: "Practice Sessions",
-                        value: studyStats.totalPractices,
-                      },
-                      {
-                        icon: <Brain className="h-4 w-4 " />,
-                        label: "Accuracy Rate",
-                        value: studyStats.avgAccuracy,
-                      },
-                    ].map((stat, index) => (
-                      <motion.div
-                        key={stat.label}
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 * index }}
-                        whileHover={{ x: 5, transition: { duration: 0.2 } }}
-                        className="flex justify-between items-center"
-                      >
-                        <div className="flex items-center">
-                          <div className="rounded-full bg-forest/10 p-2 mr-3">
-                            {stat.icon}
-                          </div>
-                          <span className="">{stat.label}</span>
-                        </div>
-                        <Badge variant="outline" className="font-bold">
-                          {stat.value}
-                        </Badge>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Quick Actions */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
-                <Card className="border-forest-100 shadow-sm hover:shadow-md transition-all mt-6">
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Zap className="h-5 w-5 mr-2" />
-                      Quick Actions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        {
-                          icon: <Plus className="h-5 w-5 mb-1" />,
-                          label: "New Set",
-                          path: "/create-set",
-                        },
-                        {
-                          icon: <BookOpen className="h-5 w-5 mb-1" />,
-                          label: "Practice",
-                          path: "/practice/1?mode=flashcards",
-                        },
-                        {
-                          icon: <Video className="h-5 w-5 mb-1" />,
-                          label: "Videos",
-                          path: "/videos",
-                        },
-                        {
-                          icon: <Mic className="h-5 w-5 mb-1" />,
-                          label: "Pronounce",
-                          path: "/pronounce",
-                        },
-                      ].map((action, index) => (
-                        <motion.div
-                          key={action.label}
-                          whileHover={{
-                            scale: 1.05,
-                            transition: { duration: 0.2 },
-                          }}
-                          whileTap={{ scale: 0.95 }}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3, delay: 0.1 * index }}
-                        >
-                          <Button
-                            variant="outline"
-                            className="flex flex-col h-auto w-full py-4 border-forest hover:bg-forest hover:text-cream"
-                            onClick={() => router.push(action.path)}
-                          >
-                            {action.icon}
-                            <span>{action.label}</span>
-                          </Button>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </motion.div>
-          </div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      onClick={() => router.push("/payment/upgrade")}
+                      className="bg-white text-forest hover:bg-cream font-medium px-6"
+                    >
+                      Upgrade Now
+                    </Button>
+                  </motion.div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </div>
     </div>
-  );
+  )
 }
+

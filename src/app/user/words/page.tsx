@@ -180,7 +180,7 @@ export default function WordsPage() {
   );
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen lg:p-8">
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex justify-between items-center">
           <div>
