@@ -211,7 +211,7 @@ const VideoLibraryPage = () => {
         {/* Player and Subtitles Section */}
         <div className={`flex flex-col gap-4 w-full`}>
           <div className="rounded-xl shadow-lg overflow-hidden">
-            <YouTubePlayerComponentV2 />
+            <YouTubePlayerComponentV2  style="h-[25vh] lg:h-[60vh]"/>
           </div>
 
           <div className={`${isExtraSmall ? "h-[40vh]" : "h-[60vh]"}`}>

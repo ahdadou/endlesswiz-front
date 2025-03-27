@@ -29,8 +29,11 @@ import { formatTime } from "../utils/TypeFormatUtils";
 import cx from "classnames";
 import useActivityTimer from "../utils/useActivityTimer";
 
-const LAST_VIDEO_POSITION = 2; //  im fetching 3 videos each time
-const YouTubePlayerComponentV2 = () => {
+interface YouTubePlayerComponentV2Props {
+  style: string;
+}
+
+const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
   const {
     currentVideo,
     transcript,
@@ -118,7 +121,7 @@ const YouTubePlayerComponentV2 = () => {
       totalPages,
       setVideosWithPosition,
       setCurrentVideo,
-    ],
+    ]
   );
   const handlePlaybackSpeedChange = (speed: number) => {
     setPlaybackRate(speed);
@@ -128,7 +131,7 @@ const YouTubePlayerComponentV2 = () => {
     if (playerRef.current) {
       if (currentVideo.video?.transcriptResponse?.startTime) {
         playerRef.current.seekTo(
-          currentVideo.video.transcriptResponse.startTime,
+          currentVideo.video.transcriptResponse.startTime
         );
         setCurrentTranscript(currentVideo.video.transcriptResponse);
       } else {
@@ -140,7 +143,7 @@ const YouTubePlayerComponentV2 = () => {
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video?.videoId) {
       const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId,
+        currentVideo.video?.videoId
       );
       response && setTranscript(response);
       setVid(currentVideo.video?.vid);
@@ -158,7 +161,7 @@ const YouTubePlayerComponentV2 = () => {
       setCurrentTranscript(currentVideo.video.transcriptResponse);
       if (playerRef.current) {
         playerRef.current.seekTo(
-          currentVideo.video?.transcriptResponse?.startTime,
+          currentVideo.video?.transcriptResponse?.startTime
         );
       }
     }
@@ -190,7 +193,7 @@ const YouTubePlayerComponentV2 = () => {
     <div
       className={cx(
         "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4 pointer-events-none cursor-pointer",
-        isVisible ? "opacity-100" : "opacity-0",
+        isVisible ? "opacity-100" : "opacity-0"
       )}
     >
       {/* Slider and Time Display */}
@@ -336,7 +339,9 @@ const YouTubePlayerComponentV2 = () => {
 
   return (
     <div className="space-y-6">
-      <div className="relative bg-black rounded-md overflow-hidden h-[25vh] lg:h-[60vh]">
+      <div
+        className={cx("relative bg-black rounded-md overflow-hidden", style)}
+      >
         <ReactPlayer
           ref={playerRef}
           className="react-player absolute inset-0 w-full h-full"
@@ -370,7 +375,7 @@ const YouTubePlayerComponentV2 = () => {
             youtube: {
               playerVars: {
                 start: Math.floor(
-                  currentVideo.video?.transcriptResponse?.startTime || 0,
+                  currentVideo.video?.transcriptResponse?.startTime || 0
                 ),
               },
             },
