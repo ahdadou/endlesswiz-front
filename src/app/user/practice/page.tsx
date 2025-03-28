@@ -30,7 +30,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
@@ -132,10 +131,6 @@ export default function SetList() {
               new Date(a.lastPracticed || a.createdAt).getTime(),
           )
           .slice(0, 5);
-      case "progress":
-        return [...filteredSets].sort(
-          (a, b) => (b.progress || 0) - (a.progress || 0),
-        );
       default:
         return filteredSets;
     }
@@ -191,7 +186,6 @@ export default function SetList() {
               <DropdownMenuItem>Most Recent</DropdownMenuItem>
               <DropdownMenuItem>Alphabetical</DropdownMenuItem>
               <DropdownMenuItem>Most Words</DropdownMenuItem>
-              <DropdownMenuItem>Least Progress</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -288,15 +282,6 @@ export default function SetList() {
                               {tag}
                             </Badge>
                           ))}
-                        </div>
-                      )}
-                      {set.progress !== undefined && (
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-xs">
-                            <span>Progress</span>
-                            <span>{set.progress}%</span>
-                          </div>
-                          <Progress value={set.progress} className="h-2" />
                         </div>
                       )}
                     </CardContent>
