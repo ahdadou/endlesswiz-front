@@ -160,7 +160,15 @@ export default function PuzzlePage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/user/practice")}>
+        <Button
+          onClick={() => {
+            if (id == "words-library") {
+              router.push("/user/words");
+              return;
+            }
+            router.push("/user/practice");
+          }}
+        >
           Back to Sets
         </Button>
       </div>
@@ -173,7 +181,13 @@ export default function PuzzlePage() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/user/practice")}
+          onClick={() => {
+            if (id == "words-library") {
+              router.push("/user/words");
+              return;
+            }
+            router.push("/user/practice");
+          }}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>

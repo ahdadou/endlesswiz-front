@@ -47,6 +47,7 @@ import {
   GetPracticeSetDetailsResponse,
   PracticeWordResponse,
 } from "@/clients/types/apiTypes";
+import PracticeDropdown from "@/components/PracticeDropdown/PracticeDropdown";
 
 export default function SetPage() {
   const [set, setSet] = useState<GetPracticeSetDetailsResponse | null>(null);
@@ -185,7 +186,15 @@ export default function SetPage() {
         <p className="text-muted-foreground mb-6">
           The study set you're looking for doesn't exist or has been removed.
         </p>
-        <Button onClick={() => router.push("/user/practice")}>
+        <Button
+          onClick={() => {
+            if (id == "words-library") {
+              router.push("/user/words");
+              return;
+            }
+            router.push("/user/practice");
+          }}
+        >
           Back to Sets
         </Button>
       </div>
@@ -198,7 +207,13 @@ export default function SetPage() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push("/user/practice")}
+          onClick={() => {
+            if (id == "words-library") {
+              router.push("/user/words");
+              return;
+            }
+            router.push("/user/practice");
+          }}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to sets</span>
@@ -221,98 +236,30 @@ export default function SetPage() {
             </div>
           )}
         </div>
-
         <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="flex items-center gap-2">
-                Practice <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem
-                onClick={() => handlePractice("flashcards")}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <BookOpen className="h-4 w-4" />
-                <span>Flashcards</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlePractice("test")}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <PenTool className="h-4 w-4" />
-                <span>Test</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlePractice("learn")}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Brain className="h-4 w-4" />
-                <span>Learn</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlePractice("puzzle")}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Puzzle className="h-4 w-4" />
-                <span>Word Puzzle</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlePractice("hangman")}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Gamepad2 className="h-4 w-4" />
-                <span>Hangman</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                <Share2 className="h-4 w-4" />
-                <span>Share</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                <Download className="h-4 w-4" />
-                <span>Export</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-                <Printer className="h-4 w-4" />
-                <span>Print</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-destructive">
-                <Trash2 className="h-4 w-4" />
-                <span>Delete Set</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => router.push(`/user/practice/create-set/${set.id}`)}
+            className="flex items-center gap-1"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add Words
+          </Button>
+          <PracticeDropdown
+            hasNoWords={set.words?.length <= 0}
+            handlePractice={handlePractice}
+          />
         </div>
       </div>
 
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-sm text-muted-foreground">
-          {set.words?.length} {set.words?.length === 1 ? "word" : "words"} •
-          Created {new Date(set.createdAt).toLocaleDateString()}
-          {set.lastPracticed &&
-            ` • Last practiced ${new Date(set.lastPracticed).toLocaleDateString()}`}
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => router.push(`/user/practice/create-set/${set.id}`)}
-          className="flex items-center gap-1"
-        >
-          <Plus className="h-3.5 w-3.5" />
-          Add Words
-        </Button>
+      <div className="text-sm text-muted-foreground mb-4">
+        {set.words?.length} {set.words?.length === 1 ? "word" : "words"} •
+        Created {new Date(set.createdAt).toLocaleDateString()}
+        {set.lastPracticed &&
+          ` • Last practiced ${new Date(
+            set.lastPracticed,
+          ).toLocaleDateString()}`}
       </div>
 
       <Separator className="mb-6" />

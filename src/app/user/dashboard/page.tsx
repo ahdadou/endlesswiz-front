@@ -114,7 +114,7 @@ export default function Dashboard() {
             "SUNDAY",
           ][index] as Week;
           const dayData = statsResponse.weeklyProgress.find(
-            (wp) => wp.week === weekDay
+            (wp) => wp.week === weekDay,
           ) || { numberOfWords: 0, week: weekDay };
           return {
             name: day,
@@ -128,7 +128,7 @@ export default function Dashboard() {
         const learningPathData = monthNames.map((name, index) => {
           const monthEnum = monthEnums[index];
           const monthData = statsResponse.monthlyProgress.find(
-            (mp) => mp.month === monthEnum
+            (mp) => mp.month === monthEnum,
           ) || { numberOfWords: 0, month: monthEnum };
           return {
             name,
@@ -176,314 +176,314 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="flex-1 lg:p-8 overflow-auto">
-          <motion.div
-            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div>
-              <h1 className="text-3xl font-bold text-forest">
-                Welcome back, {userData?.firstName} {userData?.lastName}!
-              </h1>
-              <p className="text-muted-foreground">
-                Your learning journey continues. Here's your progress so far.
-              </p>
-            </div>
-          </motion.div>
+      <div className="flex-1 lg:p-8 overflow-auto">
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div>
+            <h1 className="text-3xl font-bold text-forest">
+              Welcome back, {userData?.firstName} {userData?.lastName}!
+            </h1>
+            <p className="text-muted-foreground">
+              Your learning journey continues. Here's your progress so far.
+            </p>
+          </div>
+        </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {[
-              {
-                title: "Words Learned",
-                value: dashboardStats.wordsLearn.total,
-                icon: <BookOpen className="h-5 w-5 text-white" />,
-                color: "bg-forest",
-                increase: `+${dashboardStats.wordsLearn.thisWeek} this week`,
-              },
-              {
-                title: "Favorite Words",
-                value: dashboardStats.favoriteWords.total,
-                icon: <Heart className="h-5 w-5 text-white" />,
-                color: "bg-rose-500",
-                increase: `+${dashboardStats.favoriteWords.thisWeek} this week`,
-              },
-              {
-                title: "Stories Read",
-                value: dashboardStats.storiesRead.total,
-                icon: <BookText className="h-5 w-5 text-white" />,
-                color: "bg-amber-500",
-                increase: `+${dashboardStats.storiesRead.thisWeek} this week`,
-              },
-              {
-                title: "Day Streak",
-                value: dashboardStats.dayStreak,
-                icon: streakInfo.icon,
-                color: streakInfo.color,
-                increase: streakInfo.message,
-              },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-              >
-                <Card className="border-0 shadow-md hover:shadow-lg transition-all overflow-hidden">
-                  <div className={`h-1 ${stat.color}`}></div>
-                  <CardContent className="pt-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-sm text-muted-foreground">
-                          {stat.title}
-                        </p>
-                        <p className="text-3xl font-bold text-forest mt-1">
-                          {stat.value}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {stat.increase}
-                        </p>
-                      </div>
-                      <div className={`rounded-full ${stat.color} p-3`}>
-                        {stat.icon}
-                      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          {[
+            {
+              title: "Words Learned",
+              value: dashboardStats.wordsLearn.total,
+              icon: <BookOpen className="h-5 w-5 text-white" />,
+              color: "bg-forest",
+              increase: `+${dashboardStats.wordsLearn.thisWeek} this week`,
+            },
+            {
+              title: "Favorite Words",
+              value: dashboardStats.favoriteWords.total,
+              icon: <Heart className="h-5 w-5 text-white" />,
+              color: "bg-rose-500",
+              increase: `+${dashboardStats.favoriteWords.thisWeek} this week`,
+            },
+            {
+              title: "Stories Read",
+              value: dashboardStats.storiesRead.total,
+              icon: <BookText className="h-5 w-5 text-white" />,
+              color: "bg-amber-500",
+              increase: `+${dashboardStats.storiesRead.thisWeek} this week`,
+            },
+            {
+              title: "Day Streak",
+              value: dashboardStats.dayStreak,
+              icon: streakInfo.icon,
+              color: streakInfo.color,
+              increase: streakInfo.message,
+            },
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+            >
+              <Card className="border-0 shadow-md hover:shadow-lg transition-all overflow-hidden">
+                <div className={`h-1 ${stat.color}`}></div>
+                <CardContent className="pt-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="text-sm text-muted-foreground">
+                        {stat.title}
+                      </p>
+                      <p className="text-3xl font-bold text-forest mt-1">
+                        {stat.value}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {stat.increase}
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-forest flex items-center text-lg">
-                    <BarChart2 className="h-5 w-5 mr-2" />
-                    Weekly Learning Progress
-                  </CardTitle>
-                  <CardDescription>Words learned per week</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-72">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        data={weeklyProgressData}
-                        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis dataKey="name" />
-                        <YAxis
-                          yAxisId="left"
-                          orientation="left"
-                          stroke="#14281d"
-                        />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: "white",
-                            borderRadius: "8px",
-                            border: "none",
-                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                          }}
-                        />
-                        <Legend />
-                        <Bar
-                          yAxisId="left"
-                          dataKey="words"
-                          name="Words Learned"
-                          fill="#14281d"
-                          radius={[4, 4, 0, 0]}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
+                    <div className={`rounded-full ${stat.color} p-3`}>
+                      {stat.icon}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
+          ))}
+        </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-forest flex items-center text-lg">
-                    <TrendingUp className="h-5 w-5 mr-2" />
-                    Your Learning Path
-                  </CardTitle>
-                  <CardDescription>Overall progress over time</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-72">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={learningPathData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: "white",
-                            borderRadius: "8px",
-                            border: "none",
-                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                          }}
-                        />
-                        <Area
-                          type="monotone"
-                          dataKey="progress"
-                          stroke="#14281d"
-                          fill="url(#colorProgress)"
-                          strokeWidth={2}
-                        />
-                        <defs>
-                          <linearGradient
-                            id="colorProgress"
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="1"
-                          >
-                            <stop
-                              offset="5%"
-                              stopColor="#14281d"
-                              stopOpacity={0.8}
-                            />
-                            <stop
-                              offset="95%"
-                              stopColor="#14281d"
-                              stopOpacity={0.1}
-                            />
-                          </linearGradient>
-                        </defs>
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mb-8 flex flex-col lg:flex-row gap-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Card className="border-0 shadow-md hover:shadow-lg transition-all">
+            <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
               <CardHeader className="pb-2">
                 <CardTitle className="text-forest flex items-center text-lg">
-                  <Calendar className="h-5 w-5 mr-2" />
-                  Your Activity
+                  <BarChart2 className="h-5 w-5 mr-2" />
+                  Weekly Learning Progress
                 </CardTitle>
-                <CardDescription>
-                  Track your daily learning consistency
-                </CardDescription>
+                <CardDescription>Words learned per week</CardDescription>
               </CardHeader>
-              <CardContent className="overflow-x-auto flex justify-center items-center">
-                <ActivityCalendar />
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-md hover:shadow-lg transition-all w-full">
-            <CardHeader className="pb-2">
-                <CardTitle className="text-forest flex items-center text-lg">
-                  <BookOpen className="h-5 w-5 mr-2" />
-                  Set to Practice
-                </CardTitle>
-                <CardDescription>
-                  Continue learning with your recent study set
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col">
-                <div className="flex-1">
-                  <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h4 className="font-medium text-forest text-lg">
-                          {"Football"}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          Last practiced {"2025-04-13"} • {40} words
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="border-forest text-forest hover:bg-forest hover:text-cream"
-                        onClick={() =>
-                          router.push(`/set/${"dashboardStats.recentSet.id"}`)
-                        }
-                      >
-                        Practice
-                      </Button>
-                    </div>
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-sm">
-                        <span>Progress</span>
-                        <span>{80}%</span>
-                      </div>
-                      <Progress value={80} className="h-2" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-auto pt-4">
-                  <p className="text-sm text-muted-foreground mb-2">
-                    You have {23} sets in total
-                  </p>
-                  <Button
-                    variant="ghost"
-                    className="w-full text-forest hover:bg-forest/10"
-                    onClick={() => router.push("/sets")}
-                  >
-                    Show more sets
-                    <ChevronRight className="h-4 w-4 ml-1" />
-                  </Button>
+              <CardContent>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={weeklyProgressData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="name" />
+                      <YAxis
+                        yAxisId="left"
+                        orientation="left"
+                        stroke="#14281d"
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "white",
+                          borderRadius: "8px",
+                          border: "none",
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        }}
+                      />
+                      <Legend />
+                      <Bar
+                        yAxisId="left"
+                        dataKey="words"
+                        name="Words Learned"
+                        fill="#14281d"
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Card className="border-0 shadow-md overflow-hidden bg-gradient-to-r from-forest to-forest-700">
-              <CardContent className="p-6">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold flex items-center">
-                      <Star className="h-5 w-5 mr-2 text-yellow-300" />
-                      Upgrade to Premium
-                    </h3>
-                    <p className="mt-2 text-cream/90 max-w-md">
-                      Unlock unlimited sets, advanced practice modes, and
-                      detailed analytics.
-                    </p>
-                  </div>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      onClick={() => router.push("user/payment/upgrade")}
-                      className="bg-white text-forest hover:bg-cream font-medium px-6"
-                    >
-                      Upgrade Now
-                    </Button>
-                  </motion.div>
+            <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-forest flex items-center text-lg">
+                  <TrendingUp className="h-5 w-5 mr-2" />
+                  Your Learning Path
+                </CardTitle>
+                <CardDescription>Overall progress over time</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={learningPathData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "white",
+                          borderRadius: "8px",
+                          border: "none",
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="progress"
+                        stroke="#14281d"
+                        fill="url(#colorProgress)"
+                        strokeWidth={2}
+                      />
+                      <defs>
+                        <linearGradient
+                          id="colorProgress"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#14281d"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#14281d"
+                            stopOpacity={0.1}
+                          />
+                        </linearGradient>
+                      </defs>
+                    </AreaChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="mb-8 flex flex-col lg:flex-row gap-3"
+        >
+          <Card className="border-0 shadow-md hover:shadow-lg transition-all">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-forest flex items-center text-lg">
+                <Calendar className="h-5 w-5 mr-2" />
+                Your Activity
+              </CardTitle>
+              <CardDescription>
+                Track your daily learning consistency
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="overflow-x-auto flex justify-center items-center">
+              <ActivityCalendar />
+            </CardContent>
+          </Card>
+          <Card className="border-0 shadow-md hover:shadow-lg transition-all w-full">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-forest flex items-center text-lg">
+                <BookOpen className="h-5 w-5 mr-2" />
+                Set to Practice
+              </CardTitle>
+              <CardDescription>
+                Continue learning with your recent study set
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 flex flex-col">
+              <div className="flex-1">
+                <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-medium text-forest text-lg">
+                        {"Football"}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        Last practiced {"2025-04-13"} • {40} words
+                      </p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-forest text-forest hover:bg-forest hover:text-cream"
+                      onClick={() =>
+                        router.push(`/set/${"dashboardStats.recentSet.id"}`)
+                      }
+                    >
+                      Practice
+                    </Button>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>Progress</span>
+                      <span>{80}%</span>
+                    </div>
+                    <Progress value={80} className="h-2" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-auto pt-4">
+                <p className="text-sm text-muted-foreground mb-2">
+                  You have {23} sets in total
+                </p>
+                <Button
+                  variant="ghost"
+                  className="w-full text-forest hover:bg-forest/10"
+                  onClick={() => router.push("/sets")}
+                >
+                  Show more sets
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <Card className="border-0 shadow-md overflow-hidden bg-gradient-to-r from-forest to-forest-700">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="text-white">
+                  <h3 className="text-xl font-bold flex items-center">
+                    <Star className="h-5 w-5 mr-2 text-yellow-300" />
+                    Upgrade to Premium
+                  </h3>
+                  <p className="mt-2 text-cream/90 max-w-md">
+                    Unlock unlimited sets, advanced practice modes, and detailed
+                    analytics.
+                  </p>
+                </div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    onClick={() => router.push("user/payment/upgrade")}
+                    className="bg-white text-forest hover:bg-cream font-medium px-6"
+                  >
+                    Upgrade Now
+                  </Button>
+                </motion.div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
     </div>
   );
 }

@@ -145,12 +145,12 @@ export default function CreateSetWithId() {
   }
 
   return (
-    <div className="container mx-auto py-8 max-w-3xl">
+    <div className="container py-8">
       <div className="flex items-center gap-2 mb-8">
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => router.push(`/user/practice/set/${id}`)}
+          onClick={() => router.push(`/user/practice`)}
         >
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back to set {title}</span>

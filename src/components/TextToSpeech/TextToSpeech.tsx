@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 
 const TextToSpeech = ({ text }: { text: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+    null,
+  );
   const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
 
   // Initialize SpeechSynthesis and create a new utterance when text changes

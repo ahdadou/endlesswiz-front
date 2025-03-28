@@ -11,12 +11,27 @@ import {
   LayoutGrid,
   Edit,
   Trash,
+  ChevronDown,
+  BookOpen,
+  PenTool,
+  Brain,
+  Puzzle,
+  Gamepad2,
 } from "lucide-react";
 import api from "@/clients/api/api";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 import AddWordModal from "@/components/FavoriteWordModals/AddWordModal";
 import EditWordModal from "@/components/FavoriteWordModals/EditWordModal";
 import { toast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import PracticeDropdown from "@/components/PracticeDropdown/PracticeDropdown";
 
 const WordCard = ({
   word,
@@ -107,6 +122,7 @@ const WordCard = ({
 };
 
 export default function WordsPage() {
+  const router = useRouter();
   const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
@@ -179,6 +195,10 @@ export default function WordsPage() {
     [favoriteWords, searchQuery, filter],
   );
 
+  const handlePractice = (mode: string) => {
+    router.push(`/user/practice/${mode}/words-library`);
+  };
+
   return (
     <div className="min-h-screen lg:p-8">
       <div className="flex flex-col gap-6 mb-8">
@@ -189,13 +209,23 @@ export default function WordsPage() {
               {filteredWords.length} words displayed of {favoriteWords.length}
             </p>
           </div>
-          <Button
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Add Word
-          </Button>
+
+          <div className="flex flex-row gap-2">
+            <Button
+              onClick={() => setShowAddModal(true)}
+              className="flex items-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Add Word
+            </Button>
+
+            <div className="flex gap-2">
+              <PracticeDropdown
+                hasNoWords={favoriteWords.length <= 0}
+                handlePractice={handlePractice}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">

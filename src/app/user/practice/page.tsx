@@ -143,8 +143,12 @@ export default function SetList() {
 
   const displaySets = filteredByTab();
 
-  const handlePractice = (setId?: string, mode?: string) => {
-    router.push(`/user/practice/${mode}/${setId}`);
+  const handlePractice = (set: PracticeSetResponse, mode?: string) => {
+    if (set?.wordCount <= 0) {
+      router.push(`/user/practice/set/${set?.id}`);
+      return;
+    }
+    router.push(`/user/practice/${mode}/${set?.id}`);
   };
 
   return (
@@ -197,13 +201,9 @@ export default function SetList() {
           className="w-full"
           onValueChange={setSelectedTab}
         >
-          <TabsList className="grid grid-cols-4 md:w-fit">
+          <TabsList className="grid grid-cols-1 md:w-fit">
             <TabsTrigger value="all">All Sets</TabsTrigger>
-            <TabsTrigger value="favorites">Favorites</TabsTrigger>
-            <TabsTrigger value="recent">Recent</TabsTrigger>
-            <TabsTrigger value="progress">In Progress</TabsTrigger>
           </TabsList>
-
           <TabsContent value="all" className="mt-6">
             {isLoading ? (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -306,7 +306,7 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set?.id, "flashcards")}
+                          onClick={() => handlePractice(set, "flashcards")}
                         >
                           <BookOpen className="h-4 w-4 mb-1" />
                           <span className="text-xs">Flashcards</span>
@@ -315,7 +315,7 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set?.id, "hangman")}
+                          onClick={() => handlePractice(set, "hangman")}
                         >
                           <Gamepad2 className="h-4 w-4 mb-1" />
                           <span className="text-xs">Hangman</span>
@@ -324,7 +324,7 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set.id, "puzzle")}
+                          onClick={() => handlePractice(set, "puzzle")}
                         >
                           <Puzzle className="h-4 w-4 mb-1" />
                           <span className="text-xs">Puzzle</span>
@@ -333,7 +333,7 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set.id, "test")}
+                          onClick={() => handlePractice(set, "test")}
                         >
                           <PenTool className="h-4 w-4 mb-1" />
                           <span className="text-xs">Test</span>
@@ -342,7 +342,7 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set.id, "learn")}
+                          onClick={() => handlePractice(set, "learn")}
                         >
                           <Brain className="h-4 w-4 mb-1" />
                           <span className="text-xs">Learn</span>
@@ -379,35 +379,6 @@ export default function SetList() {
               </div>
             )}
           </TabsContent>
-
-          <TabsContent value="favorites" className="mt-6">
-            {/* Same structure as "all" tab but with filtered content */}
-            {displaySets.length > 0 ? (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {/* Same card structure as above */}
-                {/* ... */}
-              </div>
-            ) : (
-              <div className="text-center py-12 border rounded-lg bg-muted/20">
-                <Star className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">
-                  No favorite sets yet
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Mark sets as favorites to find them quickly
-                </p>
-              </div>
-            )}
-          </TabsContent>
-
-          {/* Similar structure for "recent" and "progress" tabs */}
-          <TabsContent value="recent" className="mt-6">
-            {/* Recent sets content */}
-          </TabsContent>
-
-          <TabsContent value="progress" className="mt-6">
-            {/* Progress-sorted sets content */}
-          </TabsContent>
         </Tabs>
       </div>
 
@@ -443,45 +414,6 @@ export default function SetList() {
                 Alternate between different study modes to engage different
                 parts of your brain and improve memory.
               </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Study Statistics */}
-      <div className="mt-8 border rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold flex items-center gap-2">
-            <BarChart2 className="h-5 w-5" />
-            Your Study Stats
-          </h2>
-          <Button variant="outline" size="sm">
-            View Detailed Stats
-          </Button>
-        </div>
-        <div className="grid gap-4 md:grid-cols-4">
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <div className="text-3xl font-bold mb-1">12</div>
-              <p className="text-sm text-muted-foreground">Total Sets</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <div className="text-3xl font-bold mb-1">347</div>
-              <p className="text-sm text-muted-foreground">Words Studied</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <div className="text-3xl font-bold mb-1">5.2h</div>
-              <p className="text-sm text-muted-foreground">Study Time</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6 flex flex-col items-center text-center">
-              <div className="text-3xl font-bold mb-1">86%</div>
-              <p className="text-sm text-muted-foreground">Avg. Accuracy</p>
             </CardContent>
           </Card>
         </div>
