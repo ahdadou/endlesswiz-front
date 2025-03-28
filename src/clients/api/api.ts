@@ -24,6 +24,8 @@ import {
   LemonSqueezyCheckoutResponse,
   LoginState,
   ELoginState,
+  UserStatisticsResponse,
+  UserTrackingDaysResponse,
 } from "../types/apiTypes";
 
 const api = {
@@ -422,7 +424,34 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
-
+  // USER Statistics
+  fetchUserStatistics: async () => {
+    try {
+      const response = await axiosClient.get<UserStatisticsResponse>(
+        `${getBaseUrl()}/user_func/statistics`,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
+  fetchUserTrackingDays: async (year: number) => {
+    try {
+      const response = await axiosClient.get<UserTrackingDaysResponse>(
+        `${getBaseUrl()}/user_func/tracking_days`,
+        {
+          params: {
+            year,
+          },
+        },
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
   // Payment
   lemonSqueezyCheckout: async (req: LemonSqueezyCheckoutRequest) => {
     try {

@@ -65,11 +65,11 @@ const VideoLibraryPage = () => {
       setTimeout(() => {
         listRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "start"
+          block: "start",
         });
       }, 100);
     }
-  }
+  };
 
   const handleCategoryScroll = (direction: "left" | "right") => {
     if (categoriesRef.current) {
@@ -190,7 +190,7 @@ const VideoLibraryPage = () => {
             {categories.map((category) => (
               <motion.button
                 key={category.id}
-                onClick={()=> handleCategorySelect(category.id)}
+                onClick={() => handleCategorySelect(category.id)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                   selectedCategory === category.id
                     ? "bg-[#2d5a3d] text-white shadow-lg"
@@ -211,7 +211,7 @@ const VideoLibraryPage = () => {
         {/* Player and Subtitles Section */}
         <div className={`flex flex-col gap-4 w-full`}>
           <div className="rounded-xl shadow-lg overflow-hidden">
-            <YouTubePlayerComponentV2  style="h-[25vh] lg:h-[60vh]"/>
+            <YouTubePlayerComponentV2 style="h-[25vh] lg:h-[60vh]" />
           </div>
 
           <div className={`${isExtraSmall ? "h-[40vh]" : "h-[60vh]"}`}>

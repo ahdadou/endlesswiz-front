@@ -79,7 +79,7 @@ export default function PronouncePage() {
         setIsLoading(false);
       }
     },
-    [setHighlitedWord, setVideosWithPosition]
+    [setHighlitedWord, setVideosWithPosition],
   );
 
   const handleSearch = (e: React.FormEvent) => {
@@ -169,10 +169,10 @@ export default function PronouncePage() {
                     heightMap[playerHeight as keyof typeof heightMap]
                   } bg-black rounded-md overflow-hidden`
                 : layoutMode === "side"
-                ? "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden"
-                : `w-full max-w-[1280px] ${
-                    heightMap[playerHeight as keyof typeof heightMap]
-                  } bg-black rounded-md overflow-hidden`
+                  ? "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden"
+                  : `w-full max-w-[1280px] ${
+                      heightMap[playerHeight as keyof typeof heightMap]
+                    } bg-black rounded-md overflow-hidden`
             }
           >
             <YouTubePlayerComponentV2
@@ -190,8 +190,8 @@ export default function PronouncePage() {
               isMobile
                 ? "w-full h-[50vh] overflow-auto rounded-md"
                 : layoutMode === "side"
-                ? "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-md"
-                : "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-md"
+                  ? "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-md"
+                  : "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-md"
             }
           >
             <SubTitleComponentV2

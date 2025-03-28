@@ -51,7 +51,7 @@ export const createVideoSlice = (set: any) => ({
       // Update all videos that share the same videoId
       const updatedVideos = state.videos.videosDetailResponse.map(
         (v: VideosDetailResponse) =>
-          v.videoId === videoId ? { ...v, isFavorite } : v
+          v.videoId === videoId ? { ...v, isFavorite } : v,
       );
 
       // Ensure the current video is also updated

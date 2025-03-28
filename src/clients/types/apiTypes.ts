@@ -227,3 +227,53 @@ export interface SignInResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface UserStatisticsResponse {
+  wordsLearn: Statistic;
+  favoriteWords: Statistic;
+  storiesRead: Statistic;
+  dayStreak: number;
+
+  monthlyProgress: MonthlyProgress[];
+  weeklyProgress: WeeklyProgress[];
+}
+
+export interface Statistic {
+  total: number;
+  thisWeek: number;
+}
+export interface MonthlyProgress {
+  numberOfWords: number;
+  month: Month;
+}
+export interface WeeklyProgress {
+  numberOfWords: number;
+  week: Week;
+}
+
+export enum Month {
+  JANUARY = "JANUARY",
+  FEBRUARY = "FEBRUARY",
+  MARCH = "MARCH",
+  APRIL = "APRIL",
+  MAY = "MAY",
+  JUNE = "JUNE",
+  JULY = "JULY",
+  AUGUST = "AUGUST",
+  SEPTEMBER = "SEPTEMBER",
+  OCTOBER = "OCTOBER",
+  NOVEMBER = "NOVEMBER",
+  DECEMBER = "DECEMBER",
+}
+
+export enum Week {
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNSDAY = "WEDNSDAY", // Note: Typo in your code, should be "WEDNESDAY"
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
+  SUNDAY = "SUNDAY",
+}
+
+export interface UserTrackingDaysResponse {}
