@@ -15,6 +15,7 @@ import {
 } from "../ui/card";
 import { formatTime } from "../utils/TypeFormatUtils";
 import { DictionaryResponse } from "@/clients/types/apiTypes";
+import { cleanText } from "@/utils/StringUtils";
 
 interface SubTitleComponentProps {
   isAuthenticated?: boolean;
@@ -45,7 +46,7 @@ export function SubTitleComponentV2({
     setShowWordModal(true);
     setIsLoading(true);
     try {
-      const data = await api.fetchWordDictionary(word);
+      const data = await api.fetchWordDictionary(cleanText(word));
       setSelectedWord({ word, data });
     } catch (error) {
       console.error("Failed to fetch word details:", error);

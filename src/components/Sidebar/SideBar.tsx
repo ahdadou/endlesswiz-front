@@ -246,7 +246,7 @@ export default function DashboardSidebar() {
   return (
     <div
       className={cn(
-        "h-screen  border-gray-200 transition-all duration-300 relative hidden md:block",
+        "border-gray-200 transition-all duration-300 relative hidden md:block",
         collapsed ? "w-20" : "w-64",
       )}
     >

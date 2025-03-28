@@ -3,23 +3,38 @@ import { useState, useEffect } from "react";
 
 const TextToSpeech = ({ text }: { text: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
-    null,
-  );
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
   const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
 
+  // Initialize SpeechSynthesis and create a new utterance when text changes
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const synth = window.speechSynthesis;
-      setSynth(synth);
-      const u = new SpeechSynthesisUtterance(text);
-      setUtterance(u);
+      const synthInstance = window.speechSynthesis;
+      setSynth(synthInstance);
 
+      // Cancel any ongoing speech when text changes
+      synthInstance.cancel();
+
+      // Create a new utterance for the new text
+      const newUtterance = new SpeechSynthesisUtterance(text);
+      setUtterance(newUtterance);
+      setIsPlaying(false); // Reset playing state when text changes
+
+      // Cleanup: cancel speech when component unmounts
       return () => {
-        synth.cancel();
+        synthInstance.cancel();
       };
     }
   }, [text]);
+
+  // Handle the end of speech
+  useEffect(() => {
+    if (!utterance) return;
+
+    utterance.onend = () => {
+      setIsPlaying(false);
+    };
+  }, [utterance]);
 
   const handlePlayPause = () => {
     if (!synth || !utterance) return;
@@ -28,11 +43,11 @@ const TextToSpeech = ({ text }: { text: string }) => {
       synth.pause();
       setIsPlaying(false);
     } else {
-      synth.resume();
-      if (synth.paused) {
+      if (synth.speaking && synth.paused) {
         synth.resume();
       } else {
-        synth.speak(utterance);
+        synth.cancel(); // Clear any queued utterances
+        synth.speak(utterance); // Start fresh
       }
       setIsPlaying(true);
     }
@@ -44,14 +59,6 @@ const TextToSpeech = ({ text }: { text: string }) => {
       setIsPlaying(false);
     }
   };
-
-  useEffect(() => {
-    if (!utterance) return;
-
-    utterance.onend = () => {
-      setIsPlaying(false);
-    };
-  }, [utterance]);
 
   return (
     <button
