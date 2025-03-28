@@ -34,7 +34,6 @@ interface UserTrackingDaysResponse {
 
 export default function ActivityCalendar({}: ActivityCalendarProps) {
   const [currentYear, setCurrentYear] = useState(new Date());
-  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [needsScroll, setNeedsScroll] = useState(false);
   const [data, setData] = useState<Record<string, boolean>>({});
@@ -225,8 +224,8 @@ export default function ActivityCalendar({}: ActivityCalendarProps) {
                                       : "bg-gray-200"
                                     : "bg-transparent"
                                 }`}
-                                onHoverStart={() => setHoveredDate(day)}
-                                onHoverEnd={() => setHoveredDate(null)}
+                                // onHoverStart={() => setHoveredDate(day)}
+                                // onHoverEnd={() => setHoveredDate(null)}
                                 whileHover={{ scale: 1.2 }}
                               />
                             </TooltipTrigger>

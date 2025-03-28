@@ -14,6 +14,7 @@ import {
   Star,
   Trophy,
   Sparkles,
+  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +40,7 @@ import ActivityCalendar from "@/components/ActivityCalendar/ActivityCalendar";
 import api from "@/clients/api/api";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
 import { Month, UserStatisticsResponse, Week } from "@/clients/types/apiTypes";
+import { Progress } from "@/components/ui/progress";
 
 const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const getStreakInfo = (streak: number) => {
@@ -112,7 +114,7 @@ export default function Dashboard() {
             "SUNDAY",
           ][index] as Week;
           const dayData = statsResponse.weeklyProgress.find(
-            (wp) => wp.week === weekDay,
+            (wp) => wp.week === weekDay
           ) || { numberOfWords: 0, week: weekDay };
           return {
             name: day,
@@ -126,7 +128,7 @@ export default function Dashboard() {
         const learningPathData = monthNames.map((name, index) => {
           const monthEnum = monthEnums[index];
           const monthData = statsResponse.monthlyProgress.find(
-            (mp) => mp.month === monthEnum,
+            (mp) => mp.month === monthEnum
           ) || { numberOfWords: 0, month: monthEnum };
           return {
             name,
@@ -174,8 +176,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="flex">
-        <div className="flex-1 p-6 lg:p-8 overflow-auto">
+        <div className="flex-1 lg:p-8 overflow-auto">
           <motion.div
             className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
             initial={{ opacity: 0, y: -20 }}
@@ -373,7 +374,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="mb-8"
+            className="mb-8 flex flex-col lg:flex-row gap-3"
           >
             <Card className="border-0 shadow-md hover:shadow-lg transition-all">
               <CardHeader className="pb-2">
@@ -387,6 +388,64 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="overflow-x-auto flex justify-center items-center">
                 <ActivityCalendar />
+              </CardContent>
+            </Card>
+            <Card className="border-0 shadow-md hover:shadow-lg transition-all w-full">
+            <CardHeader className="pb-2">
+                <CardTitle className="text-forest flex items-center text-lg">
+                  <BookOpen className="h-5 w-5 mr-2" />
+                  Set to Practice
+                </CardTitle>
+                <CardDescription>
+                  Continue learning with your recent study set
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1 flex flex-col">
+                <div className="flex-1">
+                  <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-medium text-forest text-lg">
+                          {"Football"}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          Last practiced {"2025-04-13"} • {40} words
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="border-forest text-forest hover:bg-forest hover:text-cream"
+                        onClick={() =>
+                          router.push(`/set/${"dashboardStats.recentSet.id"}`)
+                        }
+                      >
+                        Practice
+                      </Button>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span>Progress</span>
+                        <span>{80}%</span>
+                      </div>
+                      <Progress value={80} className="h-2" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-auto pt-4">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    You have {23} sets in total
+                  </p>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-forest hover:bg-forest/10"
+                    onClick={() => router.push("/sets")}
+                  >
+                    Show more sets
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -425,7 +484,6 @@ export default function Dashboard() {
             </Card>
           </motion.div>
         </div>
-      </div>
     </div>
   );
 }
