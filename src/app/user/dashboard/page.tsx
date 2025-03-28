@@ -41,6 +41,7 @@ import api from "@/clients/api/api";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
 import { Month, UserStatisticsResponse, Week } from "@/clients/types/apiTypes";
 import { Progress } from "@/components/ui/progress";
+import { useTheme } from "next-themes";
 
 const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const getStreakInfo = (streak: number) => {
@@ -70,6 +71,7 @@ export default function Dashboard() {
   const { userData } = useUserDataZustandState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { theme } = useTheme();
   const [dashboardStats, setDashboardStats] = useState<UserStatisticsResponse>({
     wordsLearn: { total: 0, thisWeek: 0 },
     favoriteWords: { total: 0, thisWeek: 0 },
@@ -155,12 +157,10 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <div className="w-16 h-16 border-4 border-forest border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-forest font-medium">
-            Loading your dashboard...
-          </p>
+          <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4  font-medium">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -168,14 +168,14 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <div className="flex-1 lg:p-8 overflow-auto">
         <motion.div
           className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
@@ -184,7 +184,7 @@ export default function Dashboard() {
           transition={{ duration: 0.5 }}
         >
           <div>
-            <h1 className="text-3xl font-bold text-forest">
+            <h1 className="text-3xl font-bold">
               Welcome back, {userData?.firstName} {userData?.lastName}!
             </h1>
             <p className="text-muted-foreground">
@@ -239,9 +239,7 @@ export default function Dashboard() {
                       <p className="text-sm text-muted-foreground">
                         {stat.title}
                       </p>
-                      <p className="text-3xl font-bold text-forest mt-1">
-                        {stat.value}
-                      </p>
+                      <p className="text-3xl font-bold mt-1">{stat.value}</p>
                       <p className="text-xs text-muted-foreground mt-1">
                         {stat.increase}
                       </p>
@@ -264,7 +262,7 @@ export default function Dashboard() {
           >
             <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
               <CardHeader className="pb-2">
-                <CardTitle className="text-forest flex items-center text-lg">
+                <CardTitle className=" flex items-center text-lg">
                   <BarChart2 className="h-5 w-5 mr-2" />
                   Weekly Learning Progress
                 </CardTitle>
@@ -297,7 +295,7 @@ export default function Dashboard() {
                         yAxisId="left"
                         dataKey="words"
                         name="Words Learned"
-                        fill="#14281d"
+                        fill={theme == "light" ? "#14281d" : "#f0f0f0"}
                         radius={[4, 4, 0, 0]}
                       />
                     </BarChart>
@@ -314,7 +312,7 @@ export default function Dashboard() {
           >
             <Card className="border-0 shadow-md hover:shadow-lg transition-all h-full">
               <CardHeader className="pb-2">
-                <CardTitle className="text-forest flex items-center text-lg">
+                <CardTitle className=" flex items-center text-lg">
                   <TrendingUp className="h-5 w-5 mr-2" />
                   Your Learning Path
                 </CardTitle>
@@ -338,7 +336,7 @@ export default function Dashboard() {
                       <Area
                         type="monotone"
                         dataKey="progress"
-                        stroke="#14281d"
+                        stroke={theme == "light" ? "#14281d" : "#f0f0f0"}
                         fill="url(#colorProgress)"
                         strokeWidth={2}
                       />
@@ -352,12 +350,12 @@ export default function Dashboard() {
                         >
                           <stop
                             offset="5%"
-                            stopColor="#14281d"
+                            stopColor={theme == "light" ? "#14281d" : "#f0f0f0"}
                             stopOpacity={0.8}
                           />
                           <stop
                             offset="95%"
-                            stopColor="#14281d"
+                            stopColor={theme == "light" ? "#14281d" : "#f0f0f0"}
                             stopOpacity={0.1}
                           />
                         </linearGradient>
@@ -378,7 +376,7 @@ export default function Dashboard() {
         >
           <Card className="border-0 shadow-md hover:shadow-lg transition-all">
             <CardHeader className="pb-2">
-              <CardTitle className="text-forest flex items-center text-lg">
+              <CardTitle className="flex items-center text-lg">
                 <Calendar className="h-5 w-5 mr-2" />
                 Your Activity
               </CardTitle>
@@ -392,7 +390,7 @@ export default function Dashboard() {
           </Card>
           <Card className="border-0 shadow-md hover:shadow-lg transition-all w-full">
             <CardHeader className="pb-2">
-              <CardTitle className="text-forest flex items-center text-lg">
+              <CardTitle className=" flex items-center text-lg">
                 <BookOpen className="h-5 w-5 mr-2" />
                 Set to Practice
               </CardTitle>
@@ -405,9 +403,7 @@ export default function Dashboard() {
                 <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h4 className="font-medium text-forest text-lg">
-                        {"Football"}
-                      </h4>
+                      <h4 className="font-medium  text-lg">{"Football"}</h4>
                       <p className="text-sm text-muted-foreground">
                         Last practiced {"2025-04-13"} • {40} words
                       </p>
@@ -415,7 +411,7 @@ export default function Dashboard() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-forest text-forest hover:bg-forest hover:text-cream"
+                      className=""
                       onClick={() =>
                         router.push(`/set/${"dashboardStats.recentSet.id"}`)
                       }
@@ -439,7 +435,7 @@ export default function Dashboard() {
                 </p>
                 <Button
                   variant="ghost"
-                  className="w-full text-forest hover:bg-forest/10"
+                  className="w-full"
                   onClick={() => router.push("/sets")}
                 >
                   Show more sets
@@ -474,7 +470,7 @@ export default function Dashboard() {
                 >
                   <Button
                     onClick={() => router.push("user/payment/upgrade")}
-                    className="bg-white text-forest hover:bg-cream font-medium px-6"
+                    className="bg-white  hover:bg-cream font-medium px-6"
                   >
                     Upgrade Now
                   </Button>

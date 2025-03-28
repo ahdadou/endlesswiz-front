@@ -19,6 +19,8 @@ import {
   Dumbbell,
   Menu,
   Crown,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -33,6 +35,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
+import { useTheme } from "next-themes";
 
 const navItems = [
   {
@@ -68,7 +71,7 @@ export default function DashboardSidebar() {
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-
+  const { theme, setTheme } = useTheme();
   // Check if we're on mobile
   useEffect(() => {
     const checkIfMobile = () => {
@@ -168,6 +171,24 @@ export default function DashboardSidebar() {
             >
               <Crown className="mr-2 h-4 w-4" />
               <span>Upgrade</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="py-2.5 my-1 cursor-pointer"
+              onClick={() => {
+                setTheme(theme === "dark" ? "light" : "dark");
+              }}
+            >
+              {theme === "dark" ? (
+                <>
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark mode</span>
+                </>
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="py-2.5 my-1 cursor-pointer"
