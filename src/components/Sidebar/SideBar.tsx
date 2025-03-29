@@ -128,9 +128,9 @@ export default function DashboardSidebar() {
                     <p className="font-medium ">
                       {userData?.firstName} {userData?.lastName}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    {/* <p className="text-xs text-muted-foreground">
                       Premium Member
-                    </p>
+                    </p> */}
                   </div>
                   <ChevronDown className="h-4 w-4 text-muted-foreground" />
                 </div>
@@ -145,7 +145,7 @@ export default function DashboardSidebar() {
               <p className="font-medium ">
                 {userData?.firstName} {userData?.lastName}
               </p>
-              <p className="text-xs text-muted-foreground">Premium Member</p>
+              {/* <p className="text-xs text-muted-foreground">Premium Member</p> */}
             </div>
             <DropdownMenuItem
               className="py-2.5 my-1 cursor-pointer"
@@ -165,13 +165,13 @@ export default function DashboardSidebar() {
               <HelpCircle className="mr-2 h-4 w-4" />
               <span>Help & Support</span>
             </DropdownMenuItem>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => router.push("/user/payment/upgrade")}
               className="py-2.5 my-1 cursor-pointer"
             >
               <Crown className="mr-2 h-4 w-4" />
               <span>Upgrade</span>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuItem
               className="py-2.5 my-1 cursor-pointer"
               onClick={() => {

@@ -22,7 +22,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Upgrade Banner */}
-          <Card className="mb-8 overflow-hidden">
+          {/* <Card className="mb-8 overflow-hidden">
             <div className="relative forest-gradient p-6 text-white">
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full -mr-20 -mt-20 blur-3xl"></div>
               <div className="relative z-10 flex justify-between items-center">
@@ -45,7 +45,7 @@ export default function SettingsPage() {
                 </Button>
               </div>
             </div>
-          </Card>
+          </Card> */}
 
           <ProfilePage />
           {/* <Tabs defaultValue="profile" className="w-full">
