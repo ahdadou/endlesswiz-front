@@ -74,9 +74,11 @@ export default function CreateSetWithId() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Check if any word is missing a description
-    const hasEmptyDescription = practiceWords.some(word => !word.description.trim());
+    const hasEmptyDescription = practiceWords.some(
+      (word) => !word.description.trim(),
+    );
     if (hasEmptyDescription) {
       toast({
         title: "Validation Error",

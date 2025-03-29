@@ -93,7 +93,7 @@ export default function FlashcardsPage() {
   const speakWord = () => {
     if ("speechSynthesis" in window && shuffledWords[currentIndex]) {
       const utterance = new SpeechSynthesisUtterance(
-        shuffledWords[currentIndex].word
+        shuffledWords[currentIndex].word,
       );
       utterance.lang = "en-US";
       window.speechSynthesis.speak(utterance);

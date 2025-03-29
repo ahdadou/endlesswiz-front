@@ -41,7 +41,7 @@ export default function VictoryAnimation({
       }
 
       setParticles(newParticles);
-    
+
       const timer = setTimeout(() => {
         if (onComplete) onComplete();
       }, 3500);

@@ -1,12 +1,6 @@
 "use client";
 import { useState } from "react";
-import {
-  ChevronDown,
-  BookOpen,
-  PenTool,
-  Brain,
-  Gamepad2,
-} from "lucide-react";
+import { ChevronDown, BookOpen, PenTool, Brain, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button"; // Adjust import path
 import {
   DropdownMenu,

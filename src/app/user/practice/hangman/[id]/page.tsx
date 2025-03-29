@@ -28,9 +28,9 @@ export default function HangmanPage() {
   const [shuffledWords, setShuffledWords] = useState<Word[]>([]);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState(0);
-  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost" | "completed">(
-    "playing",
-  );
+  const [gameStatus, setGameStatus] = useState<
+    "playing" | "won" | "lost" | "completed"
+  >("playing");
   const [score, setScore] = useState(0);
   const [hint, setHint] = useState(false);
   const maxWrongGuesses = 6;

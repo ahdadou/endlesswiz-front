@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import {
-  Trash2,
-  Edit,
-  ArrowLeft,
-  Plus,
-} from "lucide-react";
+import { Trash2, Edit, ArrowLeft, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

@@ -236,6 +236,8 @@ export interface UserStatisticsResponse {
 
   monthlyProgress: MonthlyProgress[];
   weeklyProgress: WeeklyProgress[];
+  setsCount?: number;
+  practiceSet?: PracticeSetResponse;
 }
 
 export interface Statistic {

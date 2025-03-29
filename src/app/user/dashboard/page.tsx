@@ -388,9 +388,10 @@ export default function Dashboard() {
               <ActivityCalendar />
             </CardContent>
           </Card>
+
           <Card className="border-0 shadow-md hover:shadow-lg transition-all w-full">
             <CardHeader className="pb-2">
-              <CardTitle className=" flex items-center text-lg">
+              <CardTitle className="flex items-center text-lg">
                 <BookOpen className="h-5 w-5 mr-2" />
                 Set to Practice
               </CardTitle>
@@ -400,52 +401,69 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
               <div className="flex-1">
-                <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="font-medium  text-lg">{"Football"}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Last practiced {"2025-04-13"} • {40} words
-                      </p>
+                {dashboardStats.practiceSet ? (
+                  <div className="border rounded-lg p-4 hover:bg-muted/20 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-medium text-lg">
+                          {dashboardStats.practiceSet.title}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          Last practiced{" "}
+                          {dashboardStats.practiceSet.lastPracticed &&
+                            new Date(
+                              dashboardStats.practiceSet.lastPracticed,
+                            ).toLocaleDateString()}{" "}
+                          • {dashboardStats.practiceSet.wordCount} words
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className=""
+                        onClick={() =>
+                          router.push(
+                            `/user/practice/set/${dashboardStats.practiceSet?.id}`,
+                          )
+                        }
+                      >
+                        Practice
+                      </Button>
                     </div>
+                  </div>
+                ) : (
+                  <div className="border rounded-lg p-4 text-center">
+                    <p className="text-muted-foreground mb-4">
+                      You haven't created any sets yet.
+                    </p>
                     <Button
-                      variant="outline"
-                      size="sm"
-                      className=""
-                      onClick={() =>
-                        router.push(`/set/${"dashboardStats.recentSet.id"}`)
-                      }
+                      onClick={() => router.push("/user/create-set")}
+                      className="w-full bg-forest hover:bg-forest-700 text-cream"
                     >
-                      Practice
+                      Create a Set
                     </Button>
                   </div>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span>Progress</span>
-                      <span>{80}%</span>
-                    </div>
-                    <Progress value={80} className="h-2" />
-                  </div>
-                </div>
+                )}
               </div>
 
               <div className="mt-auto pt-4">
                 <p className="text-sm text-muted-foreground mb-2">
-                  You have {23} sets in total
+                  You have {dashboardStats.setsCount || 0} sets in total
                 </p>
-                <Button
-                  variant="ghost"
-                  className="w-full"
-                  onClick={() => router.push("/sets")}
-                >
-                  Show more sets
-                  <ChevronRight className="h-4 w-4 ml-1" />
-                </Button>
+                {dashboardStats.practiceSet && (
+                  <Button
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => router.push("/user/practice")}
+                  >
+                    Show more sets
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
         </motion.div>
-
         {/* <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
