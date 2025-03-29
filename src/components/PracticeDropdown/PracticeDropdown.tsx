@@ -5,7 +5,6 @@ import {
   BookOpen,
   PenTool,
   Brain,
-  Puzzle,
   Gamepad2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button"; // Adjust import path
@@ -68,26 +67,6 @@ const PracticeDropdown = ({
               >
                 <PenTool className="h-4 w-4" />
                 <span>Test</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  handlePractice("learn");
-                  setOpen(false);
-                }}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Brain className="h-4 w-4" />
-                <span>Learn</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  handlePractice("puzzle");
-                  setOpen(false);
-                }}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <Puzzle className="h-4 w-4" />
-                <span>Word Puzzle</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {

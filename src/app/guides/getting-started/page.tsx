@@ -529,17 +529,6 @@ export default function GettingStartedGuidePage() {
                                 ],
                                 icon: "📝",
                               },
-                              {
-                                title: "Games",
-                                description:
-                                  "Make learning fun with interactive games like Hangman and Word Puzzles based on your study sets.",
-                                benefits: [
-                                  "Engaging and motivating",
-                                  "Reduces study fatigue",
-                                  "Reinforces learning",
-                                ],
-                                icon: "🎮",
-                              },
                             ].map((mode, index) => (
                               <div
                                 key={index}

@@ -13,7 +13,6 @@ import {
   BarChart2,
   Layers,
   FlaskConical,
-  Puzzle,
   Gamepad2,
   PenTool,
   Brain,
@@ -286,7 +285,7 @@ export default function SetList() {
                       )}
                     </CardContent>
                     <CardFooter className="flex-col space-y-2 pt-0">
-                      <div className="grid grid-cols-5 gap-1 w-full">
+                      <div className="grid grid-cols-3 gap-1 w-full">
                         <Button
                           variant="outline"
                           size="sm"
@@ -309,28 +308,10 @@ export default function SetList() {
                           variant="outline"
                           size="sm"
                           className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set, "puzzle")}
-                        >
-                          <Puzzle className="h-4 w-4 mb-1" />
-                          <span className="text-xs">Puzzle</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex flex-col items-center p-1 h-auto"
                           onClick={() => handlePractice(set, "test")}
                         >
                           <PenTool className="h-4 w-4 mb-1" />
                           <span className="text-xs">Test</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex flex-col items-center p-1 h-auto"
-                          onClick={() => handlePractice(set, "learn")}
-                        >
-                          <Brain className="h-4 w-4 mb-1" />
-                          <span className="text-xs">Learn</span>
                         </Button>
                       </div>
                       <Link

@@ -15,7 +15,6 @@ import {
   BookOpen,
   PenTool,
   Brain,
-  Puzzle,
   Gamepad2,
 } from "lucide-react";
 import api from "@/clients/api/api";

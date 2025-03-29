@@ -50,11 +50,9 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Load the set data
       setIsLoading(true);
       const data = await api.fetchPracticeSetDetailsById(id as string);
       setSet(data);
-      // Shuffle words initially
       if (data.words.length > 0) {
         generateQuestions(data.words);
       }
@@ -64,15 +62,10 @@ export default function TestPage({ params }: { params: { id: string } }) {
   }, [id]);
 
   const generateQuestions = (words: Word[]) => {
-    // Shuffle words
     const shuffledWords = [...words].sort(() => Math.random() - 0.5);
-
-    // Generate questions with different types
     const newQuestions: Question[] = [];
 
-    // Create a mix of question types
     shuffledWords.forEach((word) => {
-      // Randomly select question type
       const questionTypes: QuestionType[] = [
         "multiple-choice",
         "write-answer",
@@ -85,14 +78,12 @@ export default function TestPage({ params }: { params: { id: string } }) {
 
       switch (randomType) {
         case "multiple-choice":
-          // Get 3 random incorrect options
           const incorrectOptions = shuffledWords
             .filter((w) => w.id !== word.id)
             .sort(() => Math.random() - 0.5)
             .slice(0, 3)
             .map((w) => w.description);
 
-          // Add correct answer and shuffle
           const allOptions = [...incorrectOptions, word.description].sort(
             () => Math.random() - 0.5,
           );
@@ -114,7 +105,6 @@ export default function TestPage({ params }: { params: { id: string } }) {
           break;
 
         case "true-false":
-          // 50% chance of showing correct or incorrect pairing
           const isCorrectPairing = Math.random() > 0.5;
           const randomIncorrectWord = shuffledWords
             .filter((w) => w.id !== word.id)
@@ -152,7 +142,6 @@ export default function TestPage({ params }: { params: { id: string } }) {
     let correct = false;
 
     if (currentQuestion.type === "write-answer") {
-      // Case insensitive comparison for write-answer
       correct =
         selectedAnswer.trim().toLowerCase() ===
         currentQuestion.correctAnswer.toLowerCase();
@@ -183,6 +172,73 @@ export default function TestPage({ params }: { params: { id: string } }) {
     if (set) {
       generateQuestions(set.words);
     }
+  };
+
+  const calculateSuccessRate = () => {
+    const successPercent = (score / questions.length) * 100;
+    const failPercent = 100 - successPercent;
+    return { successPercent, failPercent };
+  };
+
+  const renderSummaryPage = () => {
+    const { successPercent, failPercent } = calculateSuccessRate();
+    return (
+      <div className="container mx-auto py-8 px-4 text-center">
+        <h1 className="text-3xl font-bold mb-4">Test Completed!</h1>
+        <div className="relative w-48 h-48 mx-auto mb-4">
+          <svg className="transform -rotate-90" viewBox="0 0 36 36">
+            <circle
+              cx="18"
+              cy="18"
+              r="15.91549430918954"
+              fill="none"
+              stroke="#e53e3e"
+              strokeWidth="3"
+              strokeDasharray={`${failPercent} ${100 - failPercent}`}
+              strokeDashoffset="25"
+              strokeLinecap="round"
+            ></circle>
+            <circle
+              cx="18"
+              cy="18"
+              r="15.91549430918954"
+              fill="none"
+              stroke="#38a169"
+              strokeWidth="3"
+              strokeDasharray={`${successPercent} ${100 - successPercent}`}
+              strokeDashoffset="25"
+              strokeLinecap="round"
+            ></circle>
+          </svg>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-bold">
+            {Math.round(successPercent)}%
+          </div>
+        </div>
+        <p className="text-muted-foreground mb-4">
+          You successfully answered {score} out of {questions.length} questions.
+        </p>
+        <p className="text-muted-foreground mb-6">
+          Failed answers: {questions.length - score}
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button onClick={restartTest} className="hover:bg-forest-700">
+            Play Again
+          </Button>
+          <Button
+            onClick={() => {
+              if (id == "words-library") {
+                router.push("/user/words");
+                return;
+              }
+              router.push("/user/practice");
+            }}
+            variant="outline"
+          >
+            Back to Sets
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -222,58 +278,7 @@ export default function TestPage({ params }: { params: { id: string } }) {
   }
 
   if (testCompleted) {
-    const percentage = Math.round((score / questions.length) * 100);
-    return (
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex items-center gap-2 mb-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => {
-              if (id == "words-library") {
-                router.push("/user/words");
-                return;
-              }
-              router.push("/user/practice");
-            }}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span className="sr-only">Back to sets</span>
-          </Button>
-          <span className="text-muted-foreground">Back to sets</span>
-        </div>
-
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">{set.title} - Test</h1>
-          <p className="text-muted-foreground">{set.description}</p>
-        </div>
-
-        <Card className="w-full max-w-2xl p-8 text-center mx-auto">
-          <h2 className="text-2xl font-bold mb-4">Test Completed!</h2>
-          <p className="text-xl mb-6">
-            Your score: {score} out of {questions.length} ({percentage}%)
-          </p>
-
-          <div className="mb-8">
-            {percentage >= 80 ? (
-              <div className="text-green-500 font-bold text-lg">
-                Excellent! Great job!
-              </div>
-            ) : percentage >= 60 ? (
-              <div className="text-amber-500 font-bold text-lg">
-                Good work! Keep practicing!
-              </div>
-            ) : (
-              <div className="text-red-500 font-bold text-lg">
-                Keep studying! You'll improve!
-              </div>
-            )}
-          </div>
-
-          <Button onClick={restartTest}>Take Another Test</Button>
-        </Card>
-      </div>
-    );
+    return renderSummaryPage();
   }
 
   const currentQuestion = questions[currentQuestionIndex];

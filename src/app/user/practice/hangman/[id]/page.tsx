@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { RefreshCw, Volume2, ArrowLeft } from "lucide-react";
@@ -15,7 +14,6 @@ type Word = {
   word: string;
   description: string;
 };
-
 type StudySet = {
   id: string;
   title: string;
@@ -30,7 +28,7 @@ export default function HangmanPage() {
   const [shuffledWords, setShuffledWords] = useState<Word[]>([]);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [wrongGuesses, setWrongGuesses] = useState(0);
-  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
+  const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost" | "completed">(
     "playing",
   );
   const [score, setScore] = useState(0);
@@ -62,7 +60,6 @@ export default function HangmanPage() {
   }, [currentWordIndex]);
 
   const currentWord = shuffledWords[currentWordIndex]?.word.toUpperCase() || "";
-
   // Create masked word with only guessed letters visible
   const maskedWord = currentWord
     .split("")
@@ -70,7 +67,6 @@ export default function HangmanPage() {
       guessedLetters.includes(letter) || letter === " " ? letter : "_",
     )
     .join(" ");
-
   // Check if all letters have been guessed
   const hasWon = currentWord
     .split("")
@@ -80,7 +76,6 @@ export default function HangmanPage() {
         letter === " " ||
         !letter.match(/[A-Z]/i),
     );
-
   // Check if player has lost
   const hasLost = wrongGuesses >= maxWrongGuesses;
 
@@ -95,10 +90,8 @@ export default function HangmanPage() {
 
   const handleLetterGuess = (letter: string) => {
     if (gameStatus !== "playing" || guessedLetters.includes(letter)) return;
-
     const newGuessedLetters = [...guessedLetters, letter];
     setGuessedLetters(newGuessedLetters);
-
     if (!currentWord.includes(letter)) {
       setWrongGuesses(wrongGuesses + 1);
     }
@@ -109,14 +102,12 @@ export default function HangmanPage() {
       setCurrentWordIndex(currentWordIndex + 1);
     } else {
       // Game completed
-      alert(`Game completed! Your score: ${score}/${shuffledWords.length}`);
-      resetGame();
+      setGameStatus("completed");
     }
   };
 
   const resetGame = () => {
     if (!set) return;
-
     setShuffledWords([...set.words].sort(() => Math.random() - 0.5));
     setCurrentWordIndex(0);
     setGuessedLetters([]);
@@ -192,7 +183,6 @@ export default function HangmanPage() {
         className="stroke-current"
       />,
     ];
-
     return (
       <svg width="100" height="100" viewBox="0 0 100 100" className="stroke-2">
         {/* Gallows */}
@@ -200,10 +190,76 @@ export default function HangmanPage() {
         <line x1="30" y1="95" x2="30" y2="5" className="stroke-current" />
         <line x1="30" y1="5" x2="50" y2="5" className="stroke-current" />
         <line x1="50" y1="5" x2="50" y2="15" className="stroke-current" />
-
         {/* Draw body parts based on wrong guesses */}
         {parts.slice(0, wrongGuesses)}
       </svg>
+    );
+  };
+
+  const calculateSuccessRate = () => {
+    const successPercent = (score / shuffledWords.length) * 100;
+    const failPercent = 100 - successPercent;
+    return { successPercent, failPercent };
+  };
+
+  const renderSummaryPage = () => {
+    const { successPercent, failPercent } = calculateSuccessRate();
+    return (
+      <div className="container mx-auto py-8 px-4 text-center">
+        <h1 className="text-3xl font-bold mb-4">Game Completed!</h1>
+        <div className="relative w-48 h-48 mx-auto mb-4">
+          <svg className="transform -rotate-90" viewBox="0 0 36 36">
+            <circle
+              cx="18"
+              cy="18"
+              r="15.91549430918954"
+              fill="none"
+              stroke="#e53e3e"
+              strokeWidth="3"
+              strokeDasharray={`${failPercent} ${100 - failPercent}`}
+              strokeDashoffset="25"
+              strokeLinecap="round"
+            ></circle>
+            <circle
+              cx="18"
+              cy="18"
+              r="15.91549430918954"
+              fill="none"
+              stroke="#38a169"
+              strokeWidth="3"
+              strokeDasharray={`${successPercent} ${100 - successPercent}`}
+              strokeDashoffset="25"
+              strokeLinecap="round"
+            ></circle>
+          </svg>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-bold">
+            {Math.round(successPercent)}%
+          </div>
+        </div>
+        <p className="text-muted-foreground mb-4">
+          You successfully guessed {score} out of {shuffledWords.length} words.
+        </p>
+        <p className="text-muted-foreground mb-6">
+          Failed words: {shuffledWords.length - score}
+        </p>
+        <div className="flex justify-center gap-4">
+          <Button onClick={resetGame} className="hover:bg-forest-700">
+            Play Again
+          </Button>
+          <Button
+            onClick={() => {
+              if (id == "words-library") {
+                router.push("/user/words");
+                return;
+              }
+              router.push("/user/practice");
+            }}
+            variant="outline"
+          >
+            Back to Sets
+          </Button>
+        </div>
+      </div>
     );
   };
 
@@ -243,6 +299,10 @@ export default function HangmanPage() {
     );
   }
 
+  if (gameStatus === "completed") {
+    return renderSummaryPage();
+  }
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex items-center gap-2 mb-4">
@@ -262,12 +322,10 @@ export default function HangmanPage() {
         </Button>
         <span className="text-muted-foreground">Back to sets</span>
       </div>
-
       <div className="mb-6">
         <h1 className="text-3xl font-bold ">{set.title} - Hangman</h1>
         <p className="text-muted-foreground">{set.description}</p>
       </div>
-
       <div className="flex flex-col items-center">
         <div className="w-full max-w-2xl mb-4">
           <div className="flex justify-between items-center mb-2">
@@ -292,7 +350,6 @@ export default function HangmanPage() {
             className="h-2"
           />
         </div>
-
         <div className="flex flex-col md:flex-row gap-8 w-full max-w-2xl mb-8">
           <Card className="flex-1 p-6 flex flex-col items-center justify-center shadow-custom border-forest-100">
             {hangmanFigure()}
@@ -302,11 +359,9 @@ export default function HangmanPage() {
               </p>
             </div>
           </Card>
-
           <Card className="flex-1 p-6 shadow-custom border-forest-100">
             <div className="text-center">
               <h2 className="text-2xl font-bold mb-6">{maskedWord}</h2>
-
               {gameStatus === "playing" && (
                 <>
                   <div className="grid grid-cols-7 gap-1 mb-4">
@@ -355,7 +410,6 @@ export default function HangmanPage() {
                   )}
                 </>
               )}
-
               {gameStatus === "won" && (
                 <div className="mt-4">
                   <p className="text-green-500 font-bold mb-2">Correct!</p>
@@ -371,7 +425,6 @@ export default function HangmanPage() {
                   </Button>
                 </div>
               )}
-
               {gameStatus === "lost" && (
                 <div className="mt-4">
                   <p className="text-destructive font-bold mb-2">Game Over!</p>

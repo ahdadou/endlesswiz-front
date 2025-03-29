@@ -221,7 +221,6 @@ const GeneralPage = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="flashcards">Flashcards</SelectItem>
-                  <SelectItem value="learn">Learn</SelectItem>
                   <SelectItem value="test">Test</SelectItem>
                   <SelectItem value="games">Games</SelectItem>
                 </SelectContent>

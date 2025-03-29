@@ -3,31 +3,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
-  BookOpen,
   Trash2,
   Edit,
-  ChevronDown,
-  Brain,
-  PenTool,
-  Puzzle,
-  Gamepad2,
   ArrowLeft,
   Plus,
-  Download,
-  Share2,
-  Printer,
-  MoreHorizontal,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,

@@ -124,7 +124,7 @@ export default function UpgradePage() {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                    <span>Advanced learning modes (Hangman, Puzzle, Test)</span>
+                    <span>Advanced learning modes (Hangman, Test)</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
