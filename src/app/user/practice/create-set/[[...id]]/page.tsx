@@ -74,6 +74,18 @@ export default function CreateSetWithId() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if any word is missing a description
+    const hasEmptyDescription = practiceWords.some(word => !word.description.trim());
+    if (hasEmptyDescription) {
+      toast({
+        title: "Validation Error",
+        description: "All words must have a description",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -234,6 +246,7 @@ export default function CreateSetWithId() {
                             }
                             className="resize-none"
                             rows={2}
+                            required
                           />
                         </div>
                         <div className="flex-1 p-4">
@@ -248,7 +261,13 @@ export default function CreateSetWithId() {
                             }
                             className="resize-none"
                             rows={2}
+                            required
                           />
+                          {!item.description.trim() && (
+                            <p className="text-sm text-destructive mt-1">
+                              Description is required
+                            </p>
+                          )}
                         </div>
                       </div>
                     </CardContent>
