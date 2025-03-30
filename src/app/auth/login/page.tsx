@@ -46,7 +46,7 @@ const LoginPage = () => {
   };
 
   const handleLoginWithProvider = (
-    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
   ) => {
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
@@ -68,6 +68,31 @@ const LoginPage = () => {
           <p className="mt-2 text-sm text-muted-foreground">
             Sign in to continue your English learning journey
           </p>
+        </div>
+
+        <div className="mt-8 space-y-6">
+          {/* Add Google Button */}
+          <Button
+            variant="outline"
+            className="w-full gap-2"
+            onClick={() => handleLoginWithProvider("google")}
+            disabled={isLoading}
+          >
+            <GmailIcon />
+            <span>Continue with Google</span>
+          </Button>
+        </div>
+
+        {/* Add divider */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -146,31 +171,6 @@ const LoginPage = () => {
             </div>
           </div>
         </form>
-
-        {/* Add divider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-8 space-y-6">
-          {/* Add Google Button */}
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => handleLoginWithProvider("google")}
-            disabled={isLoading}
-          >
-            <GmailIcon />
-            <span>Continue with Google</span>
-          </Button>
-        </div>
       </motion.div>
     </div>
   );

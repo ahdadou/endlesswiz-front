@@ -139,10 +139,7 @@ export function SubTitleComponentV2({
     <>
       <Card className="border-forest-100 shadow-sm h-full flex flex-col">
         <CardHeader>
-          <CardTitle className="">Subtitles</CardTitle>
-          <CardDescription>
-            Click on any word to see its definition
-          </CardDescription>
+          <CardTitle className=" text-xl">Subtitles</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 overflow-hidden">
           <div

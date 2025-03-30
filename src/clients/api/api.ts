@@ -56,6 +56,16 @@ const api = {
       console.error("### Error", error);
     }
   },
+  fetchVideosTranscriptPublic: async (videoId: string) => {
+    try {
+      const response = await axiosClient.get<TranscriptResponse[]>(
+        `${getBaseUrl()}/transcript/public/${videoId}`,
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+    }
+  },
 
   // USER
   register: async (req: RegisterRequest) => {
@@ -200,6 +210,27 @@ const api = {
             page: page ?? 0,
             category: category?.toUpperCase(),
             isFavorite: favorites,
+          },
+        },
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+    }
+  },
+  getVideos: async (
+    word?: string,
+    page?: number,
+    size?: number,
+  ) => {
+    try {
+      const response = await axiosClient.get<GetWordResponse>(
+        `${getBaseUrl()}/video/public`,
+        {
+          params: {
+            word: word,
+            size: size || 3,
+            page: page ?? 0,
           },
         },
       );

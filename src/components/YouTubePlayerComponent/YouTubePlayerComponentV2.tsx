@@ -31,9 +31,13 @@ import useActivityTimer from "../utils/useActivityTimer";
 
 interface YouTubePlayerComponentV2Props {
   style: string;
+  isPublicPage?: boolean;
 }
 
-const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
+const YouTubePlayerComponentV2 = ({
+  style,
+  isPublicPage,
+}: YouTubePlayerComponentV2Props) => {
   const {
     currentVideo,
     transcript,
@@ -87,7 +91,9 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
       const isLastPage = currentPage >= totalPagesMinusOne;
 
       const loadNewPage = async (newPage: number, newPosition: number) => {
-        const response = await api.getVideosByUser(highlitedWord, newPage);
+        const response = isPublicPage
+          ? await api.getVideos(highlitedWord, newPage)
+          : await api.getVideosByUser(highlitedWord, newPage);
         if (response) {
           setVideosWithPosition(response, newPosition);
         }
@@ -121,7 +127,7 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
       totalPages,
       setVideosWithPosition,
       setCurrentVideo,
-    ],
+    ]
   );
   const handlePlaybackSpeedChange = (speed: number) => {
     setPlaybackRate(speed);
@@ -131,7 +137,7 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
     if (playerRef.current) {
       if (currentVideo.video?.transcriptResponse?.startTime) {
         playerRef.current.seekTo(
-          currentVideo.video.transcriptResponse.startTime,
+          currentVideo.video.transcriptResponse.startTime
         );
         setCurrentTranscript(currentVideo.video.transcriptResponse);
       } else {
@@ -142,9 +148,9 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
 
   const fetchTranscript = useCallback(async () => {
     if (currentVideo.video?.videoId) {
-      const response = await api.fetchVideosTranscript(
-        currentVideo.video?.videoId,
-      );
+      const response = isPublicPage
+        ? await api.fetchVideosTranscriptPublic(currentVideo.video?.videoId)
+        : await api.fetchVideosTranscript(currentVideo.video?.videoId);
       response && setTranscript(response);
       setVid(currentVideo.video?.vid);
     }
@@ -161,7 +167,7 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
       setCurrentTranscript(currentVideo.video.transcriptResponse);
       if (playerRef.current) {
         playerRef.current.seekTo(
-          currentVideo.video?.transcriptResponse?.startTime,
+          currentVideo.video?.transcriptResponse?.startTime
         );
       }
     }
@@ -193,7 +199,7 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
     <div
       className={cx(
         "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4 pointer-events-none cursor-pointer",
-        isVisible ? "opacity-100" : "opacity-0",
+        isVisible ? "opacity-100" : "opacity-0"
       )}
     >
       {/* Slider and Time Display */}
@@ -375,7 +381,7 @@ const YouTubePlayerComponentV2 = ({ style }: YouTubePlayerComponentV2Props) => {
             youtube: {
               playerVars: {
                 start: Math.floor(
-                  currentVideo.video?.transcriptResponse?.startTime || 0,
+                  currentVideo.video?.transcriptResponse?.startTime || 0
                 ),
               },
             },

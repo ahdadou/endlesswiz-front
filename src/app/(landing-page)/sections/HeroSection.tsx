@@ -4,10 +4,53 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ButtonWithAnimation } from "@/components/ButtonWithAnimation";
+import { Search, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useCallback, useState } from "react";
+import { useZustandState } from "@/provider/ZustandStoreProvider";
+import api from "@/clients/api/api";
 
 const HeroSection = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [wordSearch, setWordSearch] = useState<string>("");
+  const { videos, setVideosWithPosition, setHighlitedWord, currentTranscript } =
+    useZustandState();
+
+  const fetchVideos = useCallback(
+    async (query: string) => {
+      if (!query.trim()) return;
+      setIsLoading(true);
+      try {
+        const response = await api.getVideos(query);
+        setHighlitedWord(query);
+        if (response) {
+          setVideosWithPosition(response); // Update state for video player
+          const nextSection = document.getElementById("search-section");
+          if (nextSection) {
+            nextSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      } catch {
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [setHighlitedWord, setVideosWithPosition]
+  );
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const query = formData.get("query") as string;
+
+    if (query) {
+      fetchVideos(query);
+    }
+  };
+
   return (
-    <section className="pt-32 pb-16 md:py-40 relative overflow-hidden h-[90vh]">
+    <section className="flex justify-center items-center relative overflow-hidden h-[100vh]">
       <motion.div
         className="absolute inset-0 z-0"
         initial={{ opacity: 0 }}
@@ -34,76 +77,51 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Content remains the same */}
-          <motion.span
-            className="inline-block py-1 px-3 mb-6 rounded-full bg-primary/5 text-sm font-medium border border-primary/10"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-          >
-            Transform Your English Learning
-          </motion.span>
-          <h1 className="hero-text mb-6">
-            Master English pronunciation with
-            <span className="relative inline-block mx-2">clarity</span>
-            and
-            <span className="relative inline-block mx-2">confidence</span>
-          </h1>
-          <p className="subtitle-text mb-10 max-w-2xl mx-auto">
-            EndlessWiz provides interactive tools and expert guidance to help
-            you perfect your English pronunciation, vocabulary, and fluency.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="/auth/signup"
-                className="button-primary flex items-center gap-2"
-              >
-                Start Learning
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut",
-                    delay: 1,
-                  }}
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </motion.span>
+          <div className="max-w-4xl mx-auto text-center flex flex-col gap-6">
+            <div>
+              <h1 className="text-2xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+                Master Your Language Skills with Endlesswiz.
+              </h1>
+            </div>
+
+            <p className="text-md lg:text-xl text-gray-600 mb-10">
+              Learn, Practice, and Improve Your Language Like Never Before.
+            </p>
+
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div className="flex flex-row max-w-3xl mx-auto rounded-lg overflow-hidden shadow-lg border border-gray-200">
+                  <div className="flex-1 flex items-center px-4 py-3 bg-white">
+                    <Search className="h-5 w-5 text-gray-400 mr-2" />
+                    <Input
+                      type="text"
+                      name="query"
+                      required
+                      onClick={handleSubmit}
+                      placeholder="What word are you looking for?"
+                      className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 bg-white"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    className="px-8 py-6 rounded-none bg-black hover:bg-gray-800 text-white h-full"
+                  >
+                    Search
+                  </Button>
+                </div>
+              </form>
+            </div>
+
+            <div className="w-full justify-center items-center flex mt-10">
+              <Link href="/auth/signup">
+                <Button className="bg-black hover:bg-gray-800 text-white rounded-md">
+                  Get Started — It's Free
+                </Button>
               </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-              <a href="#search-section" className="button-outline bg-white/80 ">
-                Perfect Your Pronunciation Now ↓
-              </a>
-            </motion.div>
+            </div>
           </div>
-          <p className="mt-4 text-gray-300 text-sm">
-            Enter any word below to hear native pronunciation examples 💫
-          </p>
         </motion.div>
       </div>
-      {/* Animated shape overlay */}
-      <motion.div
-        className="absolute inset-0 z-0 pointer-events-none"
-        initial={{ clipPath: "polygon(0 0, 100% 0, 100% 20%, 0 40%)" }}
-        animate={{
-          clipPath: [
-            "polygon(0 0, 100% 0, 100% 20%, 0 40%)",
-            "polygon(0 30%, 100% 0, 100% 30%, 0 60%)",
-            "polygon(0 0, 100% 0, 100% 20%, 0 40%)",
-          ],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        <div className=" relative w-full h-full bg-primary/5 backdrop-blur-[2px]" />
-      </motion.div>
     </section>
   );
 };
