@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-white"
+        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-white/70"
       }`}
     >
       <div className="container mx-auto px-6 py-4">
@@ -140,9 +140,7 @@ const Navbar = () => {
             <>
               <div className="w-full justify-center items-center flex">
                 <Link href="/auth/signup">
-                  <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
                     Get Started — It's Free
-                  </Button>
                 </Link>
               </div>
               <Link href="/auth/login">

@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
 import RotatingText from "@/components/animations/RotatingText/RotatingText";
+import Squares from "@/components/animations/Squares/Squares";
 
 const HeroSection = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,26 +42,17 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative flex h-screen items-center justify-center overflow-hidden">
-      {/* Background Image with Gradient Overlay */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <div className="relative h-full w-full">
-          <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/100 to-background/80" />
-          <Image
-            fill
-            src="/133679140_10219929.jpg"
-            alt="Language learning concept"
-            className="object-cover object-center"
-            priority
-          />
-        </div>
-      </motion.div>
-
+    <section className="relative flex h-screen items-center justify-center">
+      <div className="absolute inset-0 z-0 h-full w-full">
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/60 to-background/50" />
+        <Squares
+          speed={0.5}
+          squareSize={40}
+          direction="diagonal" // up, down, left, right, diagonal
+          borderColor="#fff"
+          hoverFillColor="#222"
+        />
+      </div>
       {/* Content Container */}
       <div className="container relative z-10 mx-auto px-6">
         <motion.div
@@ -104,7 +96,8 @@ const HeroSection = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
               >
-                Learn, practice, and perfect your language skills through immersive, AI-powered experiences
+                Learn, practice, and perfect your language skills through
+                immersive, AI-powered experiences
               </motion.p>
             </div>
 
@@ -116,8 +109,8 @@ const HeroSection = () => {
               transition={{ delay: 0.8 }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <div className="relative flex-1 rounded-lg border border-gray-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-forest-500">
+                <div className="flex flex-col sm:flex-row sm:items-center">
+                  <div className="relative flex-1 rounded-lg md:rounded-r-none border border-gray-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-forest-500">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                       <Search className="h-5 w-5 text-gray-400" />
                     </div>
@@ -131,7 +124,7 @@ const HeroSection = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="h-14 w-full bg-gradient-to-r from-forest-700 to-forest-600 px-8 text-lg font-semibold hover:from-forest-700 hover:to-forest-600 sm:w-auto"
+                    className="h-14 w-full bg-gradient-to-r from-forest-700 md:rounded-l-none to-forest-600 px-8 text-lg font-semibold hover:from-forest-600 hover:to-forest-600 sm:w-auto"
                   >
                     {isLoading ? (
                       <Loader2 className="h-5 w-5 animate-spin" />
@@ -143,7 +136,7 @@ const HeroSection = () => {
 
                 {/* CTA */}
                 <p className="text-sm text-muted-foreground">
-                  Start learning for free -{' '}
+                  Start learning for free -{" "}
                   <Link
                     href="/auth/signup"
                     className="font-semibold text-forest-700 hover:underline"
