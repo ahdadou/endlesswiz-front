@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import TiltedCard from "@/components/animations/TiltedCardProps/TiltedCardProps";
 
 const features = [
   {
@@ -98,36 +99,36 @@ const FeatureSection = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true, margin: "-100px" }}
             >
-              {/* Media Container */}
-              <div className="w-full md:w-1/2 relative group">
-                <div className="relative rounded-xl overflow-hidden shadow-xl border border-border h-[400px]">
-                  {feature.type === "IMAGE" ? (
-                    <Image
-                      src={feature.media}
-                      fill
-                      alt={feature.title}
-                      className="object-scale-down"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      style={{
-                        objectPosition: "center center",
-                        backgroundColor: "#f8f9fa",
-                      }}
-                    />
-                  ) : (
+              <div className="w-full md:w-1/2 relative group flex items-center justify-center rounded-xl overflow-hidden shadow-xl border border-border h-[400px]">
+                {feature.type === "IMAGE" ? (
+                  <TiltedCard
+                    imageSrc={feature.media}
+                    altText="endlesswiz"
+                    captionText="endlesswiz"
+                    containerHeight="300px"
+                    containerWidth="300px"
+                    imageHeight="330px"
+                    imageWidth="330px"
+                    rotateAmplitude={12}
+                    scaleOnHover={1.2}
+                    showMobileWarning={false}
+                    showTooltip={true}
+                    displayOverlayContent={true}
+                  />
+                ) : (
+                  <div className="relative h-full w-full p-10">
                     <video
                       autoPlay
                       muted
                       loop
                       className="w-full h-full object-fill"
                     >
-                      <source
-                        src={feature.media}
-                        type="video/mp4"
-                      />
+                      <source src={feature.media} type="video/mp4"/>
                     </video>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
-                </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
+                  </div>
+                )}
+
                 <div className="absolute top-4 left-4 bg-primary/90 text-background px-3 py-1 rounded-full text-sm font-medium shadow-sm">
                   {feature.badge}
                 </div>
@@ -135,7 +136,7 @@ const FeatureSection = () => {
 
               {/* Content Container */}
               <div className="w-full md:w-1/2 space-y-4">
-                <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+                <h3 className="text-3xl font-bold text-forest-700">
                   {feature.title}
                 </h3>
                 <p className="text-lg text-muted-foreground">

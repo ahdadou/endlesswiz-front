@@ -73,7 +73,7 @@ const HeroSection = () => {
             {/* Headings */}
             <div className="space-y-4">
               <motion.h1
-                className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+                className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl flex flex-col justify-center items-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
@@ -81,7 +81,7 @@ const HeroSection = () => {
                 <span className="block font-sans font-black text-forest-700 leading-tight">
                   Master Your Language
                 </span>
-                <span className="relative mt-2 block h-20 sm:h-24">
+                <span className="relative mt-2 block h-20 sm:h-24 w-[70%]">
                   <RotatingText
                     texts={["Skills.", "Vocabulary.", "Pronunciation."]}
                     mainClassName="absolute inset-0 bg-gradient-to-r from-forest-800 to-forest-600 text-white flex items-center justify-center px-4 py-2 rounded-xl"
@@ -99,7 +99,7 @@ const HeroSection = () => {
               </motion.h1>
 
               <motion.p
-                className="mx-auto max-w-2xl text-lg text-muted-foreground sm:text-lg text-forest-700"
+                className="mx-auto max-w-2xl text-sm md:text-lg text-muted-foreground sm:text-lg text-forest-700"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
