@@ -8,7 +8,13 @@ import { useZustandState } from "@/provider/ZustandStoreProvider";
 import { Spinner } from "@/Icons/SpinnerIcon";
 import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComponentV2";
 import PronounciationTips from "@/components/pronunciationTips/PronunciationTips";
-import { AlignVerticalSpaceAround, Layout, Search } from "lucide-react";
+import {
+  AlignVerticalSpaceAround,
+  Layout,
+  Search,
+  Maximize,
+  Minimize,
+} from "lucide-react";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
@@ -19,48 +25,48 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const HEIGHT_MAP = {
+  "25": "h-[6.25vh] lg:h-[15vh]",
+  "50": "h-[12.5vh] lg:h-[30vh]",
+  "75": "h-[18.75vh] lg:h-[45vh]",
+  "100": "h-[25vh] lg:h-[60vh]",
+};
+
+const useLocalStorage = (
+  key: string,
+  initialValue: string,
+  validator?: (value: string) => boolean
+) => {
+  const [value, setValue] = useState(() => {
+    if (typeof window === "undefined") return initialValue;
+    const stored = localStorage.getItem(key);
+    return stored && (!validator || validator(stored)) ? stored : initialValue;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [key, value]);
+
+  return [value, setValue] as const;
+};
+
 export default function PronouncePage() {
   const { setVideosWithPosition, setHighlitedWord } = useZustandState();
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const isMobile = useIsMobile();
+  const [isZoomed, setIsZoomed] = useState(false);
 
-  const [layoutMode, setLayoutMode] = useState("side");
-  const [playerHeight, setPlayerHeight] = useState("100");
-
-  // Load and save layoutMode and playerHeight client-side
-  useEffect(() => {
-    // Only run on the client
-    if (typeof window !== "undefined") {
-      const savedLayoutMode = localStorage.getItem("layoutMode");
-      const savedPlayerHeight = localStorage.getItem("playerHeight");
-      if (savedLayoutMode && !isMobile) setLayoutMode(savedLayoutMode);
-      if (savedPlayerHeight) setPlayerHeight(savedPlayerHeight);
-    }
-  }, [isMobile]); // Run once on mount and when isMobile changes
-
-  // Save layoutMode to local storage (web only)
-  useEffect(() => {
-    if (typeof window !== "undefined" && !isMobile) {
-      localStorage.setItem("layoutMode", layoutMode);
-    }
-  }, [layoutMode, isMobile]);
-
-  // Save playerHeight to local storage
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("playerHeight", playerHeight);
-    }
-  }, [playerHeight]);
-
-  // Map percentage to height, with 100% as h-[25vh] lg:h-[60vh]
-  const heightMap = {
-    "25": "h-[6.25vh] lg:h-[15vh]", // 25% of 25vh/60vh
-    "50": "h-[12.5vh] lg:h-[30vh]", // 50% of 25vh/60vh
-    "75": "h-[18.75vh] lg:h-[45vh]", // 75% of 25vh/60vh
-    "100": "h-[25vh] lg:h-[60vh]", // 100% matches normal version
-  };
+  const [layoutMode, setLayoutMode] = useLocalStorage(
+    "layoutMode",
+    "side",
+    (v) => ["side", "bottom"].includes(v)
+  );
+  const [playerHeight, setPlayerHeight] = useLocalStorage(
+    "playerHeight",
+    "100"
+  );
 
   const fetchVideos = useCallback(
     async (query: string) => {
@@ -70,26 +76,66 @@ export default function PronouncePage() {
       try {
         const response = await api.getVideosByUser(query);
         setHighlitedWord(query);
-        if (response) {
-          setVideosWithPosition(response); // Update state for video player
-        }
+        response && setVideosWithPosition(response);
       } catch {
         setError("Failed to connect to the server");
       } finally {
         setIsLoading(false);
       }
     },
-    [setHighlitedWord, setVideosWithPosition],
+    [setHighlitedWord, setVideosWithPosition]
   );
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchVideos(searchQuery.trim());
+  const handleZoomToggle = () => setIsZoomed((prev) => !prev);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      event.key === "Escape" && setIsZoomed(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  const getLayoutClasses = () => {
+    if (isZoomed)
+      return {
+        container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
+        player: "w-full h-[70vh] bg-black overflow-hidden relative",
+        subtitles:
+          "w-full h-[30vh] overflow-auto bg-gray-900 text-white relative",
+      };
+
+    if (isMobile || layoutMode === "bottom")
+      return {
+        container: "flex flex-col gap-4 items-center",
+        player: `w-full ${
+          HEIGHT_MAP[playerHeight as keyof typeof HEIGHT_MAP]
+        } bg-black rounded-md overflow-hidden`,
+        subtitles: "w-full h-[50vh] overflow-auto rounded-md relative",
+      };
+
+    return layoutMode === "side"
+      ? {
+          container: "flex flex-col lg:flex-row gap-4",
+          player:
+            "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden",
+          subtitles:
+            "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-md relative",
+        }
+      : {
+          container: "flex flex-col gap-4",
+          player: `w-full max-w-[1280px] ${
+            HEIGHT_MAP[playerHeight as keyof typeof HEIGHT_MAP]
+          } bg-black rounded-md overflow-hidden`,
+          subtitles:
+            "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-md relative",
+        };
   };
+
+  const { container, player, subtitles } = getLayoutClasses();
 
   return (
     <div className="flex flex-col lg:p-8 gap-7">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold">Pronunciation Practice</h1>
         <p className="text-muted-foreground">
@@ -97,33 +143,31 @@ export default function PronouncePage() {
         </p>
       </div>
 
-      {/* Search Bar and Controls */}
       <div className="flex flex-row gap-2 items-center w-full">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="Search for pronunciation videos..."
-            className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 focus:border-forest focus:ring-2 focus:ring-forest-100 transition-all duration-200 ease-in-out"
+            className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 focus:border-forest focus:ring-2 focus:ring-forest-100 transition-all duration-200"
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch(e);
-            }}
+            onKeyDown={(e) =>
+              e.key === "Enter" && fetchVideos(searchQuery.trim())
+            }
           />
         </div>
+
         <Button
-          onClick={handleSearch}
-          className="bg-forest hover:bg-forest-700 text-cream w-20 text-center rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-forest-100 focus:ring-offset-2 flex-shrink-0"
+          onClick={() => fetchVideos(searchQuery.trim())}
+          className="bg-forest hover:bg-forest-700 text-cream w-20 rounded-lg transition-all hover:scale-105 focus:ring-2 focus:ring-forest-100"
+          disabled={isLoading}
         >
-          {isLoading ? (
-            <Spinner className="w-5 h-5 text-cream animate-spin" />
-          ) : (
-            "Search"
-          )}
+          {isLoading ? <Spinner className="w-5 h-5 animate-spin" /> : "Search"}
         </Button>
-        {/* Layout Dropdown (Web Only) */}
+
         {!isMobile && (
           <Select value={layoutMode} onValueChange={setLayoutMode}>
-            <SelectTrigger className="w-15 h-9 flex-shrink-0">
+            <SelectTrigger className="w-15 h-9">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -136,76 +180,60 @@ export default function PronouncePage() {
             </SelectContent>
           </Select>
         )}
-        {/* Height Dropdown (Mobile Always, Web only in 'bottom' mode) */}
+
         {(isMobile || layoutMode === "bottom") && (
           <Select value={playerHeight} onValueChange={setPlayerHeight}>
-            <SelectTrigger className="w-15 h-9 text-sm flex-shrink-0">
+            <SelectTrigger className="w-15 h-9 text-sm">
               <SelectValue placeholder="Height" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="25">25%</SelectItem>
-              <SelectItem value="50">50%</SelectItem>
-              <SelectItem value="75">75%</SelectItem>
-              <SelectItem value="100">100%</SelectItem>
+              {Object.keys(HEIGHT_MAP).map((height) => (
+                <SelectItem key={height} value={height}>
+                  {height}%
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         )}
       </div>
 
-      {/* Video and Subtitle Section */}
-      <div className="flex flex-col gap-4 w-full">
-        <div
-          className={
-            isMobile || layoutMode === "bottom"
-              ? "flex flex-col gap-4 items-center"
-              : "flex flex-col lg:flex-row gap-4"
-          }
-        >
-          {/* Video Player Container */}
-          <div
-            className={
-              isMobile
-                ? `w-full ${
-                    heightMap[playerHeight as keyof typeof heightMap]
-                  } bg-black rounded-md overflow-hidden`
-                : layoutMode === "side"
-                  ? "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden"
-                  : `w-full max-w-[1280px] ${
-                      heightMap[playerHeight as keyof typeof heightMap]
-                    } bg-black rounded-md overflow-hidden`
-            }
-          >
-            <YouTubePlayerComponentV2
-              style={`w-full ${
-                layoutMode === "bottom"
-                  ? heightMap[playerHeight as keyof typeof heightMap]
-                  : heightMap["100"]
-              }`}
-            />
-          </div>
+      <div className={container}>
+        <div className={player}>
+          <YouTubePlayerComponentV2
+            style={`w-full ${
+              isZoomed
+                ? "h-[65vh]"
+                : HEIGHT_MAP[
+                    (layoutMode === "bottom"
+                      ? playerHeight
+                      : "100") as keyof typeof HEIGHT_MAP
+                  ]
+            }`}
+          />
+        </div>
 
-          {/* Subtitle Container */}
-          <div
-            className={
-              isMobile
-                ? "w-full h-[50vh] overflow-auto rounded-md"
-                : layoutMode === "side"
-                  ? "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-md"
-                  : "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-md"
+        <div className={subtitles}>
+          <SubTitleComponentV2
+            isAuthenticated
+            showCurrentTranscriptInTheMiddle={
+              layoutMode !== "bottom" && !isMobile
             }
+          />
+          <button
+            onClick={handleZoomToggle}
+            className="absolute top-2 right-6 p-4 text-black rounded-md  transition-opacity"
+            aria-label={isZoomed ? "Minimize" : "Maximize"}
           >
-            <SubTitleComponentV2
-              isAuthenticated={true}
-              showCurrentTranscriptInTheMiddle={
-                layoutMode !== "bottom" && !isMobile
-              }
-            />
-          </div>
+            {isZoomed ? (
+              <Minimize className="h-4 w-4" />
+            ) : (
+              <Maximize className="h-4 w-4" />
+            )}
+          </button>
         </div>
       </div>
 
       {error && <p className="text-red-500">{error}</p>}
-
       <PronounciationTips />
     </div>
   );

@@ -138,8 +138,8 @@ export function SubTitleComponentV2({
   return (
     <>
       <Card className="border-forest-100 shadow-sm h-full flex flex-col">
-        <CardHeader>
-          <CardTitle className=" text-xl">Subtitles</CardTitle>
+        <CardHeader className="h-14">
+          <CardTitle className=" text-lg">Subtitles</CardTitle>
         </CardHeader>
         <CardContent className="flex-1 overflow-hidden">
           <div

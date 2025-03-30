@@ -7,7 +7,7 @@ const Footer = () => {
   // Define link objects for each section
   const learningLinks = [
     { title: "Getting Started", link: "/guides/getting-started" },
-    { title: "Reading Stories", link: "/guides/practice-modes#reading-stories" },
+    { title: "Practice Modes", link: "/guides/practice-modes" },
     // { title: "Watching Videos", link: "/guides/practice-modes#watching-videos" },
   ];
 
