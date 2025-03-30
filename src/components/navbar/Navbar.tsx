@@ -153,28 +153,6 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              href="/learn"
-              className={`nav-link text-lg py-2 ${
-                isActive("/learn") ? "active" : ""
-              }`}
-              onClick={closeMenu}
-            >
-              <span className="flex items-center gap-2">
-                <PlayCircle className="w-5 h-5" /> Learn
-              </span>
-            </Link>
-            <Link
-              href="/practice"
-              className={`nav-link text-lg py-2 ${
-                isActive("/practice") ? "active" : ""
-              }`}
-              onClick={closeMenu}
-            >
-              <span className="flex items-center gap-2">
-                <Search className="w-5 h-5" /> Practice
-              </span>
-            </Link>
-            <Link
               href="/auth/signup"
               className="button-primary w-full justify-center mt-2"
               onClick={closeMenu}
