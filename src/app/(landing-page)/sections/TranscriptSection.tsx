@@ -8,7 +8,7 @@ const TranscriptSection = () => {
   return (
     <section 
       id="search-section" 
-      className="min-h-screen lg:px-10 pt-28 relative bg-gradient-to-b from-background to-forest-50/30"
+      className="h-[100vh] lg:px-10 py-14 relative bg-gradient-to-b from-background to-forest-50/30"
     >
       <motion.div
         initial={{ opacity: 0, y: 50 }}

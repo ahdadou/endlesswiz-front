@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,9 +38,10 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const isActive = (path: string) => pathname === path;
+  const isMobile = useIsMobile();
 
   // Fetch videos function
-  const fetchVideos = async (query: string) => {
+  const fetchVideos = async (query: string) => {    
     if (!query.trim()) return;
     try {
       const response = await api.getVideos(query);
@@ -70,21 +72,44 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-semibold tracking-tight flex items-center gap-2"
-            onClick={closeMenu}
-          >
-            <TrueFocus
-              sentence="Endlesswiz"
-              manualMode={false}
-              blurAmount={5}
-              borderColor="text-forest-700"
-              animationDuration={2}
-              pauseBetweenAnimations={1}
-            />
-          </Link>
 
+          {(isInTranscriptSection && isMobile) ? (
+            <>
+              {/* Search Bar */}
+              <form onSubmit={handleSearchSubmit} className="flex items-center">
+                <div className="flex items-center px-3 py-1 bg-white border border-r-0 border-gray-200 rounded-l-md w-full h-10">
+                  <Input
+                    type="text"
+                    value={wordSearch}
+                    onChange={(e) => setWordSearch(e.target.value)}
+                    placeholder="Search a word..."
+                    className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 bg-transparent h-8 text-base"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="bg-white hover:bg-white/50 rounded-l-none h-10 px-4 text-base  border border-l-0 border-gray-200"
+                >
+                  <SearchIcon className="text-forest-700" />
+                </Button>
+              </form>
+            </>
+          ) : (
+            <Link
+              href="/"
+              className="text-xl font-semibold tracking-tight flex items-center gap-2"
+              onClick={closeMenu}
+            >
+              <TrueFocus
+                sentence="Endlesswiz"
+                manualMode={false}
+                blurAmount={5}
+                borderColor="text-forest-700"
+                animationDuration={2}
+                pauseBetweenAnimations={1}
+              />
+            </Link>
+          )}
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4">
             {isInTranscriptSection && (
@@ -142,23 +167,25 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg animate-slide-down shadow-md">
-          <nav className="container mx-auto px-6 py-6 flex flex-col space-y-4">
+          <nav className="flex flex-col">
             <Link
               href="/"
-              className={`nav-link text-lg py-2 ${
+              className={`nav-link text-lg p-5 ${
                 isActive("/") ? "active" : ""
               }`}
               onClick={closeMenu}
             >
               Home
             </Link>
-            <Link
-              href="/auth/signup"
-              className="button-primary w-full justify-center mt-2"
-              onClick={closeMenu}
-            >
-              Get Started
-            </Link>
+            <div className="bg-forest-700 hover:bg-forest-600 h-full w-full p-5 text-white">
+              <Link
+                href="/auth/login"
+                className="button-primary justify-center"
+                onClick={closeMenu}
+              >
+                Login
+              </Link>
+            </div>
           </nav>
         </div>
       )}
