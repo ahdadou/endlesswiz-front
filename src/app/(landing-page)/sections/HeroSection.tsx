@@ -44,13 +44,13 @@ const HeroSection = () => {
   return (
     <section className="relative flex h-screen items-center justify-center">
       <div className="absolute inset-0 z-0 h-full w-full">
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/60 to-background/50" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/90 to-background/70" />
         <Squares
           speed={0.5}
           squareSize={40}
-          direction="diagonal" // up, down, left, right, diagonal
-          borderColor="#fff"
-          hoverFillColor="#222"
+          direction="up" // up, down, left, right, diagonal
+          // borderColor="forest"
+          // hoverFillColor="white"
         />
       </div>
       {/* Content Container */}
