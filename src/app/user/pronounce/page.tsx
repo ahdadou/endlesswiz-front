@@ -102,9 +102,8 @@ export default function PronouncePage() {
         container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
         player: "w-full h-[70vh] bg-black overflow-hidden relative",
         subtitles:
-          "w-full h-[30vh] overflow-auto bg-gray-900 text-white relative",
+          "w-full h-[50vh] overflow-auto bg-gray-900 text-white relative",
       };
-
     if (isMobile || layoutMode === "bottom")
       return {
         container: "flex flex-col gap-4 items-center",
@@ -202,7 +201,7 @@ export default function PronouncePage() {
           <YouTubePlayerComponentV2
             style={`w-full ${
               isZoomed
-                ? "h-[65vh]"
+                ? "h-[50vh]"
                 : HEIGHT_MAP[
                     (layoutMode === "bottom"
                       ? playerHeight
