@@ -109,7 +109,7 @@ const HeroSection = () => {
               transition={{ delay: 0.8 }}
             >
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-0">
                   <div className="relative flex-1 rounded-lg md:rounded-r-none border border-gray-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-forest-500">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                       <Search className="h-5 w-5 text-gray-400" />
