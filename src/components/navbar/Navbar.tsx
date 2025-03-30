@@ -87,7 +87,7 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4">
-            {isInTranscriptSection ? (
+            {isInTranscriptSection && (
               <>
                 {/* Search Bar */}
                 <form
@@ -110,22 +110,22 @@ const Navbar = () => {
                     <SearchIcon className="text-forest-700" />
                   </Button>
                 </form>
-                {/* Get Started Button */}
-                <div className="w-full justify-center items-center flex">
-                  <Link href="/auth/signup">
-                    <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
-                      Get Started — It's Free
-                    </Button>
-                  </Link>
-                </div>
               </>
-            ) : (
+            )}
+            <>
+              <div className="w-full justify-center items-center flex">
+                <Link href="/auth/signup">
+                  <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
+                    Get Started — It's Free
+                  </Button>
+                </Link>
+              </div>
               <Link href="/auth/login">
                 <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
                   Login
                 </Button>
               </Link>
-            )}
+            </>
           </nav>
 
           {/* Mobile Menu Button */}
