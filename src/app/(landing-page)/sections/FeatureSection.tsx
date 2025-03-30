@@ -54,7 +54,7 @@ const FeatureSection = () => {
       id="features"
       className="section-padding bg-background relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6">
+      <div className="container mx-auto px-4 sm:px-6 py-20">
         <div className="text-center mb-16">
           <motion.span
             className="text-sm font-semibold text-primary mb-4 block"
@@ -99,7 +99,6 @@ const FeatureSection = () => {
               viewport={{ once: true, margin: "-100px" }}
             >
               {/* Media Container */}
-              {/* Media Container */}
               <div className="w-full md:w-1/2 relative group">
                 <div className="relative rounded-xl overflow-hidden shadow-xl border border-border h-[400px]">
                   {feature.type === "IMAGE" ? (
@@ -107,11 +106,11 @@ const FeatureSection = () => {
                       src={feature.media}
                       fill
                       alt={feature.title}
-                      className="object-scale-down" // Changed from object-cover
+                      className="object-scale-down"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       style={{
-                        objectPosition: "center center", // Ensure proper centering
-                        backgroundColor: "#f8f9fa", // Add background color for non-cover images
+                        objectPosition: "center center",
+                        backgroundColor: "#f8f9fa",
                       }}
                     />
                   ) : (
@@ -153,7 +152,7 @@ const FeatureSection = () => {
                   ))}
                 </ul>
                 <Link
-                  href="/auth/register"
+                  href="/auth/signup"
                   className="inline-flex items-center gap-2 group text-primary font-semibold mt-4"
                 >
                   <span>Start Learning Now</span>

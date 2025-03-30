@@ -76,10 +76,10 @@ const Navbar = () => {
             onClick={closeMenu}
           >
             <TrueFocus
-              sentence="endless Wiz"
+              sentence="Endlesswiz"
               manualMode={false}
               blurAmount={5}
-              borderColor="text-gray-900"
+              borderColor="text-forest-700"
               animationDuration={2}
               pauseBetweenAnimations={1}
             />
@@ -107,13 +107,13 @@ const Navbar = () => {
                     type="submit"
                     className="bg-white hover:bg-white/50 rounded-l-none h-10 px-4 text-base  border border-l-0 border-gray-200"
                   >
-                    <SearchIcon className="text-black" />
+                    <SearchIcon className="text-forest-700" />
                   </Button>
                 </form>
                 {/* Get Started Button */}
                 <div className="w-full justify-center items-center flex">
                   <Link href="/auth/signup">
-                    <Button className="bg-black hover:bg-gray-800 text-white rounded-md h-10">
+                    <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
                       Get Started — It's Free
                     </Button>
                   </Link>
@@ -121,7 +121,7 @@ const Navbar = () => {
               </>
             ) : (
               <Link href="/auth/login">
-                <Button className="bg-black hover:bg-gray-800 text-white rounded-md h-10">
+                <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">
                   Login
                 </Button>
               </Link>

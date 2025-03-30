@@ -93,7 +93,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
           <span
             key={index}
             ref={(el) => (wordRefs.current[index] = el)}
-            className="relative text-[2rem] font-black cursor-pointer"
+            className="relative text-[2rem] text-forest-700 font-black cursor-pointer"
             style={
               {
                 filter: manualMode
@@ -115,7 +115,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
       })}
 
       <motion.div
-        className="absolute top-0 left-0 pointer-events-none box-border border-0"
+        className="absolute top-0 left-0 pointer-events-none box-border border-0 text-forest-700"
         animate={{
           x: focusRect.x,
           y: focusRect.y,
