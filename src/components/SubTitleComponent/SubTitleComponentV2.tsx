@@ -176,7 +176,7 @@ export function SubTitleComponentV2({
       </Card>
       {showWordModal && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={handleCloseModal}
         >
           <motion.div
@@ -185,9 +185,9 @@ export function SubTitleComponentV2({
             className="rounded-xl shadow-xl max-w-2xl w-full max-h-[70vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="space-y-4 px-6 pb-6 relative overflow-y-auto dark:bg-forest-500 bg-white">
+            <div className="relative overflow-y-auto dark:bg-forest-500 bg-white">
               {isLoading ? (
-                <div className="text-center p-4 flex items-center justify-center h-32">
+                <div className="text-center flex items-center justify-center h-32">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                 </div>
               ) : selectedWord ? (
