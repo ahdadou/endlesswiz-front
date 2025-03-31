@@ -287,7 +287,7 @@ export default function ReadsPage() {
               onMouseEnter={() => setHoveredStory(story.id)}
               onMouseLeave={() => setHoveredStory(null)}
             >
-              <Link href={`/user/reads/${story.id}`}>
+              <Link href={`/user/stories/${story.id}`}>
                 <div className="relative h-[320px] rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl">
                   {/* Book cover */}
                   <img

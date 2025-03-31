@@ -21,6 +21,8 @@ import {
   Crown,
   Sun,
   Moon,
+  BookA,
+  BookAudioIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -42,6 +44,11 @@ const navItems = [
     title: "Dashboard",
     icon: <LayoutDashboard className="h-5 w-5" />,
     href: "/user/dashboard",
+  },
+  {
+    title: "Stories",
+    icon: <BookAudioIcon className="h-5 w-5" />,
+    href: "/user/stories",
   },
   {
     title: "Pronounce",

@@ -6,15 +6,11 @@ import {
   format,
   subYears,
   addYears,
-  eachWeekOfInterval,
   eachDayOfInterval,
-  startOfWeek,
-  endOfWeek,
   isWithinInterval,
-  addDays,
-  isFirstDayOfMonth,
   startOfYear,
   endOfYear,
+  getMonth,
 } from "date-fns";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,27 +29,49 @@ interface UserTrackingDaysResponse {
 }
 
 export default function ActivityCalendar({}: ActivityCalendarProps) {
-  const [currentYear, setCurrentYear] = useState(new Date());
+  const [currentYear, setCurrentYear] = useState<Date>(new Date());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [needsScroll, setNeedsScroll] = useState(false);
+  const [needsScroll, setNeedsScroll] = useState<boolean>(false);
   const [data, setData] = useState<Record<string, boolean>>({});
 
-  const yearStart = startOfYear(currentYear);
-  const yearEnd = endOfYear(currentYear);
-  const weeks = eachWeekOfInterval(
-    { start: yearStart, end: yearEnd },
-    { weekStartsOn: 0 },
-  );
+  const yearStart: Date = startOfYear(currentYear);
+  const yearEnd: Date = endOfYear(currentYear);
+
+  // Get all days of the year
+  const allDays: Date[] = eachDayOfInterval({ start: yearStart, end: yearEnd });
+
+  // Group days into weeks (7-day chunks) starting from January 1
+  const weeks: Date[][] = [];
+  for (let i = 0; i < allDays.length; i += 7) {
+    weeks.push(allDays.slice(i, i + 7));
+  }
+
+  // Group weeks by month based on the first day of the week
+  const weeksByMonth: { monthIndex: number; weeks: Date[][] }[] = [];
+  const seenMonths = new Set<number>();
+  weeks.forEach((week) => {
+    const monthIndex: number = getMonth(week[0]); // Month of the week's first day
+    if (!seenMonths.has(monthIndex)) {
+      seenMonths.add(monthIndex);
+      weeksByMonth.push({ monthIndex, weeks: [] });
+    }
+    const currentMonthEntry = weeksByMonth.find(
+      (entry) => entry.monthIndex === monthIndex,
+    );
+    if (currentMonthEntry) {
+      currentMonthEntry.weeks.push(week);
+    }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      const year = currentYear.getFullYear();
+      const year: number = currentYear.getFullYear();
       const response = (await api.fetchUserTrackingDays(
         year,
       )) as UserTrackingDaysResponse;
-      const loginDays = response.days;
-      const dataObj = loginDays.reduce(
-        (acc, dateStr) => {
+      const loginDays: string[] = response.days;
+      const dataObj: Record<string, boolean> = loginDays.reduce(
+        (acc: Record<string, boolean>, dateStr: string) => {
           acc[dateStr] = true;
           return acc;
         },
@@ -76,59 +94,27 @@ export default function ActivityCalendar({}: ActivityCalendarProps) {
     return () => window.removeEventListener("resize", checkForScroll);
   }, []);
 
-  const previousYear = () => setCurrentYear(subYears(currentYear, 1));
-  const nextYear = () => setCurrentYear(addYears(currentYear, 1));
+  const previousYear = (): void => setCurrentYear(subYears(currentYear, 1));
+  const nextYear = (): void => setCurrentYear(addYears(currentYear, 1));
 
-  const isMonthBoundaryWeek = (week: Date) => {
-    const days = eachDayOfInterval({
-      start: startOfWeek(week, { weekStartsOn: 0 }),
-      end: endOfWeek(week, { weekStartsOn: 0 }),
-    });
-    return days.some((day: string) => isFirstDayOfMonth(day));
-  };
-
-  const monthLabels = () => {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const labels = [];
-    for (let i = 0; i < 12; i++) {
-      const monthStart = new Date(currentYear.getFullYear(), i, 1);
-      const weekIndex = weeks.findIndex((week: string) =>
-        isWithinInterval(monthStart, { start: week, end: addDays(week, 6) }),
-      );
-      const weekOfMonth = Math.floor((weekIndex / weeks.length) * 100);
-      labels.push(
-        <div
-          key={months[i]}
-          className="text-xs text-muted-foreground font-medium"
-          style={{
-            position: "absolute",
-            top: "-20px",
-            left: `${weekOfMonth}%`,
-          }}
-        >
-          {months[i]}
-        </div>,
-      );
-    }
-    return labels;
-  };
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ] as const;
 
   return (
     <TooltipProvider>
-      <div className="w-full">
+      <div className="w-full md:w-[50vw]">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center">
             <h3 className="font-medium text-lg">
@@ -160,97 +146,88 @@ export default function ActivityCalendar({}: ActivityCalendarProps) {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="ml-14 w-[750px] relative h-5 mb-1 left-0 bg-background z-10">
-            {monthLabels()}
+        <div
+          className={`flex ${needsScroll ? "overflow-x-auto" : ""}`}
+          ref={scrollContainerRef}
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "var(--forest-300) transparent",
+          }}
+        >
+          <div className="flex flex-col sticky left-0 bg-white dark:bg-forest z-10">
+            <div className="h-5" /> {/* Spacer for month labels */}
+            <div className="flex flex-col gap-1 pt-2">
+              {["Sun", "", "Tue", "", "Thu", "", "Sat"].map((day) => (
+                <div
+                  key={day}
+                  className="text-xs text-muted-foreground h-3 flex items-center justify-end pr-1"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="flex">
-            <div className="flex flex-col mr-2 pt-2 sticky left-0 bg-background z-10">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                (day, index) => (
-                  <div
-                    key={day}
-                    className="text-xs text-muted-foreground h-3 flex items-center justify-end pr-1"
-                    style={{ height: "10px", marginBottom: "2px" }}
-                  >
-                    {index % 2 === 0 ? day : ""}
+          <div className="flex gap-1">
+            {weeksByMonth.map(({ monthIndex, weeks }) => (
+              <div key={monthIndex} className="flex flex-col">
+                <div className="ml-6 h-5">
+                  <div className="text-xs text-muted-foreground font-medium">
+                    {monthNames[monthIndex]}
                   </div>
-                ),
-              )}
-            </div>
-
-            <div
-              className={`flex-1 ${needsScroll ? "overflow-x-auto" : ""}`}
-              ref={scrollContainerRef}
-              style={{
-                scrollbarWidth: "thin",
-                scrollbarColor: "var(--forest-300) transparent",
-              }}
-            >
-              <div className="flex">
-                {weeks.map((week: Date) => {
-                  const days = eachDayOfInterval({
-                    start: startOfWeek(week, { weekStartsOn: 0 }),
-                    end: endOfWeek(week, { weekStartsOn: 0 }),
-                  });
-                  const isMonthBoundary = isMonthBoundaryWeek(week);
-
-                  return (
+                </div>
+                <div className="flex gap-1">
+                  {weeks.map((week: Date[], weekIndex: number) => (
                     <div
-                      key={week.toString()}
-                      className={`flex flex-col gap-1 ${
-                        isMonthBoundary
-                          ? "border-l border-gray-300 dark:border-gray-600 pl-1 ml-1"
-                          : ""
-                      }`}
+                      key={weekIndex}
+                      className="flex flex-col gap-1"
                     >
-                      {days.map((day: Date) => {
-                        const dateStr = format(day, "yyyy-MM-dd");
-                        const isActive = !!data[dateStr];
-                        const isInYear = isWithinInterval(day, {
-                          start: yearStart,
-                          end: yearEnd,
-                        });
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((_, dayIndex) => {
+                        const day = week[dayIndex];
+                        const dateStr: string = day ? format(day, "yyyy-MM-dd") : "";
+                        const isActive: boolean = !!data[dateStr];
+                        const isInYear: boolean = day
+                          ? isWithinInterval(day, { start: yearStart, end: yearEnd })
+                          : false;
 
                         return (
-                          <Tooltip key={dateStr}>
+                          <Tooltip key={dayIndex}>
                             <TooltipTrigger asChild>
                               <motion.div
-                                className={`w-3 h-3 rounded-sm ${
-                                  isInYear
+                                className={`w-3 h-3 ${
+                                  day && isInYear
                                     ? isActive
                                       ? "bg-green-500"
                                       : "bg-gray-200"
                                     : "bg-transparent"
                                 }`}
-                                // onHoverStart={() => setHoveredDate(day)}
-                                // onHoverEnd={() => setHoveredDate(null)}
                                 whileHover={{ scale: 1.2 }}
                               />
                             </TooltipTrigger>
-                            <TooltipContent>
-                              <p>{format(day, "MMMM d, yyyy")}</p>
-                              <p>{isActive ? "Logged in" : "No login"}</p>
-                            </TooltipContent>
+                            {day && (
+                              <TooltipContent>
+                                <p>{format(day, "MMMM d, yyyy")}</p>
+                                <p>{isActive ? "Logged in" : "No login"}</p>
+                              </TooltipContent>
+                            )}
                           </Tooltip>
                         );
                       })}
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
         <div className="flex gap-4 mt-4">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-500 rounded-sm" />
+            <div className="w-3 h-3 bg-green-500" />
             <span className="text-sm text-muted-foreground">Login day</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gray-200 rounded-sm" />
+            <div className="w-3 h-3 bg-gray-200" />
             <span className="text-sm text-muted-foreground">No login</span>
           </div>
         </div>
