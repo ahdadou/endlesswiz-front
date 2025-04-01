@@ -6,25 +6,25 @@ export default function HowItWorksSection() {
       icon: <Search className="h-8 w-8 text-white" />,
       title: "Search for Words",
       description: "Explore words and phrases easily.",
-      image: "/placeholder.svg?height=128&width=256&text=Search",
+      image: "/placeholder.jpg?height=128&width=256&text=Search",
     },
     {
       icon: <PlayCircle className="h-8 w-8 text-white" />,
       title: "Watch Videos",
       description: "See words in real-life contexts.",
-      image: "/placeholder.svg?height=128&width=256&text=Watch",
+      image: "/placeholder.jpg?height=128&width=256&text=Watch",
     },
     {
       icon: <BookOpen className="h-8 w-8 text-white" />,
       title: "Read Stories",
       description: "Enhance vocabulary through stories.",
-      image: "/placeholder.svg?height=128&width=256&text=Read",
+      image: "/placeholder.jpg?height=128&width=256&text=Read",
     },
     {
       icon: <BookmarkPlus className="h-8 w-8 text-white" />,
       title: "Save & Review",
       description: "Bookmark words for future learning.",
-      image: "/placeholder.svg?height=128&width=256&text=Save",
+      image: "/placeholder.jpg?height=128&width=256&text=Save",
     },
   ];
 

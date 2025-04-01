@@ -207,7 +207,7 @@ const ProfilePage = () => {
         <CardContent className="flex flex-col items-center">
           <div className="relative mb-6">
             <Avatar className="h-32 w-32">
-              <AvatarImage src={profileImage || "/placeholder.svg"} />
+              <AvatarImage src={profileImage || "/placeholder.jpg"} />
               <AvatarFallback className="text-3xl bg-forest text-cream">
                 {userData?.firstName?.charAt(0)}
                 {userData?.firstName?.charAt(1)}

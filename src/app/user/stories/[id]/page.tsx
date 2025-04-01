@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import Link from "next/link"
-import { useParams } from "next/navigation"
+import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import {
   Play,
   Pause,
@@ -11,165 +11,159 @@ import {
   Volume2,
   BookOpen,
   ChevronLeft,
-  Maximize2,
-  Minimize2,
-  Sun,
-  Moon,
   Plus,
   Minus,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
-import { Progress } from "@/components/ui/progress"
-import api from "@/clients/api/api"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { GetStory } from "@/clients/types/apiTypes"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
+import api from "@/clients/api/api";
+import { GetStory } from "@/clients/types/apiTypes";
+import { formatTime } from "@/components/utils/TypeFormatUtils";
+import { WordDictionaryComponent } from "@/components/WordDictionaryComponent/WordDictionaryComponent";
 
 export default function StoryPage() {
-  const params = useParams()
-  const id = params.id as string
+  const params = useParams();
+  const id = params.id as string;
 
   // State for fetched story data and loading
-  const [story, setStory] = useState<GetStory | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [story, setStory] = useState<GetStory | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // State for audio and UI controls
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [currentWordIndex, setCurrentWordIndex] = useState(-1)
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const [fontSize, setFontSize] = useState(16)
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [fontSize, setFontSize] = useState(16);
 
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const textContainerRef = useRef<HTMLDivElement | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const textContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const [showWordModal, setShowWordModal] = useState(false);
+  const [selectedWord, setSelectedWord] = useState<string | undefined>(
+    undefined
+  );
 
   // Fetch story data from API and process content
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        const response = await api.fetchStory(id)
+        const response = await api.fetchStory(id);
         // Clean content: remove backticks and replace <br> with proper line breaks
         const processedContent = response.content
-          .replace(/`<br>`/g, '\n')  // Replace both backticks and <br> tags
-          .replace(/\n+/g, '\n')      // Remove consecutive newlines
-          .trim()                     // Remove leading/trailing whitespace
-        
-        setStory({ ...response, content: processedContent })
+          .replace(/`<br>`/g, "\n") // Replace both backticks and <br> tags
+          .replace(/\n+/g, "\n") // Remove consecutive newlines
+          .trim(); // Remove leading/trailing whitespace
+
+        setStory({ ...response, content: processedContent });
       } catch (error) {
-        console.error("Failed to fetch story:", error)
+        console.error("Failed to fetch story:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
-    fetchStory()
-  }, [id])
+    };
+    fetchStory();
+  }, [id]);
 
   // Sync audio progress with UI
   useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
+    const audio = audioRef.current;
+    if (!audio) return;
 
     const updateProgress = () => {
-      const duration = audio.duration
-      const currentTime = audio.currentTime
-      const newProgress = (currentTime / duration) * 100 || 0
-      setProgress(newProgress)
+      const duration = audio.duration;
+      const currentTime = audio.currentTime;
+      const newProgress = (currentTime / duration) * 100 || 0;
+      setProgress(newProgress);
 
       // Update word highlighting based on progress
-      const words = story?.content.split(/\s+/).filter(word => word.length > 0) || []
-      const wordIndex = Math.floor((newProgress / 100) * words.length)
-      setCurrentWordIndex(wordIndex < words.length ? wordIndex : -1)
-    }
+      const words =
+        story?.content.split(/\s+/).filter((word) => word.length > 0) || [];
+      const wordIndex = Math.floor((newProgress / 100) * words.length);
+    };
 
     const handleEnded = () => {
-      setIsPlaying(false)
-      setProgress(100)
-      setCurrentWordIndex(-1)
-    }
+      setIsPlaying(false);
+      setProgress(100);
+    };
 
-    audio.addEventListener("timeupdate", updateProgress)
-    audio.addEventListener("ended", handleEnded)
+    audio.addEventListener("timeupdate", updateProgress);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener("timeupdate", updateProgress)
-      audio.removeEventListener("ended", handleEnded)
-    }
-  }, [story?.content, isPlaying])
+      audio.removeEventListener("timeupdate", updateProgress);
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, [story?.content, isPlaying]);
+
+  const handleCloseModal = useCallback(() => {
+    setShowWordModal(false);
+    setSelectedWord(undefined);
+  }, []);
+
+  const handleWordClick = (word: string) => {
+    const cleanedWord = word.replace(/[.,!?;:'"()]/g, "");
+    setSelectedWord(cleanedWord);
+    setShowWordModal(true);
+  };
 
   // Handle loading state
   if (isLoading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>
+    return <div className="container mx-auto px-4 py-8">Loading...</div>;
   }
 
   // Handle case where story is not found
   if (!story) {
-    return <div className="container mx-auto px-4 py-8">Story not found</div>
+    return <div className="container mx-auto px-4 py-8">Story not found</div>;
   }
 
   // Split the story content into lines for display
-  const lines = story.content.split("\n")
-  const words = story.content.split(/\s+/).filter(word => word.length > 0)
+  const lines = story.content.split("\n");
+  const words = story.content.split(/\s+/).filter((word) => word.length > 0);
 
   // Toggle play/pause for audio
   const togglePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.pause()
+        audioRef.current.pause();
       } else {
-        audioRef.current.play()
+        audioRef.current.play();
       }
-      setIsPlaying(!isPlaying)
+      setIsPlaying(!isPlaying);
     }
-  }
+  };
 
   // Skip back 5 seconds
   const skipBack = () => {
     if (audioRef.current) {
-      const newTime = Math.max(audioRef.current.currentTime - 5, 0)
-      audioRef.current.currentTime = newTime
-      setProgress((newTime / audioRef.current.duration) * 100 || 0)
+      const newTime = Math.max(audioRef.current.currentTime - 5, 0);
+      audioRef.current.currentTime = newTime;
+      setProgress((newTime / audioRef.current.duration) * 100 || 0);
     }
-  }
+  };
 
   // Skip forward 5 seconds
   const skipForward = () => {
     if (audioRef.current) {
-      const newTime = Math.min(audioRef.current.currentTime + 5, audioRef.current.duration)
-      audioRef.current.currentTime = newTime
-      setProgress((newTime / audioRef.current.duration) * 100 || 0)
+      const newTime = Math.min(
+        audioRef.current.currentTime + 5,
+        audioRef.current.duration
+      );
+      audioRef.current.currentTime = newTime;
+      setProgress((newTime / audioRef.current.duration) * 100 || 0);
     }
-  }
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode)
-    if (textContainerRef.current) {
-      if (!isDarkMode) {
-        textContainerRef.current.classList.add("dark-mode")
-      } else {
-        textContainerRef.current.classList.remove("dark-mode")
-      }
-    }
-  }
-
-  // Toggle fullscreen (simplified for demo)
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen)
-    // Note: For real fullscreen, use the Fullscreen API
-  }
+  };
 
   // Change font size
   const changeFontSize = (increase: boolean) => {
     if (increase) {
-      setFontSize((prevSize) => Math.min(prevSize + 2, 24))
+      setFontSize((prevSize) => Math.min(prevSize + 2, 24));
     } else {
-      setFontSize((prevSize) => Math.max(prevSize - 2, 12))
+      setFontSize((prevSize) => Math.max(prevSize - 2, 12));
     }
-  }
+  };
 
   return (
-    <div className={`h-screen flex flex-col ${isDarkMode ? "dark bg-gray-900" : "bg-gray-50"}`}>
+    <div className={`h-screen flex flex-col `}>
       {/* Top Navigation Bar */}
       <div className="border-b bg-background py-3 px-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -178,29 +172,6 @@ export default function StoryPage() {
               <ChevronLeft className="mr-2 h-4 w-4" /> Back to Stories
             </Link>
           </Button>
-          <div className="flex items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
-                    {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{isDarkMode ? "Light Mode" : "Dark Mode"}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" onClick={toggleFullscreen}>
-                    {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
         </div>
       </div>
 
@@ -209,7 +180,11 @@ export default function StoryPage() {
         {/* Book Cover and Info */}
         <div className="md:w-64 p-4 md:p-6 md:border-r bg-background">
           <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden shadow-md mb-4">
-            <img src={story.cover} alt={story.title} className="object-cover w-full h-full" />
+            <img
+              src={story.cover}
+              alt={story.title}
+              className="object-cover w-full h-full"
+            />
             <div className="absolute top-2 right-2 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-semibold">
               {story.level}
             </div>
@@ -226,10 +201,20 @@ export default function StoryPage() {
           {/* Font Size Controls */}
           <div className="flex items-center gap-2 mb-4">
             <span className="text-sm">Text Size:</span>
-            <Button variant="outline" size="icon" onClick={() => changeFontSize(false)} disabled={fontSize <= 12}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => changeFontSize(false)}
+              disabled={fontSize <= 12}
+            >
               <Minus className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon" onClick={() => changeFontSize(true)} disabled={fontSize >= 24}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => changeFontSize(true)}
+              disabled={fontSize >= 24}
+            >
               <Plus className="h-4 w-4" />
             </Button>
           </div>
@@ -245,8 +230,17 @@ export default function StoryPage() {
                   <SkipBack className="h-4 w-4" />
                 </Button>
 
-                <Button variant="default" size="icon" className="h-10 w-10 rounded-full" onClick={togglePlayPause}>
-                  {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="h-10 w-10 rounded-full"
+                  onClick={togglePlayPause}
+                >
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5" />
+                  ) : (
+                    <Play className="h-5 w-5 ml-0.5" />
+                  )}
                 </Button>
 
                 <Button variant="outline" size="icon" onClick={skipForward}>
@@ -256,7 +250,9 @@ export default function StoryPage() {
                 <div className="flex-1 flex flex-col">
                   <Progress value={progress} className="h-2 mb-1" />
                   <div className="text-xs text-muted-foreground flex justify-between">
-                    <span>{formatTime((audioRef.current?.currentTime) || 0)}</span>
+                    <span>
+                      {formatTime(audioRef.current?.currentTime || 0)}
+                    </span>
                     <span>{formatTime(audioRef.current?.duration || 180)}</span>
                   </div>
                 </div>
@@ -269,7 +265,8 @@ export default function StoryPage() {
                     step={1}
                     className="w-20"
                     onValueChange={(value) => {
-                      if (audioRef.current) audioRef.current.volume = value[0] / 100
+                      if (audioRef.current)
+                        audioRef.current.volume = value[0] / 100;
                     }}
                   />
                 </div>
@@ -280,17 +277,22 @@ export default function StoryPage() {
           </div>
 
           {/* Story Content */}
-          <div ref={textContainerRef} className={`flex-1 overflow-y-auto p-4 md:p-8 ${isDarkMode ? "dark-mode" : ""}`}>
-            <div className="bg-card rounded-lg p-6 shadow-sm max-w-3xl mx-auto" style={{ fontSize: `${fontSize}px` }}>
+          <div
+            ref={textContainerRef}
+            className={`flex-1 overflow-y-auto p-4 md:p-8`}
+          >
+            <div
+              className="bg-card rounded-lg p-6 shadow-sm max-w-3xl mx-auto"
+              style={{ fontSize: `${fontSize}px` }}
+            >
               <div className="prose max-w-none dark:prose-invert">
                 {lines.map((line, lineIndex) => (
                   <p key={lineIndex}>
                     {line.split(/\s+/).map((word, wordIndex) => (
                       <span
+                        onClick={() => handleWordClick(word)}
                         key={wordIndex}
-                        className={`cursor-pointer hover:text-blue-500 transition-colors ${
-                          currentWordIndex === wordIndex ? "bg-primary/20 rounded" : ""
-                        }`}
+                        className={`cursor-pointer hover:text-blue-500 transition-colors`}
                       >
                         {word}{" "}
                       </span>
@@ -302,20 +304,12 @@ export default function StoryPage() {
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .dark-mode {
-          background-color: #1a1a1a;
-          color: #e0e0e0;
-        }
-      `}</style>
+      {showWordModal && selectedWord && (
+        <WordDictionaryComponent
+          word={selectedWord}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
     </div>
-  )
-}
-
-// Helper function to format time
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${mins}:${secs < 10 ? "0" : ""}${secs}`
+  );
 }

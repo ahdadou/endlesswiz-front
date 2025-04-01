@@ -122,7 +122,7 @@ export default function DashboardSidebar() {
             >
               <Avatar className="h-10 w-10">
                 <AvatarImage
-                  src={userData?.profileImageUrl ?? "/placeholder.svg"}
+                  src={userData?.profileImageUrl ?? "/placeholder.jpg"}
                 />
                 <AvatarFallback className="bg-forest text-cream">
                   {userData?.firstName?.charAt(0)}

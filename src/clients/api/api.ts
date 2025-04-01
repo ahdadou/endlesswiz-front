@@ -497,7 +497,7 @@ const api = {
   },
 
   // Stories
-  fetchStories: async (page: number, size: number) => {
+  fetchStories: async (page: number, size: number, level?: string) => {
     try {
       const response = await axiosClient.get<GetPageableStories>(
         `${getBaseUrl()}/stories`,
@@ -505,6 +505,7 @@ const api = {
           params: {
             page,
             size,
+            level
           },
         }
       );
