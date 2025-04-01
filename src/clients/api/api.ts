@@ -1,4 +1,3 @@
-import getBaseUrl from "@/utils/getBaseUrl";
 import axios from "axios";
 import axiosClient from "./axiosClient";
 import {
@@ -30,6 +29,7 @@ import {
   GetStory,
   GetPageableStories,
 } from "../types/apiTypes";
+import { getBaseUrl } from "@/utils/getBaseUrl";
 
 const api = {
   searchVideosByWord: async (word: string, page?: number) => {
