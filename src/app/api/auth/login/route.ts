@@ -1,5 +1,5 @@
 import { REFRESH_TOKEN, TOKEN } from "@/middleware";
-import getBaseUrl from "@/utils/getBaseUrl";
+import {getBaseUrl} from "@/utils/getBaseUrl";
 import axios from "axios";
 import { NextResponse } from "next/server";
 

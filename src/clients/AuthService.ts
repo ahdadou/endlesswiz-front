@@ -8,7 +8,7 @@ import {
   SignInResponse,
 } from "./types/apiTypes";
 import { toast } from "@/hooks/use-toast";
-import getBaseUrl from "@/utils/getBaseUrl";
+import {getBaseUrl} from "@/utils/getBaseUrl";
 import axiosClient from "./api/axiosClient";
 
 export const registerRequest = async (req: RegisterRequest) => {
