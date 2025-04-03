@@ -9,12 +9,12 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import api from "@/clients/api/api";
 import GmailIcon from "@/Icons/GmailIcon";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInRequest } from "@/clients/AuthService";
 import { signIn } from "next-auth/react";
+import { sendGAEvent } from "@next/third-parties/google";
+
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,6 +27,8 @@ const LoginPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+
+    sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'EMAIL/PASSWORD'});
     await signInRequest(email, password)
       .then((data) => {
         toast({
@@ -48,6 +50,7 @@ const LoginPage = () => {
   const handleLoginWithProvider = (
     provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
   ) => {
+    sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
