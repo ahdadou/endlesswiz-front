@@ -13,7 +13,7 @@ import GmailIcon from "@/Icons/GmailIcon";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInRequest } from "@/clients/AuthService";
 import { signIn } from "next-auth/react";
-import { sendGAEvent } from "@next/third-parties/google";
+import { GoogleTagManager, sendGAEvent } from "@next/third-parties/google";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ const LoginPage = () => {
     // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'EMAIL/PASSWORD'});
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "button_click",
+      event: "demo_event",
       category: "Button",
       label: "Login page",
       type: "EMAIL/PASSWORD",
@@ -59,11 +59,12 @@ const LoginPage = () => {
     // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "button_click",
+      event: "demo_event",
       category: "Button",
       label: "Login page",
       type: "GMAIL",
     });
+
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
