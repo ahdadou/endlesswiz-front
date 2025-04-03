@@ -15,7 +15,6 @@ import { signInRequest } from "@/clients/AuthService";
 import { signIn } from "next-auth/react";
 import { sendGAEvent } from "@next/third-parties/google";
 
-
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -28,7 +27,14 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'EMAIL/PASSWORD'});
+    // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'EMAIL/PASSWORD'});
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "button_click",
+      category: "Button",
+      label: "Login page",
+      type: "EMAIL/PASSWORD",
+    });
     await signInRequest(email, password)
       .then((data) => {
         toast({
@@ -50,7 +56,14 @@ const LoginPage = () => {
   const handleLoginWithProvider = (
     provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
   ) => {
-    sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
+    // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "button_click",
+      category: "Button",
+      label: "Login page",
+      type: "GMAIL",
+    });
     signIn(provider, {
       callbackUrl: DEFAULT_LOGIN_REDIRECT,
     });
