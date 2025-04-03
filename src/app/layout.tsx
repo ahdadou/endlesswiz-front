@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-W2R6GB6T"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -38,7 +46,7 @@ export default function RootLayout({
           <main>{children}</main>
         </ThemeProvider>
         <GoogleAnalytics gaId="G-Z3WLKWS87P" />
-        <GoogleTagManager gtmId="GTM-W2R6GB6T"/>
+        <GoogleTagManager gtmId="GTM-W2R6GB6T" />
       </body>
     </html>
   );
