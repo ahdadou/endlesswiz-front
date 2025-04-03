@@ -3,8 +3,39 @@
 import { motion } from "framer-motion";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
 import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComponentV2";
+import { useEffect, useState } from "react";
+import { Maximize, Minimize } from "lucide-react";
 
 const TranscriptSection = () => {
+  const [isZoomed, setIsZoomed] = useState(false);
+  const handleZoomToggle = () => setIsZoomed((prev) => !prev);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      event.key === "Escape" && setIsZoomed(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  const getLayoutClasses = () => {
+    if (isZoomed)
+      return {
+        container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
+        player: "w-full h-[70vh] bg-black overflow-hidden relative",
+        subtitles:
+          "w-full h-[50vh] overflow-auto bg-gray-900 text-white relative",
+      };
+    
+      return {
+          container: "grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 h-[50vh]",
+          player:`bg-forest-800 rounded-[5px] overflow-hidden h-[25vh] lg:h-[60vh] w-full shadow-xl`,
+          subtitles: `relative w-full h-[40vh] lg:h-[60vh] overflow-auto rounded-[5px] border border-forest-100 bg-white shadow-xl`
+        };
+  };
+
+  const { container, player, subtitles } = getLayoutClasses();
+
   return (
     <section 
       id="search-section" 
@@ -26,18 +57,31 @@ const TranscriptSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 h-[50vh]">
-          <div className="bg-forest-800 rounded-xl overflow-hidden h-[25vh] lg:h-[60vh] w-full shadow-xl">
+        <div className={container}>
+          <div className={player}>
             <YouTubePlayerComponentV2 
-              style="w-full h-[25vh] lg:h-[60vh] rounded-xl" 
+              style="w-full h-[25vh] lg:h-[60vh] rounded-[5px]" 
               isPublicPage={true} 
             />
           </div>
-          <div className="w-full h-[40vh] lg:h-[60vh] overflow-auto rounded-xl border border-forest-100 bg-white shadow-xl">
+          <div className={subtitles}>
             <SubTitleComponentV2 
               isAuthenticated={false} 
               showCurrentTranscriptInTheMiddle={false} 
             />
+
+          <button
+            onClick={handleZoomToggle}
+            className="absolute top-[-3px] right-6 p-4 text-black rounded-md  transition-opacity"
+            aria-label={isZoomed ? "Minimize" : "Maximize"}
+          >
+            {isZoomed ? (
+              <Minimize className="h-4 w-4" />
+            ) : (
+              <Maximize className="h-4 w-4" />
+            )}
+          </button>
+
           </div>
         </div>
       </motion.div>
