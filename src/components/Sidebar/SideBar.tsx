@@ -93,6 +93,15 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
   // Logout handler
   const handleLogout = async () => {
     try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "demo_event",
+        category: "Button",
+        label: "Logout page",
+        user: userData?.email
+      });
+
+
       const response = await fetch("/api/auth/logout", { method: "GET" });
       if (!response.ok) throw new Error("Logout failed");
     } catch (error) {
