@@ -37,8 +37,8 @@ export default function RootLayout({
         >
           <main>{children}</main>
         </ThemeProvider>
+        <GoogleAnalytics gaId="G-Z3WLKWS87P" />
       </body>
-      <GoogleAnalytics gaId="G-Z3WLKWS87P" />
     </html>
   );
 }
