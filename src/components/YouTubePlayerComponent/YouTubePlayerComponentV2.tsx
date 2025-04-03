@@ -49,6 +49,7 @@ const YouTubePlayerComponentV2 = ({
     highlitedWord,
     setCurrentVideoIsFavorite,
     setVideosWithPosition,
+    transcriptToPlay,
   } = useZustandState();
 
   const playerRef = useRef<ReactPlayer | null>(null);
@@ -190,6 +191,13 @@ const YouTubePlayerComponentV2 = ({
       playerRef.current.seekTo(value[0]);
     }
   };
+
+  useEffect(() => {
+    if (transcriptToPlay) {
+      if (playerRef.current)
+        playerRef.current.seekTo(transcriptToPlay.startTime);
+    }
+  }, [transcriptToPlay]);
 
   if (!currentVideo?.video?.vid) {
     return <div className="h-[25vh] lg:h-[60vh] bg-black "></div>;
@@ -346,7 +354,7 @@ const YouTubePlayerComponentV2 = ({
   return (
     <div className="space-y-6">
       <div
-        className={cx("relative bg-black rounded-md overflow-hidden", style)}
+        className={cx("relative rounded-[5px] bg-black overflow-hidden", style)}
       >
         <ReactPlayer
           ref={playerRef}

@@ -1,21 +1,3 @@
-// import { TranscriptResponse } from "@/clients/types/apiTypes";
-
-// export const createTranscriptSlice = (set: any) => ({
-//   vid: "",
-//   currentTranscript: {} as TranscriptResponse,
-//   transcript: [],
-//   setTranscript: (transcript: TranscriptResponse[]) => set({ transcript }),
-//   setCurrentTranscript: (currentTranscript: TranscriptResponse) =>
-//     set({ currentTranscript }),
-//   setVid: (vid: string) => set({ vid }),
-//   clearTranscript: () =>
-//     set({
-//       transcript: [],
-//       currentTranscript: {} as TranscriptResponse,
-//       vid: "",
-//     }),
-// });
-
 import { TranscriptResponse } from "@/clients/types/apiTypes";
 
 type TranscriptSlice = {
@@ -26,6 +8,8 @@ type TranscriptSlice = {
   setCurrentTranscript: (currentTranscript: TranscriptResponse) => void;
   setVid: (vid: string) => void;
   clearTranscript: () => void;
+  transcriptToPlay: TranscriptResponse;
+  setTranscriptToPlay: (transcriptToPlay: TranscriptResponse) => void;
 };
 
 export const createTranscriptSlice = (
@@ -37,9 +21,11 @@ export const createTranscriptSlice = (
 ): TranscriptSlice => ({
   vid: "",
   currentTranscript: {} as TranscriptResponse,
+  transcriptToPlay: {} as TranscriptResponse,
   transcript: [],
   setTranscript: (transcript) => set({ transcript }),
   setCurrentTranscript: (currentTranscript) => set({ currentTranscript }),
+  setTranscriptToPlay: (transcriptToPlay) => set({ transcriptToPlay }),
   setVid: (vid) => set({ vid }),
   clearTranscript: () =>
     set({

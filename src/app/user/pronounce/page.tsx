@@ -109,25 +109,25 @@ export default function PronouncePage() {
         container: "flex flex-col gap-4 items-center",
         player: `w-full ${
           HEIGHT_MAP[playerHeight as keyof typeof HEIGHT_MAP]
-        } bg-black rounded-md overflow-hidden`,
-        subtitles: "w-full h-[50vh] overflow-auto rounded-md relative",
+        } bg-black rounded-[5px] overflow-hidden`,
+        subtitles: "w-full h-[50vh] overflow-auto rounded-[5px] relative",
       };
 
     return layoutMode === "side"
       ? {
           container: "flex flex-col lg:flex-row gap-4",
           player:
-            "w-full lg:w-[65%] h-[60vh] bg-black rounded-md overflow-hidden",
+            "w-full lg:w-[65%] h-[60vh] bg-black rounded-[5px] overflow-hidden",
           subtitles:
-            "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-md relative",
+            "w-full lg:w-[35%] h-[60vh] overflow-auto rounded-[5px] relative",
         }
       : {
           container: "flex flex-col gap-4",
           player: `w-full max-w-[1280px] ${
             HEIGHT_MAP[playerHeight as keyof typeof HEIGHT_MAP]
-          } bg-black rounded-md overflow-hidden`,
+          } bg-black rounded-[5px] overflow-hidden`,
           subtitles:
-            "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-md relative",
+            "w-full max-w-[1280px] h-[60vh] overflow-auto rounded-[5px] relative",
         };
   };
 
@@ -220,7 +220,7 @@ export default function PronouncePage() {
           />
           <button
             onClick={handleZoomToggle}
-            className="absolute top-2 right-6 p-4 text-black rounded-md  transition-opacity"
+            className="absolute top-[-3px] right-6 p-4 text-black rounded-md  transition-opacity"
             aria-label={isZoomed ? "Minimize" : "Maximize"}
           >
             {isZoomed ? (
