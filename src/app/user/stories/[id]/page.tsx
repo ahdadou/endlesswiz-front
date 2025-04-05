@@ -50,9 +50,13 @@ export default function StoryPage() {
         const response = await api.fetchStory(id);
         // Clean content: remove backticks and replace <br> with proper line breaks
         const processedContent = response.content
-          .replace(/`<br>`/g, "\n") // Replace both backticks and <br> tags
-          .replace(/\n+/g, "\n") // Remove consecutive newlines
-          .trim(); // Remove leading/trailing whitespace
+        .replace(/`<br>`/g, "\n") // Replace <br> with newline
+        .replace(/<br>/g, "\n") // Replace <br> with newline
+        .replace(/\.\s+/g, ".\n") // Replace period followed by whitespace with period and newline
+        .replace(/\n+/g, "\n") // Replace multiple newlines with single newline
+        .replace(/\n+/g, "\n") // Replace multiple newlines with single newline
+        .replace(/"/g, "") // Replace multiple newlines with single newline
+        .trim(); // Trim leading/trailing whitespace
 
         setStory({ ...response, content: processedContent });
       } catch (error) {
