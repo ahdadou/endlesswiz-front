@@ -22,9 +22,9 @@ const TranscriptSection = () => {
     if (isZoomed)
       return {
         container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
-        player: "w-full h-[70vh] bg-black overflow-hidden relative",
+        player: "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
         subtitles:
-          "w-full h-[50vh] overflow-auto bg-gray-900 text-white relative",
+          "w-full h-full lg:h-[50vh] overflow-auto bg-gray-900 text-white relative",
       };
     
       return {

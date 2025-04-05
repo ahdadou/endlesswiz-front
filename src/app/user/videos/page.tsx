@@ -13,6 +13,8 @@ import {
   ArrowDown,
   ChevronLeft,
   ChevronRight,
+  Minimize,
+  Maximize,
 } from "lucide-react";
 import useWindowDimensions, {
   SMALL_MIN_WIDTH,
@@ -43,11 +45,13 @@ const VideoLibraryPage = () => {
   const listRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
 
+  const handleZoomToggle = () => setIsZoomed((prev) => !prev);
   const { innerWidth } = useWindowDimensions();
   const isExtraSmall = useMemo(
     () => innerWidth < SMALL_MIN_WIDTH,
-    [innerWidth],
+    [innerWidth]
   );
 
   const checkScroll = () => {
@@ -92,13 +96,13 @@ const VideoLibraryPage = () => {
               pageNumber,
               10,
               undefined,
-              true,
+              true
             )
           : await api.getVideosByUser(
               undefined,
               pageNumber,
               10,
-              selectedCategory,
+              selectedCategory
             );
 
       if (!response || response.videosDetailResponse.length === 0) {
@@ -156,6 +160,24 @@ const VideoLibraryPage = () => {
     if (loaderRef.current) observer.current.observe(loaderRef.current);
   }, [hasMore, isLoading]);
 
+  const getLayoutClasses = () => {
+    if (isZoomed)
+      return {
+        container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
+        player: "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
+        subtitles:
+          "w-full h-full lg:h-[50vh] overflow-auto bg-gray-900 text-white relative",
+      };
+      
+      return {
+          container: "flex flex-col gap-4 w-full",
+          player:`rounded-xl shadow-lg overflow-hidden`,
+          subtitles: `relative h-[40vh] lg:h-[60vh]`
+        };
+  };
+
+  const { container, player, subtitles } = getLayoutClasses();
+
   return (
     <div className="flex flex-col md:p-8 bg-gradient-to-b from-background">
       {/* Header */}
@@ -209,16 +231,27 @@ const VideoLibraryPage = () => {
       {/* Main Content */}
       <div className={`flex gap-6 ${isExtraSmall ? "flex-col" : "flex-row"}`}>
         {/* Player and Subtitles Section */}
-        <div className={`flex flex-col gap-4 w-full`}>
-          <div className="rounded-xl shadow-lg overflow-hidden">
+        <div className={container}>
+          <div className={player}>
             <YouTubePlayerComponentV2 style="h-[25vh] lg:h-[60vh]" />
           </div>
 
-          <div className={`${isExtraSmall ? "h-[40vh]" : "h-[60vh]"}`}>
+          <div className={subtitles}>
             <SubTitleComponentV2
               isAuthenticated={true}
               showCurrentTranscriptInTheMiddle={false}
             />
+            <button
+              onClick={handleZoomToggle}
+              className="absolute top-[-3px] right-6 p-4 text-black rounded-md  transition-opacity"
+              aria-label={isZoomed ? "Minimize" : "Maximize"}
+            >
+              {isZoomed ? (
+                <Minimize className="h-4 w-4" />
+              ) : (
+                <Maximize className="h-4 w-4" />
+              )}
+            </button>
           </div>
         </div>
 
