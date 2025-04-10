@@ -73,16 +73,16 @@ jobs:
             NODE_ENV=production
             APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
 
-  deploy:
-    name: Deploy Frontend
-    runs-on: self-hosted  # Assumes the runner is on the target VPS
-    needs: [build_image]
-    steps:
-      - name: Checkout code (if needed)
-        uses: actions/checkout@v4
+  # deploy:
+  #   name: Deploy Frontend
+  #   runs-on: self-hosted  # Assumes the runner is on the target VPS
+  #   needs: [build_image]
+  #   steps:
+  #     - name: Checkout code (if needed)
+  #       uses: actions/checkout@v4
 
-      - name: Deploy with Docker Compose
-        run: |
-          cd /home/user/infra  # Adjust to your infrastructure directory
-          docker compose -f docker-compose-front.yml pull -q
-          docker compose -f docker-compose-front.yml up -d
+  #     - name: Deploy with Docker Compose
+  #       run: |
+  #         cd /home/user/infra  # Adjust to your infrastructure directory
+  #         docker compose -f docker-compose-front.yml pull -q
+  #         docker compose -f docker-compose-front.yml up -d

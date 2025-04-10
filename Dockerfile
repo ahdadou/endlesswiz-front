@@ -7,7 +7,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 3200
 # Define the command to run the app
 CMD npm run start
 
