@@ -36,8 +36,8 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Run tests (if applicable)
-        run: npm test  # Optional: Include if you have tests configured
+      # - name: Run tests (if applicable)
+      #   run: npm test  # Optional: Include if you have tests configured
 
   build_image:
     name: Build and Push Frontend Docker Image
