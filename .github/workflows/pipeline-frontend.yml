@@ -86,3 +86,4 @@ jobs:
   #         cd /home/user/infra  # Adjust to your infrastructure directory
   #         docker compose -f docker-compose-front.yml pull -q
   #         docker compose -f docker-compose-front.yml up -d
+  
