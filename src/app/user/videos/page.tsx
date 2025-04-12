@@ -143,9 +143,10 @@ const VideoLibraryPage = () => {
     fetchVideos(0);
   }, [selectedCategory]);
 
-  useEffect(() => {
-    if (page > 0) fetchVideos(page);
-  }, [page]);
+  // uncomment this if you want to fetch more that 10 videos
+  // useEffect(() => {
+  //   if (page > 0) fetchVideos(page);
+  // }, [page]);
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
@@ -289,13 +290,16 @@ const VideoLibraryPage = () => {
             ))}
           </div>
 
-          {hasMore && (
+
+          {
+          // uncomment this if you want to fetch more that 10 videos
+          /* {hasMore && (
             <div ref={loaderRef} className="w-full flex flex-col gap-2 p-3">
               <Skeleton className="w-full aspect-video rounded-md bg-muted" />
               <Skeleton className="w-3/4 h-4 rounded bg-muted" />
               <Skeleton className="w-1/2 h-4 rounded bg-muted" />
             </div>
-          )}
+          )} */}
 
           {isLoading && (
             <div className="w-full py-4 flex justify-center">
@@ -305,12 +309,14 @@ const VideoLibraryPage = () => {
 
           {error && <div className="text-center text-red-600 p-4">{error}</div>}
 
-          {!hasMore && (
+          {/* {!hasMore && ( */}
             <p className="text-center text-[#2d5a3d]/70 text-sm p-4">
               🎉 You've reached the end!
             </p>
-          )}
+          {/* )} */}
 
+          {/* 
+          // uncomment this if you want to fetch more that 10 videos
           {hasMore && (
             <div className="absolute bottom-[40%] right-[45%] bg-white rounded-full p-2 shadow-lg">
               <motion.div
@@ -321,7 +327,7 @@ const VideoLibraryPage = () => {
                 <ArrowDown className="h-6 w-6 text-[#2d5a3d] animate-bounce" />
               </motion.div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

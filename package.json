@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:local": "cross-env PROFILE=local next dev",
+    "dev:local": "cross-env PROFILE=local next dev -p 3002",
     "dev": "next dev",
     "dev-https": "next dev --experimental-https",
     "build": "next build",

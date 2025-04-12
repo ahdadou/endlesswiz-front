@@ -32,11 +32,13 @@ import useActivityTimer from "../utils/useActivityTimer";
 interface YouTubePlayerComponentV2Props {
   style: string;
   isPublicPage?: boolean;
+  playByDefault?: boolean;
 }
 
 const YouTubePlayerComponentV2 = ({
   style,
   isPublicPage,
+  playByDefault,
 }: YouTubePlayerComponentV2Props) => {
   const {
     currentVideo,
@@ -54,7 +56,7 @@ const YouTubePlayerComponentV2 = ({
 
   const playerRef = useRef<ReactPlayer | null>(null);
   const [pip, setPip] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(playByDefault!=false);
   const [controls, setControls] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
@@ -370,7 +372,11 @@ const YouTubePlayerComponentV2 = ({
           playbackRate={playbackRate}
           volume={volume}
           muted={muted}
-          onReady={(event) => setPlaying(true)}
+          onReady={(event) => {
+            setPlaying(playByDefault!=false);
+            // if(playByDefault == false) setPlaying(false);
+            // else setPlaying(true);
+          }}
           // onStart={() => console.log("onStart")}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}

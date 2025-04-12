@@ -8,16 +8,16 @@ import TiltedCard from "@/components/animations/TiltedCardProps/TiltedCardProps"
 
 const features = [
   {
-    title: "Progress Tracking",
-    description:
-      "Monitor your learning journey with detailed analytics and insights that help you stay on track. Our system provides:",
+    title: "Discover Stories: Read & Listen Adventures",
+    description: "Enhance your reading and listening skills with our collection of engaging stories. Features include:",
     details: [
-      "Real-time progress updates",
-      "Personalized learning insights",
-      "Achievement milestones tracking",
+      "Professional audio narration for each story",
+      "Interactive text highlighting to follow along",
+      "Comprehension quizzes to test your understanding",
+      "Variety of genres to suit different interests"
     ],
-    media: "/tracking.png",
-    badge: "Analytics Dashboard",
+    media: "/stories.png",
+    badge: "Immersive Reading Experience",
     type: "IMAGE",
   },
   {
@@ -35,17 +35,17 @@ const features = [
     reverse: true,
   },
   {
-    title: "Interactive Games",
+    title: "Progress Tracking",
     description:
-      "Reinforce your skills through engaging gameplay. Features include:",
+      "Monitor your learning journey with detailed analytics and insights that help you stay on track. Our system provides:",
     details: [
-      "Adaptive difficulty levels",
-      "Instant feedback system",
-      "Multiplayer challenges",
+      "Real-time progress updates",
+      "Personalized learning insights",
+      "Achievement milestones tracking",
     ],
-    media: "/practice.mov",
-    badge: "Gamified Learning",
-    type: "VIDEO",
+    media: "/tracking.png",
+    badge: "Analytics Dashboard",
+    type: "IMAGE",
   },
 ];
 

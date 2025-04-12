@@ -1,18 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
   Play,
   Pause,
-  SkipBack,
-  SkipForward,
   Volume2,
   BookOpen,
   ChevronLeft,
   Plus,
   Minus,
+  Undo,
+  Redo,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -34,6 +34,7 @@ export default function StoryPage() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [fontSize, setFontSize] = useState(16);
+  const [startLineIndex, setStartLineIndex] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const textContainerRef = useRef<HTMLDivElement | null>(null);
@@ -48,15 +49,14 @@ export default function StoryPage() {
     const fetchStory = async () => {
       try {
         const response = await api.fetchStory(id);
-        // Clean content: remove backticks and replace <br> with proper line breaks
+        // Clean content: remove backticks, replace <br> with newlines, and normalize
         const processedContent = response.content
-        .replace(/`<br>`/g, "\n") // Replace <br> with newline
-        .replace(/<br>/g, "\n") // Replace <br> with newline
-        .replace(/\.\s+/g, ".\n") // Replace period followed by whitespace with period and newline
-        .replace(/\n+/g, "\n") // Replace multiple newlines with single newline
-        .replace(/\n+/g, "\n") // Replace multiple newlines with single newline
-        .replace(/"/g, "") // Replace multiple newlines with single newline
-        .trim(); // Trim leading/trailing whitespace
+          .replace(/`<br>`/g, "\n") // Replace `<br>` with newline
+          .replace(/<br>/g, "\n") // Replace <br> with newline
+          .replace(/\.\s+/g, ".\n") // Add newline after periods
+          .replace(/\n+/g, "\n") // Collapse multiple newlines
+          .replace(/"/g, "") // Remove quotes
+          .trim(); // Remove leading/trailing whitespace
 
         setStory({ ...response, content: processedContent });
       } catch (error) {
@@ -68,7 +68,30 @@ export default function StoryPage() {
     fetchStory();
   }, [id]);
 
-  // Sync audio progress with UI
+  // Calculate total lines efficiently
+  const lines = useMemo(
+    () => story?.content.split("\n") || [],
+    [story?.content]
+  );
+  // Sync audio progress with UI and highlight lines
+  // Calculate cumulative word counts
+  const cumulativeWords = useMemo(() => {
+    const cumulative = [0];
+    let total = 0;
+    lines.forEach((line) => {
+      const wordCount = line
+        .split(/\s+/)
+        .filter((word) => word.length > 0).length;
+      total += wordCount;
+      cumulative.push(total);
+    });
+    return cumulative;
+  }, [lines]);
+
+  const totalLines = lines.length;
+  const totalWords = cumulativeWords[cumulativeWords.length - 1];
+
+  // Sync audio progress with line highlighting
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -76,28 +99,47 @@ export default function StoryPage() {
     const updateProgress = () => {
       const duration = audio.duration;
       const currentTime = audio.currentTime;
-      const newProgress = (currentTime / duration) * 100 || 0;
-      setProgress(newProgress);
+      const progress = (currentTime / duration) * 100 || 0;
+      setProgress(progress);
 
-      // Update word highlighting based on progress
-      const words =
-        story?.content.split(/\s+/).filter((word) => word.length > 0) || [];
-      const wordIndex = Math.floor((newProgress / 100) * words.length);
-    };
+      if (totalWords > 0 && totalLines > 0) {
+        const progressFraction = currentTime / duration;
+        let currentWordIndex = Math.floor(progressFraction * totalWords);
+        currentWordIndex = Math.min(
+          Math.max(currentWordIndex, 0),
+          totalWords - 1
+        );
 
-    const handleEnded = () => {
-      setIsPlaying(false);
-      setProgress(100);
+        let lineIndex = 0;
+        for (let i = 1; i < cumulativeWords.length; i++) {
+          if (currentWordIndex < cumulativeWords[i]) {
+            lineIndex = i - 1;
+            break;
+          }
+        }
+        setStartLineIndex(lineIndex);
+      }
     };
 
     audio.addEventListener("timeupdate", updateProgress);
-    audio.addEventListener("ended", handleEnded);
+    return () => audio.removeEventListener("timeupdate", updateProgress);
+  }, [totalLines, totalWords, cumulativeWords]);
+
+  // Reset startLineIndex when audio starts
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handlePlay = () => {
+      setStartLineIndex(0);
+    };
+
+    audio.addEventListener("play", handlePlay);
 
     return () => {
-      audio.removeEventListener("timeupdate", updateProgress);
-      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("play", handlePlay);
     };
-  }, [story?.content, isPlaying]);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setShowWordModal(false);
@@ -120,11 +162,10 @@ export default function StoryPage() {
     return <div className="container mx-auto px-4 py-8">Story not found</div>;
   }
 
-  // Split the story content into lines for display
-  const lines = story.content.split("\n");
+  // Split content for display
   const words = story.content.split(/\s+/).filter((word) => word.length > 0);
 
-  // Toggle play/pause for audio
+  // Audio control functions
   const togglePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -136,7 +177,6 @@ export default function StoryPage() {
     }
   };
 
-  // Skip back 5 seconds
   const skipBack = () => {
     if (audioRef.current) {
       const newTime = Math.max(audioRef.current.currentTime - 5, 0);
@@ -145,7 +185,6 @@ export default function StoryPage() {
     }
   };
 
-  // Skip forward 5 seconds
   const skipForward = () => {
     if (audioRef.current) {
       const newTime = Math.min(
@@ -157,17 +196,14 @@ export default function StoryPage() {
     }
   };
 
-  // Change font size
   const changeFontSize = (increase: boolean) => {
-    if (increase) {
-      setFontSize((prevSize) => Math.min(prevSize + 2, 24));
-    } else {
-      setFontSize((prevSize) => Math.max(prevSize - 2, 12));
-    }
+    setFontSize((prevSize) =>
+      increase ? Math.min(prevSize + 2, 24) : Math.max(prevSize - 2, 12)
+    );
   };
 
   return (
-    <div className={`h-screen flex flex-col `}>
+    <div className="h-screen flex flex-col">
       {/* Top Navigation Bar */}
       <div className="border-b bg-background py-3 px-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -193,7 +229,6 @@ export default function StoryPage() {
               {story.level}
             </div>
           </div>
-
           <h1 className="text-xl md:text-2xl font-bold mb-2">{story.title}</h1>
           <div className="flex items-center gap-2 mb-4">
             <BookOpen className="h-4 w-4 text-muted-foreground" />
@@ -201,8 +236,6 @@ export default function StoryPage() {
               {words.length} words • {Math.ceil(words.length / 200)} min read
             </span>
           </div>
-
-          {/* Font Size Controls */}
           <div className="flex items-center gap-2 mb-4">
             <span className="text-sm">Text Size:</span>
             <Button
@@ -231,9 +264,8 @@ export default function StoryPage() {
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center gap-4">
                 <Button variant="outline" size="icon" onClick={skipBack}>
-                  <SkipBack className="h-4 w-4" />
+                  <Undo className="h-4 w-4" />
                 </Button>
-
                 <Button
                   variant="default"
                   size="icon"
@@ -246,11 +278,9 @@ export default function StoryPage() {
                     <Play className="h-5 w-5 ml-0.5" />
                   )}
                 </Button>
-
                 <Button variant="outline" size="icon" onClick={skipForward}>
-                  <SkipForward className="h-4 w-4" />
+                  <Redo className="h-4 w-4" />
                 </Button>
-
                 <div className="flex-1 flex flex-col">
                   <Progress value={progress} className="h-2 mb-1" />
                   <div className="text-xs text-muted-foreground flex justify-between">
@@ -260,7 +290,6 @@ export default function StoryPage() {
                     <span>{formatTime(audioRef.current?.duration || 180)}</span>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-2">
                   <Volume2 className="h-4 w-4 text-muted-foreground" />
                   <Slider
@@ -275,7 +304,6 @@ export default function StoryPage() {
                   />
                 </div>
               </div>
-
               <audio ref={audioRef} src={story.audio} />
             </div>
           </div>
@@ -283,7 +311,7 @@ export default function StoryPage() {
           {/* Story Content */}
           <div
             ref={textContainerRef}
-            className={`flex-1 overflow-y-auto p-4 md:p-8`}
+            className="flex-1 overflow-y-auto p-4 md:p-8"
           >
             <div
               className="bg-card rounded-lg p-6 shadow-sm max-w-3xl mx-auto"
@@ -291,12 +319,22 @@ export default function StoryPage() {
             >
               <div className="prose max-w-none dark:prose-invert">
                 {lines.map((line, lineIndex) => (
-                  <p key={lineIndex}>
+                  <p
+                    key={lineIndex}
+                    className={
+                      lineIndex === startLineIndex ||
+                      (lineIndex === startLineIndex + 1 &&
+                        lineIndex < totalLines) ||
+                      (lineIndex === startLineIndex - 1 && lineIndex > 0)
+                        ? "bg-yellow-200"
+                        : ""
+                    }
+                  >
                     {line.split(/\s+/).map((word, wordIndex) => (
                       <span
                         onClick={() => handleWordClick(word)}
                         key={wordIndex}
-                        className={`cursor-pointer hover:text-blue-500 transition-colors`}
+                        className="cursor-pointer hover:text-blue-500 transition-colors"
                       >
                         {word}{" "}
                       </span>
@@ -308,6 +346,8 @@ export default function StoryPage() {
           </div>
         </div>
       </div>
+
+      {/* Word Dictionary Modal */}
       {showWordModal && selectedWord && (
         <WordDictionaryComponent
           word={selectedWord}

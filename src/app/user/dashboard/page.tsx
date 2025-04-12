@@ -193,7 +193,7 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
           {[
             {
               title: "Words Learned",
@@ -209,13 +209,13 @@ export default function Dashboard() {
               color: "bg-rose-500",
               increase: `+${dashboardStats.favoriteWords.thisWeek} this week`,
             },
-            {
-              title: "Stories Read",
-              value: dashboardStats.storiesRead.total,
-              icon: <BookText className="h-5 w-5 text-white" />,
-              color: "bg-amber-500",
-              increase: `+${dashboardStats.storiesRead.thisWeek} this week`,
-            },
+            // {
+            //   title: "Stories Read",
+            //   value: dashboardStats.storiesRead.total,
+            //   icon: <BookText className="h-5 w-5 text-white" />,
+            //   color: "bg-amber-500",
+            //   increase: `+${dashboardStats.storiesRead.thisWeek} this week`,
+            // },
             {
               title: "Day Streak",
               value: dashboardStats.dayStreak,

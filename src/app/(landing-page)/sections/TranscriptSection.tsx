@@ -14,7 +14,7 @@ const TranscriptSection = () => {
   const handleZoomToggle = () => setIsZoomed((prev) => !prev);
 
   useEffect(() => {
-    setCurrentVideo(0, { videoId: "9dc67f5e-30e8-4814-a994-1e64957d9b0a" ,vid: "jj-Yw1NsLdg" } as VideosDetailResponse);
+    setCurrentVideo(0, { videoId: "9dc67f5e-30e8-4814-a994-1e64957d9b0a" ,vid: "VEDbS50xW38" } as VideosDetailResponse);
     const handleEscape = (event: KeyboardEvent) => {
       event.key === "Escape" && setIsZoomed(false);
     };
@@ -67,7 +67,7 @@ const TranscriptSection = () => {
           <div className={player}>
             <YouTubePlayerComponentV2
               style="w-full h-[25vh] lg:h-[60vh] rounded-[5px]"
-              isPublicPage={true}
+              playByDefault={false}
             />
           </div>
           <div className={subtitles}>
