@@ -344,6 +344,17 @@ const api = {
       throw error; // Re-throw the error after logging it
     }
   },
+  fetchPublicWordDictionary: async (word: string) => {
+    try {
+      const response = await axiosClient.get<DictionaryResponse>(
+        `${getBaseUrl()}/transcript/public/dictionary/${word}`
+      );
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
+      throw error; // Re-throw the error after logging it
+    }
+  },
   fetchPracticeSets: async () => {
     try {
       const response = await axiosClient.get<PracticeSetResponse[]>(

@@ -67,6 +67,7 @@ const TranscriptSection = () => {
           <div className={player}>
             <YouTubePlayerComponentV2
               style="w-full h-[25vh] lg:h-[60vh] rounded-[5px]"
+              isPublicPage={true}
               playByDefault={false}
             />
           </div>
@@ -74,6 +75,7 @@ const TranscriptSection = () => {
             <SubTitleComponentV2
               isAuthenticated={false}
               showCurrentTranscriptInTheMiddle={false}
+              isPublicPage={true}
             />
 
             <button

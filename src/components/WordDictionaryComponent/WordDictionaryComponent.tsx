@@ -12,12 +12,14 @@ interface WordDictionaryComponentProps {
   handleCloseModal: () => void;
   word: string;
   transcriptId?: string;
+  isPublicPage?: boolean;
 }
 
 export function WordDictionaryComponent({
   handleCloseModal,
   word,
   transcriptId,
+  isPublicPage,
 }: WordDictionaryComponentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedWord, setSelectedWord] = useState<{
@@ -32,7 +34,9 @@ export function WordDictionaryComponent({
   const fetchWordDictionary = useCallback(async () => {
     setIsLoading(true);
     try {
-      const data = await api.fetchWordDictionary(cleanText(word));
+      const data = isPublicPage
+        ? await api.fetchPublicWordDictionary(cleanText(word))
+        : await api.fetchWordDictionary(cleanText(word));
       setSelectedWord({ word, data });
     } catch (error) {
       console.error("Failed to fetch word details:", error);
@@ -120,9 +124,7 @@ export function WordDictionaryComponent({
                   className="p-2 hover:bg-gray-100 dark:hover:bg-forest-600 rounded-lg shrink-0 transition-colors duration-200"
                   whileHover={{ scale: 1.05 }}
                   disabled={saveStatus !== "idle"}
-                  title={
-                    saveStatus === "saved" ? "Saved" : "Save to favorites"
-                  }
+                  title={saveStatus === "saved" ? "Saved" : "Save to favorites"}
                   aria-label={
                     saveStatus === "saved" ? "Saved" : "Save to favorites"
                   }

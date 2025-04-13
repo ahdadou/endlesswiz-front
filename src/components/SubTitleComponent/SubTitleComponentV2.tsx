@@ -12,12 +12,14 @@ import { cx } from "class-variance-authority";
 
 interface SubTitleComponentProps {
   isAuthenticated?: boolean;
+  isPublicPage?: boolean;
   showCurrentTranscriptInTheMiddle?: boolean;
 }
 
 export function SubTitleComponentV2({
   isAuthenticated = false,
   showCurrentTranscriptInTheMiddle = true,
+  isPublicPage
 }: SubTitleComponentProps) {
   const {
     currentTranscript,
@@ -142,6 +144,7 @@ export function SubTitleComponentV2({
       </Card>
       {showWordModal && selectedWord && (
         <WordDictionaryComponent
+          isPublicPage={isPublicPage}
           word={selectedWord}
           handleCloseModal={handleCloseModal}
           transcriptId={currentTranscript.transcriptId}
