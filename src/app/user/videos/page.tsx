@@ -51,7 +51,7 @@ const VideoLibraryPage = () => {
   const { innerWidth } = useWindowDimensions();
   const isExtraSmall = useMemo(
     () => innerWidth < SMALL_MIN_WIDTH,
-    [innerWidth]
+    [innerWidth],
   );
 
   const checkScroll = () => {
@@ -96,13 +96,13 @@ const VideoLibraryPage = () => {
               pageNumber,
               10,
               undefined,
-              true
+              true,
             )
           : await api.getVideosByUser(
               undefined,
               pageNumber,
               10,
-              selectedCategory
+              selectedCategory,
             );
 
       if (!response || response.videosDetailResponse.length === 0) {
@@ -165,16 +165,17 @@ const VideoLibraryPage = () => {
     if (isZoomed)
       return {
         container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
-        player: "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
+        player:
+          "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
         subtitles:
           "w-full h-full lg:h-[50vh] overflow-auto bg-gray-900 text-white relative",
       };
-      
-      return {
-          container: "flex flex-col gap-4 w-full",
-          player:`rounded-xl shadow-lg overflow-hidden`,
-          subtitles: `relative h-[40vh] lg:h-[60vh]`
-        };
+
+    return {
+      container: "flex flex-col gap-4 w-full",
+      player: `rounded-xl shadow-lg overflow-hidden`,
+      subtitles: `relative h-[40vh] lg:h-[60vh]`,
+    };
   };
 
   const { container, player, subtitles } = getLayoutClasses();
@@ -290,16 +291,16 @@ const VideoLibraryPage = () => {
             ))}
           </div>
 
-
           {
-          // uncomment this if you want to fetch more that 10 videos
-          /* {hasMore && (
+            // uncomment this if you want to fetch more that 10 videos
+            /* {hasMore && (
             <div ref={loaderRef} className="w-full flex flex-col gap-2 p-3">
               <Skeleton className="w-full aspect-video rounded-md bg-muted" />
               <Skeleton className="w-3/4 h-4 rounded bg-muted" />
               <Skeleton className="w-1/2 h-4 rounded bg-muted" />
             </div>
-          )} */}
+          )} */
+          }
 
           {isLoading && (
             <div className="w-full py-4 flex justify-center">
@@ -310,9 +311,9 @@ const VideoLibraryPage = () => {
           {error && <div className="text-center text-red-600 p-4">{error}</div>}
 
           {/* {!hasMore && ( */}
-            <p className="text-center text-[#2d5a3d]/70 text-sm p-4">
-              🎉 You've reached the end!
-            </p>
+          <p className="text-center text-[#2d5a3d]/70 text-sm p-4">
+            🎉 You've reached the end!
+          </p>
           {/* )} */}
 
           {/* 

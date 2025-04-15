@@ -31,7 +31,7 @@ const HeroSection = () => {
         setIsLoading(false);
       }
     },
-    [setHighlitedWord, setVideosWithPosition]
+    [setHighlitedWord, setVideosWithPosition],
   );
 
   const handleSubmit = async (e: React.FormEvent) => {

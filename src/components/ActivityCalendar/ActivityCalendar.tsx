@@ -178,41 +178,45 @@ export default function ActivityCalendar({}: ActivityCalendarProps) {
                 </div>
                 <div className="flex gap-1">
                   {weeks.map((week: Date[], weekIndex: number) => (
-                    <div
-                      key={weekIndex}
-                      className="flex flex-col gap-1"
-                    >
-                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((_, dayIndex) => {
-                        const day = week[dayIndex];
-                        const dateStr: string = day ? format(day, "yyyy-MM-dd") : "";
-                        const isActive: boolean = !!data[dateStr];
-                        const isInYear: boolean = day
-                          ? isWithinInterval(day, { start: yearStart, end: yearEnd })
-                          : false;
+                    <div key={weekIndex} className="flex flex-col gap-1">
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                        (_, dayIndex) => {
+                          const day = week[dayIndex];
+                          const dateStr: string = day
+                            ? format(day, "yyyy-MM-dd")
+                            : "";
+                          const isActive: boolean = !!data[dateStr];
+                          const isInYear: boolean = day
+                            ? isWithinInterval(day, {
+                                start: yearStart,
+                                end: yearEnd,
+                              })
+                            : false;
 
-                        return (
-                          <Tooltip key={dayIndex}>
-                            <TooltipTrigger asChild>
-                              <motion.div
-                                className={`w-3 h-3 ${
-                                  day && isInYear
-                                    ? isActive
-                                      ? "bg-green-500"
-                                      : "bg-gray-200"
-                                    : "bg-transparent"
-                                }`}
-                                whileHover={{ scale: 1.2 }}
-                              />
-                            </TooltipTrigger>
-                            {day && (
-                              <TooltipContent>
-                                <p>{format(day, "MMMM d, yyyy")}</p>
-                                <p>{isActive ? "Logged in" : "No login"}</p>
-                              </TooltipContent>
-                            )}
-                          </Tooltip>
-                        );
-                      })}
+                          return (
+                            <Tooltip key={dayIndex}>
+                              <TooltipTrigger asChild>
+                                <motion.div
+                                  className={`w-3 h-3 ${
+                                    day && isInYear
+                                      ? isActive
+                                        ? "bg-green-500"
+                                        : "bg-gray-200"
+                                      : "bg-transparent"
+                                  }`}
+                                  whileHover={{ scale: 1.2 }}
+                                />
+                              </TooltipTrigger>
+                              {day && (
+                                <TooltipContent>
+                                  <p>{format(day, "MMMM d, yyyy")}</p>
+                                  <p>{isActive ? "Logged in" : "No login"}</p>
+                                </TooltipContent>
+                              )}
+                            </Tooltip>
+                          );
+                        },
+                      )}
                     </div>
                   ))}
                 </div>

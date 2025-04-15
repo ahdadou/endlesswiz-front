@@ -42,7 +42,7 @@ const api = {
             size: 10,
             page: page ?? 0,
           },
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -52,7 +52,7 @@ const api = {
   fetchVideosTranscript: async (videoId: string) => {
     try {
       const response = await axiosClient.get<TranscriptResponse[]>(
-        `${getBaseUrl()}/transcript/${videoId}`
+        `${getBaseUrl()}/transcript/${videoId}`,
       );
       return response;
     } catch (error: unknown) {
@@ -62,7 +62,7 @@ const api = {
   fetchVideosTranscriptPublic: async (videoId: string) => {
     try {
       const response = await axiosClient.get<TranscriptResponse[]>(
-        `${getBaseUrl()}/transcript/public/${videoId}`
+        `${getBaseUrl()}/transcript/public/${videoId}`,
       );
       return response;
     } catch (error: unknown) {
@@ -82,7 +82,7 @@ const api = {
   loginState: async () => {
     try {
       const response = await axiosClient.get<LoginState>(
-        `${getBaseUrl()}/users/login-state`
+        `${getBaseUrl()}/users/login-state`,
       );
       return {
         ...response,
@@ -104,7 +104,7 @@ const api = {
           params: {
             token,
           },
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -121,7 +121,7 @@ const api = {
           params: {
             email,
           },
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -140,7 +140,7 @@ const api = {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -152,7 +152,7 @@ const api = {
     try {
       const response = await axiosClient.put<string>(
         `${getBaseUrl()}/users`,
-        req
+        req,
       );
       return response;
     } catch (error) {
@@ -164,7 +164,7 @@ const api = {
     try {
       const response = await axiosClient.post<string>(
         `${getBaseUrl()}/settings`,
-        req
+        req,
       );
       return response;
     } catch (error) {
@@ -175,7 +175,7 @@ const api = {
   deleteUserProfile: async () => {
     try {
       const response = await axiosClient.delete<string>(
-        `${getBaseUrl()}/users/upload-image`
+        `${getBaseUrl()}/users/upload-image`,
       );
       return response;
     } catch (error) {
@@ -187,7 +187,7 @@ const api = {
     try {
       const response = await axiosClient.patch<string>(
         `${getBaseUrl()}/users/change-password`,
-        req
+        req,
       );
       return response;
     } catch (error) {
@@ -201,7 +201,7 @@ const api = {
     page?: number,
     size?: number,
     category?: string,
-    favorites?: boolean
+    favorites?: boolean,
   ) => {
     try {
       const response = await axiosClient.get<GetWordResponse>(
@@ -214,7 +214,7 @@ const api = {
             category: category?.toUpperCase(),
             isFavorite: favorites,
           },
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -231,7 +231,7 @@ const api = {
             size: size || 3,
             page: page ?? 0,
           },
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -241,7 +241,7 @@ const api = {
   getFavoriteVideos: async () => {
     try {
       const response = await axiosClient.get<GetFavoriteVideoResponse>(
-        `${getBaseUrl()}/favorite_video`
+        `${getBaseUrl()}/favorite_video`,
       );
       return response;
     } catch (error: unknown) {
@@ -253,7 +253,7 @@ const api = {
     try {
       const response = await axiosClient.post<FavoriteVideoResponse>(
         `${getBaseUrl()}/favorite_video`,
-        { video_id: videoId }
+        { video_id: videoId },
       );
       return response;
     } catch (error: unknown) {
@@ -264,7 +264,7 @@ const api = {
   deleteVideoIntoFavorite: async (videoId: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/favorite_video/${videoId}`
+        `${getBaseUrl()}/favorite_video/${videoId}`,
       );
 
       return response;
@@ -283,7 +283,7 @@ const api = {
           source: req.source,
           example: req.example,
           description: req.description,
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -301,7 +301,7 @@ const api = {
           example: req.example,
           description: req.description,
           source: req.source,
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -312,7 +312,7 @@ const api = {
   deleteWordIntoFavorite: async (word_id: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/favorite_word/${word_id}`
+        `${getBaseUrl()}/favorite_word/${word_id}`,
       );
 
       return response;
@@ -324,7 +324,7 @@ const api = {
   fetchFavoriteWord: async () => {
     try {
       const response = await axiosClient.get<GetFavoriteWordsResponse>(
-        `${getBaseUrl()}/favorite_word`
+        `${getBaseUrl()}/favorite_word`,
       );
 
       return response;
@@ -336,7 +336,7 @@ const api = {
   fetchWordDictionary: async (word: string) => {
     try {
       const response = await axiosClient.get<DictionaryResponse>(
-        `${getBaseUrl()}/transcript/dictionary/${word}`
+        `${getBaseUrl()}/transcript/dictionary/${word}`,
       );
       return response;
     } catch (error: unknown) {
@@ -347,7 +347,7 @@ const api = {
   fetchPublicWordDictionary: async (word: string) => {
     try {
       const response = await axiosClient.get<DictionaryResponse>(
-        `${getBaseUrl()}/transcript/public/dictionary/${word}`
+        `${getBaseUrl()}/transcript/public/dictionary/${word}`,
       );
       return response;
     } catch (error: unknown) {
@@ -358,7 +358,7 @@ const api = {
   fetchPracticeSets: async () => {
     try {
       const response = await axiosClient.get<PracticeSetResponse[]>(
-        `${getBaseUrl()}/practice_set`
+        `${getBaseUrl()}/practice_set`,
       );
       return response;
     } catch (error: unknown) {
@@ -370,7 +370,7 @@ const api = {
   fetchPracticeSetDetailsById: async (setId: string) => {
     try {
       const response = await axiosClient.get<GetPracticeSetDetailsResponse>(
-        `${getBaseUrl()}/practice_set/${setId}`
+        `${getBaseUrl()}/practice_set/${setId}`,
       );
       return response;
     } catch (error: unknown) {
@@ -381,7 +381,7 @@ const api = {
   deletePracticeSet: async (id: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/practice_set/${id}`
+        `${getBaseUrl()}/practice_set/${id}`,
       );
 
       return response;
@@ -394,7 +394,7 @@ const api = {
     try {
       const response = await axiosClient.post<PracticeSetResponse>(
         `${getBaseUrl()}/practice_set`,
-        req
+        req,
       );
       return response;
     } catch (error: unknown) {
@@ -404,12 +404,12 @@ const api = {
   },
   updatePracticeSetDetails: async (
     setId: string,
-    req: PutPracticeSetDetailsRequest
+    req: PutPracticeSetDetailsRequest,
   ) => {
     try {
       const response = await axiosClient.put<PracticeSetResponse>(
         `${getBaseUrl()}/practice_set/${setId}`,
-        req
+        req,
       );
       return response;
     } catch (error: unknown) {
@@ -421,7 +421,7 @@ const api = {
   fetchPracticeWords: async (setId: string) => {
     try {
       const response = await axiosClient.get<PracticeWordResponse[]>(
-        `${getBaseUrl()}/practice_word/${setId}`
+        `${getBaseUrl()}/practice_word/${setId}`,
       );
       return response;
     } catch (error: unknown) {
@@ -432,7 +432,7 @@ const api = {
   deletePracticeWord: async (id: string) => {
     try {
       const response = await axiosClient.delete<boolean>(
-        `${getBaseUrl()}/practice_word/${id}`
+        `${getBaseUrl()}/practice_word/${id}`,
       );
 
       return response;
@@ -445,7 +445,7 @@ const api = {
     try {
       const response = await axiosClient.post<PracticeWordResponse>(
         `${getBaseUrl()}/practice_word`,
-        req
+        req,
       );
       return response;
     } catch (error: unknown) {
@@ -457,7 +457,7 @@ const api = {
     try {
       const response = await axiosClient.put<PracticeWordResponse>(
         `${getBaseUrl()}/practice_word`,
-        req
+        req,
       );
       return response;
     } catch (error: unknown) {
@@ -469,7 +469,7 @@ const api = {
   fetchUserStatistics: async () => {
     try {
       const response = await axiosClient.get<UserStatisticsResponse>(
-        `${getBaseUrl()}/user_func/statistics`
+        `${getBaseUrl()}/user_func/statistics`,
       );
       return response;
     } catch (error: unknown) {
@@ -485,7 +485,7 @@ const api = {
           params: {
             year,
           },
-        }
+        },
       );
       return response;
     } catch (error: unknown) {
@@ -498,7 +498,7 @@ const api = {
     try {
       const response = await axiosClient.post<LemonSqueezyCheckoutResponse>(
         `${getBaseUrl()}/payment/checkout`,
-        req
+        req,
       );
       return response;
     } catch (error) {
@@ -516,9 +516,9 @@ const api = {
           params: {
             page,
             size,
-            level
+            level,
           },
-        }
+        },
       );
       return response;
     } catch (error) {
@@ -529,7 +529,7 @@ const api = {
   fetchStory: async (id: string) => {
     try {
       const response = await axiosClient.get<GetStory>(
-        `${getBaseUrl()}/stories/${id}`
+        `${getBaseUrl()}/stories/${id}`,
       );
       return response;
     } catch (error) {

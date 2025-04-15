@@ -1,5 +1,5 @@
 import { TOKEN } from "@/middleware";
-import {getBaseUrl} from "@/utils/getBaseUrl";
+import { getBaseUrl } from "@/utils/getBaseUrl";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

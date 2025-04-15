@@ -9,12 +9,13 @@ import TiltedCard from "@/components/animations/TiltedCardProps/TiltedCardProps"
 const features = [
   {
     title: "Discover Stories: Read & Listen Adventures",
-    description: "Enhance your reading and listening skills with our collection of engaging stories. Features include:",
+    description:
+      "Enhance your reading and listening skills with our collection of engaging stories. Features include:",
     details: [
       "Professional audio narration for each story",
       "Interactive text highlighting to follow along",
       "Comprehension quizzes to test your understanding",
-      "Variety of genres to suit different interests"
+      "Variety of genres to suit different interests",
     ],
     media: "/stories.png",
     badge: "Immersive Reading Experience",
@@ -123,7 +124,7 @@ const FeatureSection = () => {
                       loop
                       className="w-full h-full object-fill"
                     >
-                      <source src={feature.media} type="video/mp4"/>
+                      <source src={feature.media} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
                   </div>

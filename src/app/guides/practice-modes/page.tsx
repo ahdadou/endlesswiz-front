@@ -4,7 +4,13 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BookOpen, Video, Gamepad2, CheckCircle, ArrowRight } from "lucide-react";
+import {
+  BookOpen,
+  Video,
+  Gamepad2,
+  CheckCircle,
+  ArrowRight,
+} from "lucide-react";
 
 export default function PracticeModesPage() {
   const container = {
@@ -33,7 +39,8 @@ export default function PracticeModesPage() {
       >
         <h1 className="text-4xl md:text-5xl font-bold mb-6">Practice Modes</h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Improve your English with EndlessWiz through engaging stories, videos, and fun flashcard games—pick your favorite way to learn!
+          Improve your English with EndlessWiz through engaging stories, videos,
+          and fun flashcard games—pick your favorite way to learn!
         </p>
       </motion.div>
 
@@ -107,7 +114,9 @@ export default function PracticeModesPage() {
                   ))}
                 </div>
                 <div className="bg-forest/5 p-3 rounded-lg border border-forest/10">
-                  <p className="text-sm text-muted-foreground italic">{mode.tip}</p>
+                  <p className="text-sm text-muted-foreground italic">
+                    {mode.tip}
+                  </p>
                 </div>
                 <Button
                   className="w-full md:w-auto bg-forest hover:bg-forest-700 text-cream"
@@ -131,7 +140,9 @@ export default function PracticeModesPage() {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="mt-16"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center">Which Mode Suits You?</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          Which Mode Suits You?
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             {
@@ -142,7 +153,8 @@ export default function PracticeModesPage() {
             {
               goal: "Enjoy Videos?",
               mode: "Watching Videos",
-              description: "Watch and listen to get better at understanding English.",
+              description:
+                "Watch and listen to get better at understanding English.",
             },
             {
               goal: "Like Games?",
@@ -150,9 +162,14 @@ export default function PracticeModesPage() {
               description: "Play to make learning fast and fun.",
             },
           ].map((choice, index) => (
-            <div key={index} className="p-4 rounded-lg border border-gray-100 shadow-sm text-center">
+            <div
+              key={index}
+              className="p-4 rounded-lg border border-gray-100 shadow-sm text-center"
+            >
               <h3 className="font-medium mb-2">{choice.goal}</h3>
-              <p className="text-sm text-muted-foreground mb-2">{choice.description}</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                {choice.description}
+              </p>
               <p className="text-sm font-semibold">{choice.mode}</p>
             </div>
           ))}
@@ -168,9 +185,14 @@ export default function PracticeModesPage() {
       >
         <h2 className="text-2xl font-bold mb-4">Start Practicing Today!</h2>
         <p className="text-lg text-muted-foreground mb-6">
-          Whether you read, watch, or play, EndlessWiz has a mode for you. Try them all to boost your English!
+          Whether you read, watch, or play, EndlessWiz has a mode for you. Try
+          them all to boost your English!
         </p>
-        <Button size="lg" className="bg-forest hover:bg-forest-700 text-cream" asChild>
+        <Button
+          size="lg"
+          className="bg-forest hover:bg-forest-700 text-cream"
+          asChild
+        >
           <Link href="/auth/signup">
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />

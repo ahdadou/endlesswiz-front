@@ -27,7 +27,7 @@ export function WordDictionaryComponent({
     data: DictionaryResponse;
   } | null>(null);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle"
+    "idle",
   );
 
   // Memoized function to fetch word dictionary data
@@ -172,7 +172,7 @@ export function WordDictionaryComponent({
                                           "{example}"
                                         </p>
                                       </div>
-                                    )
+                                    ),
                                   )}
                                 </div>
                               )}

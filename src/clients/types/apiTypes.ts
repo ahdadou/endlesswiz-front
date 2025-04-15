@@ -280,25 +280,24 @@ export enum Week {
 
 export interface UserTrackingDaysResponse {}
 
-
 export interface GetPageableStories {
-  stories: GetStories[]
+  stories: GetStories[];
   currentPage: number;
   totalPages: number;
   pageSize: number;
 }
 export interface GetStories {
-  id: string,
-  title: string,
-  level: string,
-  cover: string,
+  id: string;
+  title: string;
+  level: string;
+  cover: string;
 }
 
 export interface GetStory {
-  id: string,
-  title: string,
-  level: string,
-  cover: string,
-  audio: string,
-  content: string,
+  id: string;
+  title: string;
+  level: string;
+  cover: string;
+  audio: string;
+  content: string;
 }

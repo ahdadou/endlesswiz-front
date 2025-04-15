@@ -28,12 +28,32 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserDataZustandState } from "@/provider/ZustandUserDataProvider";
 
 const navItems = [
-  { href: "/user/dashboard", icon: <LayoutDashboard size={18} />, label: "My Journey" },
-  { href: "/user/stories", icon: <Headphones size={18} />, label: "Audio Tales" },
+  {
+    href: "/user/dashboard",
+    icon: <LayoutDashboard size={18} />,
+    label: "My Journey",
+  },
+  {
+    href: "/user/stories",
+    icon: <Headphones size={18} />,
+    label: "Audio Tales",
+  },
   { href: "/user/pronounce", icon: <Mic size={18} />, label: "Say It Right" },
-  { href: "/user/words", icon: <BookmarkIcon size={18} />, label: "My Word Bank" },
-  { href: "/user/videos", icon: <PlayCircle size={18} />, label: "Watch & Learn" },
-  { href: "/user/practice", icon: <Gamepad2 size={18} />, label: "Play & Practice" },
+  {
+    href: "/user/words",
+    icon: <BookmarkIcon size={18} />,
+    label: "My Word Bank",
+  },
+  {
+    href: "/user/videos",
+    icon: <PlayCircle size={18} />,
+    label: "Watch & Learn",
+  },
+  {
+    href: "/user/practice",
+    icon: <Gamepad2 size={18} />,
+    label: "Play & Practice",
+  },
 ];
 
 const SidebarItem = ({ href, icon, label, collapsed = false }) => {
@@ -45,11 +65,18 @@ const SidebarItem = ({ href, icon, label, collapsed = false }) => {
       href={href}
       className={cn(
         "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-md transition-colors",
-        isActive ? "bg-gray-100 text-gray-900 dark:bg-forest-600 dark:text-cream" : "text-gray-700 hover:bg-gray-50 dark:text-cream dark:hover:bg-forest-600",
+        isActive
+          ? "bg-gray-100 text-gray-900 dark:bg-forest-600 dark:text-cream"
+          : "text-gray-700 hover:bg-gray-50 dark:text-cream dark:hover:bg-forest-600",
         collapsed && "justify-center px-2 gap-0",
       )}
     >
-      <span className={cn("text-gray-500 dark:text-cream", isActive && "text-gray-900 dark:text-cream")}>
+      <span
+        className={cn(
+          "text-gray-500 dark:text-cream",
+          isActive && "text-gray-900 dark:text-cream",
+        )}
+      >
         {icon}
       </span>
       {!collapsed && <span>{label}</span>}
@@ -82,7 +109,11 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
   // Close dropdown on outside click
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (userDropdownOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        userDropdownOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setUserDropdownOpen(false);
       }
     };
@@ -98,9 +129,8 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
         event: "demo_event",
         category: "Button",
         label: "Logout page",
-        user: userData?.email
+        user: userData?.email,
       });
-
 
       const response = await fetch("/api/auth/logout", { method: "GET" });
       if (!response.ok) throw new Error("Logout failed");
@@ -125,10 +155,16 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
       <div
         className={cn(
           "flex items-center border-b border-gray-200 dark:border-forest-500",
-          collapsed && !isMobileView ? "justify-center p-3" : "justify-between p-4",
+          collapsed && !isMobileView
+            ? "justify-center p-3"
+            : "justify-between p-4",
         )}
       >
-        {!collapsed && <h1 className="text-xl font-bold text-gray-900 dark:text-cream">Endlesswiz</h1>}
+        {!collapsed && (
+          <h1 className="text-xl font-bold text-gray-900 dark:text-cream">
+            Endlesswiz
+          </h1>
+        )}
         {!isMobileView && (
           <Button
             variant="ghost"
@@ -137,7 +173,11 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
             onClick={toggleCollapse}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+            {collapsed ? (
+              <PanelLeftOpen size={18} />
+            ) : (
+              <PanelLeftClose size={18} />
+            )}
           </Button>
         )}
       </div>
@@ -156,7 +196,10 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
       </nav>
 
       {/* User Section */}
-      <div className="border-t border-gray-200 p-4 dark:border-forest-500" ref={dropdownRef}>
+      <div
+        className="border-t border-gray-200 p-4 dark:border-forest-500"
+        ref={dropdownRef}
+      >
         {!collapsed || isMobileView ? (
           <div className="relative">
             <button
@@ -164,7 +207,9 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
               className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 rounded-md transition-colors dark:hover:bg-forest-600"
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={userData?.profileImageUrl ?? "/placeholder.jpg"} />
+                <AvatarImage
+                  src={userData?.profileImageUrl ?? "/placeholder.jpg"}
+                />
                 <AvatarFallback className="bg-gray-200 text-gray-700 dark:bg-forest-600 dark:text-cream">
                   {userData?.firstName?.charAt(0) || "U"}
                   {userData?.lastName?.charAt(0) || ""}
@@ -174,10 +219,16 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                 <p className="text-sm font-medium text-gray-900 dark:text-cream">
                   {userData?.firstName || "User"} {userData?.lastName || ""}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-forest-200">My Workspace</p>
+                <p className="text-xs text-gray-500 dark:text-forest-200">
+                  My Workspace
+                </p>
               </div>
               <span className="text-gray-400 dark:text-forest-200">
-                {userDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                {userDropdownOpen ? (
+                  <ChevronUp size={16} />
+                ) : (
+                  <ChevronDown size={16} />
+                )}
               </span>
             </button>
 
@@ -187,16 +238,25 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-cream">
                     {userData?.firstName || "User"} {userData?.lastName || ""}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-forest-200">My Workspace</p>
+                  <p className="text-xs text-gray-500 dark:text-forest-200">
+                    My Workspace
+                  </p>
                 </div>
                 {/* <Link href="/user/profile" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
                   <span className="flex items-center gap-3">
                     <User size={16} className="text-gray-500 dark:text-forest-200" /> Profile
                   </span>
                 </Link> */}
-                <Link href="/notifications" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
+                <Link
+                  href="/notifications"
+                  className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
+                >
                   <span className="flex items-center gap-3">
-                    <Bell size={16} className="text-gray-500 dark:text-forest-200" /> Notifications
+                    <Bell
+                      size={16}
+                      className="text-gray-500 dark:text-forest-200"
+                    />{" "}
+                    Notifications
                   </span>
                 </Link>
                 <button
@@ -205,16 +265,29 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                 >
                   <span className="flex items-center gap-3">
                     {theme === "dark" ? (
-                      <Sun size={16} className="text-gray-500 dark:text-forest-200" />
+                      <Sun
+                        size={16}
+                        className="text-gray-500 dark:text-forest-200"
+                      />
                     ) : (
-                      <Moon size={16} className="text-gray-500 dark:text-forest-200" />
+                      <Moon
+                        size={16}
+                        className="text-gray-500 dark:text-forest-200"
+                      />
                     )}
                     {theme === "dark" ? "Light Mode" : "Dark Mode"}
                   </span>
                 </button>
-                <Link href="/user/settings" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
+                <Link
+                  href="/user/settings"
+                  className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
+                >
                   <span className="flex items-center gap-3">
-                    <User size={16} className="text-gray-500 dark:text-forest-200" /> Settings
+                    <User
+                      size={16}
+                      className="text-gray-500 dark:text-forest-200"
+                    />{" "}
+                    Settings
                   </span>
                 </Link>
                 <div className="border-t border-gray-100 my-1 dark:border-forest-500" />
@@ -223,7 +296,11 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                   className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-forest-600 dark:text-red-400"
                 >
                   <span className="flex items-center gap-3">
-                    <LogOut size={16} className="text-red-500 dark:text-red-400" /> Sign out
+                    <LogOut
+                      size={16}
+                      className="text-red-500 dark:text-red-400"
+                    />{" "}
+                    Sign out
                   </span>
                 </button>
               </div>
@@ -236,7 +313,9 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
               className="p-2 hover:bg-gray-50 rounded-md transition-colors dark:hover:bg-forest-600"
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={userData?.profileImageUrl ?? "/placeholder.jpg"} />
+                <AvatarImage
+                  src={userData?.profileImageUrl ?? "/placeholder.jpg"}
+                />
                 <AvatarFallback className="bg-gray-200 text-gray-700 dark:bg-forest-600 dark:text-cream">
                   {userData?.firstName?.charAt(0) || "U"}
                   {userData?.lastName?.charAt(0) || ""}
@@ -249,16 +328,32 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-cream">
                     {userData?.firstName || "User"} {userData?.lastName || ""}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-forest-200">My Workspace</p>
+                  <p className="text-xs text-gray-500 dark:text-forest-200">
+                    My Workspace
+                  </p>
                 </div>
-                <Link href="/user/profile" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
+                <Link
+                  href="/user/profile"
+                  className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
+                >
                   <span className="flex items-center gap-3">
-                    <User size={16} className="text-gray-500 dark:text-forest-200" /> Profile
+                    <User
+                      size={16}
+                      className="text-gray-500 dark:text-forest-200"
+                    />{" "}
+                    Profile
                   </span>
                 </Link>
-                <Link href="/notifications" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
+                <Link
+                  href="/notifications"
+                  className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
+                >
                   <span className="flex items-center gap-3">
-                    <Bell size={16} className="text-gray-500 dark:text-forest-200" /> Notifications
+                    <Bell
+                      size={16}
+                      className="text-gray-500 dark:text-forest-200"
+                    />{" "}
+                    Notifications
                   </span>
                 </Link>
                 <button
@@ -267,16 +362,29 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                 >
                   <span className="flex items-center gap-3">
                     {theme === "dark" ? (
-                      <Sun size={16} className="text-gray-500 dark:text-forest-200" />
+                      <Sun
+                        size={16}
+                        className="text-gray-500 dark:text-forest-200"
+                      />
                     ) : (
-                      <Moon size={16} className="text-gray-500 dark:text-forest-200" />
+                      <Moon
+                        size={16}
+                        className="text-gray-500 dark:text-forest-200"
+                      />
                     )}
                     {theme === "dark" ? "Light Mode" : "Dark Mode"}
                   </span>
                 </button>
-                <Link href="/user/settings" className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream">
+                <Link
+                  href="/user/settings"
+                  className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
+                >
                   <span className="flex items-center gap-3">
-                    <User size={16} className="text-gray-500 dark:text-forest-200" /> Settings
+                    <User
+                      size={16}
+                      className="text-gray-500 dark:text-forest-200"
+                    />{" "}
+                    Settings
                   </span>
                 </Link>
                 <div className="border-t border-gray-100 my-1 dark:border-forest-500" />
@@ -285,7 +393,11 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                   className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-forest-600 dark:text-red-400"
                 >
                   <span className="flex items-center gap-3">
-                    <LogOut size={16} className="text-red-500 dark:text-red-400" /> Sign out
+                    <LogOut
+                      size={16}
+                      className="text-red-500 dark:text-red-400"
+                    />{" "}
+                    Sign out
                   </span>
                 </button>
               </div>
@@ -300,11 +412,18 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
     return (
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden fixed top-4 left-4 z-50 bg-white dark:bg-forest-700">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden fixed top-4 left-4 z-50 bg-white dark:bg-forest-700"
+          >
             <PanelLeftOpen className="h-5 w-5 text-gray-700 dark:text-cream" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-64 bg-white dark:bg-forest-700">
+        <SheetContent
+          side="left"
+          className="p-0 w-64 bg-white dark:bg-forest-700"
+        >
           <SidebarContent isMobileView={true} />
         </SheetContent>
       </Sheet>

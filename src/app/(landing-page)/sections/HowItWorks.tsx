@@ -53,8 +53,12 @@ export default function HowItWorksSection() {
                   <div className="absolute top-8 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-lime-400/30 hidden lg:block"></div>
                 )}
 
-                <h3 className="text-xl font-semibold mb-3 text-center">{step.title}</h3>
-                <p className="text-green-200 text-center mb-6">{step.description}</p>
+                <h3 className="text-xl font-semibold mb-3 text-center">
+                  {step.title}
+                </h3>
+                <p className="text-green-200 text-center mb-6">
+                  {step.description}
+                </p>
 
                 <div className="h-32 w-full bg-green-700 rounded-lg overflow-hidden">
                   <img

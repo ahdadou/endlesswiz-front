@@ -41,7 +41,7 @@ export default function StoryPage() {
 
   const [showWordModal, setShowWordModal] = useState(false);
   const [selectedWord, setSelectedWord] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   // Fetch story data from API and process content
@@ -71,7 +71,7 @@ export default function StoryPage() {
   // Calculate total lines efficiently
   const lines = useMemo(
     () => story?.content.split("\n") || [],
-    [story?.content]
+    [story?.content],
   );
   // Sync audio progress with UI and highlight lines
   // Calculate cumulative word counts
@@ -107,7 +107,7 @@ export default function StoryPage() {
         let currentWordIndex = Math.floor(progressFraction * totalWords);
         currentWordIndex = Math.min(
           Math.max(currentWordIndex, 0),
-          totalWords - 1
+          totalWords - 1,
         );
 
         let lineIndex = 0;
@@ -189,7 +189,7 @@ export default function StoryPage() {
     if (audioRef.current) {
       const newTime = Math.min(
         audioRef.current.currentTime + 5,
-        audioRef.current.duration
+        audioRef.current.duration,
       );
       audioRef.current.currentTime = newTime;
       setProgress((newTime / audioRef.current.duration) * 100 || 0);
@@ -198,7 +198,7 @@ export default function StoryPage() {
 
   const changeFontSize = (increase: boolean) => {
     setFontSize((prevSize) =>
-      increase ? Math.min(prevSize + 2, 24) : Math.max(prevSize - 2, 12)
+      increase ? Math.min(prevSize + 2, 24) : Math.max(prevSize - 2, 12),
     );
   };
 
