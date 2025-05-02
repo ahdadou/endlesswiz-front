@@ -41,7 +41,7 @@ const Navbar = () => {
   const isMobile = useIsMobile();
 
   // Fetch videos function
-  const fetchVideos = async (query: string) => {    
+  const fetchVideos = async (query: string) => {
     if (!query.trim()) return;
     try {
       const response = await api.getVideos(query);
@@ -66,14 +66,16 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/90 backdrop-blur-md shadow-sm" : "bg-white/70"
+        isScrolled
+          ? "bg-background/90 backdrop-blur-md shadow-sm"
+          : "bg-white/70"
       }`}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
 
-          {(isInTranscriptSection && isMobile) ? (
+          {isInTranscriptSection && isMobile ? (
             <>
               {/* Search Bar */}
               <form onSubmit={handleSearchSubmit} className="flex items-center">
@@ -139,9 +141,7 @@ const Navbar = () => {
             )}
             <>
               <div className="w-full justify-center items-center flex">
-                <Link href="/auth/signup">
-                    Get Started — It's Free
-                </Link>
+                <Link href="/auth/signup">Get Started — It's Free</Link>
               </div>
               <Link href="/auth/login">
                 <Button className="bg-forest-700 hover:bg-forest-600 text-white rounded-md h-10">

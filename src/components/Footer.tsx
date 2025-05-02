@@ -36,7 +36,8 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-forest-200">
-              Master English with engaging stories, videos, and flashcard games—your journey starts here!
+              Master English with engaging stories, videos, and flashcard
+              games—your journey starts here!
             </p>
           </div>
 

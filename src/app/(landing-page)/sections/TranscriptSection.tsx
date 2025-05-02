@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
 import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComponentV2";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Maximize, Minimize } from "lucide-react";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import { VideosDetailResponse } from "@/clients/types/apiTypes";
@@ -12,9 +12,38 @@ const TranscriptSection = () => {
   const { setCurrentVideo } = useZustandState();
   const [isZoomed, setIsZoomed] = useState(false);
   const handleZoomToggle = () => setIsZoomed((prev) => !prev);
+  const [playByDefault, setPlayByDefault] = useState(false);
+  const componentRef = useRef(null);
 
   useEffect(() => {
-    setCurrentVideo(0, { videoId: "9dc67f5e-30e8-4814-a994-1e64957d9b0a" ,vid: "jj-Yw1NsLdg" } as VideosDetailResponse);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setPlayByDefault(entry.intersectionRatio >= 0.5);
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: [0, 0.5, 1],
+      },
+    );
+
+    const currentRef = componentRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    setCurrentVideo(0, {
+      videoId: "9dc67f5e-30e8-4814-a994-1e64957d9b0a",
+      vid: "VEDbS50xW38",
+    } as VideosDetailResponse);
     const handleEscape = (event: KeyboardEvent) => {
       event.key === "Escape" && setIsZoomed(false);
     };
@@ -43,6 +72,7 @@ const TranscriptSection = () => {
 
   return (
     <section
+      ref={componentRef}
       id="search-section"
       className="h-[100vh] lg:px-10 py-14 relative bg-gradient-to-b from-background to-forest-50/30"
     >
@@ -55,7 +85,7 @@ const TranscriptSection = () => {
         {/* Header Section */}
         <div className="mb-12 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-forest-800 mb-4 tracking-tight">
-            Search Any Word and See Its Usage in Context
+            eearch Any Word and See Its Usage in Context
           </h2>
           <p className="text-sm text-forest-600 max-w-2xl mx-auto">
             Explore real-world usage through video examples and interactive
@@ -68,12 +98,14 @@ const TranscriptSection = () => {
             <YouTubePlayerComponentV2
               style="w-full h-[25vh] lg:h-[60vh] rounded-[5px]"
               isPublicPage={true}
+              playByDefault={playByDefault}
             />
           </div>
           <div className={subtitles}>
             <SubTitleComponentV2
               isAuthenticated={false}
               showCurrentTranscriptInTheMiddle={false}
+              isPublicPage={true}
             />
 
             <button

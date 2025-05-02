@@ -32,11 +32,13 @@ import useActivityTimer from "../utils/useActivityTimer";
 interface YouTubePlayerComponentV2Props {
   style: string;
   isPublicPage?: boolean;
+  playByDefault?: boolean;
 }
 
 const YouTubePlayerComponentV2 = ({
   style,
   isPublicPage,
+  playByDefault,
 }: YouTubePlayerComponentV2Props) => {
   const {
     currentVideo,
@@ -54,7 +56,7 @@ const YouTubePlayerComponentV2 = ({
 
   const playerRef = useRef<ReactPlayer | null>(null);
   const [pip, setPip] = useState(false);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(playByDefault != false);
   const [controls, setControls] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
@@ -128,7 +130,7 @@ const YouTubePlayerComponentV2 = ({
       totalPages,
       setVideosWithPosition,
       setCurrentVideo,
-    ]
+    ],
   );
   const handlePlaybackSpeedChange = (speed: number) => {
     setPlaybackRate(speed);
@@ -138,7 +140,7 @@ const YouTubePlayerComponentV2 = ({
     if (playerRef.current) {
       if (currentVideo.video?.transcriptResponse?.startTime) {
         playerRef.current.seekTo(
-          currentVideo.video.transcriptResponse.startTime
+          currentVideo.video.transcriptResponse.startTime,
         );
         setCurrentTranscript(currentVideo.video.transcriptResponse);
       } else {
@@ -168,12 +170,20 @@ const YouTubePlayerComponentV2 = ({
       setCurrentTranscript(currentVideo.video.transcriptResponse);
       if (playerRef.current) {
         playerRef.current.seekTo(
-          currentVideo.video?.transcriptResponse?.startTime
+          currentVideo.video?.transcriptResponse?.startTime,
         );
       }
     }
     fetchTranscript();
   }, [currentVideo?.video?.transcriptResponse, currentVideo?.video?.vid]);
+
+  useEffect(() => {
+    if (playByDefault) {
+      setPlaying(true);
+    } else {
+      setPlaying(false);
+    }
+  }, [playByDefault]);
 
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry: TranscriptResponse) => {
@@ -207,7 +217,7 @@ const YouTubePlayerComponentV2 = ({
     <div
       className={cx(
         "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex flex-col justify-end p-4 pointer-events-none cursor-pointer",
-        isVisible ? "opacity-100" : "opacity-0"
+        isVisible ? "opacity-100" : "opacity-0",
       )}
     >
       {/* Slider and Time Display */}
@@ -370,7 +380,11 @@ const YouTubePlayerComponentV2 = ({
           playbackRate={playbackRate}
           volume={volume}
           muted={muted}
-          onReady={(event) => setPlaying(true)}
+          onReady={(event) => {
+            setPlaying(playByDefault != false);
+            // if(playByDefault == false) setPlaying(false);
+            // else setPlaying(true);
+          }}
           // onStart={() => console.log("onStart")}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
@@ -389,7 +403,7 @@ const YouTubePlayerComponentV2 = ({
             youtube: {
               playerVars: {
                 start: Math.floor(
-                  currentVideo.video?.transcriptResponse?.startTime || 0
+                  currentVideo.video?.transcriptResponse?.startTime || 0,
                 ),
               },
             },

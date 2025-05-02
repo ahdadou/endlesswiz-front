@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
@@ -10,7 +9,6 @@ import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComp
 import {
   Loader2,
   Play,
-  ArrowDown,
   ChevronLeft,
   ChevronRight,
   Minimize,
@@ -24,10 +22,9 @@ import { formatTime } from "@/components/utils/TypeFormatUtils";
 export const categories = [
   { id: "Favorite", label: "⭐ Favorites" },
   { id: "Technology", label: "💻 Technology" },
-  { id: "Sports", label: "🏈 Sports" },
-  { id: "Politics", label: "🏛️ Politics" },
-  { id: "Comedy", label: "🎭 Comedy" },
   { id: "Science", label: "🔬 Science" },
+  { id: "Comedy", label: "🎭 Comedy" },
+  { id: "History", label: "🏛️ History" },
   { id: "Others", label: "➕ Others" },
 ];
 
@@ -51,7 +48,7 @@ const VideoLibraryPage = () => {
   const { innerWidth } = useWindowDimensions();
   const isExtraSmall = useMemo(
     () => innerWidth < SMALL_MIN_WIDTH,
-    [innerWidth]
+    [innerWidth],
   );
 
   const checkScroll = () => {
@@ -96,13 +93,13 @@ const VideoLibraryPage = () => {
               pageNumber,
               10,
               undefined,
-              true
+              true,
             )
           : await api.getVideosByUser(
               undefined,
               pageNumber,
               10,
-              selectedCategory
+              selectedCategory,
             );
 
       if (!response || response.videosDetailResponse.length === 0) {
@@ -143,9 +140,10 @@ const VideoLibraryPage = () => {
     fetchVideos(0);
   }, [selectedCategory]);
 
-  useEffect(() => {
-    if (page > 0) fetchVideos(page);
-  }, [page]);
+  // uncomment this if you want to fetch more that 10 videos
+  // useEffect(() => {
+  //   if (page > 0) fetchVideos(page);
+  // }, [page]);
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
@@ -164,16 +162,17 @@ const VideoLibraryPage = () => {
     if (isZoomed)
       return {
         container: "fixed inset-0 flex flex-col w-full h-full bg-black z-50",
-        player: "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
+        player:
+          "w-full h-[40vh] md:[50vh] lg:h-[70vh] bg-black overflow-hidden relative",
         subtitles:
           "w-full h-full lg:h-[50vh] overflow-auto bg-gray-900 text-white relative",
       };
-      
-      return {
-          container: "flex flex-col gap-4 w-full",
-          player:`rounded-xl shadow-lg overflow-hidden`,
-          subtitles: `relative h-[40vh] lg:h-[60vh]`
-        };
+
+    return {
+      container: "flex flex-col gap-4 w-full",
+      player: `rounded-xl shadow-lg overflow-hidden`,
+      subtitles: `relative h-[40vh] lg:h-[60vh]`,
+    };
   };
 
   const { container, player, subtitles } = getLayoutClasses();
@@ -289,13 +288,16 @@ const VideoLibraryPage = () => {
             ))}
           </div>
 
-          {hasMore && (
+          {
+            // uncomment this if you want to fetch more that 10 videos
+            /* {hasMore && (
             <div ref={loaderRef} className="w-full flex flex-col gap-2 p-3">
               <Skeleton className="w-full aspect-video rounded-md bg-muted" />
               <Skeleton className="w-3/4 h-4 rounded bg-muted" />
               <Skeleton className="w-1/2 h-4 rounded bg-muted" />
             </div>
-          )}
+          )} */
+          }
 
           {isLoading && (
             <div className="w-full py-4 flex justify-center">
@@ -305,12 +307,14 @@ const VideoLibraryPage = () => {
 
           {error && <div className="text-center text-red-600 p-4">{error}</div>}
 
-          {!hasMore && (
-            <p className="text-center text-[#2d5a3d]/70 text-sm p-4">
-              🎉 You've reached the end!
-            </p>
-          )}
+          {/* {!hasMore && ( */}
+          <p className="text-center text-[#2d5a3d]/70 text-sm p-4">
+            🎉 You've reached the end!
+          </p>
+          {/* )} */}
 
+          {/* 
+          // uncomment this if you want to fetch more that 10 videos
           {hasMore && (
             <div className="absolute bottom-[40%] right-[45%] bg-white rounded-full p-2 shadow-lg">
               <motion.div
@@ -321,7 +325,7 @@ const VideoLibraryPage = () => {
                 <ArrowDown className="h-6 w-6 text-[#2d5a3d] animate-bounce" />
               </motion.div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

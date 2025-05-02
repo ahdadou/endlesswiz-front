@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # Adjust to your Next.js project's Node.js version
+          node-version: "20" # Adjust to your Next.js project's Node.js version
 
       - name: Cache Node.js dependencies
         uses: actions/cache@v3
@@ -62,8 +62,8 @@ jobs:
       - name: Build and Push to DockerHub
         uses: docker/build-push-action@v5
         with:
-          context: .  # Assumes Dockerfile is in the root of the frontend project
-          file: Dockerfile  # Path to your Dockerfile
+          context: . # Assumes Dockerfile is in the root of the frontend project
+          file: Dockerfile # Path to your Dockerfile
           push: true
           platforms: linux/amd64
           tags: |

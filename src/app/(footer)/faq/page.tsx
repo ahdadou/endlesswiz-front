@@ -1,4 +1,9 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -7,10 +12,13 @@ export default function FAQPage() {
     <div className="container max-w-4xl mx-auto px-4 py-16">
       {/* Hero Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Frequently Asked Questions</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          Frequently Asked Questions
+        </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Got questions about learning English with EndlessWiz? We’ve got answers! Explore below to learn more about how
-          we can help you master English.
+          Got questions about learning English with EndlessWiz? We’ve got
+          answers! Explore below to learn more about how we can help you master
+          English.
         </p>
       </div>
 
@@ -79,7 +87,11 @@ export default function FAQPage() {
                 "Some features, like downloaded lessons, work offline so you can learn on the go—like during a flight or commute. However, most interactive tools (like pronunciation feedback) need an internet connection to function fully. We’re working to expand offline options—stay tuned!",
             },
           ].map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg">
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className="border rounded-lg"
+            >
               <AccordionTrigger className="text-left px-4 py-3 font-semibold hover:no-underline">
                 {faq.question}
               </AccordionTrigger>
@@ -95,7 +107,8 @@ export default function FAQPage() {
       <div className="text-center bg-primary/5 rounded-2xl p-8">
         <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
         <p className="text-lg text-muted-foreground mb-6">
-          We’re here to help you succeed with English. Reach out or dive in to start learning today!
+          We’re here to help you succeed with English. Reach out or dive in to
+          start learning today!
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg">

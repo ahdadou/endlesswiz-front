@@ -8,16 +8,17 @@ import TiltedCard from "@/components/animations/TiltedCardProps/TiltedCardProps"
 
 const features = [
   {
-    title: "Progress Tracking",
+    title: "Discover Stories: Read & Listen Adventures",
     description:
-      "Monitor your learning journey with detailed analytics and insights that help you stay on track. Our system provides:",
+      "Enhance your reading and listening skills with our collection of engaging stories. Features include:",
     details: [
-      "Real-time progress updates",
-      "Personalized learning insights",
-      "Achievement milestones tracking",
+      "Professional audio narration for each story",
+      "Interactive text highlighting to follow along",
+      "Comprehension quizzes to test your understanding",
+      "Variety of genres to suit different interests",
     ],
-    media: "/tracking.png",
-    badge: "Analytics Dashboard",
+    media: "/stories.png",
+    badge: "Immersive Reading Experience",
     type: "IMAGE",
   },
   {
@@ -35,17 +36,17 @@ const features = [
     reverse: true,
   },
   {
-    title: "Interactive Games",
+    title: "Progress Tracking",
     description:
-      "Reinforce your skills through engaging gameplay. Features include:",
+      "Monitor your learning journey with detailed analytics and insights that help you stay on track. Our system provides:",
     details: [
-      "Adaptive difficulty levels",
-      "Instant feedback system",
-      "Multiplayer challenges",
+      "Real-time progress updates",
+      "Personalized learning insights",
+      "Achievement milestones tracking",
     ],
-    media: "/practice.mov",
-    badge: "Gamified Learning",
-    type: "VIDEO",
+    media: "/tracking.png",
+    badge: "Analytics Dashboard",
+    type: "IMAGE",
   },
 ];
 
@@ -123,7 +124,7 @@ const FeatureSection = () => {
                       loop
                       className="w-full h-full object-fill"
                     >
-                      <source src={feature.media} type="video/mp4"/>
+                      <source src={feature.media} type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent" />
                   </div>

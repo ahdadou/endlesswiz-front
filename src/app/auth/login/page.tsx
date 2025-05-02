@@ -54,7 +54,7 @@ const LoginPage = () => {
   };
 
   const handleLoginWithProvider = (
-    provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
   ) => {
     // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
     window.dataLayer = window.dataLayer || [];
@@ -80,7 +80,7 @@ const LoginPage = () => {
       >
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-bold tracking-tight">
-            Welcome back
+            Welcome back test 2
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Sign in to continue your English learning journey

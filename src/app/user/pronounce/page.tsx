@@ -35,7 +35,7 @@ const HEIGHT_MAP = {
 const useLocalStorage = (
   key: string,
   initialValue: string,
-  validator?: (value: string) => boolean
+  validator?: (value: string) => boolean,
 ) => {
   const [value, setValue] = useState(() => {
     if (typeof window === "undefined") return initialValue;
@@ -61,11 +61,11 @@ export default function PronouncePage() {
   const [layoutMode, setLayoutMode] = useLocalStorage(
     "layoutMode",
     "side",
-    (v) => ["side", "bottom"].includes(v)
+    (v) => ["side", "bottom"].includes(v),
   );
   const [playerHeight, setPlayerHeight] = useLocalStorage(
     "playerHeight",
-    "100"
+    "100",
   );
 
   const fetchVideos = useCallback(
@@ -83,7 +83,7 @@ export default function PronouncePage() {
         setIsLoading(false);
       }
     },
-    [setHighlitedWord, setVideosWithPosition]
+    [setHighlitedWord, setVideosWithPosition],
   );
 
   const handleZoomToggle = () => setIsZoomed((prev) => !prev);

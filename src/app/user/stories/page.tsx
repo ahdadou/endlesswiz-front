@@ -16,9 +16,13 @@ import { motion } from "framer-motion";
 
 export default function StoriesPage() {
   const [page, setPage] = useState(0);
-  const [level, setLevel] = useState("ALL");
+  const [level, setLevel] = useState("B1");
   const [data, setData] = useState<GetPageableStories | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setPage(0);
+  }, [level]);
 
   const fetchStories = useCallback(async () => {
     setIsLoading(true);
@@ -67,19 +71,19 @@ export default function StoriesPage() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4 w-full max-w-2xl">
             <Select
-              defaultValue="ALL"
+              defaultValue="B1"
               onValueChange={(value) => {
                 setLevel(value);
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="All Levels" />
+                <SelectValue placeholder="B1 - Intermediate" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ALL">All Levels</SelectItem>
+                <SelectItem value="B1">B1 - Intermediate</SelectItem>
+                {/* <SelectItem value="ALL">All Levels</SelectItem> */}
                 <SelectItem value="A1">A1 - Beginner</SelectItem>
                 <SelectItem value="A2">A2 - Elementary</SelectItem>
-                <SelectItem value="B1">B1 - Intermediate</SelectItem>
                 <SelectItem value="B2">B2 - Upper Intermediate</SelectItem>
                 <SelectItem value="C1">C1 - Advanced</SelectItem>
                 <SelectItem value="C2">C2 - Proficiency</SelectItem>

@@ -12,12 +12,14 @@ import { cx } from "class-variance-authority";
 
 interface SubTitleComponentProps {
   isAuthenticated?: boolean;
+  isPublicPage?: boolean;
   showCurrentTranscriptInTheMiddle?: boolean;
 }
 
 export function SubTitleComponentV2({
   isAuthenticated = false,
   showCurrentTranscriptInTheMiddle = true,
+  isPublicPage,
 }: SubTitleComponentProps) {
   const {
     currentTranscript,
@@ -28,7 +30,7 @@ export function SubTitleComponentV2({
   } = useZustandState();
   const subtitlesRef = useRef<HTMLDivElement | null>(null); // Properly typed ref
   const [selectedWord, setSelectedWord] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [showWordModal, setShowWordModal] = useState(false);
 
@@ -117,8 +119,12 @@ export function SubTitleComponentV2({
                   <div className="text-xs text-muted-foreground mb-1  flex gap-4 items-center">
                     <div
                       className={cx("rounded-full p-1 cursor-pointer", {
-                        ["bg-forest-700"]: subtitle.transcriptId === currentTranscript.transcriptId,
-                        ["bg-forest-200"]: subtitle.transcriptId !== currentTranscript.transcriptId,
+                        ["bg-forest-700"]:
+                          subtitle.transcriptId ===
+                          currentTranscript.transcriptId,
+                        ["bg-forest-200"]:
+                          subtitle.transcriptId !==
+                          currentTranscript.transcriptId,
                       })}
                       onClick={() => setTranscriptToPlay(subtitle)}
                     >
@@ -142,6 +148,7 @@ export function SubTitleComponentV2({
       </Card>
       {showWordModal && selectedWord && (
         <WordDictionaryComponent
+          isPublicPage={isPublicPage}
           word={selectedWord}
           handleCloseModal={handleCloseModal}
           transcriptId={currentTranscript.transcriptId}

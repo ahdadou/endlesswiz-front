@@ -52,13 +52,13 @@ const SignUpPage = () => {
       .finally(() => setIsLoading(false));
   };
 
-    const handleLoginWithProvider = (
-      provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
-    ) => {
-      signIn(provider, {
-        callbackUrl: DEFAULT_LOGIN_REDIRECT,
-      });
-    };
+  const handleLoginWithProvider = (
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
+  ) => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+    });
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
@@ -101,7 +101,6 @@ const SignUpPage = () => {
             </span>
           </div>
         </div>
-
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
