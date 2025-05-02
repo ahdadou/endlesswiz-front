@@ -38,16 +38,16 @@ const navItems = [
     icon: <Headphones size={18} />,
     label: "Audio Tales",
   },
+  {
+    href: "/user/videos",
+    icon: <PlayCircle size={18} />,
+    label: "Watch & Learn",
+  },
   { href: "/user/pronounce", icon: <Mic size={18} />, label: "Say It Right" },
   {
     href: "/user/words",
     icon: <BookmarkIcon size={18} />,
     label: "My Word Bank",
-  },
-  {
-    href: "/user/videos",
-    icon: <PlayCircle size={18} />,
-    label: "Watch & Learn",
   },
   {
     href: "/user/practice",

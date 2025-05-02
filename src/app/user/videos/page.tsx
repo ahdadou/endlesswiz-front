@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useZustandState } from "@/provider/ZustandStoreProvider";
 import api from "@/clients/api/api";
 import YouTubePlayerComponentV2 from "@/components/YouTubePlayerComponent/YouTubePlayerComponentV2";
@@ -10,7 +9,6 @@ import { SubTitleComponentV2 } from "@/components/SubTitleComponent/SubTitleComp
 import {
   Loader2,
   Play,
-  ArrowDown,
   ChevronLeft,
   ChevronRight,
   Minimize,
@@ -24,10 +22,9 @@ import { formatTime } from "@/components/utils/TypeFormatUtils";
 export const categories = [
   { id: "Favorite", label: "⭐ Favorites" },
   { id: "Technology", label: "💻 Technology" },
-  { id: "Sports", label: "🏈 Sports" },
-  { id: "Politics", label: "🏛️ Politics" },
-  { id: "Comedy", label: "🎭 Comedy" },
   { id: "Science", label: "🔬 Science" },
+  { id: "Comedy", label: "🎭 Comedy" },
+  { id: "History", label: "🏛️ History" },
   { id: "Others", label: "➕ Others" },
 ];
 

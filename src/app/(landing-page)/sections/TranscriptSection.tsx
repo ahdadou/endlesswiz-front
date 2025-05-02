@@ -85,7 +85,7 @@ const TranscriptSection = () => {
         {/* Header Section */}
         <div className="mb-12 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-forest-800 mb-4 tracking-tight">
-            Search Any Word and See Its Usage in Context
+            refactor -- ord and See Its Usage in Context
           </h2>
           <p className="text-sm text-forest-600 max-w-2xl mx-auto">
             Explore real-world usage through video examples and interactive
