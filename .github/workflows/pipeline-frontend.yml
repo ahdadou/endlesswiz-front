@@ -3,7 +3,7 @@ name: Frontend CI/CD
 on:
   push:
     branches:
-      - test
+      - main
 
 jobs:
   build_and_test:
