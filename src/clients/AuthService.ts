@@ -105,7 +105,26 @@ export const signInGoogleRequest = async (idToken: string) => {
     return Promise.reject(error);
   }
 };
-
+export const signInFacebookRequest = async (idToken: string) => {
+  try {
+    const response = await axiosClient.get<SignInResponse>(
+      `${getBaseUrl()}/auth/facebook/authenticate`,
+      {
+        params: {
+          id_token: idToken,
+        },
+      },
+    );
+    const { accessToken, refreshToken } = response;
+    return {
+      accessToken,
+      refreshToken,
+    };
+  } catch (error) {
+    console.error("### Error signInRequest ", error);
+    return Promise.reject(error);
+  }
+};
 export const resetlinkRequest = async (req: ResetlinkRequest) => {
   if (!req.email) {
     toast({

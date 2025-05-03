@@ -20,12 +20,6 @@ export default {
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
-      // authorization: {
-      //   params: {
-      //     scope: "email",
-      //     auth_type: "reauthenticate",
-      //   },
-      // },
     }),
     Credentials({
       credentials: {

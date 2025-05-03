@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import authConfig from "./auth.config";
 import { cookies } from "next/headers";
 import { TOKEN } from "./middleware";
-import { signInGoogleRequest } from "./clients/AuthService";
+import { signInFacebookRequest, signInGoogleRequest } from "./clients/AuthService";
 
 declare module "next-auth" {
   interface Session {
@@ -33,6 +33,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return false;
           }
 
+          // Store token in user object for JWT callback
+          user.accessToken = res.accessToken;
+          user.refreshToken = res.refreshToken;
+          return true;
+        } catch (error) {
+          console.error("Google authentication failed:", error);
+          return false;
+        }
+      }
+      if (account?.provider === "facebook") {
+        try {
+          const res = await signInFacebookRequest(account.access_token!);
+          if (!res?.accessToken) {
+            console.error("Google sign-in failed: No access token");
+            return false;
+          }
           // Store token in user object for JWT callback
           user.accessToken = res.accessToken;
           user.refreshToken = res.refreshToken;
