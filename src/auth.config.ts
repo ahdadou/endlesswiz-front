@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 
 export default {
   providers: [
@@ -13,6 +14,16 @@ export default {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
+        },
+      },
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+      authorization: {
+        params: {
+          scope: "email",
+          auth_type: "reauthenticate",
         },
       },
     }),

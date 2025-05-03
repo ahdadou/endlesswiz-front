@@ -13,7 +13,7 @@ import GmailIcon from "@/Icons/GmailIcon";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInRequest } from "@/clients/AuthService";
 import { signIn } from "next-auth/react";
-import { GoogleTagManager, sendGAEvent } from "@next/third-parties/google";
+import { IoLogoFacebook } from "react-icons/io";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -54,7 +54,7 @@ const LoginPage = () => {
   };
 
   const handleLoginWithProvider = (
-    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
   ) => {
     // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
     window.dataLayer = window.dataLayer || [];
@@ -80,15 +80,14 @@ const LoginPage = () => {
       >
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-bold tracking-tight">
-            Welcome back test 2
+            Welcome back
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Sign in to continue your English learning journey
           </p>
         </div>
 
-        <div className="mt-8 space-y-6">
-          {/* Add Google Button */}
+        <div className="mt-8 space-y-6 gap-2">
           <Button
             variant="outline"
             className="w-full gap-2"
@@ -97,6 +96,16 @@ const LoginPage = () => {
           >
             <GmailIcon />
             <span>Continue with Google</span>
+          </Button>
+
+          <Button
+            variant="outline"
+            className="w-full gap-2 bg-blue-500 text-white"
+            onClick={() => handleLoginWithProvider("facebook")}
+            disabled={isLoading}
+          >
+            <IoLogoFacebook />
+            <span>Continue with Facebook</span>
           </Button>
         </div>
 
