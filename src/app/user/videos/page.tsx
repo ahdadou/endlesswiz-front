@@ -124,7 +124,7 @@ const VideoLibraryPage = () => {
         totalPages: response.totalPages,
         videosDetailResponse: videosRes,
       });
-
+      setCurrentVideo(0, videosRes[0]); 
       setHasMore(response.currentPage < response.totalPages - 1);
     } catch (err) {
       console.error("Failed to fetch videos ", err);
@@ -232,7 +232,7 @@ const VideoLibraryPage = () => {
         {/* Player and Subtitles Section */}
         <div className={container}>
           <div className={player}>
-            <YouTubePlayerComponentV2 style="h-[25vh] lg:h-[60vh]" />
+            <YouTubePlayerComponentV2 style="h-[25vh] lg:h-[60vh]" playByDefault={false}/>
           </div>
 
           <div className={subtitles}>

@@ -187,7 +187,7 @@ const YouTubePlayerComponentV2 = ({
 
   const updateTranscript = (time: number) => {
     const transcriptEntry = transcript.find((entry: TranscriptResponse) => {
-      return time >= entry.startTime && time < entry.endTime; // Assuming each entry is 2 seconds long
+      return time >= entry.startTime-1 && time < entry.endTime-1; // Assuming each entry is 2 seconds long
     });
 
     if (transcriptEntry) {

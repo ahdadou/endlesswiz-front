@@ -4,6 +4,7 @@ import SideBar from "@/components/Sidebar/SideBar";
 import { ZustandUserDataProvider } from "@/provider/ZustandUserDataProvider";
 import { useState } from "react";
 import cx from "classnames";
+import { Chatbot } from "@/components/Chatbot/Chatbot";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -27,6 +28,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         >
           {children}
         </div>
+        <Chatbot />
       </ZustandUserDataProvider>
     </main>
   );

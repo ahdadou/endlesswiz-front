@@ -301,3 +301,9 @@ export interface GetStory {
   audio: string;
   content: string;
 }
+
+export interface FeedbackRequest {
+  content: string;
+  user_email: string;
+}
+  

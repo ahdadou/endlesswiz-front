@@ -28,6 +28,7 @@ import {
   GetStories,
   GetStory,
   GetPageableStories,
+  FeedbackRequest,
 } from "../types/apiTypes";
 import { getBaseUrl } from "@/utils/getBaseUrl";
 
@@ -535,6 +536,14 @@ const api = {
     } catch (error) {
       console.error("### Error", error);
       throw error; // Re-throw the error after logging it
+    }
+  },
+  feedback: async (req: FeedbackRequest) => {
+    try {
+      const response = await axios.post(`${getBaseUrl()}/feedback`, req);
+      return response;
+    } catch (error: unknown) {
+      console.error("### Error", error);
     }
   },
 };
