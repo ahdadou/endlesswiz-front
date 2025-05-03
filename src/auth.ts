@@ -46,7 +46,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         try {
           const res = await signInFacebookRequest(account.access_token!);
           if (!res?.accessToken) {
-            console.error("Google sign-in failed: No access token");
+            console.error("Facebook sign-in failed: No access token");
             return false;
           }
           // Store token in user object for JWT callback
@@ -54,7 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           user.refreshToken = res.refreshToken;
           return true;
         } catch (error) {
-          console.error("Google authentication failed:", error);
+          console.error("Facebook authentication failed:", error);
           return false;
         }
       }

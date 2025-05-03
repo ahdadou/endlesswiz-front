@@ -39,7 +39,9 @@ const SignUpPage = () => {
           title: "Success",
           description: "A confirmation token has been sent to your mail",
         });
-        router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
+        // TODO: Uncomment this line when the email confirmation is implemented
+        // router.push(`/auth/confirm-email?email=${encodeURIComponent(email)}`);
+        router.push(`/auth/login`);
       })
       .catch((error) => {
         console.error("Registration failed:", error);

@@ -98,7 +98,7 @@ const LoginPage = () => {
             <span>Continue with Google</span>
           </Button>
 
-          <Button
+          {/* <Button
             variant="outline"
             className="w-full gap-2 bg-blue-500 text-white"
             onClick={() => handleLoginWithProvider("facebook")}
@@ -106,7 +106,7 @@ const LoginPage = () => {
           >
             <IoLogoFacebook />
             <span>Continue with Facebook</span>
-          </Button>
+          </Button> */}
         </div>
 
         {/* Add divider */}
