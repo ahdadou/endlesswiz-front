@@ -65,13 +65,16 @@ export interface GetFavoriteVideoResponse {
 }
 
 export interface FavoriteWordResponse {
-  id: string;
+  id?: string;
   word: string;
   source: "VIDEO" | "MANUAL";
   example: string;
   description: string;
-  createdAt: Date;
-  mastered: boolean;
+  createdAt?: Date;
+  mastered?: boolean;
+  category?: string;
+  proficiency: number;
+  translation?: string;
 }
 
 export interface DictionaryResponse {
@@ -96,10 +99,13 @@ export interface GetFavoriteWordsResponse {
 export interface FavoriteWordRequest {
   id?: string;
   word: string;
-  source: "VIDEO" | "MANUAL" | string;
+  source: "VIDEO" | "MANUAL";
   transcript_id?: string;
   description?: string;
   example?: string;
+  category?: string;
+  proficiency?: Number;
+  translation?: string;
 }
 
 export interface ResetlinkRequest {
@@ -306,4 +312,3 @@ export interface FeedbackRequest {
   content: string;
   user_email: string;
 }
-  

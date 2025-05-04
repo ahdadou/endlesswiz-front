@@ -247,7 +247,7 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                     <User size={16} className="text-gray-500 dark:text-forest-200" /> Profile
                   </span>
                 </Link> */}
-                <Link
+                {/* <Link
                   href="/notifications"
                   className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
                 >
@@ -258,7 +258,7 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                     />{" "}
                     Notifications
                   </span>
-                </Link>
+                </Link> */}
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                   className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
@@ -332,7 +332,7 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                     My Workspace
                   </p>
                 </div>
-                <Link
+                {/* <Link
                   href="/user/profile"
                   className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
                 >
@@ -343,8 +343,8 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                     />{" "}
                     Profile
                   </span>
-                </Link>
-                <Link
+                </Link> */}
+                {/* <Link
                   href="/notifications"
                   className="block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"
                 >
@@ -355,7 +355,7 @@ export default function Sidebar({ isCollapsed }: SidebarProps) {
                     />{" "}
                     Notifications
                   </span>
-                </Link>
+                </Link> */}
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                   className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-forest-600 dark:text-cream"

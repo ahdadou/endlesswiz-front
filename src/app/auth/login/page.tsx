@@ -54,7 +54,7 @@ const LoginPage = () => {
   };
 
   const handleLoginWithProvider = (
-    provider: "google" | "github" | "tiktok" | "facebook" | "instagram"
+    provider: "google" | "github" | "tiktok" | "facebook" | "instagram",
   ) => {
     // sendGAEvent('event', 'button_clicked', {page:'Login_page',type:'GMAIL'});
     window.dataLayer = window.dataLayer || [];

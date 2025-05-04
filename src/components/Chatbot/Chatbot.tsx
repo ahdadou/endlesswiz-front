@@ -1,48 +1,52 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useRef, useEffect } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { MessageSquare, X, Send, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { cn } from "@/lib/utils"
-import { useUserDataZustandState, useUserDataZustandStore } from "@/provider/ZustandUserDataProvider"
-import api from "@/clients/api/api"
+import { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { MessageSquare, X, Send, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import {
+  useUserDataZustandState,
+  useUserDataZustandStore,
+} from "@/provider/ZustandUserDataProvider";
+import api from "@/clients/api/api";
 
 type Message = {
-  id: string
-  content: string
-  role: "user" | "assistant"
-  timestamp: Date
-}
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+  timestamp: Date;
+};
 
 export function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const { userData } = useUserDataZustandState();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! How can I help you with your English learning journey today?",
+      content:
+        "Hello! How can I help you with your English learning journey today?",
       role: "assistant",
       timestamp: new Date(),
     },
-  ])
-  const [input, setInput] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  ]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom of messages when new message is added
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages])
+  }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
 
     // Add user message
     const userMessage: Message = {
@@ -50,49 +54,52 @@ export function Chatbot() {
       content: input,
       role: "user",
       timestamp: new Date(),
-    }
-    setMessages((prev) => [...prev, userMessage])
+    };
+    setMessages((prev) => [...prev, userMessage]);
 
     await api.feedback({
       user_email: userData?.email || "unkown",
       content: input,
-    })
+    });
 
-    setInput("")
-    setIsLoading(true)
+    setInput("");
+    setIsLoading(true);
 
     // Simulate response after a delay
     setTimeout(() => {
       const responses = [
         "Thank you for your feedback! We're constantly working to improve our platform.",
         "I'll pass your message to our team. Is there anything else you'd like to know?",
-      ]
+      ];
 
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: responses[Math.floor(Math.random() * responses.length)],
         role: "assistant",
         timestamp: new Date(),
-      }
+      };
 
-      setMessages((prev) => [...prev, botMessage])
-      setIsLoading(false)
-    }, 1500)
-  }
+      setMessages((prev) => [...prev, botMessage]);
+      setIsLoading(false);
+    }, 1500);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSendMessage()
+      e.preventDefault();
+      handleSendMessage();
     }
-  }
+  };
 
   return (
     <>
       {/* Chat button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className={cn("fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full shadow-lg", isOpen && "hidden")}
+        className={cn(
+          "fixed bottom-4 right-4 z-50 h-14 w-14 rounded-full shadow-lg",
+          isOpen && "hidden",
+        )}
         size="icon"
       >
         <MessageSquare className="h-6 w-6" />
@@ -112,7 +119,10 @@ export function Chatbot() {
             <div className="flex items-center justify-between border-b px-4 py-3">
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/assistance.jpg?height=32&width=32" alt="Endlesswiz" />
+                  <AvatarImage
+                    src="/assistance.jpg?height=32&width=32"
+                    alt="Endlesswiz"
+                  />
                   <AvatarFallback>PL</AvatarFallback>
                 </Avatar>
                 <div>
@@ -120,7 +130,11 @@ export function Chatbot() {
                   <p className="text-xs text-muted-foreground">Online</p>
                 </div>
               </div>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsOpen(false)}
+              >
                 <X className="h-5 w-5" />
               </Button>
             </div>
@@ -133,7 +147,9 @@ export function Chatbot() {
                     key={message.id}
                     className={cn(
                       "flex max-w-[80%] flex-col",
-                      message.role === "user" ? "ml-auto items-end" : "mr-auto items-start",
+                      message.role === "user"
+                        ? "ml-auto items-end"
+                        : "mr-auto items-start",
                     )}
                   >
                     <div
@@ -147,7 +163,10 @@ export function Chatbot() {
                       <p className="text-sm">{message.content}</p>
                     </div>
                     <span className="mt-1 text-xs text-muted-foreground">
-                      {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </span>
                   </div>
                 ))}
@@ -173,7 +192,11 @@ export function Chatbot() {
                   placeholder="Type your message..."
                   className="min-h-[60px] resize-none"
                 />
-                <Button onClick={handleSendMessage} disabled={!input.trim() || isLoading} className="h-auto self-end">
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!input.trim() || isLoading}
+                  className="h-auto self-end"
+                >
                   <Send className="h-4 w-4" />
                 </Button>
               </div>
@@ -185,5 +208,5 @@ export function Chatbot() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

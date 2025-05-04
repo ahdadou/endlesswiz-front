@@ -1,148 +1,73 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Plus,
-  Star,
-  Search,
-  List,
-  LayoutGrid,
-  Edit,
-  Trash,
-  ChevronDown,
-  BookOpen,
-  PenTool,
-  Brain,
-  Gamepad2,
-} from "lucide-react";
+import { Plus, Star, Search, Edit, BookOpen, Trash2 } from "lucide-react";
 import api from "@/clients/api/api";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 import AddWordModal from "@/components/FavoriteWordModals/AddWordModal";
-import EditWordModal from "@/components/FavoriteWordModals/EditWordModal";
 import { toast } from "@/hooks/use-toast";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import PracticeDropdown from "@/components/PracticeDropdown/PracticeDropdown";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const WordCard = ({
-  word,
-  viewMode,
-  onEdit,
-  onDelete,
-}: {
-  word: FavoriteWordResponse;
-  viewMode: "compact" | "detailed";
-  onEdit: (word: FavoriteWordResponse) => void;
-  onDelete: (wordId: string) => void;
-}) => {
-  const CardContainer = ({ children }: { children: React.ReactNode }) => (
-    <motion.div
-      className="rounded-lg border border-gray-200 transition-all shadow-sm hover:shadow-md"
-      initial={{ opacity: 0, y: viewMode === "detailed" ? 20 : 0 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
-      {children}
-    </motion.div>
-  );
+const categories = [
+  { id: "VOCABULARY", name: "Vocabulary" },
+  { id: "GRAMMAR", name: "Grammar" },
+  { id: "IDIOMS", name: "Idioms" },
+  { id: "EMAIL", name: "Email Writing" },
+  { id: "PRESENTATIONS", name: "Presentations" },
+  { id: "PHRASES", name: "Useful Phrases" },
+];
 
-  if (viewMode === "compact") {
-    return (
-      <CardContainer>
-        <div className="p-3 flex items-center justify-between">
-          <div>
-            <h3 className="font-medium">{word.word}</h3>
-            <p className="text-sm mt-1">
-              {word.source === "VIDEO" ? "Video" : "Manual"}
-            </p>
-          </div>
-          {word.mastered && (
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-100" />
-          )}
-        </div>
-      </CardContainer>
-    );
-  }
-
-  return (
-    <CardContainer>
-      <div className="p-4">
-        <div className="flex justify-between items-start mb-3">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                {word.word}
-                <span className="text-sm font-medium text-forest-700 px-2 py-1 bg-blue-50 rounded-full">
-                  {word.source === "VIDEO" ? "🎥 Video" : "✍️ Manual"}
-                </span>
-              </h3>
-            </div>
-
-            {word.description && (
-              <p className="text-sm leading-relaxed">{word.description}</p>
-            )}
-          </div>
-          {word.mastered && (
-            <Star className="w-5 h-5 text-yellow-400 fill-yellow-100 shrink-0" />
-          )}
-        </div>
-
-        <div className="mt-3 p-3 rounded-lg">
-          <p className="text-sm text-gray-600 dark:text-gray-400 italic">
-            {word.example ? `" ${word.example}"` : ` `}
-          </p>
-        </div>
-
-        <div className="flex justify-end gap-2 mt-4">
-          <Button variant="ghost" size="sm" onClick={() => onEdit(word)}>
-            <Edit className="w-4 h-4 mr-2" />
-            Edit
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-red-600 "
-            onClick={() => onDelete(word.id)}
-          >
-            <Trash className="w-4 h-4 mr-2" />
-            Delete
-          </Button>
-        </div>
-      </div>
-    </CardContainer>
-  );
+const initialWord: FavoriteWordResponse = {
+  word: "",
+  source: "MANUAL",
+  description: "",
+  example: "",
+  category: "VOCABULARY",
+  proficiency: 0,
+  translation: "",
 };
 
 export default function WordsPage() {
   const router = useRouter();
-  const [viewMode, setViewMode] = useState<"compact" | "detailed">("detailed");
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [editingWord, setEditingWord] = useState<FavoriteWordResponse | null>(
-    null,
-  );
-  const [filter, setFilter] = useState<"all" | "video" | "manual">("all");
+  const [editingWord, setEditingWord] =
+    useState<FavoriteWordResponse>(initialWord);
   const [searchQuery, setSearchQuery] = useState("");
   const [favoriteWords, setFavoriteWords] = useState<FavoriteWordResponse[]>(
     [],
   );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [activeTab, setActiveTab] = useState("all");
+  const [activeSetId, setActiveSetId] = useState<string | null>(null);
+  const [isNoteFormOpen, setIsNoteFormOpen] = useState(false);
 
   const fetchFavoriteWords = useCallback(async () => {
     try {
       const response = await api.fetchFavoriteWord();
       setFavoriteWords(response.favoriteWords);
     } catch (err) {
-      setError("Failed to fetch words");
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Error fetching words",
+        description: "Failed to fetch favorite words.",
+        variant: "destructive",
+      });
     }
   }, []);
 
@@ -167,32 +92,93 @@ export default function WordsPage() {
         });
       }
     } catch (error) {
-      setError("Failed to delete word");
+      toast({
+        title: "Something Wrong!",
+        description: "this word can not deleted.",
+        variant: "destructive",
+      });
     }
   };
 
-  const handleAddWord = (newWord: FavoriteWordResponse) => {
-    setFavoriteWords((prev) => [...prev, newWord]);
+  const handleSubmit = async (request: FavoriteWordResponse) => {
+    if (editingWord?.id) {
+      handleUpdateNote(request);
+    } else {
+      handleAddNote(request);
+    }
+    setIsNoteFormOpen(false);
+    setEditingWord(initialWord);
   };
 
-  const handleUpdateWord = (updatedWord: FavoriteWordResponse) => {
-    setFavoriteWords((prev) =>
-      prev.map((word) => (word.id === updatedWord.id ? updatedWord : word)),
-    );
+  const handleAddNote = async (request: FavoriteWordResponse) => {
+    try {
+      const response = await api.addWordIntoFavorite({
+        id: request.id,
+        word: request.word,
+        source: request.source,
+        description: request.description,
+        example: request.example,
+        category: request.category || "VOCABULARY",
+        proficiency: request.proficiency,
+        translation: request.translation,
+      });
+      if (response) {
+        setFavoriteWords((prev) => [...prev, response]);
+        toast({
+          title: "Word Added!",
+          description: "Your word has been successfully added.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error adding word",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
-  const filteredWords = useMemo(
-    () =>
-      favoriteWords.filter((word) => {
-        const matchesSearch = word.word
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-        const matchesFilter =
-          filter === "all" || word.source === filter.toUpperCase();
-        return matchesSearch && matchesFilter;
-      }),
-    [favoriteWords, searchQuery, filter],
-  );
+  const handleUpdateNote = async (request: FavoriteWordResponse) => {
+    try {
+      const response = await api.updateWordIntoFavorite({
+        id: request.id,
+        word: request.word,
+        source: request.source,
+        description: request.description,
+        example: request.example,
+        category: request.category,
+        proficiency: request.proficiency,
+        translation: request.translation,
+      });
+      if (response) {
+        setFavoriteWords((prev) =>
+          prev.map((word) => (word.id === response.id ? response : word)),
+        );
+        toast({
+          title: "Word Updated!",
+          description: "Your changes have been saved successfully.",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error updating word",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const filteredWords = favoriteWords.filter((note) => {
+    // Filter by search query
+    const matchesSearch =
+      note.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+    // Filter by tab
+    const matchesTab = activeTab === "all" || activeTab === note.category;
+
+    return matchesSearch && matchesTab;
+  });
 
   const handlePractice = (mode: string) => {
     router.push(`/user/practice/${mode}/words-library`);
@@ -201,17 +187,21 @@ export default function WordsPage() {
   return (
     <div className="min-h-screen lg:p-8">
       <div className="flex flex-col gap-6 mb-8">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between flex-col sm:flex-row gap-5 sm:items-center">
           <div>
-            <h1 className="text-3xl font-bold ">Words Library</h1>
-            <p className="text-gray-300 mt-2">
-              {filteredWords.length} words displayed of {favoriteWords.length}
+            <h1 className="text-3xl font-bold">My Notes & Practice</h1>
+            <p className="text-muted-foreground">
+              Save, organize, and actively practice important vocabulary,
+              phrases, and grammar rules.
             </p>
           </div>
 
           <div className="flex flex-row gap-2">
             <Button
-              onClick={() => setShowAddModal(true)}
+              onClick={() => {
+                setEditingWord(editingWord);
+                setIsNoteFormOpen(true);
+              }}
               className="flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />
@@ -239,75 +229,167 @@ export default function WordsPage() {
             />
           </div>
 
-          <div className="flex gap-2 items-center">
-            <Button
-              variant="outline"
-              onClick={() =>
-                setViewMode((prev) =>
-                  prev === "compact" ? "detailed" : "compact",
-                )
-              }
-              className="flex items-center gap-2"
-            >
-              {viewMode === "compact" ? (
-                <>
-                  <LayoutGrid className="w-5 h-5" />
-                  <span>Grid View</span>
-                </>
-              ) : (
-                <>
-                  <List className="w-5 h-5" />
-                  <span>List View</span>
-                </>
-              )}
-            </Button>
-            <select
-              value={filter}
-              onChange={(e) =>
-                setFilter(e.target.value as "all" | "video" | "manual")
-              }
-              className="rounded-lg border border-gray-200 px-4 py-2"
-            >
-              <option value="all">All Sources</option>
-              <option value="video">From Videos</option>
-              <option value="manual">Manual Entries</option>
-            </select>
+          <div className="flex items-center gap-2">
+            {/* Tabs for desktop */}
+            <div className="hidden sm:block">
+              <Tabs
+                defaultValue="all"
+                value={activeTab}
+                onValueChange={setActiveTab}
+              >
+                <TabsList className="flex flex-wrap">
+                  <TabsTrigger value="all">All</TabsTrigger>
+                  {categories.map((category) => (
+                    <TabsTrigger key={category.id} value={category.id}>
+                      {category.name}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+
+          {/* Dropdown for mobile */}
+          <div className="sm:hidden w-full px-2">
+            <Select value={activeTab} onValueChange={setActiveTab}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select category">
+                  {activeTab === "all"
+                    ? "All Categories"
+                    : categories.find((c) => c.id === activeTab)?.name ||
+                      "All Categories"}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>
 
-      <div
-        className={`grid gap-4 ${
-          viewMode === "detailed"
-            ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
-            : "grid-cols-2 md:grid-cols-4 lg:grid-cols-5"
-        }`}
-      >
-        {filteredWords.map((word) => (
-          <WordCard
-            key={word.id}
-            word={word}
-            viewMode={viewMode}
-            onEdit={setEditingWord}
-            onDelete={handleDeleteWord}
-          />
-        ))}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredWords.length > 0 ? (
+          filteredWords.map((note) =>
+            NoteCard(note, setEditingWord, setIsNoteFormOpen, handleDeleteWord),
+          )
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
+            <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium">No notes found</h3>
+            <p className="text-muted-foreground mt-1">
+              {searchQuery
+                ? `No notes match your search for "${searchQuery}"`
+                : activeSetId
+                  ? "This study set doesn't contain any notes in this category"
+                  : "You haven't created any notes in this category yet"}
+            </p>
+            <Button className="mt-4" onClick={() => setIsNoteFormOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" /> Create Your First Note
+            </Button>
+          </div>
+        )}
       </div>
-
-      {showAddModal && (
-        <AddWordModal
-          setShowAddModal={setShowAddModal}
-          onWordAdded={handleAddWord}
-        />
-      )}
-
-      {editingWord && (
-        <EditWordModal
-          word={editingWord}
-          setShowEditModal={setEditingWord}
-          onWordUpdated={handleUpdateWord}
-        />
-      )}
+      <AddWordModal
+        isOpen={isNoteFormOpen}
+        onClose={() => {
+          setIsNoteFormOpen(false);
+          setEditingWord(initialWord);
+        }}
+        onSave={handleSubmit}
+        initialData={editingWord}
+        categories={categories}
+        isEditing={!!editingWord}
+      />
     </div>
+  );
+}
+
+function NoteCard(
+  note: FavoriteWordResponse,
+  setEditingWord: any,
+  setIsNoteFormOpen: any,
+  handleDeleteWord: (wordId: string) => Promise<void>,
+) {
+  return (
+    <Card key={note.id} className="flex flex-col">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-2">
+            <CardTitle className="text-lg">{note.word}</CardTitle>
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < note.proficiency
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-muted-foreground/30"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                setEditingWord(note);
+                setIsNoteFormOpen(true);
+              }}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                note?.id && handleDeleteWord(note?.id);
+              }}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        <CardDescription className="flex items-center gap-2 pt-1">
+          <Badge variant="outline">
+            {categories.find((c) => c.id === note.category)?.name ||
+              note.category}
+          </Badge>
+          <span className="text-xs text-muted-foreground">
+            {note?.createdAt && new Date(note.createdAt).toLocaleDateString()}
+          </span>
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="pb-3 flex-1">
+        <ScrollArea className="h-[150px] w-full rounded-md">
+          <pre className="whitespace-pre-wrap font-sans text-sm">
+            {note.description}
+          </pre>
+          {note.example && (
+            <div className="mt-3 space-y-1">
+              <p className="text-xs font-medium text-muted-foreground">
+                Example:
+              </p>
+              <p className="text-sm italic">{note.example}</p>
+            </div>
+          )}
+          {note.translation && (
+            <div className="mt-3">
+              <p className="text-xs font-medium text-muted-foreground">
+                Translation:
+              </p>
+              <p className="text-sm">{note.translation}</p>
+            </div>
+          )}
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 }

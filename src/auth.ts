@@ -2,7 +2,10 @@ import NextAuth, { DefaultSession } from "next-auth";
 import authConfig from "./auth.config";
 import { cookies } from "next/headers";
 import { TOKEN } from "./middleware";
-import { signInFacebookRequest, signInGoogleRequest } from "./clients/AuthService";
+import {
+  signInFacebookRequest,
+  signInGoogleRequest,
+} from "./clients/AuthService";
 
 declare module "next-auth" {
   interface Session {

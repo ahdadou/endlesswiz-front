@@ -278,13 +278,7 @@ const api = {
     try {
       const response = await axiosClient.post<FavoriteWordResponse>(
         `${getBaseUrl()}/favorite_word`,
-        {
-          word: req.word,
-          transcript_id: req.transcript_id,
-          source: req.source,
-          example: req.example,
-          description: req.description,
-        },
+        req,
       );
       return response;
     } catch (error: unknown) {
@@ -296,13 +290,7 @@ const api = {
     try {
       const response = await axiosClient.put<FavoriteWordResponse>(
         `${getBaseUrl()}/favorite_word`,
-        {
-          id: req.id,
-          word: req.word,
-          example: req.example,
-          description: req.description,
-          source: req.source,
-        },
+        req,
       );
       return response;
     } catch (error: unknown) {
