@@ -196,14 +196,14 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
           {[
             {
-              title: "Words Learned",
+              title: "Watched videos",
               value: dashboardStats.wordsLearn.total,
               icon: <BookOpen className="h-5 w-5 text-white" />,
               color: "bg-forest",
               increase: `+${dashboardStats.wordsLearn.thisWeek} this week`,
             },
             {
-              title: "Favorite Words",
+              title: "Notes Bank",
               value: dashboardStats.favoriteWords.total,
               icon: <Heart className="h-5 w-5 text-white" />,
               color: "bg-rose-500",
