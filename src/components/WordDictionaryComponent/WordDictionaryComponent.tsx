@@ -58,6 +58,7 @@ export function WordDictionaryComponent({
       await api.addWordIntoFavorite({
         word: word,
         source: "VIDEO",
+        category: "VOCABULARY",
         transcript_id: transcriptId,
       });
       setSaveStatus("saved");

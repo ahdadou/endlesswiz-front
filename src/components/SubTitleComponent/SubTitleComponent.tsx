@@ -68,6 +68,7 @@ export function SubTitleComponent({
         (await api.addWordIntoFavorite({
           word: selectedWord.word,
           source: "VIDEO",
+          category: "VOCABULARY",
           transcript_id: currentTranscript.transcriptId,
         }));
       setSaveStatus("saved");

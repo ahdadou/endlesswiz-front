@@ -43,12 +43,12 @@ const navItems = [
     icon: <PlayCircle size={18} />,
     label: "Watch & Learn",
   },
-  { href: "/user/pronounce", icon: <Mic size={18} />, label: "Say It Right" },
-  {
+    {
     href: "/user/words",
     icon: <BookmarkIcon size={18} />,
-    label: "My Word Bank",
+    label: "My Note Bank",
   },
+  { href: "/user/pronounce", icon: <Mic size={18} />, label: "Say It Right" },
   {
     href: "/user/practice",
     icon: <Gamepad2 size={18} />,
