@@ -13,6 +13,7 @@ interface WordDictionaryComponentProps {
   word: string;
   transcriptId?: string;
   isPublicPage?: boolean;
+  paragraph?: string;
 }
 
 export function WordDictionaryComponent({
@@ -20,6 +21,7 @@ export function WordDictionaryComponent({
   word,
   transcriptId,
   isPublicPage,
+  paragraph,
 }: WordDictionaryComponentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedWord, setSelectedWord] = useState<{
@@ -52,7 +54,7 @@ export function WordDictionaryComponent({
   }, [fetchWordDictionary]);
 
   // Memoized function to handle saving the word
-  const handleSaveWord = useCallback(async () => {
+  const handleSaveWord = async () => {
     setSaveStatus("saving");
     try {
       await api.addWordIntoFavorite({
@@ -60,12 +62,14 @@ export function WordDictionaryComponent({
         source: "VIDEO",
         category: "VOCABULARY",
         transcript_id: transcriptId,
+        example: paragraph,
+        proficiency: 0,
       });
       setSaveStatus("saved");
     } catch (error) {
       setSaveStatus("idle");
     }
-  }, [word, transcriptId]);
+  };
 
   // Smooth scroll to part of speech section
   const handleScrollToSection = (sectionId: string) => {

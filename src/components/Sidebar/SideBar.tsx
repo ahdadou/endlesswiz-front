@@ -43,7 +43,7 @@ const navItems = [
     icon: <PlayCircle size={18} />,
     label: "Watch & Learn",
   },
-    {
+  {
     href: "/user/words",
     icon: <BookmarkIcon size={18} />,
     label: "My Note Bank",

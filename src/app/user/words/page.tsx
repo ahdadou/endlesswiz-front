@@ -2,7 +2,16 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Star, Search, Edit, BookOpen, Trash2 } from "lucide-react";
+import {
+  Plus,
+  Star,
+  Search,
+  Edit,
+  BookOpen,
+  Trash2,
+  List,
+  LayoutGrid,
+} from "lucide-react";
 import api from "@/clients/api/api";
 import { FavoriteWordResponse } from "@/clients/types/apiTypes";
 import AddWordModal from "@/components/FavoriteWordModals/AddWordModal";
@@ -46,6 +55,8 @@ const initialWord: FavoriteWordResponse = {
   translation: "",
 };
 
+type ViewMode = "card" | "list";
+
 export default function WordsPage() {
   const router = useRouter();
   const [editingWord, setEditingWord] =
@@ -57,6 +68,7 @@ export default function WordsPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeSetId, setActiveSetId] = useState<string | null>(null);
   const [isNoteFormOpen, setIsNoteFormOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("card");
 
   const fetchFavoriteWords = useCallback(async () => {
     try {
@@ -237,7 +249,7 @@ export default function WordsPage() {
                 value={activeTab}
                 onValueChange={setActiveTab}
               >
-                <TabsList className="flex flex-wrap">
+                <TabsList className="flex flex-wrap bg-forest/5">
                   <TabsTrigger value="all">All</TabsTrigger>
                   {categories.map((category) => (
                     <TabsTrigger key={category.id} value={category.id}>
@@ -249,35 +261,67 @@ export default function WordsPage() {
             </div>
           </div>
 
-          {/* Dropdown for mobile */}
-          <div className="sm:hidden w-full px-2">
-            <Select value={activeTab} onValueChange={setActiveTab}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category">
-                  {activeTab === "all"
-                    ? "All Categories"
-                    : categories.find((c) => c.id === activeTab)?.name ||
-                      "All Categories"}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-row">
+            <div className="sm:hidden w-full px-2">
+              <Select value={activeTab} onValueChange={setActiveTab}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select category">
+                    {activeTab === "all"
+                      ? "All Categories"
+                      : categories.find((c) => c.id === activeTab)?.name ||
+                        "All Categories"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center border rounded-md">
+              <Button
+                variant={viewMode === "card" ? "default" : "ghost"}
+                size="sm"
+                className="h-8 px-2 rounded-r-none"
+                onClick={() => setViewMode("card")}
+              >
+                <LayoutGrid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "default" : "ghost"}
+                size="sm"
+                className="h-8 px-2 rounded-l-none"
+                onClick={() => setViewMode("list")}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filteredWords.length > 0 ? (
-          filteredWords.map((note) =>
-            NoteCard(note, setEditingWord, setIsNoteFormOpen, handleDeleteWord),
-          )
+          filteredWords.map((note) => {
+            return viewMode === "card"
+              ? NotesCards(
+                  note,
+                  setEditingWord,
+                  setIsNoteFormOpen,
+                  handleDeleteWord,
+                )
+              : NotesLists(
+                  note,
+                  setEditingWord,
+                  setIsNoteFormOpen,
+                  handleDeleteWord,
+                );
+          })
         ) : (
           <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
             <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
@@ -310,7 +354,7 @@ export default function WordsPage() {
   );
 }
 
-function NoteCard(
+function NotesCards(
   note: FavoriteWordResponse,
   setEditingWord: any,
   setIsNoteFormOpen: any,
@@ -390,6 +434,67 @@ function NoteCard(
           )}
         </ScrollArea>
       </CardContent>
+    </Card>
+  );
+}
+
+function NotesLists(
+  note: FavoriteWordResponse,
+  setEditingWord: any,
+  setIsNoteFormOpen: any,
+  handleDeleteWord: (wordId: string) => Promise<void>,
+) {
+  return (
+    <Card key={note.id} className="flex flex-col">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-2">
+            <CardTitle className="text-lg">{note.word}</CardTitle>
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-3 w-3 ${
+                    i < note.proficiency
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-muted-foreground/30"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                setEditingWord(note);
+                setIsNoteFormOpen(true);
+              }}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                note?.id && handleDeleteWord(note?.id);
+              }}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        <CardDescription className="flex items-center gap-2 pt-1">
+          <Badge variant="outline">
+            {categories.find((c) => c.id === note.category)?.name ||
+              note.category}
+          </Badge>
+          <span className="text-xs text-muted-foreground">
+            {note?.createdAt && new Date(note.createdAt).toLocaleDateString()}
+          </span>
+        </CardDescription>
+      </CardHeader>
     </Card>
   );
 }

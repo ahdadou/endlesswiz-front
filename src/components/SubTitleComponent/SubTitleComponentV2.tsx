@@ -152,6 +152,7 @@ export function SubTitleComponentV2({
           word={selectedWord}
           handleCloseModal={handleCloseModal}
           transcriptId={currentTranscript.transcriptId}
+          paragraph={currentTranscript.paragraph}
         />
       )}
     </>

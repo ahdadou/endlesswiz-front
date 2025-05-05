@@ -83,7 +83,7 @@ export default function AddWordModalProps({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] h-[90%] overflow-x-auto">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? "Edit Note" : "Create New Note"}
