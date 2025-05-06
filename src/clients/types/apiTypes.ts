@@ -75,6 +75,7 @@ export interface FavoriteWordResponse {
   category?: string;
   proficiency: number;
   translation?: string;
+  viewMode?: "CARD" | "LIST";
 }
 
 export interface DictionaryResponse {
