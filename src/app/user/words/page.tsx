@@ -312,7 +312,7 @@ export default function WordsPage() {
         </div>
       </div>
 
-      <div className="flex gap-4">
+      <div className="h-[100vh] flex gap-4">
         {filteredWords.length > 0 ? (
           columns.map((column, columnIndex) => (
             <div key={columnIndex} className="flex flex-col gap-4 flex-1">
@@ -329,7 +329,7 @@ export default function WordsPage() {
             </div>
           ))
         ) : (
-          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center w-full h-[70vh]">
+          <div className="col-span-full flex flex-col items-center justify-center py-12 text-center">
             <BookOpen className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-medium">No notes found</h3>
             <p className="text-muted-foreground mt-1">
