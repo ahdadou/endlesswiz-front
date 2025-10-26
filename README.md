@@ -42,22 +42,13 @@
    <p><strong>Watch the Demo Video</strong> → <a href="https://youtu.be/VEDbS50xW38">https://youtu.be/VEDbS50xW38</a></p>
  </div>
  
- ## 🖼️ Screenshots
- 
- <div align="center">
-   <img src="./public/screenshots/story-view.png" width="30%" alt="Story View" />
-   <img src="./public/screenshots/video-player.png" width="30%" alt="Video Player" />
-   <img src="./public/screenshots/game-level.png" width="30%" alt="Game Level" />
- </div>
- 
  ---
  
  ## 🛠️ Tech Stack
  
- - **Frontend**: React 18 + TypeScript + Vite
+ - **Frontend**: NextJs + TypeScript
  - **Styling**: Tailwind CSS + Headless UI
  - **State Management**: Zustand
- - **Routing**: React Router v6
  - **Animations**: Framer Motion
  - **Backend (companion)**: [endlesswiz-api](https://github.com/ahdadou/endlesswiz-api) *(optional)*
  
