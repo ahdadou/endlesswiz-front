@@ -78,30 +78,6 @@
  - [ ] Mobile app (React Native)
  - [ ] Teacher dashboard & classroom mode
  
- ---
- 
- ## ❤️ Why Restart This Project?
- 
- You thought **no one was interested** — but **learning English doesn’t have to be boring**.  
- Millions struggle with traditional methods. EndlessWiz makes it **fun, visual, and social**.
- 
- > **Let’s prove that learning can be an adventure.**
- 
- ---
- 
- ## 📝 License
- 
- This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
- 
- ---
- 
- ## 👨‍💻 Author
- 
- **Ahdadou**  
- - GitHub: [@ahdadou](https://github.com/ahdadou)  
- - Email: `ahdadou@example.com` *(add your email)*
- 
- ---
  
  <div align="center">
  
