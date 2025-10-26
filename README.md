@@ -1,14 +1,5 @@
  # EndlessWiz Front 🌟
 
-<div align="center">
-  <a href="https://youtu.be/VEDbS50xW38">
-    <img src="https://img.youtube.com/vi/VEDbS50xW38/maxresdefault.jpg" width="800" alt="EndlessWiz Demo Video" />
-  </a>
-  <br />
-  <p><strong>Watch the Demo Video</strong> → <a href="https://youtu.be/VEDbS50xW38">https://youtu.be/VEDbS50xW38</a></p>
-</div>
-
- 
  **Learn English the fun way — through stories, videos, and interactive games!**
  
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -42,6 +33,14 @@
  | **Kid-Friendly Mode** | Simplified UI and content filters for young learners |
  
  ---
+ 
+ <div align="center">
+   <a href="https://youtu.be/VEDbS50xW38">
+     <img src="https://img.youtube.com/vi/VEDbS50xW38/maxresdefault.jpg" width="800" alt="EndlessWiz Demo Video" />
+   </a>
+   <br />
+   <p><strong>Watch the Demo Video</strong> → <a href="https://youtu.be/VEDbS50xW38">https://youtu.be/VEDbS50xW38</a></p>
+ </div>
  
  ## 🖼️ Screenshots
  
