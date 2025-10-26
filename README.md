@@ -54,40 +54,7 @@
  
  ---
  
- ## ⚡ Quick Start
- 
-  Prerequisites
- 
- - Node SEA ≥ 18
- - npm or yarn or pnpm
- 
-  Installation
- 
- ```bash
- git clone https://github.com/ahdadou/endlesswiz-front.git
- cd endlesswiz-front
- npm install
- ```
- 
-  Development
- 
- ```bash
- npm run dev
- ```
- 
- Open [http://localhost:5173](http://localhost:5173) in your browser.
- 
-  Build for Production
- 
- ```bash
- npm run build
- ```
- 
- ---
- 
- ## 🎮 Demo
- 
- 🔗 **Live Demo**: [https://endlesswiz.netlify.app](https://endlesswiz.netlify.app) *(coming soon)*
+ 🔗 **Live Demo (BLOCKED FOR NOW)**: [https://endlesswiz-front.vercel.app](https://endlesswiz-front.vercel.app) *(coming soon)*
  
  ---
  
